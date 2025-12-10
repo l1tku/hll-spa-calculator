@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Fixed screenshot lightbox image not being centered when displayed
+- Fixed screenshot navigation showing loading state when switching with arrow keys (now preloads images with smooth fade transition)
+- Fixed field manual ammo icons (AP_invert_28, HE_invert_28, SMOKE_invert_28) flashing briefly when opening on Netlify (now preloads before display)
+- Fixed tank image loading flash and delayed switching when changing tanks on Netlify (now preloads with fade transition for smooth switching)
 
 ### Performance
 - **Massive image size reduction with WebP format**
