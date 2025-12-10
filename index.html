@@ -6526,6 +6526,20 @@
             const lightboxImg = document.getElementById('screenshotLightboxImg');
             const lightboxSource = document.getElementById('screenshotLightboxSource');
             if (lightbox && lightboxImg) {
+                // IMMEDIATELY clear old image source to prevent showing old image
+                // This must happen before anything else
+                if (lightbox.classList.contains('active') && lightboxImg.src) {
+                    // Hide image immediately
+                    lightboxImg.style.opacity = '0';
+                    lightboxImg.style.transition = 'none';
+                    // Clear sources immediately
+                    if (lightboxSource) {
+                        lightboxSource.srcset = '';
+                    }
+                    lightboxImg.src = '';
+                    lightboxImg.removeAttribute('srcset');
+                }
+                
                 // Get all screenshots from the current gallery (both PNG and WebP)
                 const screenshotItems = document.querySelectorAll('.screenshot-item');
                 currentScreenshotGallery = Array.from(screenshotItems).map(item => {
@@ -6551,20 +6565,20 @@
                     targetSrc = currentScreenshotGallery[0] || src;
                 }
                 
-                // If lightbox is already open, fade out current image first
-                if (lightbox.classList.contains('active') && lightboxImg.src) {
-                    lightboxImg.style.transition = 'opacity 0.15s ease';
-                    lightboxImg.style.opacity = '0';
-                } else {
-                    // If opening fresh, start with image hidden
+                // If opening fresh, start with image hidden
+                if (!lightbox.classList.contains('active') || !lightboxImg.src) {
                     lightboxImg.style.opacity = '0';
                     lightboxImg.style.transition = '';
                 }
                 
                 // Preload the new image before switching to avoid showing old image
                 const newImg = new Image();
+                let imageLoaded = false;
                 
                 const switchImage = function() {
+                    if (imageLoaded) return; // Prevent multiple calls
+                    imageLoaded = true;
+                    
                     // Update source elements
                     if (lightboxSource && targetWebpSrc) {
                         lightboxSource.srcset = targetWebpSrc;
@@ -6573,10 +6587,12 @@
                     }
                     lightboxImg.src = targetSrc;
                     
-                    // Fade in the new image
+                    // Fade in the new image after a brief delay to ensure old image is cleared
                     requestAnimationFrame(function() {
-                        lightboxImg.style.transition = 'opacity 0.15s ease';
-                        lightboxImg.style.opacity = '1';
+                        requestAnimationFrame(function() {
+                            lightboxImg.style.transition = 'opacity 0.2s ease';
+                            lightboxImg.style.opacity = '1';
+                        });
                     });
                 };
                 
