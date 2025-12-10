@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="HLL SPA Artillery Calculator - Calculate accurate elevation settings for multiple Self-Propelled Artillery vehicles in Hell Let Loose">
     <title>HLL SPA Artillery Calculator</title>
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -158,50 +159,146 @@
             font-family: 'SpecialElite', 'Courier New', monospace;
             font-weight: 700;
             text-transform: uppercase;
-            font-size: 1.125rem;
-            letter-spacing: 0.1em;
-            text-shadow: 
-                0 0 10px rgba(220, 38, 38, 0.8),
-                0 0 20px rgba(220, 38, 38, 0.5),
-                2px 2px 4px rgba(0, 0, 0, 0.9);
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
             color: #fef3c7;
-            animation: pulse-warning 2s ease-in-out infinite;
+            text-align: center;
+            padding-left: 35px;
+            text-shadow: 
+                0 0 8px rgba(220, 38, 38, 0.6),
+                1px 1px 2px rgba(0, 0, 0, 0.8);
+            position: relative;
+            z-index: 1;
+            margin: 0;
+            line-height: 1.2;
         }
 
-        @keyframes pulse-warning {
-            0%, 100% {
-                opacity: 1;
-                text-shadow: 
-                    0 0 10px rgba(220, 38, 38, 0.8),
-                    0 0 20px rgba(220, 38, 38, 0.5),
-                    2px 2px 4px rgba(0, 0, 0, 0.9);
-            }
-            50% {
-                opacity: 0.9;
-                text-shadow: 
-                    0 0 15px rgba(220, 38, 38, 1),
-                    0 0 30px rgba(220, 38, 38, 0.7),
-                    2px 2px 6px rgba(0, 0, 0, 1);
-            }
+        .hidden {
+            display: none !important;
         }
 
         .warning-container {
-            background: linear-gradient(135deg, 
-                rgba(220, 38, 38, 0.15) 0%, 
-                rgba(234, 179, 8, 0.15) 25%,
-                rgba(220, 38, 38, 0.15) 50%,
-                rgba(234, 179, 8, 0.15) 75%,
-                rgba(220, 38, 38, 0.15) 100%);
-            background-size: 20px 20px;
-            border: 3px solid #dc2626;
-            border-style: double;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 1px,
+                    rgba(0, 0, 0, 0.03) 1px,
+                    rgba(0, 0, 0, 0.03) 2px
+                ),
+                linear-gradient(180deg, #f5f1e8 0%, #e8e0d0 50%, #f5f1e8 100%);
+            border: 2px solid #8b7355;
+            border-top: 3px dashed #6b5d47;
+            border-bottom: 2px solid #8b7355;
+            padding: 12px 35px 12px 20px;
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100%);
+            width: 100%;
+            max-width: 768px;
+            z-index: 10000;
             box-shadow: 
-                0 0 20px rgba(220, 38, 38, 0.6),
-                0 0 40px rgba(220, 38, 38, 0.3),
-                inset 0 0 20px rgba(220, 38, 38, 0.2),
-                0 4px 8px rgba(0, 0, 0, 0.5);
-            position: relative;
-            overflow: hidden;
+                0 2px 8px rgba(0, 0, 0, 0.4),
+                inset 0 1px 2px rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(139, 115, 85, 0.3);
+            overflow: visible;
+            min-height: 50px;
+            height: auto;
+            display: flex;
+            align-items: center;
+            font-family: 'Courier New', 'Courier', monospace;
+            font-weight: normal;
+            opacity: 0;
+            transition: none;
+            margin: 0;
+        }
+        
+        /* Ensure parent container allows overflow for warning */
+        #calculator-card {
+            overflow: visible !important;
+        }
+        
+        /* Ensure the wrapper allows the warning to be visible */
+        .warning-wrapper {
+            overflow: visible !important;
+        }
+
+        /* Animation: Eject with Perforation Tear - triggers when not hidden */
+        .warning-container:not(.hidden) {
+            animation: ejectPrintWarning 0.4s ease-out forwards;
+        }
+
+        /* Reverse animation: Slide back up when hiding */
+        .warning-container.hiding {
+            animation: reversePrintWarning 0.4s ease-in forwards;
+            /* Don't hide immediately - let animation play */
+            display: flex !important;
+        }
+        
+        /* After reverse animation completes, apply hidden */
+        .warning-container.hidden.hiding {
+            animation: none;
+        }
+
+        @keyframes ejectPrintWarning {
+            0% {
+                transform: translateX(-50%) translateY(-100%);
+                opacity: 0;
+            }
+            30% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(-50%) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes reversePrintWarning {
+            0% {
+                transform: translateX(-50%) translateY(0);
+                opacity: 1;
+            }
+            70% {
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(-50%) translateY(-100%);
+                opacity: 0;
+            }
+        }
+
+        /* Perforation tear line overlay - appears during animation */
+        .warning-container:not(.hidden)::before {
+            background: 
+                repeating-linear-gradient(
+                    to right,
+                    transparent 0px,
+                    transparent 8px,
+                    rgba(139, 115, 85, 0.8) 8px,
+                    rgba(139, 115, 85, 0.8) 12px
+                ),
+                radial-gradient(circle at 20% 30%, rgba(139, 115, 85, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(139, 115, 85, 0.08) 0%, transparent 50%),
+                linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.02) 50%, transparent 100%);
+            background-size: 100% 3px, 100% 100%, 100% 100%, 100% 100%;
+            background-position: top, 0 0, 0 0, 0 0;
+            background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+            animation: tearLineWarning 0.4s ease-out forwards;
+        }
+
+        @keyframes tearLineWarning {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.6;
+            }
+            100% {
+                opacity: 0;
+                background-size: 100% 0px, 100% 100%, 100% 100%, 100% 100%;
+            }
         }
 
         .warning-container::before {
@@ -211,47 +308,170 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 10px,
-                rgba(220, 38, 38, 0.1) 10px,
-                rgba(220, 38, 38, 0.1) 20px
-            );
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(139, 115, 85, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(139, 115, 85, 0.08) 0%, transparent 50%),
+                linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.02) 50%, transparent 100%);
             pointer-events: none;
-            z-index: 0;
+            z-index: 1;
+        }
+
+        /* Perforation tear line overlay - appears during animation */
+        .warning-container:not(.hidden)::before {
+            background: 
+                repeating-linear-gradient(
+                    to right,
+                    transparent 0px,
+                    transparent 8px,
+                    rgba(139, 115, 85, 0.8) 8px,
+                    rgba(139, 115, 85, 0.8) 12px
+                ),
+                radial-gradient(circle at 20% 30%, rgba(139, 115, 85, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(139, 115, 85, 0.08) 0%, transparent 50%),
+                linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.02) 50%, transparent 100%);
+            background-size: 100% 3px, 100% 100%, 100% 100%, 100% 100%;
+            background-position: top, 0 0, 0 0, 0 0;
+            background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+            animation: tearLineWarning 0.4s ease-out forwards;
         }
 
         .warning-container::after {
-            content: '';
+            content: '⚠';
             position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, 
-                #dc2626 0%, 
-                #fbbf24 25%,
-                #dc2626 50%,
-                #fbbf24 75%,
-                #dc2626 100%);
-            background-size: 8px 8px;
-            z-index: -1;
-            animation: border-shimmer 3s linear infinite;
-        }
-
-        @keyframes border-shimmer {
-            0% {
-                background-position: 0 0;
-            }
-            100% {
-                background-position: 16px 16px;
-            }
+            left: 12px;
+            font-size: 2.5rem;
+            color: #8b4513;
+            font-weight: bold;
+            z-index: 3;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            opacity: 0.9;
         }
 
         .warning-container p {
             position: relative;
+            z-index: 2;
+            color: #2d1b0e;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-family: 'Courier New', 'Courier', monospace;
+            font-size: 1rem;
+            text-shadow: 0.5px 0.5px 1px rgba(255, 255, 255, 0.3);
+            padding-left: 35px;
+            margin: 0;
+            flex: 1;
+            overflow: visible;
+            white-space: normal;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+
+        /* Warning inside glass screen - resized to fit */
+        .glass-screen-off .warning-container {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            width: calc(100% - 10px);
+            height: calc(100% - 10px);
+            padding: 3px 8px;
+            border: 2px solid #8b7355;
+            border-top: 2px dashed #6b5d47;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 1px,
+                    rgba(0, 0, 0, 0.02) 1px,
+                    rgba(0, 0, 0, 0.02) 2px
+                ),
+                linear-gradient(180deg, #f5f1e8 0%, #e8e0d0 50%, #f5f1e8 100%);
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                0 1px 3px rgba(0, 0, 0, 0.4),
+                inset 0 1px 1px rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(139, 115, 85, 0.2);
+            transform: translateY(-100%);
+            opacity: 0;
+            transition: none;
+        }
+
+        /* Animation for glass screen version */
+        .glass-screen-off .warning-container:not(.hidden) {
+            animation: ejectPrintWarning 0.4s ease-out forwards;
+        }
+
+        /* Reverse animation for glass screen version */
+        .glass-screen-off .warning-container.hiding {
+            animation: reversePrintWarning 0.4s ease-in forwards;
+            /* Don't hide immediately - let animation play */
+            display: flex !important;
+        }
+        
+        .glass-screen-off .warning-container.hidden.hiding {
+            animation: none;
+        }
+
+        .glass-screen-off .warning-container.hidden {
+            display: none !important;
+        }
+
+        .glass-screen-off .warning-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 15% 25%, rgba(139, 115, 85, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 85% 75%, rgba(139, 115, 85, 0.06) 0%, transparent 40%);
+            pointer-events: none;
             z-index: 1;
+        }
+
+        /* Perforation tear line overlay for glass screen version */
+        .glass-screen-off .warning-container:not(.hidden)::before {
+            background: 
+                repeating-linear-gradient(
+                    to right,
+                    transparent 0px,
+                    transparent 6px,
+                    rgba(139, 115, 85, 0.8) 6px,
+                    rgba(139, 115, 85, 0.8) 10px
+                ),
+                radial-gradient(circle at 15% 25%, rgba(139, 115, 85, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 85% 75%, rgba(139, 115, 85, 0.06) 0%, transparent 40%);
+            background-size: 100% 2px, 100% 100%, 100% 100%;
+            background-position: top, 0 0, 0 0;
+            background-repeat: no-repeat, no-repeat, no-repeat;
+            animation: tearLineWarning 0.4s ease-out forwards;
+        }
+
+        .glass-screen-off .warning-container::after {
+            content: '⚠';
+            font-size: 1.6rem;
+            left: 6px;
+            color: #8b4513;
+            font-weight: bold;
+            opacity: 0.9;
+            text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.2);
+        }
+
+        .glass-screen-off .warning-container .warning-text {
+            font-size: 0.9rem;
+            padding-left: 16px;
+            text-align: center;
+            color: #2d1b0e;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-family: 'Courier New', 'Courier', monospace;
+            text-shadow: 0.3px 0.3px 0.5px rgba(255, 255, 255, 0.3);
         }
 
         .nuke-button {
@@ -582,7 +802,7 @@
             position: absolute;
             top: 34px;
             transform: translate3d(-50%, 0, 0);
-            font-size: 14px;
+            font-size: 13px;
             color: #9ca3af;
             font-weight: bold;
             white-space: nowrap;
@@ -933,6 +1153,52 @@
             text-align: center;
         }
 
+        .glass-screen-off {
+            width: 100%;
+            height: 50px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #050505 50%, #0a0a0a 100%);
+            border: 2px solid #1a1a1a;
+            border-radius: 4px;
+            box-shadow: 
+                inset 0 2px 8px rgba(0, 0, 0, 0.9),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.7),
+                0 0 20px rgba(0, 0, 0, 0.8),
+                inset 0 0 30px rgba(0, 0, 0, 0.6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-screen-off::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(180deg, rgba(20, 20, 20, 0.3) 0%, transparent 50%),
+                linear-gradient(90deg, transparent 0%, rgba(10, 10, 10, 0.4) 50%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .glass-screen-off::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.1) 2px,
+                rgba(0, 0, 0, 0.1) 4px
+            );
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
         .armored-button {
             width: 50px;
             height: 50px;
@@ -1013,7 +1279,7 @@
         }
 
         .armored-toggle-label {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #9ca3af;
             text-transform: uppercase;
         }
@@ -1065,7 +1331,7 @@
             box-shadow: 
                 inset 0 4px 12px rgba(0, 0, 0, 0.7),
                 0 6px 20px rgba(0, 0, 0, 0.8);
-            margin-top: 15px;
+            margin-top: 8px;
             position: relative;
             overflow: hidden;
             font-family: 'Courier New', monospace;
@@ -1098,11 +1364,10 @@
             background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%);
             border: 2px solid #4a4a4a;
             padding: 25px;
-            margin-top: 20px;
+            margin-top: 8px;
             text-align: center;
             box-shadow: 
-                inset 0 4px 12px rgba(0, 0, 0, 0.8),
-                0 0 20px rgba(252, 211, 77, 0.2);
+                inset 0 4px 12px rgba(0, 0, 0, 0.8);
             user-select: text;
             -webkit-user-select: text;
             -moz-user-select: text;
@@ -1147,19 +1412,235 @@
             border-color: rgba(34, 197, 94, 0.6);
             color: #4ade80;
         }
+        
+        .reset-result-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(252, 211, 77, 0.2);
+            border: 1px solid rgba(252, 211, 77, 0.4);
+            color: #fcd34d;
+            padding: 0;
+            padding-top: 2px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 2px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            line-height: 1;
+            text-align: center;
+            font-family: 'SpecialElite', monospace;
+        }
+        
+        .reset-result-button:hover {
+            background: rgba(252, 211, 77, 0.3);
+            border-color: rgba(252, 211, 77, 0.6);
+        }
+        
+        .reset-result-button:active {
+            background: rgba(252, 211, 77, 0.4);
+        }
+        
+        .reset-result-button.resetting {
+            background: rgba(34, 197, 94, 0.3);
+            border-color: rgba(34, 197, 94, 0.6);
+            color: #4ade80;
+        }
 
         .armored-result-value {
+            font-family: 'Courier New', 'Courier', monospace;
             font-size: 3rem;
-            color: #fcd34d;
-            text-shadow: 0 0 20px rgba(252, 211, 77, 0.6);
-            margin: 15px 0;
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+            margin: 15px auto;
             border: 2px solid #8b6914;
-            padding: 0;
+            padding: 0 40px;
             background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%);
             box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.8);
             text-align: center;
             height: 80px;
             line-height: 80px;
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: auto;
+            min-width: 380px;
+        }
+        
+        /* Decorative military-style vertical lines on sides */
+        .armored-result-value::before,
+        .armored-result-value::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-image: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 8px,
+                    rgba(255, 255, 255, 0.2) 8px,
+                    rgba(255, 255, 255, 0.2) 10px
+                ),
+                linear-gradient(
+                    180deg,
+                    transparent 0%,
+                    rgba(139, 115, 85, 0.3) 10%,
+                    rgba(255, 255, 255, 0.4) 20%,
+                    rgba(255, 255, 255, 0.5) 30%,
+                    rgba(255, 255, 255, 0.5) 70%,
+                    rgba(255, 255, 255, 0.4) 80%,
+                    rgba(139, 115, 85, 0.3) 90%,
+                    transparent 100%
+                );
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+            z-index: 1;
+        }
+        
+        .armored-result-value::before {
+            left: 12px;
+        }
+        
+        .armored-result-value::after {
+            right: 12px;
+        }
+        
+        .mechanical-counter {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            height: 80px;
+            vertical-align: top;
+        }
+        
+        .digit-wheel {
+            display: inline-block;
+            position: relative;
+            width: 0.7em;
+            height: 80px;
+            overflow: hidden;
+            font-variant-numeric: tabular-nums;
+            font-weight: 700;
+            text-align: center;
+        }
+        
+        .digit-strip {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
+        }
+        
+        .digit-strip.rolling {
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .digit-strip.snapping {
+            transition: none !important;
+        }
+        
+        .digit-cell {
+            font-family: 'Courier New', 'Courier', monospace;
+            height: 80px;
+            line-height: 80px;
+            display: block;
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+            padding-top: 0;
+            transform: translateY(0px);
+        }
+        
+        /* MIL label only for main display - large size */
+        .armored-result-value .mil-label {
+            display: inline-block;
+            margin-left: 0;
+            color: #ffffff;
+            font-size: 3rem;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+            font-variant-numeric: normal;
+            vertical-align: middle;
+            line-height: 80px;
+            font-weight: 700;
+            letter-spacing: 0;
+            transform: translateY(-2px);
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+        
+        /* MIL label digits (letters) should have same styling as number digits */
+        .armored-result-value .mil-label .digit {
+            display: inline-block;
+            position: relative;
+            text-align: center;
+            transform: translateY(0px);
+            margin-right: 2px;
+        }
+        
+        /* Small MIL labels for base value and other text - normal size */
+        .mil-label {
+            display: inline;
+            font-size: inherit;
+            color: inherit;
+            text-shadow: none;
+            font-weight: normal;
+            letter-spacing: normal;
+            line-height: normal;
+            margin: 0;
+        }
+        
+        .mil-static-counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            margin-left: 2px;
+            height: 80px;
+            vertical-align: top;
+        }
+        
+        .mil-wheel {
+            font-family: 'Courier New', 'Courier', monospace;
+            display: inline-block;
+            position: relative;
+            width: 0.7em;
+            height: 80px;
+            overflow: hidden;
+            font-variant-numeric: tabular-nums;
+            font-weight: 700;
+            text-align: center;
+        }
+        
+        /* Make the first letter (M) counter box wider */
+        .mil-static-counter .mil-wheel:first-child {
+            width: calc(0.9em - 1px);
+        }
+        
+        .mil-strip {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+        
+        .mil-cell {
+            font-family: 'Courier New', 'Courier', monospace;
+            height: 80px;
+            line-height: 80px;
+            display: block;
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+            padding-top: 0;
+            transform: translateY(0px);
         }
         
         .armored-result-value span {
@@ -1167,187 +1648,122 @@
             transform: translateY(4px);
         }
         
-        /* Mechanical number styling for mechanical animations */
-        .armored-result-value.elevation-mechanical-odometer span,
-        .armored-result-value.elevation-mechanical-tick span,
-        .armored-result-value.elevation-mechanical-snap span,
-        .armored-result-value.elevation-mechanical-gauge span {
+        .armored-result-value .digit {
+            display: inline-block;
+            position: relative;
             font-variant-numeric: tabular-nums;
-            letter-spacing: 2px;
-            font-weight: 700;
+            min-width: 0.6em;
+            text-align: center;
+            transform: translateY(0px);
         }
+        
+        /* Vertical separator lines between all elements for odometer look - matching demo style */
+        /* Add separator after each digit in elevationValue, but not after the last one */
+        #elevationValue .digit:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: -1px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(
+                180deg,
+                transparent 0%,
+                rgba(139, 115, 85, 0.3) 10%,
+                rgba(255, 255, 255, 0.4) 20%,
+                rgba(255, 255, 255, 0.5) 30%,
+                rgba(255, 255, 255, 0.5) 70%,
+                rgba(255, 255, 255, 0.4) 80%,
+                rgba(139, 115, 85, 0.3) 90%,
+                transparent 100%
+            );
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+            z-index: 1;
+        }
+        
+        /* Add separator before first digit (for minus sign or first number) */
+        .armored-result-value .digit:first-child::before {
+            content: '';
+            position: absolute;
+            left: -1px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(
+                180deg,
+                transparent 0%,
+                rgba(139, 115, 85, 0.3) 10%,
+                rgba(255, 255, 255, 0.4) 20%,
+                rgba(255, 255, 255, 0.5) 30%,
+                rgba(255, 255, 255, 0.5) 70%,
+                rgba(255, 255, 255, 0.4) 80%,
+                rgba(139, 115, 85, 0.3) 90%,
+                transparent 100%
+            );
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+            z-index: 1;
+        }
+        
+        /* Add separator before MIL label (before first letter) */
+        .armored-result-value .mil-label .digit:first-child::before {
+            content: '';
+            position: absolute;
+            left: -1px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(
+                180deg,
+                transparent 0%,
+                rgba(139, 115, 85, 0.3) 10%,
+                rgba(255, 255, 255, 0.4) 20%,
+                rgba(255, 255, 255, 0.5) 30%,
+                rgba(255, 255, 255, 0.5) 70%,
+                rgba(255, 255, 255, 0.4) 80%,
+                rgba(139, 115, 85, 0.3) 90%,
+                transparent 100%
+            );
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+            z-index: 1;
+        }
+        
+        /* Add separator after each MIL letter (including the last one to complete odometer) */
+        .armored-result-value .mil-label .digit::after {
+            content: '';
+            position: absolute;
+            right: -1px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(
+                180deg,
+                transparent 0%,
+                rgba(139, 115, 85, 0.3) 10%,
+                rgba(255, 255, 255, 0.4) 20%,
+                rgba(255, 255, 255, 0.5) 30%,
+                rgba(255, 255, 255, 0.5) 70%,
+                rgba(255, 255, 255, 0.4) 80%,
+                rgba(139, 115, 85, 0.3) 90%,
+                transparent 100%
+            );
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+            z-index: 1;
+        }
+        
+        /* Add spacing between digits for better separation */
+        .armored-result-value .digit {
+            margin-right: 2px;
+            position: relative;
+        }
+        
+        /* Ensure MIL label has relative positioning for separator */
+        .armored-result-value .mil-label {
+            position: relative;
+        }
+        
+        /* All animations removed - no animations on final value */
 
-        /* Animation styles for elevation value changes */
-        .elevation-count-up {
-            animation: countUp 1s ease-out;
-        }
-        
-        @keyframes countUp {
-            0% {
-                transform: scale(0.8);
-                opacity: 0.5;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-        
-        .elevation-pulse {
-            animation: pulseHighlight 0.8s ease-in-out;
-        }
-        
-        @keyframes pulseHighlight {
-            0%, 100% {
-                transform: scale(1);
-                text-shadow: 0 0 20px rgba(252, 211, 77, 0.6);
-            }
-            25% {
-                transform: scale(1.15);
-                text-shadow: 0 0 40px rgba(252, 211, 77, 1), 0 0 60px rgba(252, 211, 77, 0.8);
-            }
-            50% {
-                transform: scale(1.1);
-                text-shadow: 0 0 50px rgba(252, 211, 77, 1.2), 0 0 80px rgba(252, 211, 77, 1);
-            }
-            75% {
-                transform: scale(1.15);
-                text-shadow: 0 0 40px rgba(252, 211, 77, 1), 0 0 60px rgba(252, 211, 77, 0.8);
-            }
-        }
-        
-        .elevation-slide-fade {
-            animation: slideFade 0.6s ease-in-out;
-        }
-        
-        @keyframes slideFade {
-            0% {
-                opacity: 0;
-                transform: translateY(-20px) scale(0.9);
-            }
-            50% {
-                opacity: 0.5;
-                transform: translateY(0) scale(1.05);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-        
-        .elevation-scale-bounce {
-            animation: scaleBounce 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-        
-        @keyframes scaleBounce {
-            0% {
-                transform: scale(0.3);
-                opacity: 0;
-            }
-            50% {
-                transform: scale(1.2);
-                opacity: 1;
-            }
-            70% {
-                transform: scale(0.9);
-            }
-            100% {
-                transform: scale(1);
-            }
-        }
-        
-        /* Mechanical-style animations */
-        .elevation-mechanical-odometer {
-            animation: mechanicalOdometer 1.2s ease-out;
-        }
-        
-        @keyframes mechanicalOdometer {
-            0% {
-                transform: rotateX(90deg) scale(0.8);
-                opacity: 0;
-            }
-            50% {
-                transform: rotateX(0deg) scale(1.1);
-                opacity: 0.8;
-            }
-            100% {
-                transform: rotateX(0deg) scale(1);
-                opacity: 1;
-            }
-        }
-        
-        .elevation-mechanical-tick {
-            animation: mechanicalTick 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        @keyframes mechanicalTick {
-            0% {
-                transform: translateX(-5px) scale(0.95);
-                opacity: 0.7;
-            }
-            30% {
-                transform: translateX(3px) scale(1.05);
-                opacity: 1;
-            }
-            60% {
-                transform: translateX(-1px) scale(0.98);
-            }
-            100% {
-                transform: translateX(0) scale(1);
-                opacity: 1;
-            }
-        }
-        
-        .elevation-mechanical-snap {
-            animation: mechanicalSnap 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6);
-        }
-        
-        @keyframes mechanicalSnap {
-            0% {
-                transform: scale(0.7) rotate(-2deg);
-                opacity: 0;
-                filter: blur(2px);
-            }
-            60% {
-                transform: scale(1.15) rotate(1deg);
-                opacity: 1;
-                filter: blur(0px);
-            }
-            80% {
-                transform: scale(0.95) rotate(-0.5deg);
-            }
-            100% {
-                transform: scale(1) rotate(0deg);
-                opacity: 1;
-                filter: blur(0px);
-            }
-        }
-        
-        .elevation-mechanical-gauge {
-            animation: mechanicalGauge 0.8s ease-out;
-        }
-        
-        @keyframes mechanicalGauge {
-            0% {
-                transform: scale(0.85) translateY(10px);
-                opacity: 0.6;
-                text-shadow: 0 0 10px rgba(252, 211, 77, 0.3);
-            }
-            40% {
-                transform: scale(1.08) translateY(-3px);
-                opacity: 1;
-                text-shadow: 0 0 30px rgba(252, 211, 77, 0.8);
-            }
-            70% {
-                transform: scale(0.97) translateY(1px);
-                text-shadow: 0 0 20px rgba(252, 211, 77, 0.6);
-            }
-            100% {
-                transform: scale(1) translateY(0);
-                opacity: 1;
-                text-shadow: 0 0 20px rgba(252, 211, 77, 0.6);
-            }
-        }
+        /* Old animation styles removed - no longer used */
 
         /* Armored slider styling */
         .armored-slider {
@@ -2691,7 +3107,8 @@
         }
 
         /* Invert vehicle icons in field manual info panel */
-        .field-manual-specs .ammo-box img {
+        /* Note: _invert_28 images are already inverted, so don't apply filter to them */
+        .field-manual-specs .ammo-box img:not([src*="_invert_28"]) {
             filter: invert(1);
         }
 
@@ -3137,6 +3554,13 @@
                         <div class="armored-rivet armored-rivet-bottom-left"></div>
                         <div class="armored-rivet armored-rivet-bottom-right"></div>
 
+                        <!-- Warning Message at Top -->
+                        <div class="warning-wrapper" style="position: relative; width: 100%; min-height: 0; overflow: visible; margin-bottom: 0; padding-top: 0;">
+                            <div id="warning" class="warning-container hidden">
+                                <p class="warning-text"></p>
+                            </div>
+                        </div>
+
                         <!-- Faction Selection -->
                         <div class="panel-section">
                             <div class="armored-rivet-small armored-rivet-small-top-left"></div>
@@ -3184,7 +3608,7 @@
                                 </div>
                                 <div class="w-64 h-64 overflow-hidden faction-image flex items-center justify-center flex-shrink-0" style="margin-top: 5px; margin-right: 25px; margin-left: 25px;">
                                     <div class="postcard-coords" id="classifiedRefText">REF: 42°N 12°E<br>TARGET DESIGNATION EYESAVE<br>DO NOT DUPLICATE</div>
-                                    <img id="factionImage" src="images/tanks/BISHOP_TRANSPARENT.png" alt="Faction" class="max-w-full max-h-full object-contain">
+                                    <img id="factionImage" src="images/tanks/BISHOP_248.png" alt="Faction" class="max-w-full max-h-full object-contain">
                                 </div>
                             </div>
                         </div>
@@ -3200,7 +3624,7 @@
                                 <div class="armored-ruler-indicator" id="armoredRulerIndicator" style="left: 50%;"></div>
                             </div>
                             <div style="display: flex; justify-content: center; align-items: flex-start; margin: 10px 0; gap: 15px; position: relative;">
-                                <div class="armored-toggle" style="position: absolute; left: 0; top: 15px; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+                                <div class="armored-toggle" style="position: absolute; left: 0; top: 20px; display: flex; flex-direction: column; align-items: center; gap: 6px;">
                                     <div class="armored-toggle-label">Ruler Snap</div>
                                     <div style="display: flex; align-items: center; gap: 8px;">
                                         <span id="snapOffLabel" class="toggle-label-off">OFF</span>
@@ -3214,7 +3638,7 @@
                                     <input type="text" id="distance" value="400" tabindex="1" class="armored-input">
                                     <button onclick="adjustValue('distance', 1)" class="armored-button">+</button>
                                 </div>
-                                <div class="armored-toggle" style="position: absolute; right: 0; top: 15px; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+                                <div class="armored-toggle" style="position: absolute; right: 0; top: 20px; display: flex; flex-direction: column; align-items: center; gap: 6px;">
                                     <div class="armored-toggle-label">Auto Calculation</div>
                                     <div style="display: flex; align-items: center; gap: 8px;">
                                         <span id="calcOffLabel" class="toggle-label-off">OFF</span>
@@ -3239,7 +3663,7 @@
                                     </div>
                                     <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: auto;">
                                         <button onclick="adjustValue('heightDiff', -1)" class="armored-button">-</button>
-                                        <input type="text" id="heightDiff" value="0" tabindex="2" class="armored-input">
+                                        <input type="text" id="heightDiff" value="0" tabindex="2" class="armored-input" max="5000">
                                         <button onclick="adjustValue('heightDiff', 1)" class="armored-button">+</button>
                                     </div>
                                 </div>
@@ -3258,25 +3682,27 @@
                         </div>
         
                         <!-- Calculate Button -->
-                        <button onclick="calculate()" id="calculateButton" tabindex="4" class="armored-calculate">
-                            Calculate Elevation
-                        </button>
-        
-        
-                        <!-- Warning Message -->
-                        <div id="warning" class="warning-container mt-4 p-4 hidden">
-                            <p class="warning-text"></p>
+                        <div style="position: relative; margin-top: 0; margin-bottom: 5px;">
+                            <button onclick="calculate()" id="calculateButton" tabindex="4" class="armored-calculate">
+                                Calculate Elevation
+                            </button>
                         </div>
         
                         <!-- Result -->
                         <div id="result" class="armored-result">
                             <button class="copy-result-button" onclick="copyResult(this)" title="Copy result to clipboard">⧉</button>
+                            <button class="reset-result-button" onclick="resetCalculator(this)" title="Reset all values">⟳</button>
                             <div class="panel-label" style="margin-bottom: 10px;">Set Elevation (Yellow) To:</div>
                             <div class="armored-result-value">
-                                <span id="elevationValue">0</span> <span id="elevationMilLabel" class="mil-label">MIL</span>
+                                <div class="mechanical-counter" id="elevationCounter">
+                                    <!-- Digit wheels will be generated here -->
+                                </div>
+                                <div class="mil-static-counter" id="elevationMilCounter">
+                                    <!-- MIL wheels will be generated here -->
+                                </div>
                             </div>
                             <div class="text-sm text-gray-400 mt-4" style="font-family: 'Courier New', monospace;">
-                                <p>Base: <span id="baseValue" class="text-gray-300">0</span> <span id="baseMilLabel" class="text-gray-400 mil-label">MIL</span> | Target Height <span id="heightSymbol">Δ</span>: <span id="heightValue" class="text-gray-300">0m</span> | Your Elevation: <span id="redValue" class="text-gray-300">+0</span> <span id="redValueUnit" class="text-gray-400 mil-label">MIL</span></p>
+                                <p>Base: <span id="baseValue" class="text-white">0</span> <span id="baseMilLabel" class="text-white mil-label">MIL</span> | Target Height <span id="heightSymbol">Δ</span>: <span id="heightValue" class="text-gray-300">0m</span> | Your Elevation: <span id="redValue" class="text-gray-300">+0</span> <span id="redValueUnit" class="text-gray-400 mil-label">MIL</span></p>
                             </div>
                         </div>
 
@@ -3330,7 +3756,7 @@
 
                     <!-- Version Info -->
                     <div class="text-xs text-gray-500 text-center mt-4" style="margin-top: calc(1rem - 2px);">
-                        <p>HLL SPA Artillery Calculator v1.0.1 - 2025</p>
+                        <p>HLL SPA Artillery Calculator v1.0.3 - 2025</p>
                         <p class="text-orange-400 mt-1">⚠️ This calculator is still being tested and improved. The results may not always be perfect. Please use your best judgment when using these calculations.</p>
                     </div>
                 </div>
@@ -3411,7 +3837,7 @@
                     mainGun: '152MM M-10T - 50 HE rounds, 35 SMOKE rounds, 20 AP rounds',
                     turretRotation: '360°',
                     coaxial: 'NO COAXIAL',
-                    topSpeed: '24 km/h'
+                    topSpeed: '23 km/h'
                 },
                 history: 'The KV-2 was a Soviet heavy tank armed with a massive 152mm howitzer, designed as an assault tank to destroy fortifications and bunkers. Production was carried out at the Kirov Plant (Factory No. 100) in Leningrad (now St. Petersburg, Russia), one of the Soviet Union\'s premier heavy tank manufacturing facilities. It saw action during the Winter War against Finland and early stages of Operation Barbarossa. Despite its powerful armament, its slow speed, long reload time, and mechanical issues made it vulnerable to German anti-tank weapons.',
                 realLife: {
@@ -3715,12 +4141,12 @@
         function updateFactionImage() {
             const faction = document.getElementById('faction').value;
             const factionMap = {
-                'British (Bishop SP)': 'BISHOP_TRANSPARENT.png',
-                'British (Churchill AVRE)': 'AVRE_TRANSPARENT.png',
-                'US (Sherman M4A3 105)': 'M4A3_TRANSPARENT.png',
-                'Soviet Union (KV-2)': 'KV-2_TRANSPARENT.png',
-                'DAK (Panzer III Ausf.N)': 'PANZERIII_TRANSPARENT.png',
-                'Germany (Sturmpanzer IV Brummbär)': 'BRUMMBAR_TRANSPARENT.png'
+                'British (Bishop SP)': 'BISHOP_248.png',
+                'British (Churchill AVRE)': 'AVRE_248.png',
+                'US (Sherman M4A3 105)': 'M4A3_248.png',
+                'Soviet Union (KV-2)': 'KV2_248.png',
+                'DAK (Panzer III Ausf.N)': 'PANZERIII_248.png',
+                'Germany (Sturmpanzer IV Brummbär)': 'BRUMMBAR_248.png'
             };
             
             // Classified reference text for each tank
@@ -3763,7 +4189,7 @@
                 img.src = `images/tanks/${imgName}`;
                 img.onerror = function() {
                     // Fallback to a default tank image if available
-                    this.src = 'images/tanks/BISHOP_TRANSPARENT.png';
+                    this.src = 'images/tanks/BISHOP_248.png';
                 };
             }
             
@@ -3789,6 +4215,8 @@
                 newValue = Math.max(0, Math.min(1000, newValue));
             } else if (fieldId === 'redNumber') {
                 newValue = Math.max(-1000, Math.min(1000, newValue));
+            } else if (fieldId === 'heightDiff') {
+                newValue = Math.max(-5000, Math.min(5000, newValue));
             }
 
             // Write raw numeric value into the field for fast manual editing
@@ -3812,13 +4240,30 @@
                 updateArmoredRuler(newValue);
             }
             
-            // Trigger calculation if we have all required values and auto mode is enabled
+            // Always save state when values change
+            saveState();
+            
+            // Trigger calculation if we have distance and auto mode is enabled
+            // calculate() will set all display values correctly
             const distance = parseFloat(document.getElementById('distance').value);
             if (distance && !isNaN(distance) && isAutoCalcEnabled()) {
                 calculate();
             } else {
-                // Save state even if calculation isn't triggered
-                saveState();
+                // When auto calc is off, reset base value to "--" and final value to 0000 when any value changes
+                const baseValueEl = document.getElementById('baseValue');
+                if (baseValueEl) {
+                    baseValueEl.textContent = '--';
+                }
+                // Reset final value to 0000 when auto calc is off
+                if (fieldId === 'distance') {
+                    rollElevationToNumber(0);
+                    updateMilLabels();
+                    // Show "--" for height and elevation when auto calc is off
+                    const heightValueEl = document.getElementById('heightValue');
+                    const redValueEl = document.getElementById('redValue');
+                    if (heightValueEl) heightValueEl.textContent = '--';
+                    if (redValueEl) redValueEl.textContent = '--';
+                }
             }
         }
 
@@ -3829,6 +4274,62 @@
         function isAutoCalcEnabled() {
             const toggle = document.getElementById('autoCalcToggle');
             return toggle ? toggle.checked : true; // Default to auto
+        }
+        
+        // Function to update display values from input fields ONLY when not calculated
+        // This should NOT overwrite calculated values from calculate() function
+        function updateDisplayValues() {
+            const heightInput = document.getElementById('heightDiff');
+            const redInput = document.getElementById('redNumber');
+            const distanceInput = document.getElementById('distance');
+            const factionInput = document.getElementById('faction');
+            const heightEl = document.getElementById('heightValue');
+            const redEl = document.getElementById('redValue');
+            const baseEl = document.getElementById('baseValue');
+            const heightSymbolEl = document.getElementById('heightSymbol');
+            
+            // Only update base if it's "--" or empty (error state)
+            if (baseEl && distanceInput && factionInput) {
+                if (baseEl.textContent === '--' || baseEl.textContent.trim() === '') {
+                    const distance = parseFloat(distanceInput.value);
+                    const faction = factionInput.value;
+                    if (distance && !isNaN(distance) && tables[faction]) {
+                        const base = interpolate(tables[faction], distance);
+                        if (!isNaN(base)) {
+                            baseEl.textContent = base.toFixed(1);
+                        }
+                    }
+                }
+            }
+            
+            // Only update height if it's "--" or empty (error state)
+            if (heightEl && heightInput) {
+                if (heightEl.textContent === '--' || heightEl.textContent.trim() === '') {
+                    const hVal = parseFloat(heightInput.value) || 0;
+                    const hText = (hVal >= 0 ? '+' : '') + hVal + 'm';
+                    heightEl.textContent = hText;
+                    heightEl.className = hVal >= 0 ? 'text-green-400' : 'text-red-400';
+                }
+            }
+            if (heightSymbolEl && heightInput) {
+                const hVal = parseFloat(heightInput.value) || 0;
+                heightSymbolEl.textContent = hVal >= 0 ? '▲' : '▼';
+            }
+            
+            // Only update elevation if it's "--" or empty (error state)
+            if (redEl && redInput) {
+                if (redEl.textContent === '--' || redEl.textContent.trim() === '') {
+                    const rVal = parseFloat(redInput.value) || 0;
+                    const rText = (rVal >= 0 ? '+' : '') + rVal;
+                    redEl.textContent = rText;
+                    const colorClass = rVal >= 0 ? 'text-green-400' : 'text-red-400';
+                    redEl.className = colorClass;
+                    const redUnitEl = document.getElementById('redValueUnit');
+                    if (redUnitEl) {
+                        redUnitEl.className = colorClass;
+                    }
+                }
+            }
         }
 
         // Update calculate button visibility based on mode
@@ -3848,16 +4349,12 @@
 
         // Update MIL label visibility based on whether results are calculated
         function updateMilLabels() {
-            const elevationValue = document.getElementById('elevationValue').textContent;
-            const hasResult = elevationValue !== '--';
-            const milLabels = document.querySelectorAll('.mil-label');
-            milLabels.forEach(label => {
-                if (hasResult) {
-                    label.style.display = '';
-                } else {
-                    label.style.display = 'none';
-                }
-            });
+            // MIL is always visible in mechanical counter, so this function is no longer needed
+            // But keeping it for compatibility with other code that calls it
+            const milCounter = document.getElementById('elevationMilCounter');
+            if (milCounter) {
+                milCounter.style.display = '';
+            }
         }
 
         // Sync ruler with input field
@@ -3883,6 +4380,19 @@
                 updateArmoredRuler(inputValue);
                 if (isAutoCalcEnabled()) {
                     calculate();
+                } else {
+                    // When auto calc is off, reset base value to "--" and final value to 0000
+                    const baseValueEl = document.getElementById('baseValue');
+                    if (baseValueEl) {
+                        baseValueEl.textContent = '--';
+                    }
+                    rollElevationToNumber(0);
+                    updateMilLabels();
+                    // Show "--" for height and elevation when auto calc is off
+                    const heightValueEl = document.getElementById('heightValue');
+                    const redValueEl = document.getElementById('redValue');
+                    if (heightValueEl) heightValueEl.textContent = '--';
+                    if (redValueEl) redValueEl.textContent = '--';
                 }
                 saveState();
             });
@@ -3957,6 +4467,19 @@
                         // Trigger calculation if auto mode is enabled, even during drag
                         if (isAutoCalcEnabled()) {
                             calculate();
+                        } else {
+                            // When auto calc is off, reset base value to "--" and final value to 0000
+                            const baseValueEl = document.getElementById('baseValue');
+                            if (baseValueEl) {
+                                baseValueEl.textContent = '--';
+                            }
+                            rollElevationToNumber(0);
+                            updateMilLabels();
+                            // Show "--" for height and elevation when auto calc is off
+                            const heightValueEl = document.getElementById('heightValue');
+                            const redValueEl = document.getElementById('redValue');
+                            if (heightValueEl) heightValueEl.textContent = '--';
+                            if (redValueEl) redValueEl.textContent = '--';
                         }
                     } else {
                         // Full update when not dragging
@@ -3964,6 +4487,19 @@
                         
                         if (isAutoCalcEnabled()) {
                             calculate();
+                        } else {
+                            // When auto calc is off, reset base value to "--" and final value to 0000
+                            const baseValueEl = document.getElementById('baseValue');
+                            if (baseValueEl) {
+                                baseValueEl.textContent = '--';
+                            }
+                            rollElevationToNumber(0);
+                            updateMilLabels();
+                            // Show "--" for height and elevation when auto calc is off
+                            const heightValueEl = document.getElementById('heightValue');
+                            const redValueEl = document.getElementById('redValue');
+                            if (heightValueEl) heightValueEl.textContent = '--';
+                            if (redValueEl) redValueEl.textContent = '--';
                         }
                         saveState();
                     }
@@ -4191,55 +4727,395 @@
             indicator.style.left = pixelPosition + 'px';
         }
 
+        // Mechanical Counter System - from demo
+        let currentElevationDigits = [];
+        let isElevationNegative = false;
+        const elevationCounterElement = document.getElementById('elevationCounter');
+        const CELL_HEIGHT = 80;
+        
+        function createElevationDigitWheel(index, isFirstWheel = false) {
+            const wheel = document.createElement('div');
+            wheel.className = 'digit-wheel';
+            
+            const strip = document.createElement('div');
+            strip.className = 'digit-strip';
+            strip.id = `elevation-strip-${index}`;
+            
+            if (isFirstWheel) {
+                // First wheel: only 0 and minus sign (no other digits)
+                const firstWheelSequence = [0, '−'];
+                const sequenceLength = firstWheelSequence.length;
+                
+                // Create 40 cells (sequence repeated for smooth rolling)
+                for (let i = 0; i < 40; i++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'digit-cell';
+                    cell.textContent = firstWheelSequence[i % sequenceLength];
+                    strip.appendChild(cell);
+                }
+            } else {
+                // Regular digit wheels: 0-9 repeated (more cells for smooth animation)
+                for (let i = 0; i < 40; i++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'digit-cell';
+                    cell.textContent = i % 10;
+                    strip.appendChild(cell);
+                }
+            }
+            
+            wheel.appendChild(strip);
+            return wheel;
+        }
+        
+        function createElevationMILWheel(letter) {
+            const wheel = document.createElement('div');
+            wheel.className = 'mil-wheel';
+            
+            const strip = document.createElement('div');
+            strip.className = 'mil-strip';
+            
+            // Create cells with the letter in the middle position (position 10)
+            for (let i = 0; i < 20; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'mil-cell';
+                if (i === 10) {
+                    cell.textContent = letter;
+                } else {
+                    cell.textContent = ' ';
+                }
+                strip.appendChild(cell);
+            }
+            
+            // Position to show the letter (middle position)
+            strip.style.transform = `translateY(-${10 * CELL_HEIGHT}px)`;
+            
+            wheel.appendChild(strip);
+            return wheel;
+        }
+        
+        function initializeElevationMIL() {
+            const milCounter = document.getElementById('elevationMilCounter');
+            if (!milCounter) return;
+            
+            milCounter.innerHTML = '';
+            const letters = ['M', 'I', 'L'];
+            letters.forEach(letter => {
+                const wheel = createElevationMILWheel(letter);
+                milCounter.appendChild(wheel);
+            });
+        }
+        
+        function setupElevationCounter(targetNumber) {
+            const absValue = Math.abs(targetNumber);
+            const numStr = String(Math.max(0, Math.floor(absValue))).padStart(3, '0');
+            const targetDigits = numStr.split('').map(Number);
+            const isNeg = targetNumber < 0;
+            
+            // Always create 4 wheels (first wheel can show - or digit)
+            if (currentElevationDigits.length !== 4) {
+                elevationCounterElement.innerHTML = '';
+                for (let i = 0; i < 4; i++) {
+                    const wheel = createElevationDigitWheel(i, i === 0);
+                    elevationCounterElement.appendChild(wheel);
+                }
+            }
+            
+            // Initialize all strips to show 0 (or - for first wheel if negative)
+            for (let i = 0; i < 4; i++) {
+                const strip = document.getElementById(`elevation-strip-${i}`);
+                if (strip) {
+                    if (i === 0 && isNeg) {
+                        strip.style.transition = 'none';
+                        strip.style.transform = `translateY(-${1 * CELL_HEIGHT}px)`; // Position 1 is minus sign
+                    } else {
+                        strip.style.transition = 'none';
+                        strip.style.transform = 'translateY(0)';
+                    }
+                }
+            }
+            
+            currentElevationDigits = [0, 0, 0, 0];
+            isElevationNegative = isNeg;
+        }
+        
+        function rollElevationToNumber(targetNumber) {
+            const absValue = Math.abs(targetNumber);
+            const numStr = String(Math.max(0, Math.floor(absValue))).padStart(3, '0');
+            const targetDigits = numStr.split('').map(Number);
+            const isNeg = targetNumber < 0;
+            
+            // Ensure we have 4 wheels
+            if (currentElevationDigits.length !== 4) {
+                setupElevationCounter(targetNumber);
+            }
+            
+            // Handle first wheel separately (can show 0 or -)
+            const firstStrip = document.getElementById('elevation-strip-0');
+            if (firstStrip) {
+                const currentFirstValue = isElevationNegative ? '-' : 0;
+                const targetFirstValue = isNeg ? '-' : 0;
+                const isResetting = targetNumber === 0;
+                const signChanged = targetFirstValue !== currentFirstValue;
+                const needsAnimation = signChanged || isResetting;
+                
+                if (needsAnimation) {
+                    // Simple direct switch between 0 and - (no rolling animation)
+                    void firstStrip.offsetWidth;
+                    
+                    setTimeout(() => {
+                        if (isNeg) {
+                            // Switch directly to minus sign (position 1)
+                            firstStrip.style.transition = 'transform 0.2s ease-in-out';
+                            firstStrip.style.transform = `translateY(-${1 * CELL_HEIGHT}px)`;
+                        } else {
+                            // Switch directly to 0 (position 0)
+                            firstStrip.style.transition = 'transform 0.2s ease-in-out';
+                            firstStrip.style.transform = `translateY(0)`;
+                        }
+                    }, 0);
+                }
+            }
+            
+            // Roll remaining 3 digits (index 1, 2, 3) with staggered delay
+            // Only animate digits that actually change
+            for (let index = 1; index < 4; index++) {
+                const strip = document.getElementById(`elevation-strip-${index}`);
+                if (!strip) continue;
+                
+                // Get current digit from state, but also verify from DOM transform
+                let currentDigit = currentElevationDigits[index] || 0;
+                let actualCurrentPosition = currentDigit * CELL_HEIGHT;
+                const transform = strip.style.transform || '';
+                const transformMatch = transform.match(/translateY\((-?\d+)px\)/);
+                if (transformMatch) {
+                    // Get the actual pixel position from DOM (will be negative)
+                    actualCurrentPosition = Math.abs(parseInt(transformMatch[1]));
+                    // Calculate current digit from actual position (normalize to 0-9)
+                    currentDigit = Math.round(actualCurrentPosition / CELL_HEIGHT) % 10;
+                }
+                
+                const targetDigit = targetDigits[index - 1];
+                
+                // Check if digit actually changed
+                if (currentDigit === targetDigit) {
+                    // Digit hasn't changed - set position immediately without animation
+                    const finalSnapPosition = -(targetDigit * CELL_HEIGHT);
+                    strip.style.transition = 'none';
+                    strip.style.transform = `translateY(${finalSnapPosition}px)`;
+                    strip.classList.remove('rolling', 'snapping');
+                    continue;
+                }
+                
+                // Normalize current position to base range (0-9) to ensure we start from a safe position
+                const normalizedCurrentPosition = currentDigit * CELL_HEIGHT;
+                
+                // Calculate how many positions to move (direct movement, no rolling)
+                // For both upward and downward, move directly without wrapping
+                let moveDistance = targetDigit - currentDigit;
+                // No wrapping - move directly to target (can be negative for downward)
+                
+                // Calculate final animation position (direct movement)
+                const finalPosition = -(normalizedCurrentPosition + moveDistance * CELL_HEIGHT);
+                
+                // Snap to normalized position first (without animation)
+                strip.style.transition = 'none';
+                strip.style.transform = `translateY(-${normalizedCurrentPosition}px)`;
+                
+                // Force reflow and wait a frame for snap to apply
+                void strip.offsetWidth;
+                requestAnimationFrame(() => {
+                    // Animate with staggered delay (only for changing digits)
+                    setTimeout(() => {
+                        strip.style.transition = 'transform 0.2s ease-in-out';
+                        strip.style.transform = `translateY(${finalPosition}px)`;
+                    }, (index - 1) * 35); // Stagger each digit by 35ms
+                });
+            }
+            
+            // Update current state
+            currentElevationDigits = [isNeg ? '-' : 0, targetDigits[0], targetDigits[1], targetDigits[2]];
+            isElevationNegative = isNeg;
+        }
+        
+        // Track previous warning message type to avoid repeating animation
+        let previousWarningType = '';
+        let previousWarningMessage = '';
+
+        // Normalize warning message to extract just the warning type (ignore changing values)
+        function normalizeWarningMessage(message) {
+            if (!message) return '';
+            // Remove dynamic values and keep only the warning type
+            // Replace numeric values with placeholders to compare warning types
+            let normalized = message
+                .replace(/\(-?\d+\s*MIL\)/g, '(X MIL)')            // Replace "(267 MIL)" with "(X MIL)"
+                .replace(/\d+\s*MIL/g, 'X MIL')                    // Replace "267 MIL" with "X MIL"
+                .replace(/\(\d+m\)/g, '(Xm)')                      // Replace "(189m)" with "(Xm)"
+                .replace(/\d+m/g, 'Xm')                            // Replace "189m" with "Xm"
+                .replace(/\(-?\d+\)/g, '(X)')                      // Replace "(267)" with "(X)"
+                .replace(/:\s*\d+/g, ': X')                        // Replace ": 189" with ": X"
+                .replace(/\d+-\d+/g, 'X-X')                        // Replace ranges like "200-600" with "X-X"
+                .trim();
+            return normalized;
+        }
+
+        // Show warning with animation only if warning type changed
+        function showWarning(warningDiv, message) {
+            if (!warningDiv) return;
+            
+            const warningP = warningDiv.querySelector('p');
+            if (warningP) {
+                const currentMessage = message || warningP.textContent;
+                const currentWarningType = normalizeWarningMessage(currentMessage);
+                
+                // Check if warning type changed (not just the message values)
+                const warningTypeChanged = currentWarningType !== previousWarningType;
+                const wasHidden = warningDiv.classList.contains('hidden');
+                
+                // Remove hiding class if present
+                warningDiv.classList.remove('hiding');
+                
+                // Update the message
+                warningP.textContent = currentMessage;
+                
+                // Only animate if warning type changed or warning was hidden
+                if (warningTypeChanged || wasHidden) {
+                    warningDiv.classList.remove('hidden');
+                    // Reset animation to ensure it plays
+                    warningDiv.style.animation = 'none';
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            warningDiv.style.animation = '';
+                        });
+                    });
+                    previousWarningType = currentWarningType;
+                    previousWarningMessage = currentMessage;
+                } else {
+                    // Warning type didn't change, just update the text without animation
+                    warningDiv.classList.remove('hidden');
+                    // Update stored message but keep the same type
+                    previousWarningMessage = currentMessage;
+                }
+            } else {
+                // Fallback if no p element
+                warningDiv.classList.remove('hiding');
+                warningDiv.classList.remove('hidden');
+                previousWarningType = normalizeWarningMessage(message || '');
+                previousWarningMessage = message || '';
+            }
+        }
+
+        // Hide warning with reverse animation
+        function hideWarning(warningDiv) {
+            if (!warningDiv) return;
+            
+            // Only animate if warning is currently visible
+            if (!warningDiv.classList.contains('hidden')) {
+                // Add hiding class first to trigger reverse animation
+                warningDiv.classList.add('hiding');
+                // Reset animation to ensure it plays
+                warningDiv.style.animation = 'none';
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        warningDiv.style.animation = '';
+                        // After animation completes, add hidden class and remove hiding
+                        setTimeout(() => {
+                            warningDiv.classList.remove('hiding');
+                            warningDiv.classList.add('hidden');
+                            previousWarningType = '';
+                            previousWarningMessage = '';
+                        }, 400); // Match animation duration
+                    });
+                });
+            } else {
+                // Already hidden, just ensure it stays hidden
+                warningDiv.classList.remove('hiding');
+                warningDiv.classList.add('hidden');
+                previousWarningType = '';
+                previousWarningMessage = '';
+            }
+        }
+
+        // Reset warning animation to replay it (kept for backwards compatibility)
+        function resetWarningAnimation(warningDiv) {
+            if (!warningDiv) return;
+            warningDiv.style.animation = 'none';
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    warningDiv.style.animation = '';
+                });
+            });
+        }
+
         // Calculate function
         function calculate() {
-            const faction = document.getElementById('faction').value;
-            const distance = parseFloat(document.getElementById('distance').value);
-            const heightDiffValue = document.getElementById('heightDiff').value || '0';
-            const heightDiff = parseFloat(heightDiffValue.replace('+', '')) || 0;
-            const redNumberValue = document.getElementById('redNumber').value || '0';
-            const redNumber = parseFloat(redNumberValue.replace('+', '')) || 0;
+            try {
+                const faction = document.getElementById('faction').value;
+                const distance = parseFloat(document.getElementById('distance').value);
+            
+            // Parse heightDiff - handle +, -, and empty values
+            const heightDiffInput = document.getElementById('heightDiff');
+            let heightDiff = 0;
+            if (heightDiffInput) {
+                const heightDiffValue = heightDiffInput.value.trim();
+                if (heightDiffValue === '' || heightDiffValue === '-' || heightDiffValue === '+') {
+                    heightDiff = 0;
+                } else {
+                    const parsed = parseFloat(heightDiffValue.replace(/\+/g, ''));
+                    heightDiff = isNaN(parsed) ? 0 : parsed;
+                }
+            }
+            
+            // Parse redNumber - handle +, -, and empty values
+            const redNumberInput = document.getElementById('redNumber');
+            let redNumber = 0;
+            if (redNumberInput) {
+                const redNumberValue = redNumberInput.value.trim();
+                if (redNumberValue === '' || redNumberValue === '-' || redNumberValue === '+') {
+                    redNumber = 0;
+                } else {
+                    const parsed = parseFloat(redNumberValue.replace(/\+/g, ''));
+                    redNumber = isNaN(parsed) ? 0 : parsed;
+                }
+            }
             
             const warningDiv = document.getElementById('warning');
             const resultDiv = document.getElementById('result');
             
             if (!distance || isNaN(distance)) {
                 if (warningDiv) {
-                    const warningP = warningDiv.querySelector('p');
-                    if (warningP) {
-                        warningP.textContent = 'Please enter a valid distance';
-                    }
-                    warningDiv.classList.remove('hidden');
+                    showWarning(warningDiv, 'Please enter a valid distance');
                 }
-                // Clear result values but keep box visible
-                document.getElementById('elevationValue').textContent = '--';
+                // Show default "0000 MIL" when validation fails
+                rollElevationToNumber(0);
                 document.getElementById('baseValue').textContent = '--';
                 document.getElementById('heightValue').textContent = '--';
                 document.getElementById('redValue').textContent = '--';
+                updateMilLabels();
                 return;
             }
             
             const table = tables[faction];
             if (!table) {
                 if (warningDiv) {
-                    const warningP = warningDiv.querySelector('p');
-                    if (warningP) {
-                        warningP.textContent = `Error: Unknown faction "${faction}"`;
-                    }
-                    warningDiv.classList.remove('hidden');
+                    showWarning(warningDiv, `Error: Unknown faction "${faction}"`);
                 }
-                // Clear result values but keep box visible
-                document.getElementById('elevationValue').textContent = '--';
+                // Show default "0000 MIL" when faction error
+                rollElevationToNumber(0);
                 document.getElementById('baseValue').textContent = '--';
                 document.getElementById('heightValue').textContent = '--';
                 document.getElementById('redValue').textContent = '--';
+                updateMilLabels();
                 return;
             }
             const minDist = Math.min(...Object.keys(table).filter(k => k !== 'minMil' && k !== 'maxMil').map(Number));
             const maxDist = Math.max(...Object.keys(table).filter(k => k !== 'minMil' && k !== 'maxMil').map(Number));
 
             const base = interpolate(table, distance);
-            const final = Math.round(base - heightDiff - redNumber);
+            // Calculate final elevation: base plus height difference minus tank body angle
+            // If target is higher (positive heightDiff), aim higher (add)
+            // If tank is elevated (positive redNumber), compensate by aiming lower (subtract)
+            const final = Math.round(base + heightDiff - redNumber);
+            
 
             // Check turret elevation limits
             const minMil = table.minMil;
@@ -4254,40 +5130,25 @@
                     limitWarning = `WARNING: Calculated elevation (${final} MIL) exceeds this turret's maximum elevation (${maxMil} MIL).`;
                 }
                 if (warningDiv) {
-                    const warningP = warningDiv.querySelector('p');
-                    if (warningP) {
-                        warningP.textContent = limitWarning;
-                    }
-                    warningDiv.classList.remove('hidden');
+                    showWarning(warningDiv, limitWarning);
                 }
             } else if (distance < minDist || distance > maxDist) {
                 // Keep distance warning if no MIL limit issue
                 if (warningDiv) {
-                    const warningP = warningDiv.querySelector('p');
-                    if (warningP) {
-                        warningP.textContent = `Warning: Distance (${distance}m) is outside the typical range (${minDist}-${maxDist}m).`;
-                    }
-                    warningDiv.classList.remove('hidden');
+                    showWarning(warningDiv, `Warning: Distance (${distance}m) is outside the typical range (${minDist}-${maxDist}m).`);
                 }
             } else {
                 if (warningDiv) {
-                    warningDiv.classList.add('hidden');
+                    hideWarning(warningDiv);
                 }
             }
 
-            // Update elevation and base values with animation
-            const elevationValueElement = document.getElementById('elevationValue');
-            if (!elevationValueElement) return;
+            // Update elevation using mechanical counter
+            rollElevationToNumber(Math.round(final));
             
-            const elevationValueContainer = elevationValueElement.closest('.armored-result-value');
-            const previousText = elevationValueElement.textContent.trim();
-            const previousValue = previousText === '--' ? null : (parseInt(previousText) || null);
-            
-            // Update the value
-            elevationValueElement.textContent = final;
-            document.getElementById('baseValue').textContent = base.toFixed(1);
-            
-            // Remove any existing animation classes to prevent animations
+            // Remove any existing animation classes to prevent animations (legacy cleanup)
+            const elevationCounterEl = document.getElementById('elevationCounter');
+            const elevationValueContainer = elevationCounterEl ? elevationCounterEl.closest('.armored-result-value') : null;
             if (elevationValueContainer) {
                 elevationValueContainer.classList.remove(
                     'elevation-count-up', 'elevation-pulse', 'elevation-slide-fade', 'elevation-scale-bounce',
@@ -4296,24 +5157,90 @@
                 );
             }
 
-            // Color code target height based on positive/negative
-            const heightElement = document.getElementById('heightValue');
-            const heightSymbolElement = document.getElementById('heightSymbol');
-            heightElement.textContent = (heightDiff >= 0 ? '+' : '') + heightDiff + 'm';
-            heightElement.className = heightDiff >= 0 ? 'text-green-400' : 'text-red-400';
-            // Update triangle symbol: ▲ for up (positive), ▼ for down (negative)
-            heightSymbolElement.textContent = heightDiff >= 0 ? '▲' : '▼';
-            
-            // Color code elevation based on positive/negative
-            const redElement = document.getElementById('redValue');
-            const redUnitElement = document.getElementById('redValueUnit');
-            redElement.textContent = (redNumber >= 0 ? '+' : '') + redNumber;
-            const colorClass = redNumber >= 0 ? 'text-green-400' : 'text-red-400';
-            redElement.className = colorClass;
-            redUnitElement.className = colorClass;
-
             // Show MIL labels when calculation is performed
             updateMilLabels();
+            
+            // ===== CRITICAL: Set ALL display values - MUST BE DONE HERE =====
+            // These values MUST be set and MUST NEVER be "--" after a successful calculation
+            
+            // Normalize values to ensure they're numbers
+            const displayHeightDiff = (typeof heightDiff === 'number' && !isNaN(heightDiff)) ? heightDiff : 0;
+            const displayRedNumber = (typeof redNumber === 'number' && !isNaN(redNumber)) ? redNumber : 0;
+            
+            // Set base value - ALWAYS set, NEVER "--"
+            const baseValueEl = document.getElementById('baseValue');
+            if (baseValueEl) {
+                if (typeof base === 'number' && !isNaN(base)) {
+                    const baseText = base.toFixed(1);
+                    baseValueEl.textContent = baseText;
+                    baseValueEl.innerHTML = baseText;
+                } else {
+                    console.error('Base value is invalid:', base);
+                }
+            } else {
+                console.error('baseValue element not found!');
+            }
+            
+            // Set target height - ALWAYS set, NEVER "--"
+            const heightElement = document.getElementById('heightValue');
+            const heightSymbolElement = document.getElementById('heightSymbol');
+            if (heightElement) {
+                const heightText = (displayHeightDiff >= 0 ? '+' : '') + displayHeightDiff + 'm';
+                heightElement.textContent = heightText;
+                heightElement.className = displayHeightDiff >= 0 ? 'text-green-400' : 'text-red-400';
+            } else {
+                console.error('heightValue element not found!');
+            }
+            if (heightSymbolElement) {
+                heightSymbolElement.textContent = displayHeightDiff >= 0 ? '▲' : '▼';
+            }
+            
+            // Set elevation - ALWAYS set, NEVER "--"
+            const redElement = document.getElementById('redValue');
+            const redUnitElement = document.getElementById('redValueUnit');
+            if (redElement) {
+                const redText = (displayRedNumber >= 0 ? '+' : '') + displayRedNumber;
+                redElement.textContent = redText;
+                const colorClass = displayRedNumber >= 0 ? 'text-green-400' : 'text-red-400';
+                redElement.className = colorClass;
+                if (redUnitElement) {
+                    redUnitElement.className = colorClass;
+                }
+            } else {
+                console.error('redValue element not found!');
+            }
+            
+            // Final verification - ensure values are set and not overwritten
+            setTimeout(() => {
+                const baseEl = document.getElementById('baseValue');
+                const heightEl = document.getElementById('heightValue');
+                const redEl = document.getElementById('redValue');
+                
+                // Re-verify and set base if needed
+                if (baseEl && typeof base === 'number' && !isNaN(base)) {
+                    if (baseEl.textContent === '--' || baseEl.textContent === '0' || baseEl.textContent.trim() === '') {
+                        baseEl.textContent = base.toFixed(1);
+                    }
+                }
+                
+                // Re-verify and set height if needed
+                if (heightEl) {
+                    const currentText = heightEl.textContent;
+                    const expectedText = (displayHeightDiff >= 0 ? '+' : '') + displayHeightDiff + 'm';
+                    if (currentText === '--' || currentText === '0m' || currentText.trim() === '') {
+                        heightEl.textContent = expectedText;
+                    }
+                }
+                
+                // Re-verify and set elevation if needed
+                if (redEl) {
+                    const currentText = redEl.textContent;
+                    const expectedText = (displayRedNumber >= 0 ? '+' : '') + displayRedNumber;
+                    if (currentText === '--' || currentText === '+0' || currentText === '0' || currentText.trim() === '') {
+                        redEl.textContent = expectedText;
+                    }
+                }
+            }, 50);
 
             // In manual mode, focus distance input after calculation (for Enter key workflow)
             // In auto mode, remove focus from calculate button to clear yellow highlight
@@ -4329,19 +5256,85 @@
 
             // Persist current state
             saveState();
+            } catch (error) {
+                console.error('Error in calculate function:', error);
+                // Show error to user
+                const warningDiv = document.getElementById('warning');
+                if (warningDiv) {
+                    showWarning(warningDiv, 'Error calculating elevation. Please check your inputs.');
+                }
+            }
         }
+        
+        // Explicitly expose to global scope for inline onclick handlers
+        window.calculate = calculate;
 
         // Copy result to clipboard
         function copyResult(buttonElement) {
-            const elevationValue = document.getElementById('elevationValue').textContent.trim();
-            const baseValue = document.getElementById('baseValue').textContent.trim();
-            const heightValue = document.getElementById('heightValue').textContent.trim();
-            const redValue = document.getElementById('redValue').textContent.trim();
-            const heightSymbol = document.getElementById('heightSymbol').textContent.trim();
+            // Get value from mechanical counter
+            const counterElement = document.getElementById('elevationCounter');
+            let elevationValue = '0000';
+            if (counterElement) {
+                const strips = counterElement.querySelectorAll('.digit-strip');
+                let valueStr = '';
+                
+                strips.forEach((strip, index) => {
+                    const transform = strip.style.transform || '';
+                    const match = transform.match(/translateY\(-?(\d+)px\)/);
+                    if (match) {
+                        const position = Math.round(parseInt(match[1]) / CELL_HEIGHT);
+                        const cells = strip.querySelectorAll('.digit-cell');
+                        
+                        if (cells.length > 0) {
+                            // Get the cell at the current position (modulo to handle wrapping)
+                            const cellIndex = position % cells.length;
+                            const cellContent = cells[cellIndex]?.textContent || '0';
+                            valueStr += cellContent;
+                        } else {
+                            // Fallback: calculate digit from position
+                            if (index === 0) {
+                                // First wheel: even position = 0, odd position = '−'
+                                valueStr += (position % 2 === 1) ? '−' : '0';
+                            } else {
+                                // Regular digit wheels: 0-9
+                                valueStr += (position % 10);
+                            }
+                        }
+                    } else {
+                        valueStr += '0';
+                    }
+                });
+                
+                // Process the value string
+                if (valueStr.includes('−')) {
+                    // Has minus sign - extract it and pad the numeric part
+                    const numericPart = valueStr.replace(/[^0-9]/g, '');
+                    const paddedNumeric = numericPart.padStart(4, '0');
+                    // Remove leading zeros, but keep at least one digit
+                    const trimmedNumeric = paddedNumeric.replace(/^0+/, '') || '0';
+                    elevationValue = '−' + trimmedNumeric;
+                } else {
+                    // No minus sign - just pad to 4 digits
+                    const numericPart = valueStr.replace(/[^0-9]/g, '');
+                    const paddedNumeric = numericPart.padStart(4, '0');
+                    // Remove leading zeros, but keep at least one digit
+                    elevationValue = paddedNumeric.replace(/^0+/, '') || '0';
+                }
+            }
+            
+            // Get display values
+            const baseValueEl = document.getElementById('baseValue');
+            const heightValueEl = document.getElementById('heightValue');
+            const redValueEl = document.getElementById('redValue');
+            const heightSymbolEl = document.getElementById('heightSymbol');
+            
+            const baseValue = baseValueEl ? baseValueEl.textContent.trim() : '--';
+            const heightValue = heightValueEl ? heightValueEl.textContent.trim() : '--';
+            const redValue = redValueEl ? redValueEl.textContent.trim() : '--';
+            const heightSymbol = heightSymbolEl ? heightSymbolEl.textContent.trim() : 'Δ';
             
             // Format the result text
-            let resultText = `Set Elevation (Yellow) To: ${elevationValue} MIL\n`;
-            resultText += `Base: ${baseValue} MIL | Target Height ${heightSymbol}: ${heightValue} | Your Elevation: ${redValue} MIL`;
+            let resultText = `Set Elevation To: ${elevationValue} MIL`;
             
             // Get the button element - use passed element or fallback to querySelector
             const copyButton = buttonElement || document.querySelector('.copy-result-button');
@@ -4387,6 +5380,111 @@
                 document.body.removeChild(textArea);
             });
         }
+        
+        // Reset calculator to default values
+        function resetCalculator(buttonElement) {
+            // Get button element
+            const resetButton = buttonElement || document.querySelector('.reset-result-button');
+            
+            // Store original content if not already stored
+            if (resetButton && !resetButton.dataset.originalContent) {
+                resetButton.dataset.originalContent = '⟳';
+            }
+            const originalContent = resetButton ? (resetButton.dataset.originalContent || '⟳') : '⟳';
+            
+            // Add resetting class and change text
+            if (resetButton) {
+                resetButton.classList.add('resetting');
+                resetButton.innerHTML = '✓';
+            }
+            
+            // Reset input fields
+            const distanceInput = document.getElementById('distance');
+            const heightDiffInput = document.getElementById('heightDiff');
+            const redNumberInput = document.getElementById('redNumber');
+            
+            if (distanceInput) {
+                distanceInput.value = '400';
+                // Update ruler directly (don't trigger input event which might interfere with snap)
+                if (typeof updateArmoredRuler === 'function') {
+                    updateArmoredRuler(400);
+                }
+            }
+            if (heightDiffInput) {
+                heightDiffInput.value = '0';
+            }
+            if (redNumberInput) {
+                redNumberInput.value = '0';
+            }
+            
+            // Sync snap toggle state if snap is enabled
+            const snapToggle = document.getElementById('snapToggle');
+            if (snapToggle && snapToggle.checked) {
+                // If snap is on, ensure it's properly synced and value is snapped
+                if (typeof syncArmoredToggles === 'function') {
+                    syncArmoredToggles();
+                }
+                // Snap value to nearest 25m (400 is already on 25m boundary)
+                const snappedValue = Math.round(400 / 25) * 25;
+                if (distanceInput) {
+                    distanceInput.value = snappedValue;
+                    if (typeof updateArmoredRuler === 'function') {
+                        updateArmoredRuler(snappedValue);
+                    }
+                }
+            }
+            
+            // Recalculate to update all displays and counter
+            // Use setTimeout to ensure inputs are processed first
+            setTimeout(() => {
+                if (typeof calculate === 'function') {
+                    calculate();
+                } else {
+                    // Fallback: manually reset counter and displays
+                    if (typeof rollElevationToNumber === 'function') {
+                        rollElevationToNumber(0);
+                    } else if (typeof setupElevationCounter === 'function') {
+                        setupElevationCounter(0);
+                    }
+                    
+                    // Reset display values
+                    const baseValueEl = document.getElementById('baseValue');
+                    const heightValueEl = document.getElementById('heightValue');
+                    const redValueEl = document.getElementById('redValue');
+                    
+                    if (baseValueEl) baseValueEl.textContent = '0';
+                    if (heightValueEl) heightValueEl.textContent = '0m';
+                    if (redValueEl) redValueEl.textContent = '+0';
+                }
+                
+                // Hide warning if visible
+                const warningDiv = document.getElementById('warning');
+                if (warningDiv) {
+                    hideWarning(warningDiv);
+                }
+                
+                // Ensure snap toggle is synced after reset
+                if (typeof syncArmoredToggles === 'function') {
+                    syncArmoredToggles();
+                }
+                
+                // Save state
+                if (typeof saveState === 'function') {
+                    saveState();
+                }
+            }, 50);
+            
+            // Reset button appearance after a moment
+            setTimeout(() => {
+                if (resetButton) {
+                    resetButton.classList.remove('resetting');
+                    resetButton.innerHTML = originalContent;
+                }
+            }, 800);
+        }
+        
+        // Explicitly expose to global scope for inline onclick handlers
+        window.resetCalculator = resetCalculator;
 
         // Save current UI state to localStorage
         function saveState() {
@@ -4486,21 +5584,38 @@
 
         // Toggle function for armored panel switches
         function toggleArmoredSwitch(checkboxId, element) {
-            const checkbox = document.getElementById(checkboxId);
-            if (!checkbox) return;
-            
-            checkbox.checked = !checkbox.checked;
-            element.classList.toggle('active');
-            
-            // Trigger the existing event handlers
-            if (checkboxId === 'snapToggle') {
-                const event = new Event('change', { bubbles: true });
-                checkbox.dispatchEvent(event);
-            } else if (checkboxId === 'autoCalcToggle') {
-                const event = new Event('change', { bubbles: true });
-                checkbox.dispatchEvent(event);
+            try {
+                const checkbox = document.getElementById(checkboxId);
+                if (!checkbox) {
+                    return;
+                }
+                
+                checkbox.checked = !checkbox.checked;
+                
+                // Update visual state immediately
+                if (checkbox.checked) {
+                    element.classList.add('active');
+                } else {
+                    element.classList.remove('active');
+                }
+                
+                // Trigger the existing event handlers
+                if (checkboxId === 'snapToggle') {
+                    const event = new Event('change', { bubbles: true });
+                    checkbox.dispatchEvent(event);
+                } else if (checkboxId === 'autoCalcToggle') {
+                    const event = new Event('change', { bubbles: true });
+                    checkbox.dispatchEvent(event);
+                    // Also sync the toggle state to ensure it's correct
+                    syncArmoredToggles();
+                }
+            } catch (error) {
+                console.error('Error in toggleArmoredSwitch:', error);
             }
         }
+        
+        // Explicitly expose to global scope for inline onclick handlers
+        window.toggleArmoredSwitch = toggleArmoredSwitch;
 
         // Sync armored toggles with checkboxes on load
         function syncArmoredToggles() {
@@ -4571,6 +5686,10 @@
 
         // Load any saved state before wiring up interactions
         loadState();
+        
+        // Initialize mechanical counter
+        setupElevationCounter(0);
+        initializeElevationMIL();
 
         // Ensure faction image and badges are displayed on initial load
         updateFactionImage();
@@ -4582,11 +5701,20 @@
         if (isAutoCalcEnabled()) {
             calculate();
         } else {
-            // Clear result values when auto calculation is off on initial load, but keep box visible
-            document.getElementById('elevationValue').textContent = '--';
-            document.getElementById('baseValue').textContent = '--';
-            document.getElementById('heightValue').textContent = '--';
-            document.getElementById('redValue').textContent = '--';
+            // Show default "0000 MIL" when auto calculation is off on initial load
+            setupElevationCounter(0);
+            rollElevationToNumber(0);
+            const baseEl = document.getElementById('baseValue');
+            const heightEl = document.getElementById('heightValue');
+            const redEl = document.getElementById('redValue');
+            if (baseEl) baseEl.textContent = '--';
+            // Show "--" when auto calculation is off
+            if (heightEl) {
+                heightEl.textContent = '--';
+            }
+            if (redEl) {
+                redEl.textContent = '--';
+            }
         }
         updateCalculateButton();
         updateMilLabels();
@@ -4632,6 +5760,12 @@
                         saveState();
                         if (isAutoCalcEnabled()) {
                         calculate();
+                        } else {
+                            // When auto calc is off, reset base value to "--"
+                            const baseValueEl = document.getElementById('baseValue');
+                            if (baseValueEl) {
+                                baseValueEl.textContent = '--';
+                            }
                         }
                     } catch (e) {
                         // ignore if not available yet
@@ -4688,6 +5822,9 @@
                     if (isAutoCalcEnabled()) {
                         calculate();
                     }
+                    // Note: When auto calc is off, don't reset base value on blur
+                    // The base value should only be reset when input values actually change,
+                    // not when fields lose focus (e.g., clicking calculate button)
                 }
             };
 
@@ -4785,6 +5922,18 @@
                     }
                 }
                 
+                // Enforce min/max limits for heightDiff field
+                if (this.id === 'heightDiff') {
+                    const numValue = parseFloat(value);
+                    if (!isNaN(numValue)) {
+                        if (numValue < -5000) {
+                            value = '-5000';
+                        } else if (numValue > 5000) {
+                            value = '5000';
+                        }
+                    }
+                }
+                
                 if (value !== this.value) {
                     this.value = value;
                     // Restore cursor position
@@ -4792,6 +5941,25 @@
                         const newPos = Math.min(cursorPos, value.length);
                         this.setSelectionRange(newPos, newPos);
                     }, 0);
+                }
+                
+                // Trigger calculation in auto mode when any input changes
+                // calculate() will set all display values correctly
+                if (isAutoCalcEnabled()) {
+                    if (this.id === 'heightDiff' || this.id === 'redNumber' || this.id === 'distance') {
+                        // Use setTimeout to ensure value is updated in DOM before calculation
+                        setTimeout(() => {
+                            calculate();
+                        }, 0);
+                    }
+                } else {
+                    // When auto calc is off, reset base value to "--" when any input changes
+                    if (this.id === 'heightDiff' || this.id === 'redNumber' || this.id === 'distance') {
+                        const baseValueEl = document.getElementById('baseValue');
+                        if (baseValueEl) {
+                            baseValueEl.textContent = '--';
+                        }
+                    }
                 }
             });
 
@@ -4847,6 +6015,24 @@
                 }
                 
                 this.value = cleaned;
+                
+                // After paste, handle calculation or reset base value
+                if (isAutoCalcEnabled()) {
+                    if (this.id === 'heightDiff' || this.id === 'redNumber' || this.id === 'distance') {
+                        // Use setTimeout to ensure value is updated in DOM before calculation
+                        setTimeout(() => {
+                            calculate();
+                        }, 0);
+                    }
+                } else {
+                    // When auto calc is off, reset base value to "--" when any input changes
+                    if (this.id === 'heightDiff' || this.id === 'redNumber' || this.id === 'distance') {
+                        const baseValueEl = document.getElementById('baseValue');
+                        if (baseValueEl) {
+                            baseValueEl.textContent = '--';
+                        }
+                    }
+                }
             });
 
             input.addEventListener('focus', selectAllHandler);
@@ -4878,6 +6064,10 @@
                     distanceInput.value = snappedValue;
                     // Update ruler with new snapped value
                     updateArmoredRuler(snappedValue);
+                    // Trigger calculation if auto mode is enabled
+                    if (isAutoCalcEnabled()) {
+                        calculate();
+                    }
                 }
                 updateSnapModeLabel();
                 saveState();
@@ -4940,22 +6130,37 @@
         
         if (autoCalcToggle) {
             autoCalcToggle.addEventListener('change', function() {
-                updateCalcModeLabel();
-                updateToggleLEDs();
-                saveState();
-                updateCalculateButton();
-                updateTabLoop();
-                // If switching to auto, calculate immediately
-                if (this.checked) {
-                    calculate();
+                try {
+                    updateCalcModeLabel();
+                    updateToggleLEDs();
+                    saveState();
+                    updateCalculateButton();
+                    updateTabLoop();
+                    // If switching to auto, calculate immediately
+                    if (this.checked) {
+                        calculate();
                 } else {
-                    // Clear result values when auto calculation is turned off, but keep box visible
-                    document.getElementById('elevationValue').textContent = '--';
-                    document.getElementById('baseValue').textContent = '--';
-                    document.getElementById('heightValue').textContent = '--';
-                    document.getElementById('redValue').textContent = '--';
-                    // Hide MIL labels after clearing values
+                    // Show default "0000 MIL" when auto calculation is turned off
+                    rollElevationToNumber(0);
+                    const baseValueEl = document.getElementById('baseValue');
+                    const heightValueEl = document.getElementById('heightValue');
+                    const redValueEl = document.getElementById('redValue');
+                    if (baseValueEl) baseValueEl.textContent = '--';
+                    // Show "--" when auto calculation is off
+                    if (heightValueEl) {
+                        heightValueEl.textContent = '--';
+                    }
+                    if (redValueEl) {
+                        redValueEl.textContent = '--';
+                    }
+                    // Show MIL labels for default "0000"
                     updateMilLabels();
+                }
+                } catch (error) {
+                    console.error('Error in auto calculation toggle:', error);
+                    // Ensure toggle state is still updated even if calculation fails
+                    updateToggleLEDs();
+                    syncArmoredToggles();
                 }
             });
         }
@@ -5252,19 +6457,29 @@
                     if (parts.length === 2) {
                         const gunName = parts[0];
                         const ammoText = parts[1];
-                        // Extract all ammo types with their counts
+                        
+                        // Extract all ammo types with their counts - build complete HTML
                         const ammoItems = [];
-                        ammoText.replace(/(\d+)\s*(HE|SMOKE|AP)\s*rounds,?\s*/g, function(match, count, type) {
-                            const imagePath = `images/UI/Icons/vehicles/${type}_invert_28.png`;
-                            ammoItems.push(`<span style="display: inline-flex; align-items: center; gap: 3px; margin-right: 6px;"><img src="${imagePath}" alt="${type}"><span class="highlight-number">${count}</span> <span class="highlight-number">${type}</span></span>`);
-                            return match;
-                        });
-                        // Create one box containing all ammo types with images
-                        const formattedAmmo = ammoItems.length > 0 
+                        const ammoMatches = ammoText.match(/(\d+)\s*(HE|SMOKE|AP)\s*rounds/g);
+                        if (ammoMatches) {
+                            ammoMatches.forEach(m => {
+                                const match = m.match(/(\d+)\s*(HE|SMOKE|AP)/);
+                                if (match) {
+                                    const count = match[1];
+                                    const type = match[2];
+                                    // Construct image path - type is already uppercase from regex
+                                    const imagePath = `images/UI/Icons/vehicles/${type.toUpperCase()}_invert_28.png`;
+                                    // Build each ammo item with explicit image tag (inside single box)
+                                    ammoItems.push(`<span style="display: inline-flex; align-items: center; gap: 3px; margin-right: 8px;"><img src="${imagePath}" alt="${type}" style="width: 14px; height: 14px; object-fit: contain;"><span class="highlight-number">${count}</span> <span class="highlight-number">${type}</span></span>`);
+                                }
+                            });
+                        }
+                        
+                        // Return gun name + single ammo box containing all ammo types
+                        const ammoBox = ammoItems.length > 0 
                             ? `<span class="ammo-box">${ammoItems.join('')}</span>`
                             : '';
-                        // Gun name highlighted, with spacing before ammo box
-                        return `<span class="highlight-number" style="margin-right: 14px;">${gunName}</span>${formattedAmmo}`;
+                        return `<span class="highlight-number" style="margin-right: 14px;">${gunName}</span>${ammoBox}`;
                     }
                     return `<span class="highlight-number">${text}</span>`;
                 }

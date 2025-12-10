@@ -21,16 +21,16 @@ A web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let 
 
 ## Vehicles Supported
 
-- **British (Bishop SP)** - 25-pounder self-propelled gun
-- **British (Churchill AVRE)** - 290mm breaching vehicle
-- **US (Sherman M4A3 105)** - 105mm close support tank
-- **Soviet Union (KV-2)** - 152mm howitzer tank
-- **DAK (Panzer III Ausf.N)** - 75mm L/24 infantry support
-- **Germany (Sturmpanzer IV Brummbär)** - 150mm urban assault gun
+- **British (Bishop SP)**
+- **British (Churchill AVRE)**
+- **US (Sherman M4A3 105)**
+- **Soviet Union (KV-2)**
+- **DAK (Panzer III Ausf.N)**
+- **Germany (Sturmpanzer IV Brummbär)**
 
 ## Notes
 
-⚠️ **ALPHA VERSION** - This is a demo/alpha release. Calculations may contain errors. Game bugs and other factors may also affect accuracy. Use at your own discretion.
+⚠️ This calculator is still being tested and improved. The results may not always be perfect. Please use your best judgment when using these calculations.
 
 ## Version
 
