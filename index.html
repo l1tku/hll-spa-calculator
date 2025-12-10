@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="HLL SPA Artillery Calculator - Calculate accurate elevation settings for multiple Self-Propelled Artillery vehicles in Hell Let Loose">
     <title>HLL SPA Artillery Calculator</title>
-    <!-- Preload critical tank image for faster initial render -->
+    <!-- Preload critical tank image for faster initial render (WebP with PNG fallback) -->
+    <link rel="preload" as="image" href="images/tanks/BISHOP_248.webp" type="image/webp" fetchpriority="high">
     <link rel="preload" as="image" href="images/tanks/BISHOP_248.png" fetchpriority="high">
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -39,11 +40,12 @@
             appearance: textfield;
         }
         
-        /* Custom background image - optimized loading */
+        /* Custom background image - optimized loading with WebP support */
         body {
             /* Use will-change to hint browser about background optimization */
             will-change: background-image;
-            background-image: url('images/background/background2.png');
+            /* WebP with PNG fallback - massive size reduction */
+            background-image: url('images/background/background2.webp');
             background-size: cover;
             background-position: 20% center;
             background-repeat: no-repeat;
@@ -52,6 +54,13 @@
             image-rendering: -webkit-optimize-contrast;
             image-rendering: crisp-edges;
             color: #d1d5db; /* Default text color: light gray */
+        }
+        
+        /* Fallback for browsers that don't support WebP */
+        @supports not (background-image: url('images/background/background2.webp')) {
+            body {
+                background-image: url('images/background/background2.png');
+            }
         }
         
         body::before {
@@ -3615,7 +3624,10 @@
                                 </div>
                                 <div class="w-64 h-64 overflow-hidden faction-image flex items-center justify-center flex-shrink-0" style="margin-top: 5px; margin-right: 25px; margin-left: 25px;">
                                     <div class="postcard-coords" id="classifiedRefText">REF: 42°N 12°E<br>TARGET DESIGNATION EYESAVE<br>DO NOT DUPLICATE</div>
-                                    <img id="factionImage" src="images/tanks/BISHOP_248.png" alt="Faction" class="max-w-full max-h-full object-contain" fetchpriority="high" decoding="async">
+                                    <picture>
+                                        <source srcset="images/tanks/BISHOP_248.webp" type="image/webp">
+                                        <img id="factionImage" src="images/tanks/BISHOP_248.png" alt="Faction" class="max-w-full max-h-full object-contain" fetchpriority="high" decoding="async">
+                                    </picture>
                                 </div>
                             </div>
                         </div>
@@ -3657,7 +3669,7 @@
                             </div>
                         </div>
                         
-                        <div class="panel-section">
+                        <div class="panel-section" style="margin-bottom: 0;">
                             <div class="armored-rivet-small armored-rivet-small-top-left"></div>
                             <div class="armored-rivet-small armored-rivet-small-top-right"></div>
                             <div class="armored-rivet-small armored-rivet-small-bottom-left"></div>
@@ -3758,12 +3770,15 @@
                         <div class="screenshot-lightbox-close" onclick="event.stopPropagation(); closeScreenshotLightbox();">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                         </div>
-                        <img id="screenshotLightboxImg" src="" alt="Screenshot" onclick="event.stopPropagation();">
+                        <picture>
+                            <source id="screenshotLightboxSource" srcset="" type="image/webp">
+                            <img id="screenshotLightboxImg" src="" alt="Screenshot" onclick="event.stopPropagation();">
+                        </picture>
                     </div>
 
                     <!-- Version Info -->
                     <div class="text-xs text-gray-500 text-center mt-4" style="margin-top: calc(1rem - 2px);">
-                        <p>HLL SPA Artillery Calculator v1.0.3 - 2025</p>
+                        <p>HLL SPA Artillery Calculator v1.0.4 - 2025</p>
                         <p class="text-orange-400 mt-1">⚠️ This calculator is still being tested and improved. The results may not always be perfect. Please use your best judgment when using these calculations.</p>
                     </div>
                 </div>
@@ -4148,12 +4163,12 @@
         function updateFactionImage() {
             const faction = document.getElementById('faction').value;
             const factionMap = {
-                'British (Bishop SP)': 'BISHOP_248.png',
-                'British (Churchill AVRE)': 'AVRE_248.png',
-                'US (Sherman M4A3 105)': 'M4A3_248.png',
-                'Soviet Union (KV-2)': 'KV2_248.png',
-                'DAK (Panzer III Ausf.N)': 'PANZERIII_248.png',
-                'Germany (Sturmpanzer IV Brummbär)': 'BRUMMBAR_248.png'
+                'British (Bishop SP)': 'BISHOP_248',
+                'British (Churchill AVRE)': 'AVRE_248',
+                'US (Sherman M4A3 105)': 'M4A3_248',
+                'Soviet Union (KV-2)': 'KV2_248',
+                'DAK (Panzer III Ausf.N)': 'PANZERIII_248',
+                'Germany (Sturmpanzer IV Brummbär)': 'BRUMMBAR_248'
             };
             
             // Classified reference text for each tank
@@ -4190,28 +4205,50 @@
                 }
             };
             
-            const imgName = factionMap[faction] || 'US_30.png';
+            const baseName = factionMap[faction] || 'BISHOP_248';
             const img = document.getElementById('factionImage');
-            if (img) {
+            const picture = img ? img.closest('picture') : null;
+            
+            if (img && picture) {
+                const webpSrc = `images/tanks/${baseName}.webp`;
+                const pngSrc = `images/tanks/${baseName}.png`;
+                
+                // Update picture element - browser will automatically choose WebP if supported
+                const source = picture.querySelector('source');
+                if (source) {
+                    source.srcset = webpSrc;
+                }
+                
                 // Preload the image for smoother transitions
                 const newImage = new Image();
                 newImage.onload = function() {
-                    img.src = this.src;
+                    img.src = pngSrc; // Set PNG as fallback
                     // Remove high priority after initial load to allow other resources
                     if (img.hasAttribute('fetchpriority')) {
                         img.removeAttribute('fetchpriority');
                     }
                 };
                 newImage.onerror = function() {
-                    // Fallback to a default tank image if available
+                    // Fallback to default tank image
+                    if (source) {
+                        source.srcset = 'images/tanks/BISHOP_248.webp';
+                    }
                     img.src = 'images/tanks/BISHOP_248.png';
                 };
-                newImage.src = `images/tanks/${imgName}`;
+                
+                // Preload WebP version (browser will use it if supported)
+                newImage.src = webpSrc;
                 
                 // Also set up error handler on the main image
                 img.onerror = function() {
+                    if (source) {
+                        source.srcset = 'images/tanks/BISHOP_248.webp';
+                    }
                     this.src = 'images/tanks/BISHOP_248.png';
                 };
+            } else if (img) {
+                // Fallback if picture element not found
+                img.src = `images/tanks/${baseName}.png`;
             }
             
             // Update classified reference text
@@ -6369,11 +6406,16 @@
             const galleryItems = screenshots.map((src, index) => {
                 // Escape quotes in the path for onclick attribute
                 const escapedSrc = src.replace(/'/g, "\\'");
-                // Create thumbnail path by replacing filename with _thumb version
-                const thumbSrc = src.replace(/(\.[^.]+)$/, '_thumb$1');
+                // Create WebP paths (both thumbnail and full)
+                const thumbSrcPNG = src.replace(/(\.[^.]+)$/, '_thumb$1');
+                const thumbSrcWebP = thumbSrcPNG.replace(/\.png$/, '.webp');
+                const fullSrcWebP = src.replace(/\.png$/, '.webp');
                 return `
-                    <div class="screenshot-item" data-src="${escapedSrc}">
-                        <img src="${thumbSrc}" alt="Screenshot ${index + 1}" loading="lazy">
+                    <div class="screenshot-item" data-src="${escapedSrc}" data-src-webp="${fullSrcWebP.replace(/'/g, "\\'")}">
+                        <picture>
+                            <source srcset="${thumbSrcWebP}" type="image/webp">
+                            <img src="${thumbSrcPNG}" alt="Screenshot ${index + 1}" loading="lazy" decoding="async">
+                        </picture>
                     </div>
                 `;
             }).join('');
@@ -6397,17 +6439,41 @@
             const lightbox = document.getElementById('screenshotLightbox');
             const lightboxImg = document.getElementById('screenshotLightboxImg');
             if (lightbox && lightboxImg) {
-                // Get all screenshots from the current gallery
+                // Get all screenshots from the current gallery (both PNG and WebP)
                 const screenshotItems = document.querySelectorAll('.screenshot-item');
-                currentScreenshotGallery = Array.from(screenshotItems).map(item => item.getAttribute('data-src'));
+                currentScreenshotGallery = Array.from(screenshotItems).map(item => {
+                    // Try WebP first, fallback to PNG
+                    const webpSrc = item.getAttribute('data-src-webp');
+                    return webpSrc || item.getAttribute('data-src');
+                });
                 
                 // Find the index of the clicked image
-                currentScreenshotIndex = currentScreenshotGallery.indexOf(src);
-                if (currentScreenshotIndex === -1) {
+                const clickedItem = Array.from(screenshotItems).find(item => 
+                    item.getAttribute('data-src') === src || item.getAttribute('data-src-webp') === src
+                );
+                if (clickedItem) {
+                    const webpSrc = clickedItem.getAttribute('data-src-webp');
+                    const pngSrc = clickedItem.getAttribute('data-src');
+                    
+                    // Use picture element for WebP with PNG fallback
+                    const picture = lightboxImg.closest('picture');
+                    if (picture) {
+                        const source = picture.querySelector('source');
+                        if (source && webpSrc) {
+                            source.srcset = webpSrc;
+                        }
+                        lightboxImg.src = pngSrc || src;
+                    } else {
+                        // Fallback if no picture element
+                        lightboxImg.src = webpSrc || pngSrc || src;
+                    }
+                    
+                    currentScreenshotIndex = Array.from(screenshotItems).indexOf(clickedItem);
+                } else {
                     currentScreenshotIndex = 0;
+                    lightboxImg.src = currentScreenshotGallery[0] || src;
                 }
                 
-                lightboxImg.src = src;
                 lightbox.classList.add('active');
             }
         };
@@ -6426,8 +6492,18 @@
             }
             
             const lightboxImg = document.getElementById('screenshotLightboxImg');
-            if (lightboxImg) {
-                lightboxImg.src = currentScreenshotGallery[currentScreenshotIndex];
+            const lightboxSource = document.getElementById('screenshotLightboxSource');
+            const screenshotItems = document.querySelectorAll('.screenshot-item');
+            
+            if (lightboxImg && screenshotItems[currentScreenshotIndex]) {
+                const item = screenshotItems[currentScreenshotIndex];
+                const webpSrc = item.getAttribute('data-src-webp');
+                const pngSrc = item.getAttribute('data-src');
+                
+                if (lightboxSource && webpSrc) {
+                    lightboxSource.srcset = webpSrc;
+                }
+                lightboxImg.src = pngSrc || currentScreenshotGallery[currentScreenshotIndex];
             }
         };
 

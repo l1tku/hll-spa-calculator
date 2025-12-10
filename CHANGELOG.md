@@ -8,8 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.4] - 2025-01-XX
 
 ### Performance
+- **Massive image size reduction with WebP format**
+  - Background image: 6.3 MB → 178 KB (97% reduction!)
+  - Tank images: 45-68 KB → 7-13 KB (80% reduction!)
+  - Implemented WebP with PNG fallback for maximum browser compatibility
 - Optimized image loading for faster page load times
-  - Added preload for critical tank images with high priority
+  - Added preload for critical tank images with high priority (WebP + PNG)
   - Implemented lazy loading for non-critical images (flag icons, vehicle icons, screenshots)
   - Added async decoding for all images to prevent blocking main thread
   - Improved tank image switching with preloading for smoother transitions
