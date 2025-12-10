@@ -3433,9 +3433,21 @@
             justify-content: center;
         }
 
-        .screenshot-lightbox img {
+        .screenshot-lightbox picture {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             max-width: 90%;
             max-height: 90%;
+            margin: auto;
+        }
+
+        .screenshot-lightbox img {
+            max-width: 100%;
+            max-height: 90vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
             border: 3px solid #8b6914;
             border-top: 4px solid #8b6914;
             border-bottom: 4px solid #8b6914;
@@ -3445,6 +3457,7 @@
                 inset 0 0 30px rgba(139, 105, 20, 0.1);
             filter: grayscale(100%) contrast(1.15) brightness(0.95) sepia(0.1);
             position: relative;
+            margin: auto;
         }
 
         /* Vintage photo frame effect */

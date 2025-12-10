@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.4] - 2025-01-XX
 
+### Fixed
+- Fixed screenshot lightbox image not being centered when displayed
+
 ### Performance
 - **Massive image size reduction with WebP format**
   - Background image: 6.3 MB → 178 KB (97% reduction!)
