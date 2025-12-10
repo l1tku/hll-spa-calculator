@@ -6528,6 +6528,9 @@
 
         // Function to open screenshot in lightbox (make it global)
         window.openScreenshotLightbox = function(src) {
+            // #region agent log
+            fetch('http://127.0.0.1:7242/ingest/28125f55-0e6d-43a1-ac1a-2bf78147e3ae',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index.html:6530',message:'openScreenshotLightbox called',data:{targetSrc:src},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+            // #endregion
             const lightbox = document.getElementById('screenshotLightbox');
             const lightboxImg = document.getElementById('screenshotLightboxImg');
             const lightboxSource = document.getElementById('screenshotLightboxSource');
@@ -6537,6 +6540,17 @@
                 const blankPixel = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
                 const lightboxPicture = lightboxImg.closest('picture');
                 
+                // #region agent log
+                fetch('http://127.0.0.1:7242/ingest/28125f55-0e6d-43a1-ac1a-2bf78147e3ae',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index.html:6540',message:'Function start - checking if needs clearing',data:{isActive:lightbox.classList.contains('active'),currentSrc:lightboxImg.src,isBlankPixel:lightboxImg.src===blankPixel},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+                // #endregion
+                
+                // ALWAYS hide picture element first if lightbox is active - prevents any rendering
+                if (lightbox.classList.contains('active') && lightboxPicture) {
+                    lightboxPicture.style.display = 'none';
+                    lightboxPicture.style.visibility = 'hidden';
+                    lightboxPicture.style.opacity = '0';
+                }
+                
                 if (lightbox.classList.contains('active') && lightboxImg.src && lightboxImg.src !== blankPixel) {
                     // Force hide with multiple methods: class, styles, and blank pixel
                     lightboxImg.classList.add('hiding');
@@ -6545,13 +6559,9 @@
                     lightboxImg.style.display = 'none';
                     lightboxImg.style.transition = 'none';
                     
-                    if (lightboxPicture) {
-                        lightboxPicture.style.display = 'none';
-                    }
-                    
-                    // Clear sources immediately and set to blank pixel to force clear
-                    if (lightboxSource) {
-                        lightboxSource.srcset = '';
+                    // REMOVE source element from DOM entirely to prevent browser from using it
+                    if (lightboxSource && lightboxSource.parentNode) {
+                        lightboxSource.parentNode.removeChild(lightboxSource);
                     }
                     lightboxImg.src = blankPixel;
                     lightboxImg.removeAttribute('srcset');
@@ -6559,6 +6569,10 @@
                     // Force multiple reflows to ensure the blank pixel is rendered
                     void lightboxImg.offsetHeight;
                     void lightboxImg.offsetWidth;
+                    
+                    // #region agent log
+                    fetch('http://127.0.0.1:7242/ingest/28125f55-0e6d-43a1-ac1a-2bf78147e3ae',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index.html:6562',message:'Function cleared old image',data:{newSrc:lightboxImg.src,opacity:lightboxImg.style.opacity,visibility:lightboxImg.style.visibility,display:lightboxImg.style.display},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+                    // #endregion
                 }
                 
                 // Get all screenshots from the current gallery (both PNG and WebP)
@@ -6597,24 +6611,51 @@
                 const newImg = new Image();
                 let imageLoaded = false;
                 
+                // #region agent log
+                fetch('http://127.0.0.1:7242/ingest/28125f55-0e6d-43a1-ac1a-2bf78147e3ae',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index.html:6596',message:'Starting preload',data:{targetSrc:targetSrc,targetWebpSrc:targetWebpSrc},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+                // #endregion
+                
                 const switchImage = function() {
                     if (imageLoaded) return; // Prevent multiple calls
                     imageLoaded = true;
                     
-                    // Update source elements
-                    if (lightboxSource && targetWebpSrc) {
-                        lightboxSource.srcset = targetWebpSrc;
-                    } else if (lightboxSource) {
-                        lightboxSource.srcset = '';
+                    // #region agent log
+                    fetch('http://127.0.0.1:7242/ingest/28125f55-0e6d-43a1-ac1a-2bf78147e3ae',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index.html:6600',message:'switchImage called - about to set new src',data:{targetSrc:targetSrc,currentImgSrc:lightboxImg.src,newImgComplete:newImg.complete},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+                    // #endregion
+                    
+                    // Recreate source element if it was removed, or update existing one
+                    const pictureElement = lightboxImg.closest('picture');
+                    let currentSource = pictureElement ? pictureElement.querySelector('source') : null;
+                    
+                    if (targetWebpSrc) {
+                        if (!currentSource) {
+                            // Recreate source element if it was removed
+                            currentSource = document.createElement('source');
+                            currentSource.id = 'screenshotLightboxSource';
+                            currentSource.type = 'image/webp';
+                            if (pictureElement) {
+                                pictureElement.insertBefore(currentSource, lightboxImg);
+                            }
+                        }
+                        currentSource.srcset = targetWebpSrc;
+                    } else if (currentSource && currentSource.parentNode) {
+                        // Remove source if no WebP version
+                        currentSource.parentNode.removeChild(currentSource);
                     }
                     
                     // Set the new image source
                     lightboxImg.src = targetSrc;
                     
-                    // Restore picture element display
-                    const lightboxPicture = lightboxImg.closest('picture');
+                    // #region agent log
+                    fetch('http://127.0.0.1:7242/ingest/28125f55-0e6d-43a1-ac1a-2bf78147e3ae',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index.html:6612',message:'New src set - before restoring visibility',data:{newSrc:lightboxImg.src,opacity:lightboxImg.style.opacity,visibility:lightboxImg.style.visibility,display:lightboxImg.style.display},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+                    // #endregion
+                    
+                    // Restore picture element display and visibility
+                    const lightboxPicture = pictureElement;
                     if (lightboxPicture) {
                         lightboxPicture.style.display = '';
+                        lightboxPicture.style.visibility = '';
+                        lightboxPicture.style.opacity = '';
                     }
                     
                     // Remove hiding class and restore visibility
@@ -6627,19 +6668,36 @@
                         requestAnimationFrame(function() {
                             lightboxImg.style.transition = 'opacity 0.2s ease';
                             lightboxImg.style.opacity = '1';
+                            
+                            // #region agent log
+                            fetch('http://127.0.0.1:7242/ingest/28125f55-0e6d-43a1-ac1a-2bf78147e3ae',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index.html:6630',message:'Fade-in animation started',data:{finalOpacity:lightboxImg.style.opacity,src:lightboxImg.src},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+                            // #endregion
                         });
                     });
                 };
                 
                 // Set up load handlers before setting src
-                newImg.onload = switchImage;
-                newImg.onerror = switchImage; // Still show image even if preload fails
+                newImg.onload = function() {
+                    // #region agent log
+                    fetch('http://127.0.0.1:7242/ingest/28125f55-0e6d-43a1-ac1a-2bf78147e3ae',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index.html:6637',message:'Preload onload fired',data:{targetSrc:targetSrc},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+                    // #endregion
+                    switchImage();
+                };
+                newImg.onerror = function() {
+                    // #region agent log
+                    fetch('http://127.0.0.1:7242/ingest/28125f55-0e6d-43a1-ac1a-2bf78147e3ae',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index.html:6641',message:'Preload onerror fired',data:{targetSrc:targetSrc},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+                    // #endregion
+                    switchImage(); // Still show image even if preload fails
+                };
                 
                 // Start loading
                 newImg.src = targetSrc;
                 
                 // If image is already cached, onload may not fire, so check immediately
                 if (newImg.complete) {
+                    // #region agent log
+                    fetch('http://127.0.0.1:7242/ingest/28125f55-0e6d-43a1-ac1a-2bf78147e3ae',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index.html:6650',message:'Image already complete - calling switchImage immediately',data:{targetSrc:targetSrc},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+                    // #endregion
                     switchImage();
                 }
                 
@@ -6992,10 +7050,26 @@
                     const screenshotItems = tankInfoContent.querySelectorAll('.screenshot-item');
                     screenshotItems.forEach(item => {
                         item.addEventListener('click', function(e) {
+                            // #region agent log
+                            fetch('http://127.0.0.1:7242/ingest/28125f55-0e6d-43a1-ac1a-2bf78147e3ae',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index.html:6994',message:'Click handler fired',data:{clickedSrc:this.getAttribute('data-src'),clickedWebp:this.getAttribute('data-src-webp')},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+                            // #endregion
                             // IMMEDIATELY clear old image before opening new one to prevent flash
                             const lightboxImg = document.getElementById('screenshotLightboxImg');
                             const lightboxSource = document.getElementById('screenshotLightboxSource');
                             const lightboxPicture = lightboxImg ? lightboxImg.closest('picture') : null;
+                            
+                            // #region agent log
+                            if (lightboxImg) {
+                                fetch('http://127.0.0.1:7242/ingest/28125f55-0e6d-43a1-ac1a-2bf78147e3ae',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index.html:7000',message:'Before clearing - current state',data:{currentSrc:lightboxImg.src,hasSrc:!!lightboxImg.src,opacity:lightboxImg.style.opacity,visibility:lightboxImg.style.visibility,display:lightboxImg.style.display,sourceSrcset:lightboxSource?lightboxSource.srcset:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+                            }
+                            // #endregion
+                            
+                            // ALWAYS hide picture element FIRST to prevent any rendering
+                            if (lightboxPicture) {
+                                lightboxPicture.style.display = 'none';
+                                lightboxPicture.style.visibility = 'hidden';
+                                lightboxPicture.style.opacity = '0';
+                            }
                             
                             if (lightboxImg && lightboxImg.src) {
                                 // Use multiple methods to hide: class, styles, and blank pixel
@@ -7005,25 +7079,35 @@
                                 lightboxImg.style.visibility = 'hidden';
                                 lightboxImg.style.display = 'none';
                                 lightboxImg.style.transition = 'none';
-                                if (lightboxSource) {
-                                    lightboxSource.srcset = '';
+                                
+                                // REMOVE source element from DOM entirely to prevent browser from using it
+                                let sourceRemoved = false;
+                                if (lightboxSource && lightboxSource.parentNode) {
+                                    lightboxSource.parentNode.removeChild(lightboxSource);
+                                    sourceRemoved = true;
                                 }
-                                if (lightboxPicture) {
-                                    lightboxPicture.style.display = 'none';
-                                }
+                                
                                 lightboxImg.src = blankPixel;
                                 lightboxImg.removeAttribute('srcset');
+                                
                                 // Force multiple reflows to ensure changes take effect
                                 void lightboxImg.offsetHeight;
                                 void lightboxImg.offsetWidth;
+                                
+                                // #region agent log
+                                fetch('http://127.0.0.1:7242/ingest/28125f55-0e6d-43a1-ac1a-2bf78147e3ae',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index.html:7070',message:'After clearing - new state',data:{newSrc:lightboxImg.src,opacity:lightboxImg.style.opacity,visibility:lightboxImg.style.visibility,display:lightboxImg.style.display,hasHidingClass:lightboxImg.classList.contains('hiding'),pictureDisplay:lightboxPicture?lightboxPicture.style.display:null,sourceRemoved:sourceRemoved},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+                                // #endregion
                             }
                             
                             const src = this.getAttribute('data-src');
                             const webpSrc = this.getAttribute('data-src-webp');
-                            // Use setTimeout to ensure clearing happens before opening
-                            setTimeout(function() {
-                                openScreenshotLightbox(webpSrc || src);
-                            }, 0);
+                            
+                            // #region agent log
+                            fetch('http://127.0.0.1:7242/ingest/28125f55-0e6d-43a1-ac1a-2bf78147e3ae',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index.html:7075',message:'About to call openScreenshotLightbox synchronously',data:{targetSrc:webpSrc||src,lightboxImgSrc:lightboxImg?lightboxImg.src:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+                            // #endregion
+                            
+                            // Call synchronously - no setTimeout to prevent browser from rendering old image
+                            openScreenshotLightbox(webpSrc || src);
                         });
                     });
                 });
