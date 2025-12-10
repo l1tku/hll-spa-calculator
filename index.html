@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="HLL SPA Artillery Calculator - Calculate accurate elevation settings for multiple Self-Propelled Artillery vehicles in Hell Let Loose">
     <title>HLL SPA Artillery Calculator</title>
+    <!-- Preload critical tank image for faster initial render -->
+    <link rel="preload" as="image" href="images/tanks/BISHOP_248.png" fetchpriority="high">
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
@@ -37,13 +39,18 @@
             appearance: textfield;
         }
         
-        /* Custom background image */
+        /* Custom background image - optimized loading */
         body {
+            /* Use will-change to hint browser about background optimization */
+            will-change: background-image;
             background-image: url('images/background/background2.png');
             background-size: cover;
             background-position: 20% center;
             background-repeat: no-repeat;
             background-attachment: fixed;
+            /* Use contain/cover optimization */
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
             color: #d1d5db; /* Default text color: light gray */
         }
         
@@ -3574,26 +3581,26 @@
                                     <div class="custom-select-wrapper" style="display: flex; align-items: center; gap: 8px;">
                                         <div class="custom-select" style="flex-shrink: 1; position: relative; flex: 1; min-width: 0; max-width: 100%;">
                                             <div class="select-selected" id="selectSelected">
-                                                <img src="images/UI/Icons/flags/BRITISH_30.png" alt="BRITISH" class="flag-icon"> <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0;">British (Bishop SP)</span>
+                                                <img src="images/UI/Icons/flags/BRITISH_30.png" alt="BRITISH" class="flag-icon" loading="eager" decoding="async"> <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0;">British (Bishop SP)</span>
                                             </div>
                                             <div class="select-items select-hide" id="selectItems">
                                                 <div data-value="British (Bishop SP)">
-                                                    <img src="images/UI/Icons/flags/BRITISH_30.png" alt="BRITISH" class="flag-icon"> British (Bishop SP)
+                                                    <img src="images/UI/Icons/flags/BRITISH_30.png" alt="BRITISH" class="flag-icon" loading="lazy" decoding="async"> British (Bishop SP)
                                                 </div>
                                                 <div data-value="British (Churchill AVRE)">
-                                                    <img src="images/UI/Icons/flags/BRITISH_30.png" alt="BRITISH" class="flag-icon"> British (Churchill AVRE)
+                                                    <img src="images/UI/Icons/flags/BRITISH_30.png" alt="BRITISH" class="flag-icon" loading="lazy" decoding="async"> British (Churchill AVRE)
                                                 </div>
                                                 <div data-value="US (Sherman M4A3 105)">
-                                                    <img src="images/UI/Icons/flags/US_30.png" alt="US" class="flag-icon"> US (Sherman M4A3)
+                                                    <img src="images/UI/Icons/flags/US_30.png" alt="US" class="flag-icon" loading="lazy" decoding="async"> US (Sherman M4A3)
                                                 </div>
                                                 <div data-value="Soviet Union (KV-2)">
-                                                    <img src="images/UI/Icons/flags/SOVIET_30.png" alt="USSR" class="flag-icon"> Soviet Union (KV-2)
+                                                    <img src="images/UI/Icons/flags/SOVIET_30.png" alt="USSR" class="flag-icon" loading="lazy" decoding="async"> Soviet Union (KV-2)
                                                 </div>
                                                 <div data-value="DAK (Panzer III Ausf.N)">
-                                                    <img src="images/UI/Icons/flags/GERMANY_30.png" alt="Germany" class="flag-icon"> DAK (Panzer III Ausf.N)
+                                                    <img src="images/UI/Icons/flags/GERMANY_30.png" alt="Germany" class="flag-icon" loading="lazy" decoding="async"> DAK (Panzer III Ausf.N)
                                                 </div>
                                                 <div data-value="Germany (Sturmpanzer IV Brummbär)">
-                                                    <img src="images/UI/Icons/flags/GERMANY_30.png" alt="Germany" class="flag-icon"> Germany (Sturmpanzer IV Brummbär)
+                                                    <img src="images/UI/Icons/flags/GERMANY_30.png" alt="Germany" class="flag-icon" loading="lazy" decoding="async"> Germany (Sturmpanzer IV Brummbär)
                                                 </div>
                                             </div>
                                         </div>
@@ -3608,7 +3615,7 @@
                                 </div>
                                 <div class="w-64 h-64 overflow-hidden faction-image flex items-center justify-center flex-shrink-0" style="margin-top: 5px; margin-right: 25px; margin-left: 25px;">
                                     <div class="postcard-coords" id="classifiedRefText">REF: 42°N 12°E<br>TARGET DESIGNATION EYESAVE<br>DO NOT DUPLICATE</div>
-                                    <img id="factionImage" src="images/tanks/BISHOP_248.png" alt="Faction" class="max-w-full max-h-full object-contain">
+                                    <img id="factionImage" src="images/tanks/BISHOP_248.png" alt="Faction" class="max-w-full max-h-full object-contain" fetchpriority="high" decoding="async">
                                 </div>
                             </div>
                         </div>
@@ -4186,9 +4193,23 @@
             const imgName = factionMap[faction] || 'US_30.png';
             const img = document.getElementById('factionImage');
             if (img) {
-                img.src = `images/tanks/${imgName}`;
-                img.onerror = function() {
+                // Preload the image for smoother transitions
+                const newImage = new Image();
+                newImage.onload = function() {
+                    img.src = this.src;
+                    // Remove high priority after initial load to allow other resources
+                    if (img.hasAttribute('fetchpriority')) {
+                        img.removeAttribute('fetchpriority');
+                    }
+                };
+                newImage.onerror = function() {
                     // Fallback to a default tank image if available
+                    img.src = 'images/tanks/BISHOP_248.png';
+                };
+                newImage.src = `images/tanks/${imgName}`;
+                
+                // Also set up error handler on the main image
+                img.onerror = function() {
                     this.src = 'images/tanks/BISHOP_248.png';
                 };
             }
@@ -5528,7 +5549,7 @@
                     const selectSelected = document.getElementById('selectSelected');
                     // Format faction name for display (remove "105" from M4A3)
                     const displayName = state.faction.replace(' (Sherman M4A3 105)', ' (Sherman M4A3)');
-                    selectSelected.innerHTML = `<img src="images/UI/Icons/flags/${flag}" alt="${flag.split('.')[0]}" class="flag-icon"> <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0;">${displayName}</span>`;
+                    selectSelected.innerHTML = `<img src="images/UI/Icons/flags/${flag}" alt="${flag.split('.')[0]}" class="flag-icon" loading="eager" decoding="async"> <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0;">${displayName}</span>`;
 
                     updateFactionImage();
                 }
@@ -6470,7 +6491,7 @@
                                     // Construct image path - type is already uppercase from regex
                                     const imagePath = `images/UI/Icons/vehicles/${type.toUpperCase()}_invert_28.png`;
                                     // Build each ammo item with explicit image tag (inside single box)
-                                    ammoItems.push(`<span style="display: inline-flex; align-items: center; gap: 3px; margin-right: 8px;"><img src="${imagePath}" alt="${type}" style="width: 14px; height: 14px; object-fit: contain;"><span class="highlight-number">${count}</span> <span class="highlight-number">${type}</span></span>`);
+                                    ammoItems.push(`<span style="display: inline-flex; align-items: center; gap: 3px; margin-right: 8px;"><img src="${imagePath}" alt="${type}" style="width: 14px; height: 14px; object-fit: contain;" loading="lazy" decoding="async"><span class="highlight-number">${count}</span> <span class="highlight-number">${type}</span></span>`);
                                 }
                             });
                         }
@@ -6515,7 +6536,7 @@
                             const rounds = ammoMatch[1];
                             const magazines = ammoMatch[2];
                             const imagePath = 'images/UI/Icons/vehicles/T_HUD_Status_Ammo_invert_28.png';
-                            return `<span class="highlight-number" style="margin-right: 14px;">${gunName}</span><span class="ammo-box"><img src="${imagePath}" alt="Ammo"><span class="highlight-number">${rounds}</span> rounds × <span class="highlight-number">${magazines}</span> magazines</span>`;
+                            return `<span class="highlight-number" style="margin-right: 14px;">${gunName}</span><span class="ammo-box"><img src="${imagePath}" alt="Ammo" loading="lazy" decoding="async"><span class="highlight-number">${rounds}</span> rounds × <span class="highlight-number">${magazines}</span> magazines</span>`;
                         }
                     }
                     // Fallback to highlight full text
