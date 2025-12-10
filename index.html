@@ -3150,26 +3150,26 @@
                                     <div class="custom-select-wrapper" style="display: flex; align-items: center; gap: 8px;">
                                         <div class="custom-select" style="flex-shrink: 1; position: relative; flex: 1; min-width: 0; max-width: 100%;">
                                             <div class="select-selected" id="selectSelected">
-                                                <img src="images/UI/Icons/flags/BRITISH.png" alt="BRITISH" class="flag-icon"> <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0;">British (Bishop SP)</span>
+                                                <img src="images/UI/Icons/flags/BRITISH_30.png" alt="BRITISH" class="flag-icon"> <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0;">British (Bishop SP)</span>
                                             </div>
                                             <div class="select-items select-hide" id="selectItems">
                                                 <div data-value="British (Bishop SP)">
-                                                    <img src="images/UI/Icons/flags/BRITISH.png" alt="BRITISH" class="flag-icon"> British (Bishop SP)
+                                                    <img src="images/UI/Icons/flags/BRITISH_30.png" alt="BRITISH" class="flag-icon"> British (Bishop SP)
                                                 </div>
                                                 <div data-value="British (Churchill AVRE)">
-                                                    <img src="images/UI/Icons/flags/BRITISH.png" alt="BRITISH" class="flag-icon"> British (Churchill AVRE)
+                                                    <img src="images/UI/Icons/flags/BRITISH_30.png" alt="BRITISH" class="flag-icon"> British (Churchill AVRE)
                                                 </div>
                                                 <div data-value="US (Sherman M4A3 105)">
-                                                    <img src="images/UI/Icons/flags/US.png" alt="US" class="flag-icon"> US (Sherman M4A3)
+                                                    <img src="images/UI/Icons/flags/US_30.png" alt="US" class="flag-icon"> US (Sherman M4A3)
                                                 </div>
                                                 <div data-value="Soviet Union (KV-2)">
-                                                    <img src="images/UI/Icons/flags/SOVIET.png" alt="USSR" class="flag-icon"> Soviet Union (KV-2)
+                                                    <img src="images/UI/Icons/flags/SOVIET_30.png" alt="USSR" class="flag-icon"> Soviet Union (KV-2)
                                                 </div>
                                                 <div data-value="DAK (Panzer III Ausf.N)">
-                                                    <img src="images/UI/Icons/flags/GERMANY.png" alt="Germany" class="flag-icon"> DAK (Panzer III Ausf.N)
+                                                    <img src="images/UI/Icons/flags/GERMANY_30.png" alt="Germany" class="flag-icon"> DAK (Panzer III Ausf.N)
                                                 </div>
                                                 <div data-value="Germany (Sturmpanzer IV Brummbär)">
-                                                    <img src="images/UI/Icons/flags/GERMANY.png" alt="Germany" class="flag-icon"> Germany (Sturmpanzer IV Brummbär)
+                                                    <img src="images/UI/Icons/flags/GERMANY_30.png" alt="Germany" class="flag-icon"> Germany (Sturmpanzer IV Brummbär)
                                                 </div>
                                             </div>
                                         </div>
@@ -3330,7 +3330,7 @@
 
                     <!-- Version Info -->
                     <div class="text-xs text-gray-500 text-center mt-4" style="margin-top: calc(1rem - 2px);">
-                        <p>HLL SPA Artillery Calculator - 2025</p>
+                        <p>HLL SPA Artillery Calculator v1.0.1 - 2025</p>
                         <p class="text-orange-400 mt-1">⚠️ This calculator is still being tested and improved. The results may not always be perfect. Please use your best judgment when using these calculations.</p>
                     </div>
                 </div>
@@ -3757,7 +3757,7 @@
                 }
             };
             
-            const imgName = factionMap[faction] || 'US.png';
+            const imgName = factionMap[faction] || 'US_30.png';
             const img = document.getElementById('factionImage');
             if (img) {
                 img.src = `images/tanks/${imgName}`;
@@ -4418,15 +4418,15 @@
 
                     // Update custom select display
                     const flagMap = {
-                        'British (Bishop SP)': 'BRITISH.png',
-                        'British (Churchill AVRE)': 'BRITISH.png',
-                        'US (Sherman M4A3 105)': 'US.png',
-                        'Soviet Union (KV-2)': 'SOVIET.png',
-                        'DAK (Panzer III Ausf.N)': 'GERMANY.png',
-                        'Germany (Sturmpanzer IV Brummbär)': 'GERMANY.png'
+                        'British (Bishop SP)': 'BRITISH_30.png',
+                        'British (Churchill AVRE)': 'BRITISH_30.png',
+                        'US (Sherman M4A3 105)': 'US_30.png',
+                        'Soviet Union (KV-2)': 'SOVIET_30.png',
+                        'DAK (Panzer III Ausf.N)': 'GERMANY_30.png',
+                        'Germany (Sturmpanzer IV Brummbär)': 'GERMANY_30.png'
                     };
 
-                    const flag = flagMap[state.faction] || 'BRITISH.png';
+                    const flag = flagMap[state.faction] || 'BRITISH_30.png';
                     const selectSelected = document.getElementById('selectSelected');
                     // Format faction name for display (remove "105" from M4A3)
                     const displayName = state.faction.replace(' (Sherman M4A3 105)', ' (Sherman M4A3)');
@@ -5143,9 +5143,11 @@
             const galleryItems = screenshots.map((src, index) => {
                 // Escape quotes in the path for onclick attribute
                 const escapedSrc = src.replace(/'/g, "\\'");
+                // Create thumbnail path by replacing filename with _thumb version
+                const thumbSrc = src.replace(/(\.[^.]+)$/, '_thumb$1');
                 return `
                     <div class="screenshot-item" data-src="${escapedSrc}">
-                        <img src="${src}" alt="Screenshot ${index + 1}" loading="lazy">
+                        <img src="${thumbSrc}" alt="Screenshot ${index + 1}" loading="lazy">
                     </div>
                 `;
             }).join('');
@@ -5253,7 +5255,7 @@
                         // Extract all ammo types with their counts
                         const ammoItems = [];
                         ammoText.replace(/(\d+)\s*(HE|SMOKE|AP)\s*rounds,?\s*/g, function(match, count, type) {
-                            const imagePath = `images/UI/Icons/vehicles/${type}.png`;
+                            const imagePath = `images/UI/Icons/vehicles/${type}_invert_28.png`;
                             ammoItems.push(`<span style="display: inline-flex; align-items: center; gap: 3px; margin-right: 6px;"><img src="${imagePath}" alt="${type}"><span class="highlight-number">${count}</span> <span class="highlight-number">${type}</span></span>`);
                             return match;
                         });
@@ -5297,7 +5299,7 @@
                         if (ammoMatch) {
                             const rounds = ammoMatch[1];
                             const magazines = ammoMatch[2];
-                            const imagePath = 'images/UI/Icons/vehicles/T_HUD_Status_Ammo.png';
+                            const imagePath = 'images/UI/Icons/vehicles/T_HUD_Status_Ammo_invert_28.png';
                             return `<span class="highlight-number" style="margin-right: 14px;">${gunName}</span><span class="ammo-box"><img src="${imagePath}" alt="Ammo"><span class="highlight-number">${rounds}</span> rounds × <span class="highlight-number">${magazines}</span> magazines</span>`;
                         }
                     }
