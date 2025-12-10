@@ -6526,18 +6526,25 @@
             const lightboxImg = document.getElementById('screenshotLightboxImg');
             const lightboxSource = document.getElementById('screenshotLightboxSource');
             if (lightbox && lightboxImg) {
-                // IMMEDIATELY clear old image source to prevent showing old image
-                // This must happen before anything else
-                if (lightbox.classList.contains('active') && lightboxImg.src) {
-                    // Hide image immediately
+                // IMMEDIATELY clear old image source using transparent pixel to force clear
+                // This must happen before anything else to prevent old image flash
+                const blankPixel = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+                
+                if (lightbox.classList.contains('active') && lightboxImg.src && lightboxImg.src !== blankPixel) {
+                    // Force hide with multiple methods
                     lightboxImg.style.opacity = '0';
+                    lightboxImg.style.visibility = 'hidden';
                     lightboxImg.style.transition = 'none';
-                    // Clear sources immediately
+                    
+                    // Clear sources immediately and set to blank pixel to force clear
                     if (lightboxSource) {
                         lightboxSource.srcset = '';
                     }
-                    lightboxImg.src = '';
+                    lightboxImg.src = blankPixel;
                     lightboxImg.removeAttribute('srcset');
+                    
+                    // Force a reflow to ensure the blank pixel is rendered
+                    void lightboxImg.offsetHeight;
                 }
                 
                 // Get all screenshots from the current gallery (both PNG and WebP)
@@ -6566,8 +6573,9 @@
                 }
                 
                 // If opening fresh, start with image hidden
-                if (!lightbox.classList.contains('active') || !lightboxImg.src) {
+                if (!lightbox.classList.contains('active') || !lightboxImg.src || lightboxImg.src === blankPixel) {
                     lightboxImg.style.opacity = '0';
+                    lightboxImg.style.visibility = 'hidden';
                     lightboxImg.style.transition = '';
                 }
                 
@@ -6585,9 +6593,13 @@
                     } else if (lightboxSource) {
                         lightboxSource.srcset = '';
                     }
+                    
+                    // Set the new image source
                     lightboxImg.src = targetSrc;
                     
-                    // Fade in the new image after a brief delay to ensure old image is cleared
+                    // Restore visibility and fade in the new image
+                    lightboxImg.style.visibility = 'visible';
+                    // Use multiple requestAnimationFrames to ensure DOM updates
                     requestAnimationFrame(function() {
                         requestAnimationFrame(function() {
                             lightboxImg.style.transition = 'opacity 0.2s ease';
