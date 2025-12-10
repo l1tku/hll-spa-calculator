@@ -6563,8 +6563,13 @@
                     if (lightboxSource && lightboxSource.parentNode) {
                         lightboxSource.parentNode.removeChild(lightboxSource);
                     }
-                    lightboxImg.src = blankPixel;
+                    // Remove src entirely instead of setting to blank pixel - prevents browser from showing cached image
+                    lightboxImg.removeAttribute('src');
                     lightboxImg.removeAttribute('srcset');
+                    // Also clear any cached image data
+                    if (lightboxImg.complete) {
+                        lightboxImg.src = '';
+                    }
                     
                     // Force multiple reflows to ensure the blank pixel is rendered
                     void lightboxImg.offsetHeight;
@@ -6643,37 +6648,61 @@
                         currentSource.parentNode.removeChild(currentSource);
                     }
                     
-                    // Set the new image source
+                    // Set the new image source BUT keep picture hidden until image loads
                     lightboxImg.src = targetSrc;
                     
                     // #region agent log
-                    fetch('http://127.0.0.1:7242/ingest/28125f55-0e6d-43a1-ac1a-2bf78147e3ae',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index.html:6612',message:'New src set - before restoring visibility',data:{newSrc:lightboxImg.src,opacity:lightboxImg.style.opacity,visibility:lightboxImg.style.visibility,display:lightboxImg.style.display},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+                    fetch('http://127.0.0.1:7242/ingest/28125f55-0e6d-43a1-ac1a-2bf78147e3ae',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index.html:6652',message:'New src set - keeping picture hidden until ready',data:{newSrc:lightboxImg.src},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
                     // #endregion
                     
-                    // Restore picture element display and visibility
-                    const lightboxPicture = pictureElement;
-                    if (lightboxPicture) {
-                        lightboxPicture.style.display = '';
-                        lightboxPicture.style.visibility = '';
-                        lightboxPicture.style.opacity = '';
-                    }
-                    
-                    // Remove hiding class and restore visibility
-                    lightboxImg.classList.remove('hiding');
-                    lightboxImg.style.display = '';
-                    lightboxImg.style.visibility = 'visible';
-                    
-                    // Use multiple requestAnimationFrames to ensure DOM updates
-                    requestAnimationFrame(function() {
+                    // Function to show the new image
+                    const showNewImage = function() {
+                        // Restore picture element display and visibility
+                        const lightboxPicture = pictureElement;
+                        if (lightboxPicture) {
+                            lightboxPicture.style.display = '';
+                            lightboxPicture.style.visibility = '';
+                            lightboxPicture.style.opacity = '';
+                        }
+                        
+                        // Remove hiding class and restore visibility
+                        lightboxImg.classList.remove('hiding');
+                        lightboxImg.style.display = '';
+                        lightboxImg.style.visibility = 'visible';
+                        
+                        // Use multiple requestAnimationFrames to ensure DOM updates
                         requestAnimationFrame(function() {
-                            lightboxImg.style.transition = 'opacity 0.2s ease';
-                            lightboxImg.style.opacity = '1';
-                            
-                            // #region agent log
-                            fetch('http://127.0.0.1:7242/ingest/28125f55-0e6d-43a1-ac1a-2bf78147e3ae',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index.html:6630',message:'Fade-in animation started',data:{finalOpacity:lightboxImg.style.opacity,src:lightboxImg.src},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
-                            // #endregion
+                            requestAnimationFrame(function() {
+                                lightboxImg.style.transition = 'opacity 0.2s ease';
+                                lightboxImg.style.opacity = '1';
+                                
+                                // #region agent log
+                                fetch('http://127.0.0.1:7242/ingest/28125f55-0e6d-43a1-ac1a-2bf78147e3ae',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index.html:6676',message:'Fade-in animation started',data:{finalOpacity:lightboxImg.style.opacity,src:lightboxImg.src},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+                                // #endregion
+                            });
                         });
-                    });
+                    };
+                    
+                    // Check if image is already loaded (cached)
+                    if (lightboxImg.complete && lightboxImg.naturalWidth > 0) {
+                        // Image is already loaded, wait a frame + delay to ensure old image is gone
+                        requestAnimationFrame(function() {
+                            setTimeout(showNewImage, 100);
+                        });
+                    } else {
+                        // Wait for image to load
+                        const originalOnload = lightboxImg.onload;
+                        lightboxImg.onload = function() {
+                            if (originalOnload) originalOnload();
+                            setTimeout(showNewImage, 100);
+                        };
+                        const originalOnerror = lightboxImg.onerror;
+                        lightboxImg.onerror = function() {
+                            if (originalOnerror) originalOnerror();
+                            // Even on error, show the image
+                            setTimeout(showNewImage, 100);
+                        };
+                    }
                 };
                 
                 // Set up load handlers before setting src
@@ -7087,8 +7116,13 @@
                                     sourceRemoved = true;
                                 }
                                 
-                                lightboxImg.src = blankPixel;
+                                // Remove src entirely instead of setting to blank pixel - prevents browser from showing cached image
+                                lightboxImg.removeAttribute('src');
                                 lightboxImg.removeAttribute('srcset');
+                                // Also clear any cached image data
+                                if (lightboxImg.complete) {
+                                    lightboxImg.src = '';
+                                }
                                 
                                 // Force multiple reflows to ensure changes take effect
                                 void lightboxImg.offsetHeight;
@@ -7103,11 +7137,13 @@
                             const webpSrc = this.getAttribute('data-src-webp');
                             
                             // #region agent log
-                            fetch('http://127.0.0.1:7242/ingest/28125f55-0e6d-43a1-ac1a-2bf78147e3ae',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index.html:7075',message:'About to call openScreenshotLightbox synchronously',data:{targetSrc:webpSrc||src,lightboxImgSrc:lightboxImg?lightboxImg.src:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+                            fetch('http://127.0.0.1:7242/ingest/28125f55-0e6d-43a1-ac1a-2bf78147e3ae',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index.html:7100',message:'About to call openScreenshotLightbox via requestAnimationFrame',data:{targetSrc:webpSrc||src,lightboxImgSrc:lightboxImg?lightboxImg.src:null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
                             // #endregion
                             
-                            // Call synchronously - no setTimeout to prevent browser from rendering old image
-                            openScreenshotLightbox(webpSrc || src);
+                            // Use requestAnimationFrame to ensure clearing happens in next frame before opening
+                            requestAnimationFrame(function() {
+                                openScreenshotLightbox(webpSrc || src);
+                            });
                         });
                     });
                 });
