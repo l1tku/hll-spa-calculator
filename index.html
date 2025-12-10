@@ -6524,6 +6524,7 @@
         window.openScreenshotLightbox = function(src) {
             const lightbox = document.getElementById('screenshotLightbox');
             const lightboxImg = document.getElementById('screenshotLightboxImg');
+            const lightboxSource = document.getElementById('screenshotLightboxSource');
             if (lightbox && lightboxImg) {
                 // Get all screenshots from the current gallery (both PNG and WebP)
                 const screenshotItems = document.querySelectorAll('.screenshot-item');
@@ -6537,34 +6538,58 @@
                 const clickedItem = Array.from(screenshotItems).find(item => 
                     item.getAttribute('data-src') === src || item.getAttribute('data-src-webp') === src
                 );
+                
+                let targetWebpSrc, targetPngSrc, targetSrc;
+                
                 if (clickedItem) {
-                    const webpSrc = clickedItem.getAttribute('data-src-webp');
-                    const pngSrc = clickedItem.getAttribute('data-src');
-                    
-                    // Use picture element for WebP with PNG fallback
-                    const picture = lightboxImg.closest('picture');
-                    if (picture) {
-                        const source = picture.querySelector('source');
-                        if (source && webpSrc) {
-                            source.srcset = webpSrc;
-                        }
-                        lightboxImg.src = pngSrc || src;
-                    } else {
-                        // Fallback if no picture element
-                        lightboxImg.src = webpSrc || pngSrc || src;
-                    }
-                    
-                    // Ensure image is visible when opening
-                    lightboxImg.style.opacity = '1';
-                    lightboxImg.style.transition = '';
-                    
+                    targetWebpSrc = clickedItem.getAttribute('data-src-webp');
+                    targetPngSrc = clickedItem.getAttribute('data-src');
+                    targetSrc = targetPngSrc || src;
                     currentScreenshotIndex = Array.from(screenshotItems).indexOf(clickedItem);
                 } else {
                     currentScreenshotIndex = 0;
-                    lightboxImg.src = currentScreenshotGallery[0] || src;
-                    // Ensure image is visible when opening
-                    lightboxImg.style.opacity = '1';
+                    targetSrc = currentScreenshotGallery[0] || src;
+                }
+                
+                // If lightbox is already open, fade out current image first
+                if (lightbox.classList.contains('active') && lightboxImg.src) {
+                    lightboxImg.style.transition = 'opacity 0.15s ease';
+                    lightboxImg.style.opacity = '0';
+                } else {
+                    // If opening fresh, start with image hidden
+                    lightboxImg.style.opacity = '0';
                     lightboxImg.style.transition = '';
+                }
+                
+                // Preload the new image before switching to avoid showing old image
+                const newImg = new Image();
+                
+                const switchImage = function() {
+                    // Update source elements
+                    if (lightboxSource && targetWebpSrc) {
+                        lightboxSource.srcset = targetWebpSrc;
+                    } else if (lightboxSource) {
+                        lightboxSource.srcset = '';
+                    }
+                    lightboxImg.src = targetSrc;
+                    
+                    // Fade in the new image
+                    requestAnimationFrame(function() {
+                        lightboxImg.style.transition = 'opacity 0.15s ease';
+                        lightboxImg.style.opacity = '1';
+                    });
+                };
+                
+                // Set up load handlers before setting src
+                newImg.onload = switchImage;
+                newImg.onerror = switchImage; // Still show image even if preload fails
+                
+                // Start loading
+                newImg.src = targetSrc;
+                
+                // If image is already cached, onload may not fire, so check immediately
+                if (newImg.complete) {
+                    switchImage();
                 }
                 
                 lightbox.classList.add('active');
