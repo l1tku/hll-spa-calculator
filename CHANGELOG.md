@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.5] - 2025-01-XX
+
+### Added
+- **Mobile HTML version with comprehensive mobile optimizations**
+  - Enhanced viewport settings with maximum-scale=5.0 and user-scalable=yes for better mobile usability
+  - Mobile-optimized touch interactions with active state feedback for all interactive elements
+  - iOS-specific input optimizations (minimum 16px font size to prevent automatic zoom)
+  - Mobile-specific styling adjustments for better readability and usability on small screens
+  - Optimized dropdown menus for mobile with viewport height-based max-height
+  - Mobile-optimized counter elements with scalable CSS variables
+  - Simplified 3D depth effects for better mobile performance
+  - Mobile-specific decorative element visibility adjustments
+
+### Changed
+- Improved mobile user experience with touch-friendly interface elements
+- Enhanced mobile responsiveness with better container padding and layout adjustments
+- Background attachment changed to scroll on mobile for better performance
+
 ## [1.0.4] - 2025-01-XX
 
 ### Fixed

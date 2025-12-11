@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="HLL SPA Artillery Calculator - Calculate accurate elevation settings for multiple Self-Propelled Artillery vehicles in Hell Let Loose">
     <title>HLL SPA Artillery Calculator</title>
-    <!-- Preload critical tank image for faster initial render (WebP with PNG fallback) -->
+    <!-- Preload critical tank image for faster initial render (WebP only - PNG is fallback loaded on demand) -->
     <link rel="preload" as="image" href="images/tanks/BISHOP_248.webp" type="image/webp" fetchpriority="high">
-    <link rel="preload" as="image" href="images/tanks/BISHOP_248.png" fetchpriority="high">
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
@@ -1139,6 +1138,61 @@
         .armored-rivet-small-bottom-left { bottom: 8px; left: 8px; }
         .armored-rivet-small-bottom-right { bottom: 8px; right: 8px; }
 
+        /* Pan head screw style for metal panel */
+        .screw-pan-head {
+            width: 25px;
+            height: 25px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .screw-pan-head::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse 100% 60% at center, 
+                    rgba(190, 190, 190, 0.6) 0%,
+                    rgba(150, 150, 150, 0.5) 20%,
+                    #5a5a5a 40%,
+                    #3a3a3a 60%,
+                    #2a2a2a 80%,
+                    #1a1a1a 100%
+                );
+            border-radius: 50%;
+            box-shadow: 
+                0 4px 8px rgba(0, 0, 0, 0.7),
+                0 2px 4px rgba(0, 0, 0, 0.6),
+                inset 0 3px 6px rgba(190, 190, 190, 0.3),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.6),
+                inset 0 0 15px rgba(0, 0, 0, 0.4);
+        }
+        
+        .screw-pan-head::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            width: 100%;
+            height: 16%;
+            background: #0a0a0a;
+        }
+        
+        .screw-left {
+            left: 8px;
+            transform: translateY(-50%) rotate(25deg);
+        }
+        
+        .screw-right {
+            right: 8px;
+            transform: translateY(-50%) rotate(-12deg);
+        }
+
         .panel-section {
             background: linear-gradient(180deg, #252525 0%, #1a1a1a 100%);
             border: 2px solid #3a3a3a;
@@ -1374,6 +1428,61 @@
             box-shadow: 
                 inset 0 4px 12px rgba(0, 0, 0, 0.6),
                 0 8px 24px rgba(0, 0, 0, 0.9);
+        }
+
+        /* Metal panel to replace calculate button when auto calc is on */
+        .armored-metal-panel {
+            width: 100%;
+            padding: 12px;
+            background: 
+                /* Base metal gradient with depth */
+                linear-gradient(145deg, 
+                    #1a1a1a 0%,
+                    #0f0f0f 25%,
+                    #0a0a0a 50%,
+                    #0f0f0f 75%,
+                    #1a1a1a 100%
+                ),
+                /* Metal grain texture */
+                repeating-linear-gradient(0deg, 
+                    transparent 0px,
+                    rgba(0, 0, 0, 0.25) 1px,
+                    transparent 2px,
+                    rgba(50, 50, 50, 0.03) 3px,
+                    transparent 4px
+                ),
+                /* Vertical wear patterns */
+                repeating-linear-gradient(90deg,
+                    transparent 0px,
+                    rgba(0, 0, 0, 0.15) 1px,
+                    transparent 2px
+                ),
+                /* Rust and wear spots */
+                radial-gradient(ellipse at 20% 30%, rgba(30, 20, 10, 0.12) 0%, transparent 30%),
+                radial-gradient(ellipse at 80% 70%, rgba(25, 15, 8, 0.1) 0%, transparent 35%),
+                radial-gradient(ellipse at 50% 10%, rgba(20, 12, 5, 0.08) 0%, transparent 25%),
+                /* Scratches and scuffs */
+                repeating-linear-gradient(45deg,
+                    transparent 0px,
+                    transparent 40px,
+                    rgba(0, 0, 0, 0.3) 40px,
+                    rgba(0, 0, 0, 0.3) 41px,
+                    transparent 41px,
+                    transparent 80px
+                );
+            border: 3px solid;
+            border-color: 
+                #2a2a2a /* top - lighter */
+                #1a1a1a /* right */
+                #000000 /* bottom - darkest */
+                #1a1a1a; /* left */
+            box-shadow: 
+                inset 0 4px 12px rgba(0, 0, 0, 0.7),
+                0 6px 20px rgba(0, 0, 0, 0.8);
+            margin-top: 8px;
+            position: relative;
+            box-sizing: border-box;
+            height: 54px; /* Match calculate button height exactly */
         }
 
         .armored-result {
@@ -2460,18 +2569,18 @@
         }
 
         .field-manual-date {
-            top: 28px;
+            bottom: 24px;
             right: 20px;
             text-align: right;
-            font-size: 13px;
+            font-size: 9px;
             color: #000000;
         }
 
         .field-manual-unit {
-            top: 50px;
+            bottom: 8px;
             right: 20px;
             text-align: right;
-            font-size: 13px;
+            font-size: 9px;
             color: #000000;
         }
 
@@ -2484,7 +2593,7 @@
 
         .info-modal-close {
             color: #8b6914;
-            font-size: 31px;
+            font-size: 43px;
             font-weight: normal;
             font-family: 'Courier New', monospace;
             cursor: pointer;
@@ -2497,8 +2606,9 @@
             justify-content: center;
             width: auto;
             height: auto;
-            position: relative;
-            top: 15px;
+            position: absolute;
+            top: 38px;
+            right: 20px;
             line-height: 1;
             z-index: 10;
         }
@@ -3587,6 +3697,7 @@
 
         
     </style>
+    <script src="mobile-detector.js"></script>
 </head>
 <body class="min-h-screen">
     <div class="container mx-auto px-4 py-8">
@@ -3624,26 +3735,26 @@
                                     <div class="custom-select-wrapper" style="display: flex; align-items: center; gap: 8px;">
                                         <div class="custom-select" style="flex-shrink: 1; position: relative; flex: 1; min-width: 0; max-width: 100%;">
                                             <div class="select-selected" id="selectSelected">
-                                                <img src="images/UI/Icons/flags/BRITISH_30.png" alt="BRITISH" class="flag-icon" loading="eager" decoding="async"> <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0;">British (Bishop SP)</span>
+                                                <img src="images/UI/Icons/flags/BRITISH_30.webp" alt="BRITISH" class="flag-icon" loading="eager" decoding="async"> <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0;">British (Bishop SP)</span>
                                             </div>
                                             <div class="select-items select-hide" id="selectItems">
                                                 <div data-value="British (Bishop SP)">
-                                                    <img src="images/UI/Icons/flags/BRITISH_30.png" alt="BRITISH" class="flag-icon" loading="lazy" decoding="async"> British (Bishop SP)
+                                                    <img src="images/UI/Icons/flags/BRITISH_30.webp" alt="BRITISH" class="flag-icon" loading="lazy" decoding="async"> British (Bishop SP)
                                                 </div>
                                                 <div data-value="British (Churchill AVRE)">
-                                                    <img src="images/UI/Icons/flags/BRITISH_30.png" alt="BRITISH" class="flag-icon" loading="lazy" decoding="async"> British (Churchill AVRE)
+                                                    <img src="images/UI/Icons/flags/BRITISH_30.webp" alt="BRITISH" class="flag-icon" loading="lazy" decoding="async"> British (Churchill AVRE)
                                                 </div>
                                                 <div data-value="US (Sherman M4A3 105)">
-                                                    <img src="images/UI/Icons/flags/US_30.png" alt="US" class="flag-icon" loading="lazy" decoding="async"> US (Sherman M4A3)
+                                                    <img src="images/UI/Icons/flags/US_30.webp" alt="US" class="flag-icon" loading="lazy" decoding="async"> US (Sherman M4A3)
                                                 </div>
                                                 <div data-value="Soviet Union (KV-2)">
-                                                    <img src="images/UI/Icons/flags/SOVIET_30.png" alt="USSR" class="flag-icon" loading="lazy" decoding="async"> Soviet Union (KV-2)
+                                                    <img src="images/UI/Icons/flags/SOVIET_30.webp" alt="USSR" class="flag-icon" loading="lazy" decoding="async"> Soviet Union (KV-2)
                                                 </div>
                                                 <div data-value="DAK (Panzer III Ausf.N)">
-                                                    <img src="images/UI/Icons/flags/GERMANY_30.png" alt="Germany" class="flag-icon" loading="lazy" decoding="async"> DAK (Panzer III Ausf.N)
+                                                    <img src="images/UI/Icons/flags/GERMANY_30.webp" alt="Germany" class="flag-icon" loading="lazy" decoding="async"> DAK (Panzer III Ausf.N)
                                                 </div>
                                                 <div data-value="Germany (Sturmpanzer IV Brummbär)">
-                                                    <img src="images/UI/Icons/flags/GERMANY_30.png" alt="Germany" class="flag-icon" loading="lazy" decoding="async"> Germany (Sturmpanzer IV Brummbär)
+                                                    <img src="images/UI/Icons/flags/GERMANY_30.webp" alt="Germany" class="flag-icon" loading="lazy" decoding="async"> Germany (Sturmpanzer IV Brummbär)
                                                 </div>
                                             </div>
                                         </div>
@@ -3722,8 +3833,8 @@
                                 </div>
                                 <div style="display: flex; flex-direction: column;">
                                     <div style="flex-shrink: 0; margin-bottom: 5px;">
-                                        <div class="panel-label">Your Elevation (-/+ MIL)</div>
-                                        <p class="text-xs mb-1 text-center" style="color: #9ca3af; font-size: 0.7rem; margin-bottom: 4px;">(- downhill/nose-down, + uphill/nose-up)</p>
+                                        <div class="panel-label">Terrain Elevation (MIL)</div>
+                                        <p class="text-xs mb-1 text-center" style="color: #9ca3af; font-size: 0.7rem; margin-bottom: 4px;">Red MIL HUD (- downhill/nose-down, + uphill/nose-up)</p>
                                     </div>
                                     <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: auto;">
                                         <button onclick="adjustValue('redNumber', -1)" class="armored-button">-</button>
@@ -3734,11 +3845,15 @@
                             </div>
                         </div>
         
-                        <!-- Calculate Button -->
+                        <!-- Calculate Button / Metal Panel -->
                         <div style="position: relative; margin-top: 0; margin-bottom: 5px;">
                             <button onclick="calculate()" id="calculateButton" tabindex="4" class="armored-calculate">
                                 Calculate Elevation
                             </button>
+                            <div id="metalPanel" class="armored-metal-panel" style="display: none;">
+                                <div class="screw-pan-head screw-left"></div>
+                                <div class="screw-pan-head screw-right"></div>
+                            </div>
                         </div>
         
                         <!-- Result -->
@@ -3755,7 +3870,7 @@
                                 </div>
                             </div>
                             <div class="text-sm text-gray-400 mt-4" style="font-family: 'Courier New', monospace;">
-                                <p>Base: <span id="baseValue" class="text-white">0</span> <span id="baseMilLabel" class="text-white mil-label">MIL</span> | Target Height <span id="heightSymbol">Δ</span>: <span id="heightValue" class="text-gray-300">0m</span> | Your Elevation: <span id="redValue" class="text-gray-300">+0</span> <span id="redValueUnit" class="text-gray-400 mil-label">MIL</span></p>
+                                <p>Base: <span id="baseValue" class="text-white">0</span> <span id="baseMilLabel" class="text-white mil-label">MIL</span> | Target Height <span id="heightSymbol">Δ</span>: <span id="heightValue" class="text-gray-300">0m</span> | Terrain Elevation: <span id="redValue" class="text-gray-300">+0</span> <span id="redValueUnit" class="text-gray-400 mil-label">MIL</span></p>
                             </div>
                         </div>
 
@@ -3783,7 +3898,7 @@
                                 <button class="info-modal-close" id="closeTankInfo">&times;</button>
                             </div>
                             <div class="info-modal-tabs">
-                                <button class="info-modal-tab active" data-tab="stats">In-Game Stats</button>
+                                <button class="info-modal-tab active" data-tab="stats">Vehicle Stats</button>
                                 <button class="info-modal-tab" data-tab="screenshots">Screenshots</button>
                                 <button class="info-modal-tab" data-tab="history">History</button>
                             </div>
@@ -3812,7 +3927,7 @@
 
                     <!-- Version Info -->
                     <div class="text-xs text-gray-500 text-center mt-4" style="margin-top: calc(1rem - 2px);">
-                        <p>HLL SPA Artillery Calculator v1.0.4 - 2025</p>
+                        <p>HLL SPA Artillery Calculator v1.0.5 - 2025</p>
                         <p class="text-orange-400 mt-1">⚠️ This calculator is still being tested and improved. The results may not always be perfect. Please use your best judgment when using these calculations.</p>
                     </div>
                 </div>
@@ -3871,7 +3986,7 @@
                     coaxial: 'M1919 .30 cal - 200 rounds × 6 magazines',
                     topSpeed: '24 km/h'
                 },
-                history: 'The M4A3 Sherman variant equipped with a 105mm howitzer was developed to provide close infantry support. Production took place at multiple American factories including the Detroit Arsenal Tank Plant in Warren, Michigan, the Fisher Body Tank Plant (Grand Blanc Metal Center) in Grand Blanc, Michigan, and other facilities across the United States. It saw extensive use in the European Theater, particularly during the breakout from Normandy and the push across France. The 105mm howitzer was effective against fortifications and infantry positions, making it valuable for breakthrough operations.',
+                history: 'The M4A3 Sherman variant equipped with a 105mm howitzer was developed to provide close infantry support. It saw extensive use in the European Theater, particularly during the breakout from Normandy and the push across France. The 105mm howitzer was effective against fortifications and infantry positions, making it valuable for breakthrough operations.',
                 realLife: {
                     range: '~11,000m (indirect fire), ~2,000m (direct fire)',
                     production: 'Produced from 1943-1945 at Detroit Arsenal Tank Plant (Warren, Michigan), Fisher Body Tank Plant/Grand Blanc Metal Center (Grand Blanc, Michigan), and other US facilities',
@@ -3895,7 +4010,7 @@
                     coaxial: 'NO COAXIAL',
                     topSpeed: '23 km/h'
                 },
-                history: 'The KV-2 was a Soviet heavy tank armed with a massive 152mm howitzer, designed as an assault tank to destroy fortifications and bunkers. Production was carried out at the Kirov Plant (Factory No. 100) in Leningrad (now St. Petersburg, Russia), one of the Soviet Union\'s premier heavy tank manufacturing facilities. It saw action during the Winter War against Finland and early stages of Operation Barbarossa. Despite its powerful armament, its slow speed, long reload time, and mechanical issues made it vulnerable to German anti-tank weapons.',
+                history: 'The KV-2 was a Soviet heavy tank armed with a massive 152mm howitzer, designed as an assault tank to destroy fortifications and bunkers. It saw action during the Winter War against Finland and early stages of Operation Barbarossa. Despite its powerful armament, its slow speed, long reload time, and mechanical issues made it vulnerable to German anti-tank weapons.',
                 realLife: {
                     range: '~12,000m (indirect fire), ~1,200m (direct fire)',
                     production: 'Produced from 1939-1941, ~334 units built at Kirov Plant (Factory No. 100) in Leningrad (now St. Petersburg, Russia)',
@@ -3921,7 +4036,7 @@
                     coaxial: '7.92 BESA - 200 rounds × 6 magazines',
                     topSpeed: '20 km/h'
                 },
-                history: 'The Churchill AVRE (Armoured Vehicle Royal Engineers) was a specialized engineering vehicle designed to destroy fortifications. The base Churchill tanks were manufactured at Vauxhall Motors in Luton, Bedfordshire, United Kingdom, with AVRE conversions performed by the Royal Engineers. It was armed with a 290mm Petard mortar, capable of firing a 40-pound "Flying Dustbin" projectile. These vehicles were crucial during D-Day and subsequent operations, used to breach enemy defenses and clear obstacles.',
+                history: 'The Churchill AVRE (Armoured Vehicle Royal Engineers) was a specialized engineering vehicle designed to destroy fortifications. It was armed with a 290mm Petard mortar, capable of firing a 40-pound "Flying Dustbin" projectile. These vehicles were crucial during D-Day and subsequent operations, used to breach enemy defenses and clear obstacles.',
                 realLife: {
                     range: '~100m (very short range in real life)',
                     production: 'Base Churchill tanks manufactured at Vauxhall Motors in Luton, Bedfordshire, UK. AVRE conversions performed by Royal Engineers',
@@ -3948,7 +4063,7 @@
                     coaxial: 'NO COAXIAL GUN',
                     topSpeed: '20 km/h'
                 },
-                history: 'The Bishop was a British self-propelled artillery vehicle based on the Valentine tank chassis, armed with a 25-pounder field gun. Production was undertaken by the Birmingham Railway Carriage and Wagon Company in Birmingham, United Kingdom. It was used during World War II, primarily in North Africa. The vehicle was named after its boxy superstructure resembling a bishop\'s mitre. It had limited elevation and traverse, which affected its effectiveness as an artillery piece.',
+                history: 'The Bishop was a British self-propelled artillery vehicle based on the Valentine tank chassis, armed with a 25-pounder field gun. It was used during World War II, primarily in North Africa. The vehicle was named after its boxy superstructure resembling a bishop\'s mitre. It had limited elevation and traverse, which affected its effectiveness as an artillery piece.',
                 realLife: {
                     range: '~6,000-12,000m (indirect fire)',
                     production: 'Produced from 1942-1943, ~149 units built by Birmingham Railway Carriage and Wagon Company in Birmingham, UK',
@@ -3973,7 +4088,7 @@
                     coaxial: 'NO COAXIAL GUN',
                     topSpeed: '27 km/h'
                 },
-                history: 'The Brummbär (Grizzly Bear) was a German assault gun based on the Panzer IV chassis, armed with a 150mm StuH 43 L/12 howitzer. Production was carried out by Alkett (Altmärkische Kettenfabrik) at their facility in Berlin-Spandau, Germany. It was designed for urban combat and destroying fortifications. First deployed in 1943, it saw extensive use on the Eastern Front and in urban battles like Stalingrad. Its nickname "Brummbär" reflected its powerful but slow nature.',
+                history: 'The Brummbär (Grizzly Bear) was a German assault gun based on the Panzer IV chassis, armed with a 150mm StuH 43 L/12 howitzer. It was designed for urban combat and destroying fortifications. First deployed in 1943, it saw extensive use on the Eastern Front and in urban battles like Stalingrad. Its nickname "Brummbär" reflected its powerful but slow nature.',
                 realLife: {
                     range: '~4,600m (indirect fire), ~1,000m (direct fire)',
                     production: 'Produced from 1943-1945, ~306 units built by Alkett (Altmärkische Kettenfabrik) in Berlin-Spandau, Germany',
@@ -4000,7 +4115,7 @@
                     coaxial: 'MG34 7.92mm - 200 rounds × 6 magazines',
                     topSpeed: '26 km/h'
                 },
-                history: 'The Panzer III Ausf.N was a German medium tank variant armed with a 75mm L/24 short-barreled gun, designed for infantry support rather than anti-tank warfare. Production was distributed across multiple German factories including Daimler-Benz in Berlin-Marienfelde, MAN (Maschinenfabrik Augsburg-Nürnberg) in Nuremberg, and Henschel in Kassel. It was produced from 1942-1943 and saw service primarily in North Africa with the Afrika Korps and later on the Eastern Front. The Ausf.N was specifically designed for close support with high-explosive rounds.',
+                history: 'The Panzer III Ausf.N was a German medium tank variant armed with a 75mm L/24 short-barreled gun, designed for infantry support rather than anti-tank warfare. It saw service primarily in North Africa with the Afrika Korps and later on the Eastern Front. The Ausf.N was specifically designed for close support with high-explosive rounds.',
                 realLife: {
                     range: '~6,000m (indirect fire), ~1,500m (direct fire)',
                     production: 'Produced from 1942-1943 at Daimler-Benz (Berlin-Marienfelde), MAN (Nuremberg), and Henschel (Kassel), Germany',
@@ -4420,14 +4535,15 @@
                     baseValueEl.textContent = '--';
                 }
                 // Reset final value to 0000 when auto calc is off
-                if (fieldId === 'distance') {
+                if (fieldId === 'distance' || fieldId === 'heightDiff' || fieldId === 'redNumber') {
                     rollElevationToNumber(0);
-                    updateMilLabels();
                     // Show "--" for height and elevation when auto calc is off
                     const heightValueEl = document.getElementById('heightValue');
                     const redValueEl = document.getElementById('redValue');
                     if (heightValueEl) heightValueEl.textContent = '--';
                     if (redValueEl) redValueEl.textContent = '--';
+                    // Update MIL labels after values are set to "--"
+                    updateMilLabels();
                 }
             }
         }
@@ -4500,13 +4616,26 @@
         // Update calculate button visibility based on mode
         function updateCalculateButton() {
             const button = document.getElementById('calculateButton');
+            const metalPanel = document.getElementById('metalPanel');
             const isAuto = isAutoCalcEnabled();
-            if (button) {
+            if (button && metalPanel) {
                 if (isAuto) {
-                    button.classList.add('opacity-50', 'cursor-not-allowed');
+                    // Ensure button is visible to get its height
+                    if (button.style.display === 'none') {
+                        button.style.display = '';
+                    }
+                    // Get button height before hiding it
+                    const buttonHeight = button.offsetHeight;
+                    // Hide button, show metal panel
+                    button.style.display = 'none';
+                    metalPanel.style.display = 'block';
+                    // Match metal panel height to button height exactly
+                    metalPanel.style.height = buttonHeight + 'px';
                     button.disabled = true;
                 } else {
-                    button.classList.remove('opacity-50', 'cursor-not-allowed');
+                    // Show button, hide metal panel
+                    button.style.display = '';
+                    metalPanel.style.display = 'none';
                     button.disabled = false;
                 }
             }
@@ -4519,6 +4648,20 @@
             const milCounter = document.getElementById('elevationMilCounter');
             if (milCounter) {
                 milCounter.style.display = '';
+            }
+            
+            // Update MIL label visibility based on values
+            const baseValueEl = document.getElementById('baseValue');
+            const baseMilLabelEl = document.getElementById('baseMilLabel');
+            const redValueEl = document.getElementById('redValue');
+            const redValueUnitEl = document.getElementById('redValueUnit');
+            
+            // Hide MIL labels when values are "--"
+            if (baseValueEl && baseMilLabelEl) {
+                baseMilLabelEl.style.display = (baseValueEl.textContent.trim() === '--') ? 'none' : '';
+            }
+            if (redValueEl && redValueUnitEl) {
+                redValueUnitEl.style.display = (redValueEl.textContent.trim() === '--') ? 'none' : '';
             }
         }
 
@@ -4552,12 +4695,13 @@
                         baseValueEl.textContent = '--';
                     }
                     rollElevationToNumber(0);
-                    updateMilLabels();
                     // Show "--" for height and elevation when auto calc is off
                     const heightValueEl = document.getElementById('heightValue');
                     const redValueEl = document.getElementById('redValue');
                     if (heightValueEl) heightValueEl.textContent = '--';
                     if (redValueEl) redValueEl.textContent = '--';
+                    // Update MIL labels after values are set to "--"
+                    updateMilLabels();
                 }
                 saveState();
             });
@@ -4639,12 +4783,13 @@
                                 baseValueEl.textContent = '--';
                             }
                             rollElevationToNumber(0);
-                            updateMilLabels();
                             // Show "--" for height and elevation when auto calc is off
                             const heightValueEl = document.getElementById('heightValue');
                             const redValueEl = document.getElementById('redValue');
                             if (heightValueEl) heightValueEl.textContent = '--';
                             if (redValueEl) redValueEl.textContent = '--';
+                            // Update MIL labels after values are set to "--"
+                            updateMilLabels();
                         }
                     } else {
                         // Full update when not dragging
@@ -4659,12 +4804,13 @@
                                 baseValueEl.textContent = '--';
                             }
                             rollElevationToNumber(0);
-                            updateMilLabels();
                             // Show "--" for height and elevation when auto calc is off
                             const heightValueEl = document.getElementById('heightValue');
                             const redValueEl = document.getElementById('redValue');
                             if (heightValueEl) heightValueEl.textContent = '--';
                             if (redValueEl) redValueEl.textContent = '--';
+                            // Update MIL labels after values are set to "--"
+                            updateMilLabels();
                         }
                         saveState();
                     }
@@ -5322,9 +5468,6 @@
                 );
             }
 
-            // Show MIL labels when calculation is performed
-            updateMilLabels();
-            
             // ===== CRITICAL: Set ALL display values - MUST BE DONE HERE =====
             // These values MUST be set and MUST NEVER be "--" after a successful calculation
             
@@ -5406,6 +5549,9 @@
                     }
                 }
             }, 50);
+            
+            // Update MIL labels after values are set
+            updateMilLabels();
 
             // In manual mode, focus distance input after calculation (for Enter key workflow)
             // In auto mode, remove focus from calculate button to clear yellow highlight
@@ -5681,15 +5827,15 @@
 
                     // Update custom select display
                     const flagMap = {
-                        'British (Bishop SP)': 'BRITISH_30.png',
-                        'British (Churchill AVRE)': 'BRITISH_30.png',
-                        'US (Sherman M4A3 105)': 'US_30.png',
-                        'Soviet Union (KV-2)': 'SOVIET_30.png',
-                        'DAK (Panzer III Ausf.N)': 'GERMANY_30.png',
-                        'Germany (Sturmpanzer IV Brummbär)': 'GERMANY_30.png'
+                        'British (Bishop SP)': 'BRITISH_30.webp',
+                        'British (Churchill AVRE)': 'BRITISH_30.webp',
+                        'US (Sherman M4A3 105)': 'US_30.webp',
+                        'Soviet Union (KV-2)': 'SOVIET_30.webp',
+                        'DAK (Panzer III Ausf.N)': 'GERMANY_30.webp',
+                        'Germany (Sturmpanzer IV Brummbär)': 'GERMANY_30.webp'
                     };
 
-                    const flag = flagMap[state.faction] || 'BRITISH_30.png';
+                    const flag = flagMap[state.faction] || 'BRITISH_30.webp';
                     const selectSelected = document.getElementById('selectSelected');
                     // Format faction name for display (remove "105" from M4A3)
                     const displayName = state.faction.replace(' (Sherman M4A3 105)', ' (Sherman M4A3)');
@@ -5852,6 +5998,31 @@
         // Load any saved state before wiring up interactions
         loadState();
         
+        // #region agent log
+        function checkElevationLabelOverlap() {
+            const resultContainer = document.getElementById('result');
+            if (!resultContainer) return;
+            const copyButton = resultContainer.querySelector('.copy-result-button');
+            const resetButton = resultContainer.querySelector('.reset-result-button');
+            const label = resultContainer.querySelector('.panel-label');
+            if (!copyButton || !resetButton || !label) return;
+            const containerWidth = resultContainer.offsetWidth;
+            const containerRect = resultContainer.getBoundingClientRect();
+            const copyRect = copyButton.getBoundingClientRect();
+            const resetRect = resetButton.getBoundingClientRect();
+            const labelRect = label.getBoundingClientRect();
+            const leftButtonRight = resetRect.right - containerRect.left;
+            const rightButtonLeft = copyRect.left - containerRect.left;
+            const availableWidth = rightButtonLeft - leftButtonRight;
+            const labelWidth = labelRect.width;
+            const labelLeft = labelRect.left - containerRect.left;
+            const labelRight = labelRect.right - containerRect.left;
+            const overlapsLeft = labelLeft < leftButtonRight;
+            const overlapsRight = labelRight > rightButtonLeft;
+            fetch('http://127.0.0.1:7242/ingest/28125f55-0e6d-43a1-ac1a-2bf78147e3ae',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index.html:5854',message:'Elevation label overlap check',data:{containerWidth:containerWidth,leftButtonRight:leftButtonRight,rightButtonLeft:rightButtonLeft,availableWidth:availableWidth,labelWidth:labelWidth,labelLeft:labelLeft,labelRight:labelRight,overlapsLeft:overlapsLeft,overlapsRight:overlapsRight,timestamp:Date.now()},sessionId:'debug-session',runId:'pre-fix',hypothesisId:'A'})}).catch(()=>{});
+        }
+        // #endregion
+        
         // Initialize mechanical counter
         setupElevationCounter(0);
         initializeElevationMIL();
@@ -5862,6 +6033,11 @@
 
         syncSliderWithInput();
 
+        // #region agent log
+        checkElevationLabelOverlap();
+        window.addEventListener('resize', checkElevationLabelOverlap);
+        // #endregion
+        
         // Run initial calculation after everything is set up (only if auto mode)
         if (isAutoCalcEnabled()) {
             calculate();
@@ -6118,12 +6294,21 @@
                         }, 0);
                     }
                 } else {
-                    // When auto calc is off, reset base value to "--" when any input changes
+                    // When auto calc is off, reset base value to "--" and final value to 0000 when any input changes
                     if (this.id === 'heightDiff' || this.id === 'redNumber' || this.id === 'distance') {
                         const baseValueEl = document.getElementById('baseValue');
                         if (baseValueEl) {
                             baseValueEl.textContent = '--';
                         }
+                        // Reset final value to 0000 when auto calc is off
+                        rollElevationToNumber(0);
+                        // Show "--" for height and elevation when auto calc is off
+                        const heightValueEl = document.getElementById('heightValue');
+                        const redValueEl = document.getElementById('redValue');
+                        if (heightValueEl) heightValueEl.textContent = '--';
+                        if (redValueEl) redValueEl.textContent = '--';
+                        // Update MIL labels after values are set to "--"
+                        updateMilLabels();
                     }
                 }
             });
@@ -6917,8 +7102,8 @@
                     <div class="info-tab-content active" id="tab-stats">
                         <div class="field-manual-specs">
                             <div class="spec-header">
-                                <div class="spec-title">IN-GAME SPECIFICATIONS</div>
-                                <div class="spec-subtitle">Operational Parameters & Armament</div>
+                                <div class="spec-title">VEHICLE STATS</div>
+                                <div class="spec-subtitle">Performance Data</div>
                             </div>
                             
                             <div class="spec-table">
