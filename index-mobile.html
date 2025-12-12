@@ -2119,6 +2119,7 @@
             box-shadow: 
                 inset 0 4px 12px rgba(0, 0, 0, 0.8),
                 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+            touch-action: none !important; /* Prevent page scrolling when dragging slider on mobile */
         }
 
         /* Fix calculator card width so grid lines hit both left and right edges cleanly */
@@ -4174,7 +4175,7 @@
                                         </div>
                                     </div>
                                     <!-- Range indicator and slider -->
-                                    <div style="margin-top: 12px; margin-bottom: 8px;">
+                                    <div style="margin-top: 12px; margin-bottom: 8px; touch-action: none;">
                                         <div class="range-indicator" id="distanceRangeIndicator">
                                             <div class="range-indicator-bar" id="distanceRangeBar"></div>
                                         </div>
@@ -4999,11 +5000,22 @@
 
         // Adjust value function for increment/decrement buttons
         function adjustValue(fieldId, delta, event) {
-            // Prevent double-firing: if this was triggered by a click event shortly after a touchstart,
-            // ignore it (touchstart already handled it)
-            if (event && event.type === 'click') {
+            // Allow keyboard events to always work (they should only increment by 1)
+            if (event && event.type === 'keydown') {
+                // Keyboard events always proceed - they're handled separately and only increment by 1
+            } else if (event && event.type === 'click') {
+                // On mobile, prevent double-firing from touchstart + click
+                // Check if this button was already handled by touchstart
+                const target = event.target || event.currentTarget;
+                if (target && target.getAttribute('data-touch-handled') === 'true') {
+                    // This click was from a touch event, ignore it (touchstart already handled it)
+                    event.preventDefault();
+                    event.stopPropagation();
+                    return;
+                }
+                
+                // Also check time-based prevention for desktop mouse clicks
                 const now = Date.now();
-                // Increased time window and check if we're currently processing a hold
                 if ((now - lastTapTime < 600 && lastTapField === fieldId && lastTapDelta === delta) || isProcessingHold) {
                     // This click was likely from the same tap, ignore it
                     return;
@@ -5011,7 +5023,8 @@
             }
             
             // Also prevent if we're processing a hold and this isn't from the hold interval
-            if (isProcessingHold && (!event || (event.type !== 'touchstart' && event.type !== 'mousedown'))) {
+            // But allow keyboard events to proceed
+            if (isProcessingHold && (!event || (event.type !== 'touchstart' && event.type !== 'mousedown' && event.type !== 'keydown'))) {
                 return;
             }
             
@@ -5093,6 +5106,11 @@
         let isProcessingHold = false; // Flag to prevent double-firing
 
         function startHoldIncrement(fieldId, delta, event) {
+            // Don't trigger hold-to-increment on keyboard events - keyboard should only do single increments
+            if (event && (event.type === 'keydown' || event.key === ' ' || event.key === 'Enter')) {
+                return;
+            }
+            
             // Prevent default to avoid double-firing (click event would also fire)
             // The immediate adjustValue call handles the single tap
             if (event) {
@@ -5109,6 +5127,16 @@
             holdButton = event?.target || event?.currentTarget;
             if (holdButton) {
                 holdButton.classList.add('holding');
+                // Mark button to prevent click event from firing (mobile browsers fire click after touch)
+                if (event && event.type === 'touchstart') {
+                    holdButton.setAttribute('data-touch-handled', 'true');
+                    // Remove the flag after a delay to allow future clicks if needed
+                    setTimeout(() => {
+                        if (holdButton) {
+                            holdButton.removeAttribute('data-touch-handled');
+                        }
+                    }, 500);
+                }
             }
             
             // Trigger haptic feedback
@@ -5228,9 +5256,14 @@
                 const input = document.getElementById(fieldId);
                 if (input) {
                     input.addEventListener('touchstart', (e) => {
+                        // Don't prevent default - allow normal input focus and typing
                         swipeStartY = e.touches[0].clientY;
                         swipeStartX = e.touches[0].clientX;
                         input.classList.add('swipe-active');
+                        // Ensure input can receive focus for typing
+                        if (document.activeElement !== input) {
+                            input.focus();
+                        }
                     }, { passive: true });
                     
                     input.addEventListener('touchmove', (e) => {
@@ -5248,8 +5281,11 @@
                         const deltaY = e.changedTouches[0].clientY - swipeStartY;
                         const deltaX = Math.abs(e.changedTouches[0].clientX - swipeStartX);
                         
-                        // Only process if vertical swipe is dominant
+                        // Only process swipe if it was a significant swipe (not just a tap)
+                        // This allows normal taps to focus the input for typing
                         if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > swipeThreshold) {
+                            // It's a swipe, prevent default to avoid triggering input focus
+                            e.preventDefault();
                             const increment = Math.abs(deltaY) > 100 ? 10 : 1;
                             if (deltaY < 0) {
                                 // Swipe up - increment
@@ -5260,12 +5296,15 @@
                                 adjustValue(fieldId, -increment);
                                 triggerHaptic('light');
                             }
+                        } else {
+                            // It's just a tap, allow normal input behavior (focus and typing)
+                            // Don't prevent default
                         }
                         
                         swipeStartY = null;
                         swipeStartX = null;
                         input.classList.remove('swipe-active');
-                    }, { passive: true });
+                    }, { passive: false });
                 }
             });
         }
@@ -5550,7 +5589,28 @@
             
             // Sync slider to input
             if (distanceSlider) {
-                // touch-action: none in CSS prevents page scrolling while allowing slider to work
+                // Prevent page scrolling when touching slider on mobile
+                let isDragging = false;
+                
+                distanceSlider.addEventListener('touchstart', function(e) {
+                    isDragging = true;
+                    // Prevent default to stop page scrolling
+                    e.preventDefault();
+                }, { passive: false });
+                
+                distanceSlider.addEventListener('touchmove', function(e) {
+                    if (isDragging) {
+                        // Prevent default to stop page scrolling while dragging
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+                
+                distanceSlider.addEventListener('touchend', function(e) {
+                    isDragging = false;
+                    // Small delay to prevent any scroll after release
+                    e.preventDefault();
+                }, { passive: false });
+                
                 distanceSlider.addEventListener('input', function() {
                     const sliderValue = parseFloat(this.value) || 400;
                     distanceInput.value = Math.round(sliderValue);
@@ -7979,6 +8039,10 @@
             inputs.forEach(fieldId => {
                 const input = document.getElementById(fieldId);
                 if (input) {
+                    // Ensure input is focusable and can accept typing
+                    input.removeAttribute('readonly');
+                    input.removeAttribute('disabled');
+                    
                     input.addEventListener('keydown', function(e) {
                         if (e.key === 'Enter') {
                             e.preventDefault();
@@ -7989,6 +8053,7 @@
                                 this.blur();
                             }
                         }
+                        // Allow all other keys to work normally (typing numbers, etc.)
                     });
                     
                     // Update wrapper state on input
@@ -8000,6 +8065,37 @@
                         }
                     });
                 }
+            });
+            
+            // Add keyboard handlers to increment/decrement buttons
+            // This ensures buttons only increment by 1 when using keyboard (Space/Enter)
+            const buttonConfigs = [
+                { fieldId: 'distance', delta: -1 },
+                { fieldId: 'distance', delta: 1 },
+                { fieldId: 'heightDiff', delta: -1 },
+                { fieldId: 'heightDiff', delta: 1 },
+                { fieldId: 'redNumber', delta: -1 },
+                { fieldId: 'redNumber', delta: 1 }
+            ];
+            
+            // Find buttons by checking their onclick handlers
+            buttonConfigs.forEach(config => {
+                const buttons = document.querySelectorAll('.armored-button');
+                buttons.forEach(button => {
+                    const onclickAttr = button.getAttribute('onclick');
+                    if (onclickAttr && onclickAttr.includes(`adjustValue('${config.fieldId}', ${config.delta})`)) {
+                        // Add keyboard handler to this button
+                        button.addEventListener('keydown', function(e) {
+                            // Handle Space or Enter key - only increment by 1
+                            if (e.key === ' ' || e.key === 'Enter') {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                // Directly call adjustValue with the correct delta, bypassing hold-to-increment
+                                adjustValue(config.fieldId, config.delta, { type: 'keydown' });
+                            }
+                        });
+                    }
+                });
             });
             
             // Prevent mouse events from interfering with touch
