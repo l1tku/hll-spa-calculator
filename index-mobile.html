@@ -5035,7 +5035,7 @@
 
             // Apply limits
             if (fieldId === 'distance') {
-                newValue = Math.max(200, Math.min(600, newValue));
+                newValue = Math.max(0, Math.min(1000, newValue));
             } else if (fieldId === 'redNumber') {
                 newValue = Math.max(-1000, Math.min(1000, newValue));
             } else if (fieldId === 'heightDiff') {
@@ -5538,35 +5538,35 @@
             const distanceInput = document.getElementById('distance');
             const distanceSlider = document.getElementById('distanceSlider');
             
-            // Initialize slider value to match input (clamp to 200-600 range)
+            // Initialize slider value to match input (clamp to 200-600 range for slider only)
             if (distanceSlider && distanceInput) {
                 const initialValue = parseFloat(distanceInput.value) || 400;
+                // Clamp slider to 200-600 range, but allow input to be 0-1000
                 const clampedValue = Math.max(200, Math.min(600, initialValue));
                 distanceSlider.value = clampedValue;
-                // Update input if it was outside range
-                if (initialValue < 200 || initialValue > 600) {
-                    distanceInput.value = clampedValue;
-                }
+                // Don't modify input value - allow 0-1000 range
             }
             
             // Sync input to slider
             distanceInput.addEventListener('input', function() {
                 const inputValue = parseFloat(this.value) || 400;
-                const clampedValue = Math.max(200, Math.min(600, inputValue));
+                // Allow input to be 0-1000, but clamp for slider (200-600)
+                const clampedInput = Math.max(0, Math.min(1000, inputValue));
+                const clampedSlider = Math.max(200, Math.min(600, clampedInput));
                 
-                // Clamp input value to slider range
-                if (inputValue < 200 || inputValue > 600) {
-                    this.value = clampedValue;
+                // Update input if it was outside 0-1000 range
+                if (inputValue < 0 || inputValue > 1000) {
+                    this.value = clampedInput;
                 }
                 
-                // Update slider
+                // Update slider (clamped to 200-600)
                 if (distanceSlider) {
-                    distanceSlider.value = clampedValue;
+                    distanceSlider.value = clampedSlider;
                 }
                 
                 updateInputWrappers();
                 updateRangeIndicators();
-                updateArmoredRuler(clampedValue);
+                updateArmoredRuler(clampedSlider);
                 if (isAutoCalcEnabled()) {
                     calculate();
                 } else {
@@ -5592,20 +5592,54 @@
                 // Prevent page scrolling when touching slider on mobile
                 let isDragging = false;
                 
+                // Function to update slider value from touch position
+                function updateSliderFromTouch(e) {
+                    // Get touch coordinates - use touches for start/move, changedTouches for end
+                    let touch = null;
+                    if (e.touches && e.touches.length > 0) {
+                        touch = e.touches[0];
+                    } else if (e.changedTouches && e.changedTouches.length > 0) {
+                        touch = e.changedTouches[0];
+                    }
+                    
+                    // If no valid touch found, return early
+                    if (!touch) {
+                        return;
+                    }
+                    
+                    const rect = distanceSlider.getBoundingClientRect();
+                    const x = touch.clientX - rect.left;
+                    const percent = Math.max(0, Math.min(1, x / rect.width));
+                    const min = parseFloat(distanceSlider.min) || 200;
+                    const max = parseFloat(distanceSlider.max) || 600;
+                    const step = parseFloat(distanceSlider.step) || 1;
+                    const value = Math.round((min + percent * (max - min)) / step) * step;
+                    const clampedValue = Math.max(min, Math.min(max, value));
+                    
+                    distanceSlider.value = clampedValue;
+                    // Trigger input event to update the input field and other dependencies
+                    distanceSlider.dispatchEvent(new Event('input', { bubbles: true }));
+                }
+                
                 distanceSlider.addEventListener('touchstart', function(e) {
                     isDragging = true;
+                    updateSliderFromTouch(e);
                     // Prevent default to stop page scrolling
                     e.preventDefault();
                 }, { passive: false });
                 
                 distanceSlider.addEventListener('touchmove', function(e) {
                     if (isDragging) {
+                        updateSliderFromTouch(e);
                         // Prevent default to stop page scrolling while dragging
                         e.preventDefault();
                     }
                 }, { passive: false });
                 
                 distanceSlider.addEventListener('touchend', function(e) {
+                    if (isDragging) {
+                        updateSliderFromTouch(e);
+                    }
                     isDragging = false;
                     // Small delay to prevent any scroll after release
                     e.preventDefault();
