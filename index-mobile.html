@@ -139,6 +139,7 @@
                 0 1px 2px rgba(0, 0, 0, 0.4);
             margin: 0;
             padding: 0;
+            touch-action: none; /* Prevent page scrolling when dragging slider on mobile */
         }
         
         .slider::-webkit-slider-runnable-track {
@@ -160,8 +161,8 @@
         .slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 20px;
-            height: 20px;
+            width: 21px;
+            height: 21px;
             background: linear-gradient(145deg, #c2b280, #8b6914);
             border: 2px solid #4a4a4a;
             border-radius: 50%;
@@ -182,8 +183,8 @@
         }
         
         .slider::-moz-range-thumb {
-            width: 20px;
-            height: 20px;
+            width: 21px;
+            height: 21px;
             background: linear-gradient(145deg, #c2b280, #8b6914);
             border: 2px solid #4a4a4a;
             border-radius: 50%;
@@ -1593,10 +1594,10 @@
             border: 3px solid #6b5010;
             border-top: 3px solid #8b6914;
             color: #fcd34d;
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 0.2em;
+            letter-spacing: 0.15em;
             cursor: pointer;
             box-shadow: 
                 inset 0 4px 12px rgba(0, 0, 0, 0.7),
@@ -1608,6 +1609,7 @@
             touch-action: manipulation;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             -webkit-tap-highlight-color: transparent;
+            white-space: nowrap;
         }
 
         .armored-calculate::before {
@@ -1787,12 +1789,33 @@
             height: calc(var(--counter-base-size) * var(--counter-scale));
             line-height: calc(var(--counter-base-size) * var(--counter-scale));
             position: relative;
-            overflow: hidden;
-            display: inline-flex;
+            overflow: visible;
+            display: flex;
             align-items: center;
             justify-content: center;
             width: auto;
-            min-width: calc(380px * var(--counter-scale));
+            min-width: calc(450px * var(--counter-scale));
+            flex-wrap: nowrap;
+        }
+        
+        /* Ensure MIL counter stays visible when container scales at larger widths */
+        @media (min-width: 750px) {
+            .armored-result-value {
+                overflow: visible;
+                min-width: calc(480px * var(--counter-scale));
+                display: flex;
+                flex-wrap: nowrap;
+            }
+            
+            .mil-static-counter {
+                display: inline-flex !important;
+                visibility: visible !important;
+                flex-shrink: 0;
+            }
+            
+            .mechanical-counter {
+                flex-shrink: 0;
+            }
         }
         
         /* Decorative military-style vertical lines on sides */
@@ -1921,13 +1944,15 @@
         }
         
         .mil-static-counter {
-            display: inline-flex;
+            display: inline-flex !important;
             align-items: center;
             justify-content: center;
             gap: calc(2px * var(--counter-scale));
             margin-left: calc(2px * var(--counter-scale));
             height: calc(var(--counter-base-size) * var(--counter-scale));
             vertical-align: middle;
+            visibility: visible !important;
+            opacity: 1 !important;
         }
         
         .mil-wheel {
@@ -3204,7 +3229,16 @@
             color: #000000;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            font-size: 16px;
+            font-size: 12px;
+        }
+
+        .field-manual-specs .spec-value {
+            color: #e5e7eb;
+            font-size: 13px;
+            word-break: break-word;
+            min-width: 0;
+            overflow-wrap: break-word;
+            margin-left: -59px;
         }
 
         .spec-value {
@@ -3581,6 +3615,8 @@
         /* Long marker stroke across value area only */
         .spec-row.no-weapon-row {
             position: relative;
+            grid-template-columns: 150px 1fr;
+            gap: 0;
         }
 
         .spec-row.no-weapon-row .spec-value {
@@ -3592,6 +3628,7 @@
             max-width: 100%;
             padding: 0;
             margin: 0;
+            margin-left: -10px;
         }
 
         .spec-row.no-weapon-row .spec-value::after {
@@ -4036,8 +4073,8 @@
                 <div class="max-w-3xl mx-auto relative">
                     <!-- Title -->
                     <div class="text-center mb-6">
-                        <h1 class="text-3xl font-bold dog-tags">HLL SPA Artillery Calculator</h1>
-                        <p class="text-xs mt-1" style="color: #9ca3af;">Self-Propelled Artillery Targeting Calculator for Hell Let Loose</p>
+                        <h1 class="text-xl font-bold dog-tags">HLL SPA Artillery Calculator</h1>
+                        <p class="text-xs mt-1" style="color: #9ca3af; font-size: 0.65rem;">Self-Propelled Artillery Targeting Calculator for Hell Let Loose</p>
                     </div>
 
                     <!-- Main Card -->
@@ -4081,7 +4118,7 @@
                                                     <img src="images/UI/Icons/flags/GERMANY_30.png" alt="Germany" class="flag-icon" loading="lazy" decoding="async"> DAK (Panzer III Ausf.N)
                                                 </div>
                                                 <div data-value="Germany (Sturmpanzer IV Brummbär)">
-                                                    <img src="images/UI/Icons/flags/GERMANY_30.png" alt="Germany" class="flag-icon" loading="lazy" decoding="async"> Germany (Sturmpanzer IV Brummbär)
+                                                    <img src="images/UI/Icons/flags/GERMANY_30.png" alt="Germany" class="flag-icon" loading="lazy" decoding="async"> Germany (Sturmpanzer)
                                                 </div>
                                             </div>
                                         </div>
@@ -4131,13 +4168,9 @@
                                     <div class="panel-label" style="margin-bottom: 8px;">Target Distance (meters)</div>
                                     <div class="distance-controls" style="display: flex; justify-content: center; align-items: center; gap: 4px; width: 100%; flex-wrap: wrap;">
                                         <div style="display: flex; align-items: center; gap: 4px;">
-                                            <button onmousedown="startHoldIncrement('distance', -10, event)" onmouseup="stopHoldIncrement()" ontouchstart="startHoldIncrement('distance', -10, event)" ontouchend="stopHoldIncrement()" onclick="adjustValue('distance', -10)" class="armored-button" style="width: 32px; height: 52px; min-width: 32px; min-height: 52px; font-size: 0.65rem; padding: 0;">-10</button>
-                                            <button onmousedown="startHoldIncrement('distance', -5, event)" onmouseup="stopHoldIncrement()" ontouchstart="startHoldIncrement('distance', -5, event)" ontouchend="stopHoldIncrement()" onclick="adjustValue('distance', -5)" class="armored-button" style="width: 32px; height: 52px; min-width: 32px; min-height: 52px; font-size: 0.65rem; padding: 0;">-5</button>
-                                            <button onmousedown="startHoldIncrement('distance', -1, event)" onmouseup="stopHoldIncrement()" ontouchstart="startHoldIncrement('distance', -1, event)" ontouchend="stopHoldIncrement()" onclick="adjustValue('distance', -1)" class="armored-button" style="width: 32px; height: 52px; min-width: 32px; min-height: 52px; font-size: 1rem; padding: 0;">-</button>
-                                            <input type="text" id="distance" value="400" tabindex="1" class="armored-input" inputmode="numeric" pattern="[0-9]*">
-                                            <button onmousedown="startHoldIncrement('distance', 1, event)" onmouseup="stopHoldIncrement()" ontouchstart="startHoldIncrement('distance', 1, event)" ontouchend="stopHoldIncrement()" onclick="adjustValue('distance', 1)" class="armored-button" style="width: 32px; height: 52px; min-width: 32px; min-height: 52px; font-size: 1rem; padding: 0;">+</button>
-                                            <button onmousedown="startHoldIncrement('distance', 5, event)" onmouseup="stopHoldIncrement()" ontouchstart="startHoldIncrement('distance', 5, event)" ontouchend="stopHoldIncrement()" onclick="adjustValue('distance', 5)" class="armored-button" style="width: 32px; height: 52px; min-width: 32px; min-height: 52px; font-size: 0.65rem; padding: 0;">+5</button>
-                                            <button onmousedown="startHoldIncrement('distance', 10, event)" onmouseup="stopHoldIncrement()" ontouchstart="startHoldIncrement('distance', 10, event)" ontouchend="stopHoldIncrement()" onclick="adjustValue('distance', 10)" class="armored-button" style="width: 32px; height: 52px; min-width: 32px; min-height: 52px; font-size: 0.65rem; padding: 0;">+10</button>
+                                            <button onmousedown="startHoldIncrement('distance', -1, event)" onmouseup="stopHoldIncrement()" ontouchstart="startHoldIncrement('distance', -1, event)" ontouchend="stopHoldIncrement()" onclick="adjustValue('distance', -1)" class="armored-button" style="width: 52px; height: 52px; min-width: 52px; min-height: 52px; font-size: 1.5625rem; padding: 0;">-</button>
+                                            <input type="text" id="distance" value="400" class="armored-input" inputmode="numeric" pattern="[0-9]*">
+                                            <button onmousedown="startHoldIncrement('distance', 1, event)" onmouseup="stopHoldIncrement()" ontouchstart="startHoldIncrement('distance', 1, event)" ontouchend="stopHoldIncrement()" onclick="adjustValue('distance', 1)" class="armored-button" style="width: 52px; height: 52px; min-width: 52px; min-height: 52px; font-size: 1.5625rem; padding: 0;">+</button>
                                         </div>
                                     </div>
                                     <!-- Range indicator and slider -->
@@ -4156,13 +4189,9 @@
                                         </div>
                                         <div style="display: flex; justify-content: center; align-items: center; gap: 4px; width: 100%; flex-wrap: wrap;">
                                             <div style="display: flex; align-items: center; gap: 4px;">
-                                                <button onmousedown="startHoldIncrement('heightDiff', -10, event)" onmouseup="stopHoldIncrement()" ontouchstart="startHoldIncrement('heightDiff', -10, event)" ontouchend="stopHoldIncrement()" onclick="adjustValue('heightDiff', -10)" class="armored-button" style="width: 32px; height: 52px; min-width: 32px; min-height: 52px; font-size: 0.65rem; padding: 0;">-10</button>
-                                                <button onmousedown="startHoldIncrement('heightDiff', -5, event)" onmouseup="stopHoldIncrement()" ontouchstart="startHoldIncrement('heightDiff', -5, event)" ontouchend="stopHoldIncrement()" onclick="adjustValue('heightDiff', -5)" class="armored-button" style="width: 32px; height: 52px; min-width: 32px; min-height: 52px; font-size: 0.65rem; padding: 0;">-5</button>
-                                                <button onmousedown="startHoldIncrement('heightDiff', -1, event)" onmouseup="stopHoldIncrement()" ontouchstart="startHoldIncrement('heightDiff', -1, event)" ontouchend="stopHoldIncrement()" onclick="adjustValue('heightDiff', -1)" class="armored-button" style="width: 32px; height: 52px; min-width: 32px; min-height: 52px; font-size: 1rem; padding: 0;">-</button>
-                                                <input type="text" id="heightDiff" value="0" tabindex="2" class="armored-input" inputmode="numeric" pattern="[0-9]*" max="5000">
-                                                <button onmousedown="startHoldIncrement('heightDiff', 1, event)" onmouseup="stopHoldIncrement()" ontouchstart="startHoldIncrement('heightDiff', 1, event)" ontouchend="stopHoldIncrement()" onclick="adjustValue('heightDiff', 1)" class="armored-button" style="width: 32px; height: 52px; min-width: 32px; min-height: 52px; font-size: 1rem; padding: 0;">+</button>
-                                                <button onmousedown="startHoldIncrement('heightDiff', 5, event)" onmouseup="stopHoldIncrement()" ontouchstart="startHoldIncrement('heightDiff', 5, event)" ontouchend="stopHoldIncrement()" onclick="adjustValue('heightDiff', 5)" class="armored-button" style="width: 32px; height: 52px; min-width: 32px; min-height: 52px; font-size: 0.65rem; padding: 0;">+5</button>
-                                                <button onmousedown="startHoldIncrement('heightDiff', 10, event)" onmouseup="stopHoldIncrement()" ontouchstart="startHoldIncrement('heightDiff', 10, event)" ontouchend="stopHoldIncrement()" onclick="adjustValue('heightDiff', 10)" class="armored-button" style="width: 32px; height: 52px; min-width: 32px; min-height: 52px; font-size: 0.65rem; padding: 0;">+10</button>
+                                                <button onmousedown="startHoldIncrement('heightDiff', -1, event)" onmouseup="stopHoldIncrement()" ontouchstart="startHoldIncrement('heightDiff', -1, event)" ontouchend="stopHoldIncrement()" onclick="adjustValue('heightDiff', -1)" class="armored-button" style="width: 52px; height: 52px; min-width: 52px; min-height: 52px; font-size: 1.5625rem; padding: 0;">-</button>
+                                                <input type="text" id="heightDiff" value="0" class="armored-input" inputmode="numeric" pattern="[0-9]*" max="5000" style="width: 85px; min-width: 85px;">
+                                                <button onmousedown="startHoldIncrement('heightDiff', 1, event)" onmouseup="stopHoldIncrement()" ontouchstart="startHoldIncrement('heightDiff', 1, event)" ontouchend="stopHoldIncrement()" onclick="adjustValue('heightDiff', 1)" class="armored-button" style="width: 52px; height: 52px; min-width: 52px; min-height: 52px; font-size: 1.5625rem; padding: 0;">+</button>
                                             </div>
                                         </div>
                                     </div>
@@ -4173,13 +4202,9 @@
                                         </div>
                                         <div style="display: flex; justify-content: center; align-items: center; gap: 4px; width: 100%; flex-wrap: wrap;">
                                             <div style="display: flex; align-items: center; gap: 4px;">
-                                                <button onmousedown="startHoldIncrement('redNumber', -10, event)" onmouseup="stopHoldIncrement()" ontouchstart="startHoldIncrement('redNumber', -10, event)" ontouchend="stopHoldIncrement()" onclick="adjustValue('redNumber', -10)" class="armored-button" style="width: 32px; height: 52px; min-width: 32px; min-height: 52px; font-size: 0.65rem; padding: 0;">-10</button>
-                                                <button onmousedown="startHoldIncrement('redNumber', -5, event)" onmouseup="stopHoldIncrement()" ontouchstart="startHoldIncrement('redNumber', -5, event)" ontouchend="stopHoldIncrement()" onclick="adjustValue('redNumber', -5)" class="armored-button" style="width: 32px; height: 52px; min-width: 32px; min-height: 52px; font-size: 0.65rem; padding: 0;">-5</button>
-                                                <button onmousedown="startHoldIncrement('redNumber', -1, event)" onmouseup="stopHoldIncrement()" ontouchstart="startHoldIncrement('redNumber', -1, event)" ontouchend="stopHoldIncrement()" onclick="adjustValue('redNumber', -1)" class="armored-button" style="width: 32px; height: 52px; min-width: 32px; min-height: 52px; font-size: 1rem; padding: 0;">-</button>
-                                                <input type="text" id="redNumber" value="0" tabindex="3" class="armored-input" inputmode="numeric" pattern="[0-9]*">
-                                                <button onmousedown="startHoldIncrement('redNumber', 1, event)" onmouseup="stopHoldIncrement()" ontouchstart="startHoldIncrement('redNumber', 1, event)" ontouchend="stopHoldIncrement()" onclick="adjustValue('redNumber', 1)" class="armored-button" style="width: 32px; height: 52px; min-width: 32px; min-height: 52px; font-size: 1rem; padding: 0;">+</button>
-                                                <button onmousedown="startHoldIncrement('redNumber', 5, event)" onmouseup="stopHoldIncrement()" ontouchstart="startHoldIncrement('redNumber', 5, event)" ontouchend="stopHoldIncrement()" onclick="adjustValue('redNumber', 5)" class="armored-button" style="width: 32px; height: 52px; min-width: 32px; min-height: 52px; font-size: 0.65rem; padding: 0;">+5</button>
-                                                <button onmousedown="startHoldIncrement('redNumber', 10, event)" onmouseup="stopHoldIncrement()" ontouchstart="startHoldIncrement('redNumber', 10, event)" ontouchend="stopHoldIncrement()" onclick="adjustValue('redNumber', 10)" class="armored-button" style="width: 32px; height: 52px; min-width: 32px; min-height: 52px; font-size: 0.65rem; padding: 0;">+10</button>
+                                                <button onmousedown="startHoldIncrement('redNumber', -1, event)" onmouseup="stopHoldIncrement()" ontouchstart="startHoldIncrement('redNumber', -1, event)" ontouchend="stopHoldIncrement()" onclick="adjustValue('redNumber', -1)" class="armored-button" style="width: 52px; height: 52px; min-width: 52px; min-height: 52px; font-size: 1.5625rem; padding: 0;">-</button>
+                                                <input type="text" id="redNumber" value="0" class="armored-input" inputmode="numeric" pattern="[0-9]*" style="width: 85px; min-width: 85px;">
+                                                <button onmousedown="startHoldIncrement('redNumber', 1, event)" onmouseup="stopHoldIncrement()" ontouchstart="startHoldIncrement('redNumber', 1, event)" ontouchend="stopHoldIncrement()" onclick="adjustValue('redNumber', 1)" class="armored-button" style="width: 52px; height: 52px; min-width: 52px; min-height: 52px; font-size: 1.5625rem; padding: 0;">+</button>
                                             </div>
                                         </div>
                                     </div>
@@ -4189,7 +4214,7 @@
         
                         <!-- Calculate Button -->
                         <div style="position: relative; margin-top: 0; margin-bottom: 5px;">
-                            <button onclick="calculate()" id="calculateButton" tabindex="4" class="armored-calculate">
+                            <button onclick="calculate()" id="calculateButton" class="armored-calculate">
                                 Calculate Elevation
                             </button>
                         </div>
@@ -4207,7 +4232,7 @@
                                     <!-- MIL wheels will be generated here -->
                                 </div>
                             </div>
-                            <div class="text-sm text-gray-400 mt-4" style="font-family: 'Courier New', monospace; transform: translateY(-15px);">
+                            <div class="text-sm text-gray-400 mt-4" style="font-family: 'Courier New', monospace; transform: translateY(-8px);">
                                 <div>Base: <span id="baseValue" class="text-white">0</span> <span id="baseMilLabel" class="text-white mil-label">MIL</span></div>
                                 <div>Target Height <span id="heightSymbol">Δ</span>: <span id="heightValue" class="text-gray-300">0m</span></div>
                                 <div>Terrain Elevation: <span id="redValue" class="text-gray-300">+0</span> <span id="redValueUnit" class="text-gray-400 mil-label">MIL</span></div>
@@ -4259,7 +4284,7 @@
 
                     <!-- Version Info -->
                     <div class="text-xs text-gray-500 text-center mt-4" style="margin-top: calc(1rem - 2px);">
-                        <p>HLL SPA Artillery Calculator v1.0.5 - 2025</p>
+                        <p>HLL SPA Artillery Calculator v1.0.6 - 2025</p>
                         <p class="text-orange-400 mt-1">⚠️ This calculator is still being tested and improved. The results may not always be perfect. Please use your best judgment when using these calculations.</p>
                     </div>
                 </div>
@@ -5525,18 +5550,10 @@
             
             // Sync slider to input
             if (distanceSlider) {
+                // touch-action: none in CSS prevents page scrolling while allowing slider to work
                 distanceSlider.addEventListener('input', function() {
                     const sliderValue = parseFloat(this.value) || 400;
                     distanceInput.value = Math.round(sliderValue);
-                    
-                    // If auto calc is off, automatically turn it on when slider is dragged
-                    const autoCalcToggle = document.getElementById('autoCalcToggle');
-                    if (autoCalcToggle && !autoCalcToggle.checked) {
-                        autoCalcToggle.checked = true;
-                        // Trigger change event to update all related UI (including visual toggle)
-                        const event = new Event('change', { bubbles: true });
-                        autoCalcToggle.dispatchEvent(event);
-                    }
                     
                     // Trigger input event to update everything
                     distanceInput.dispatchEvent(new Event('input'));
@@ -6155,15 +6172,8 @@
             // Update MIL labels after values are set
             updateMilLabels();
 
-            // In manual mode, focus distance input after calculation (for Enter key workflow)
-            // In auto mode, remove focus from calculate button to clear yellow highlight
-            if (!isAutoCalcEnabled()) {
-                const distanceInputEl = document.getElementById('distance');
-                if (distanceInputEl) {
-                    distanceInputEl.focus();
-                    distanceInputEl.select();
-                }
-            } else if (document.activeElement && document.activeElement.id === 'calculateButton') {
+            // Remove focus from calculate button to clear yellow highlight (mobile doesn't need focus management)
+            if (document.activeElement && document.activeElement.id === 'calculateButton') {
                 document.activeElement.blur();
             }
 
@@ -7023,12 +7033,8 @@
 
         // Function to update tab loop based on auto/manual mode
         function updateTabLoop() {
-            const isAuto = isAutoCalcEnabled();
-            
-            if (calcButtonEl) {
-                // In auto mode, remove button from tab order; in manual mode, include it
-                calcButtonEl.tabIndex = isAuto ? -1 : 4;
-            }
+            // Tab navigation disabled for mobile - no tabindex needed
+            // This function kept for compatibility but does nothing on mobile
         }
         
         if (calcButtonEl && distanceInputEl && heightInputEl && redInputEl) {
@@ -7178,6 +7184,9 @@
                     updateFactionImage();
                     if (isAutoCalcEnabled()) {
                     calculate();
+                    } else {
+                        // Reset final counter to 0000 when tank changes and auto calc is off
+                        rollElevationToNumber(0);
                     }
                     saveState();
                 }
@@ -7619,10 +7628,19 @@
                 }
                 
                 function formatMainGun(text) {
-                    // Extract gun name and ammunition info
+                    // Extract gun name only (without ammo info)
                     const parts = text.split(' - ');
                     if (parts.length === 2) {
                         const gunName = parts[0];
+                        return `<span class="highlight-number">${gunName}</span>`;
+                    }
+                    return `<span class="highlight-number">${text}</span>`;
+                }
+                
+                function formatMainGunAmmo(text) {
+                    // Extract ammunition info and return ammo box HTML
+                    const parts = text.split(' - ');
+                    if (parts.length === 2) {
                         const ammoText = parts[1];
                         
                         // Extract all ammo types with their counts - build complete HTML
@@ -7642,13 +7660,12 @@
                             });
                         }
                         
-                        // Return gun name + single ammo box containing all ammo types
-                        const ammoBox = ammoItems.length > 0 
+                        // Return single ammo box containing all ammo types
+                        return ammoItems.length > 0 
                             ? `<span class="ammo-box">${ammoItems.join('')}</span>`
                             : '';
-                        return `<span class="highlight-number" style="margin-right: 14px;">${gunName}</span>${ammoBox}`;
                     }
-                    return `<span class="highlight-number">${text}</span>`;
+                    return '';
                 }
                 
                 // Function to highlight elevation MIL values - full value highlighted
@@ -7666,7 +7683,7 @@
                     return `<span class="highlight-number">${text}</span>`;
                 }
                 
-                // Function to highlight coaxial and hull gun
+                // Function to highlight coaxial and hull gun (gun name only)
                 function formatGunAmmo(text) {
                     if (text.includes('NO') || text.includes('NO ')) {
                         return `<span class="no-weapon-marked">${text}</span>`;
@@ -7675,6 +7692,20 @@
                     const parts = text.split(' - ');
                     if (parts.length === 2) {
                         const gunName = parts[0];
+                        return `<span class="highlight-number">${gunName}</span>`;
+                    }
+                    // Fallback to highlight full text
+                    return `<span class="highlight-number">${text}</span>`;
+                }
+                
+                // Function to extract and format ammo box for coaxial and hull guns
+                function formatGunAmmoBox(text) {
+                    if (text.includes('NO') || text.includes('NO ')) {
+                        return '';
+                    }
+                    // Split by " - " to separate gun name and ammo
+                    const parts = text.split(' - ');
+                    if (parts.length === 2) {
                         const ammoText = parts[1];
                         // Format: "200 rounds × 6 magazines" into one box with image
                         const ammoMatch = ammoText.match(/(\d+)\s*rounds\s*[×x]\s*(\d+)\s*magazines/i);
@@ -7682,11 +7713,10 @@
                             const rounds = ammoMatch[1];
                             const magazines = ammoMatch[2];
                             const imagePath = 'images/UI/Icons/vehicles/T_HUD_Status_Ammo_invert_28.png';
-                            return `<span class="highlight-number" style="margin-right: 14px;">${gunName}</span><span class="ammo-box"><img src="${imagePath}" alt="Ammo" loading="eager" decoding="async"><span class="highlight-number">${rounds}</span> rounds × <span class="highlight-number">${magazines}</span> magazines</span>`;
+                            return `<span class="ammo-box"><img src="${imagePath}" alt="Ammo" loading="eager" decoding="async"><span class="highlight-number">${rounds}</span> rounds × <span class="highlight-number">${magazines}</span> magazines</span>`;
                         }
                     }
-                    // Fallback to highlight full text
-                    return `<span class="highlight-number">${text}</span>`;
+                    return '';
                 }
                 
                 // Generate content for each tab
@@ -7703,6 +7733,11 @@
                                     <div class="spec-label">PRIMARY ARMAMENT:</div>
                                     <div class="spec-value">${formatMainGun(info.stats.mainGun)}</div>
                                 </div>
+                                ${formatMainGunAmmo(info.stats.mainGun) ? `
+                                <div class="spec-row">
+                                    <div class="spec-label" style="grid-column: 1 / -1;">${formatMainGunAmmo(info.stats.mainGun)}</div>
+                                </div>
+                                ` : ''}
                                 <div class="spec-row">
                                     <div class="spec-label">ELEVATION RANGE:</div>
                                     <div class="spec-value">${formatElevation(info.stats.elevation)}</div>
@@ -7715,10 +7750,20 @@
                                     <div class="spec-label">COAXIAL WEAPON:</div>
                                     <div class="spec-value">${formatGunAmmo(formatAmmo(info.stats.coaxial))}</div>
                                 </div>
+                                ${formatGunAmmoBox(formatAmmo(info.stats.coaxial)) ? `
+                                <div class="spec-row">
+                                    <div class="spec-label" style="grid-column: 1 / -1;">${formatGunAmmoBox(formatAmmo(info.stats.coaxial))}</div>
+                                </div>
+                                ` : ''}
                                 <div class="spec-row weapon-row ${(info.stats.hullGun && (info.stats.hullGun.includes('NO') || info.stats.hullGun.includes('NO '))) ? 'no-weapon-row' : ''}">
                                     <div class="spec-label">HULL MACHINE GUN:</div>
                                     <div class="spec-value">${formatGunAmmo(formatAmmo(info.stats.hullGun))}</div>
                                 </div>
+                                ${formatGunAmmoBox(formatAmmo(info.stats.hullGun)) ? `
+                                <div class="spec-row">
+                                    <div class="spec-label" style="grid-column: 1 / -1;">${formatGunAmmoBox(formatAmmo(info.stats.hullGun))}</div>
+                                </div>
+                                ` : ''}
                                 <div class="spec-row">
                                     <div class="spec-label">MAXIMUM SPEED:</div>
                                     <div class="spec-value">${formatTopSpeed(info.stats.topSpeed)}</div>

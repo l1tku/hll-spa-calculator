@@ -3927,7 +3927,7 @@
 
                     <!-- Version Info -->
                     <div class="text-xs text-gray-500 text-center mt-4" style="margin-top: calc(1rem - 2px);">
-                        <p>HLL SPA Artillery Calculator v1.0.5 - 2025</p>
+                        <p>HLL SPA Artillery Calculator v1.0.6 - 2025</p>
                         <p class="text-orange-400 mt-1">⚠️ This calculator is still being tested and improved. The results may not always be perfect. Please use your best judgment when using these calculations.</p>
                     </div>
                 </div>
@@ -6586,6 +6586,9 @@
                     updateFactionImage();
                     if (isAutoCalcEnabled()) {
                     calculate();
+                    } else {
+                        // Reset final counter to 0000 when switching tanks and auto calc is off
+                        rollElevationToNumber(0);
                     }
                     saveState();
                 }
