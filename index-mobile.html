@@ -4175,7 +4175,7 @@
                                         </div>
                                     </div>
                                     <!-- Range indicator and slider -->
-                                    <div style="margin-top: 12px; margin-bottom: 8px; touch-action: none;">
+                                    <div style="margin-top: 12px; margin-bottom: 8px;">
                                         <div class="range-indicator" id="distanceRangeIndicator">
                                             <div class="range-indicator-bar" id="distanceRangeBar"></div>
                                         </div>
@@ -5589,28 +5589,7 @@
             
             // Sync slider to input
             if (distanceSlider) {
-                // Prevent page scrolling when touching slider on mobile
-                let isDragging = false;
-                
-                distanceSlider.addEventListener('touchstart', function(e) {
-                    isDragging = true;
-                    // Prevent default to stop page scrolling
-                    e.preventDefault();
-                }, { passive: false });
-                
-                distanceSlider.addEventListener('touchmove', function(e) {
-                    if (isDragging) {
-                        // Prevent default to stop page scrolling while dragging
-                        e.preventDefault();
-                    }
-                }, { passive: false });
-                
-                distanceSlider.addEventListener('touchend', function(e) {
-                    isDragging = false;
-                    // Small delay to prevent any scroll after release
-                    e.preventDefault();
-                }, { passive: false });
-                
+                // touch-action: none in CSS prevents page scrolling while allowing slider to work
                 distanceSlider.addEventListener('input', function() {
                     const sliderValue = parseFloat(this.value) || 400;
                     distanceInput.value = Math.round(sliderValue);
