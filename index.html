@@ -3981,7 +3981,7 @@
                 stats: {
                     elevation: '-89 MIL to 533 MIL',
                     hullGun: 'M1919 .30 cal - 200 rounds × 6 magazines',
-                    mainGun: 'OQF 57MM - 50 HE rounds, 35 SMOKE rounds, 20 AP rounds',
+                    mainGun: '105mm HOWIZER',
                     turretRotation: '360°',
                     coaxial: 'M1919 .30 cal - 200 rounds × 6 magazines',
                     topSpeed: '24 km/h'
@@ -4031,7 +4031,7 @@
                 stats: {
                     elevation: '-89 MIL to 356 MIL',
                     hullGun: '7.92 BESA - 200 rounds × 6 magazines',
-                    mainGun: 'OQF 57MM - 50 HE rounds, 35 SMOKE rounds, 20 AP rounds',
+                    mainGun: '230MM PETARD',
                     turretRotation: '360°',
                     coaxial: '7.92 BESA - 200 rounds × 6 magazines',
                     topSpeed: '20 km/h'
@@ -4083,7 +4083,7 @@
                 stats: {
                     elevation: '-89 MIL to 533 MIL',
                     hullGun: 'NO MG DRIVER',
-                    mainGun: 'OQF 57MM - 50 HE rounds, 35 SMOKE rounds, 20 AP rounds',
+                    mainGun: 'StuH 45 L/12',
                     turretRotation: '30° total (15° left and 15° right)',
                     coaxial: 'NO COAXIAL GUN',
                     topSpeed: '27 km/h'
@@ -5251,6 +5251,8 @@
         // Track previous warning message type to avoid repeating animation
         let previousWarningType = '';
         let previousWarningMessage = '';
+        let isWarningAnimating = false;
+        let warningAnimationTimeout = null;
 
         // Normalize warning message to extract just the warning type (ignore changing values)
         function normalizeWarningMessage(message) {
@@ -5289,13 +5291,27 @@
                 warningP.textContent = currentMessage;
                 
                 // Only animate if warning type changed or warning was hidden
-                if (warningTypeChanged || wasHidden) {
+                // AND animation is not currently in progress
+                if ((warningTypeChanged || wasHidden) && !isWarningAnimating) {
                     warningDiv.classList.remove('hidden');
+                    // Mark animation as in progress
+                    isWarningAnimating = true;
+                    
+                    // Clear any pending animation timeout
+                    if (warningAnimationTimeout) {
+                        clearTimeout(warningAnimationTimeout);
+                    }
+                    
                     // Reset animation to ensure it plays
                     warningDiv.style.animation = 'none';
                     requestAnimationFrame(() => {
                         requestAnimationFrame(() => {
                             warningDiv.style.animation = '';
+                            // Reset animation flag after animation completes (400ms)
+                            warningAnimationTimeout = setTimeout(() => {
+                                isWarningAnimating = false;
+                                warningAnimationTimeout = null;
+                            }, 400);
                         });
                     });
                     previousWarningType = currentWarningType;
@@ -5319,8 +5335,16 @@
         function hideWarning(warningDiv) {
             if (!warningDiv) return;
             
-            // Only animate if warning is currently visible
-            if (!warningDiv.classList.contains('hidden')) {
+            // Only animate if warning is currently visible and not already animating
+            if (!warningDiv.classList.contains('hidden') && !isWarningAnimating) {
+                // Mark animation as in progress
+                isWarningAnimating = true;
+                
+                // Clear any pending animation timeout
+                if (warningAnimationTimeout) {
+                    clearTimeout(warningAnimationTimeout);
+                }
+                
                 // Add hiding class first to trigger reverse animation
                 warningDiv.classList.add('hiding');
                 // Reset animation to ensure it plays
@@ -5334,11 +5358,13 @@
                             warningDiv.classList.add('hidden');
                             previousWarningType = '';
                             previousWarningMessage = '';
+                            isWarningAnimating = false;
+                            warningAnimationTimeout = null;
                         }, 400); // Match animation duration
                     });
                 });
             } else {
-                // Already hidden, just ensure it stays hidden
+                // Already hidden or animating, just ensure it stays hidden
                 warningDiv.classList.remove('hiding');
                 warningDiv.classList.add('hidden');
                 previousWarningType = '';
