@@ -34,9 +34,11 @@ A web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let 
 
 ## Version
 
-v1.0.6 - 2025
+v1.0.7 - 2025
 
 ### Recent Updates
+- **Production-ready CSS**: Switched from Tailwind CDN to built CSS file for better performance and production readiness
+- **Mobile scaling fixes**: Enhanced viewport settings for better mobile usability and zoom control
 - **Mobile HTML version**: Comprehensive mobile optimizations with enhanced touch interactions, iOS-specific input handling, and mobile-optimized UI elements
 - **Performance improvements**: Optimized icon assets (flags resized to 30px, vehicle icons to 28px)
 - **Cleanup**: Removed unused assets to reduce repository size

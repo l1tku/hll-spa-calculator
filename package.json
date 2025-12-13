@@ -1,0 +1,15 @@
+{
+  "name": "hll-spa-calculator",
+  "version": "5.0.0",
+  "description": "HLL SPA Artillery Calculator",
+  "scripts": {
+    "build-css": "tailwindcss -i ./src/input.css -o ./dist/output.css --minify",
+    "watch-css": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}
+
+
+

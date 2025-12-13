@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Build outputs (optional - you might want to include dist/output.css)
+# dist/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.code-workspace
+.cursor/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Debug and temporary files
+debug.log
+*.log
+debug_plan.md
+
+# Backup files
+* – kopio.*
+*_backup.*
+
+# Unused files (if you don't want them in repo)
+# unused/
+

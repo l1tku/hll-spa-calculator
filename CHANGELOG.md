@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.7] - 2025-01-XX
+
+### Changed
+- **Production-ready Tailwind CSS setup**
+  - Replaced CDN Tailwind script with built CSS file (`dist/output.css`) for production use
+  - Eliminated console warnings about CDN usage in production
+  - Improved performance with optimized, minified CSS
+  - Better offline support and faster page loads
+
+### Fixed
+- **Mobile scaling improvements**
+  - Enhanced viewport settings with `maximum-scale=5.0` and `user-scalable=yes` for better mobile usability
+  - Prevents UI elements from scaling incorrectly on mobile devices
+  - Better touch interaction and zoom control on mobile devices
+
 ## [1.0.6] - 2025-12-12
 
 ### Release

@@ -26,3 +26,7 @@ if (isMobileDevice() && !window.location.pathname.includes('index-mobile.html'))
 
 
 
+
+
+
+

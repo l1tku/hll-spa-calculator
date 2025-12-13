@@ -7,7 +7,7 @@
     <title>HLL SPA Artillery Calculator</title>
     <!-- Preload critical tank image for faster initial render (WebP only - PNG is fallback loaded on demand) -->
     <link rel="preload" as="image" href="images/tanks/BISHOP_248.webp" type="image/webp" fetchpriority="high">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="dist/output.css">
 
     <style>
         @font-face {
@@ -350,6 +350,52 @@
         /* Ensure parent container allows overflow for warning */
         #calculator-card {
             overflow: visible !important;
+            max-width: 355px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+        }
+        
+        /* Ensure calculator card and all its children respect max-width */
+        #calculator-card.armored-panel-container {
+            max-width: 355px !important;
+            width: 100% !important;
+        }
+        
+        /* Keep calculator card at 355px on larger screens - don't let it grow */
+        @media (min-width: 355px) {
+            #calculator-card {
+                width: 355px !important;
+                max-width: 355px !important;
+            }
+            #calculator-card.armored-panel-container {
+                width: 355px !important;
+                max-width: 355px !important;
+            }
+        }
+        
+        /* Prevent buttons and inputs from scaling - keep fixed sizes */
+        #calculator-card .armored-button {
+            width: 52px !important;
+            height: 52px !important;
+            min-width: 52px !important;
+            min-height: 52px !important;
+            max-width: 52px !important;
+            max-height: 52px !important;
+            font-size: 1.5625rem !important;
+            flex-shrink: 0 !important;
+        }
+        
+        #calculator-card .armored-input {
+            width: 85px !important;
+            min-width: 85px !important;
+            max-width: 85px !important;
+            height: 52px !important;
+            min-height: 52px !important;
+            max-height: 52px !important;
+            font-size: 20px !important;
+            flex-shrink: 0 !important;
         }
         
         /* Ensure the wrapper allows the warning to be visible */
@@ -1793,7 +1839,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: auto;
+            width: fit-content;
             min-width: calc(450px * var(--counter-scale));
             flex-wrap: nowrap;
         }
@@ -1815,6 +1861,65 @@
             
             .mechanical-counter {
                 flex-shrink: 0;
+            }
+        }
+        
+        /* Prevent MIL counter and dropdown from scaling too large above 768px */
+        @media (min-width: 769px) {
+            /* Keep counter container font-size consistent with mobile */
+            .armored-result-value {
+                font-size: calc(2rem * var(--counter-scale)) !important;
+                /* Override min-width from 750px media query to prevent huge expansion */
+                min-width: auto !important;
+            }
+            
+            /* Keep counter heights consistent with mobile (60px) */
+            .mechanical-counter {
+                height: calc(60px * var(--counter-scale)) !important;
+            }
+            
+            .digit-wheel,
+            .mil-wheel {
+                height: calc(60px * var(--counter-scale)) !important;
+            }
+            
+            .digit-cell,
+            .mil-cell {
+                height: calc(60px * var(--counter-scale)) !important;
+                line-height: calc(60px * var(--counter-scale)) !important;
+            }
+            
+            /* Explicitly set font-size for MIL cells to prevent scaling */
+            .mil-cell {
+                font-size: calc(2rem * var(--counter-scale)) !important;
+            }
+            
+            .mil-static-counter {
+                height: calc(60px * var(--counter-scale)) !important;
+                gap: calc(2px * var(--counter-scale)) !important;
+                margin-left: calc(2px * var(--counter-scale)) !important;
+            }
+            
+            /* Constrain MIL wheel font-size and width to prevent scaling with em units */
+            .mil-wheel {
+                font-size: calc(2rem * var(--counter-scale)) !important;
+                /* Use fixed pixel width based on 2rem font-size: 0.7 * 32px = 22.4px */
+                width: calc(22.4px * var(--counter-scale)) !important;
+            }
+            
+            .mil-static-counter .mil-wheel:first-child {
+                /* Use fixed pixel width: 0.9 * 32px - 1px = 27.8px */
+                width: calc((28.8px - 1px) * var(--counter-scale)) !important;
+            }
+            
+            /* Keep MIL label font-size consistent with mobile */
+            .armored-result-value .mil-label {
+                font-size: calc(2rem * var(--counter-scale)) !important;
+            }
+            
+            /* Keep dropdown text at reasonable size */
+            .select-selected {
+                font-size: 15px !important;
             }
         }
         
@@ -2124,7 +2229,8 @@
 
         /* Fix calculator card width so grid lines hit both left and right edges cleanly */
         .calculator-card {
-            width: 765px;
+            width: 100%;
+            max-width: 355px;
             margin: 0 auto;
             padding-bottom: 30px;
             /* Paper texture background */
@@ -4285,7 +4391,7 @@
 
                     <!-- Version Info -->
                     <div class="text-xs text-gray-500 text-center mt-4" style="margin-top: calc(1rem - 2px);">
-                        <p>HLL SPA Artillery Calculator v1.0.6 - 2025</p>
+                        <p>HLL SPA Artillery Calculator v1.0.7 - 2025</p>
                         <p class="text-orange-400 mt-1">⚠️ This calculator is still being tested and improved. The results may not always be perfect. Please use your best judgment when using these calculations.</p>
                     </div>
                 </div>
@@ -5670,15 +5776,9 @@
         
         // Get dynamic CELL_HEIGHT from computed styles or CSS variable
         function getCellHeight() {
-            // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/28125f55-0e6d-43a1-ac1a-2bf78147e3ae',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index-mobile.html:4837',message:'getCellHeight called',data:{timestamp:Date.now()},sessionId:'debug-session',runId:'pre-fix',hypothesisId:'A'})}).catch(()=>{});
-            // #endregion
             if (elevationCounterElement) {
                 const computedStyle = window.getComputedStyle(elevationCounterElement);
                 const height = parseFloat(computedStyle.height);
-                // #region agent log
-                fetch('http://127.0.0.1:7242/ingest/28125f55-0e6d-43a1-ac1a-2bf78147e3ae',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index-mobile.html:4842',message:'Computed height from element',data:{height:height,timestamp:Date.now()},sessionId:'debug-session',runId:'pre-fix',hypothesisId:'A'})}).catch(()=>{});
-                // #endregion
                 if (height && !isNaN(height)) {
                     return height;
                 }
@@ -5690,14 +5790,46 @@
             const baseSizeNum = parseFloat(baseSize) || 80;
             const scaleNum = parseFloat(scale) || 1;
             const calculatedHeight = baseSizeNum * scaleNum;
-            // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/28125f55-0e6d-43a1-ac1a-2bf78147e3ae',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index-mobile.html:4853',message:'Calculated height from CSS variables',data:{baseSize:baseSize,scale:scale,calculatedHeight:calculatedHeight,timestamp:Date.now()},sessionId:'debug-session',runId:'pre-fix',hypothesisId:'A'})}).catch(()=>{});
-            // #endregion
             return calculatedHeight;
         }
         
         // Initialize CELL_HEIGHT - will be updated dynamically
         let CELL_HEIGHT = getCellHeight();
+        
+        // Function to update all counter strip positions when CELL_HEIGHT changes
+        function updateCounterStripsForNewHeight() {
+            if (!elevationCounterElement) return;
+            
+            // Get the old CELL_HEIGHT by checking if we can derive it from existing transforms
+            // But for simplicity, we'll use currentElevationDigits as source of truth
+            // Update all digit strips based on current state
+            for (let i = 0; i < 4; i++) {
+                const strip = document.getElementById(`elevation-strip-${i}`);
+                if (!strip) continue;
+                
+                // Preserve current display by reading from state
+                if (i === 0 && isElevationNegative) {
+                    // First strip showing minus sign
+                    strip.style.transition = 'none';
+                    strip.style.transform = `translateY(-${1 * CELL_HEIGHT}px)`;
+                } else {
+                    // For all strips (first digit or remaining), use currentElevationDigits
+                    const digit = (i < currentElevationDigits.length) ? currentElevationDigits[i] : 0;
+                    strip.style.transition = 'none';
+                    strip.style.transform = `translateY(-${digit * CELL_HEIGHT}px)`;
+                }
+            }
+            
+            // Also update MIL counter strips (they use position 10 to show letters)
+            const milCounter = document.getElementById('elevationMilCounter');
+            if (milCounter) {
+                const milStrips = milCounter.querySelectorAll('.mil-strip');
+                milStrips.forEach(strip => {
+                    strip.style.transition = 'none';
+                    strip.style.transform = `translateY(-${10 * CELL_HEIGHT}px)`;
+                });
+            }
+        }
         
         function createElevationDigitWheel(index, isFirstWheel = false) {
             const wheel = document.createElement('div');
@@ -5772,14 +5904,8 @@
         }
         
         function setupElevationCounter(targetNumber) {
-            // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/28125f55-0e6d-43a1-ac1a-2bf78147e3ae',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index-mobile.html:4930',message:'setupElevationCounter called',data:{targetNumber:targetNumber,currentCellHeight:CELL_HEIGHT,timestamp:Date.now()},sessionId:'debug-session',runId:'pre-fix',hypothesisId:'B'})}).catch(()=>{});
-            // #endregion
             // Update CELL_HEIGHT dynamically before use
             CELL_HEIGHT = getCellHeight();
-            // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/28125f55-0e6d-43a1-ac1a-2bf78147e3ae',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index-mobile.html:4934',message:'CELL_HEIGHT updated in setupElevationCounter',data:{newCellHeight:CELL_HEIGHT,timestamp:Date.now()},sessionId:'debug-session',runId:'pre-fix',hypothesisId:'B'})}).catch(()=>{});
-            // #endregion
             const absValue = Math.abs(targetNumber);
             const numStr = String(Math.max(0, Math.floor(absValue))).padStart(3, '0');
             const targetDigits = numStr.split('').map(Number);
@@ -5802,7 +5928,7 @@
                 if (strip) {
                     if (i === 0 && isNeg) {
                         strip.style.transition = 'none';
-                        strip.style.transform = `translateY(-${1 * CELL_HEIGHT}px)`; // Position 1 is minus sign
+                        strip.style.transform = `translateY(-${1 * CELL_HEIGHT}px)`;
                     } else {
                         strip.style.transition = 'none';
                         strip.style.transform = 'translateY(0)';
@@ -5815,14 +5941,8 @@
         }
         
         function rollElevationToNumber(targetNumber) {
-            // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/28125f55-0e6d-43a1-ac1a-2bf78147e3ae',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index-mobile.html:4965',message:'rollElevationToNumber called',data:{targetNumber:targetNumber,currentCellHeight:CELL_HEIGHT,timestamp:Date.now()},sessionId:'debug-session',runId:'pre-fix',hypothesisId:'C'})}).catch(()=>{});
-            // #endregion
             // Update CELL_HEIGHT dynamically before use
             CELL_HEIGHT = getCellHeight();
-            // #region agent log
-            fetch('http://127.0.0.1:7242/ingest/28125f55-0e6d-43a1-ac1a-2bf78147e3ae',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index-mobile.html:4969',message:'CELL_HEIGHT updated in rollElevationToNumber',data:{newCellHeight:CELL_HEIGHT,timestamp:Date.now()},sessionId:'debug-session',runId:'pre-fix',hypothesisId:'C'})}).catch(()=>{});
-            // #endregion
             const absValue = Math.abs(targetNumber);
             const numStr = String(Math.max(0, Math.floor(absValue))).padStart(3, '0');
             const targetDigits = numStr.split('').map(Number);
@@ -6696,7 +6816,6 @@
         // Load any saved state before wiring up interactions
         loadState();
         
-        // #region agent log
         function checkElevationLabelOverlap() {
             const resultContainer = document.getElementById('result');
             if (!resultContainer) return;
@@ -6717,9 +6836,7 @@
             const labelRight = labelRect.right - containerRect.left;
             const overlapsLeft = labelLeft < leftButtonRight;
             const overlapsRight = labelRight > rightButtonLeft;
-            fetch('http://127.0.0.1:7242/ingest/28125f55-0e6d-43a1-ac1a-2bf78147e3ae',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'index-mobile.html:6190',message:'Elevation label overlap check',data:{containerWidth:containerWidth,leftButtonRight:leftButtonRight,rightButtonLeft:rightButtonLeft,availableWidth:availableWidth,labelWidth:labelWidth,labelLeft:labelLeft,labelRight:labelRight,overlapsLeft:overlapsLeft,overlapsRight:overlapsRight,timestamp:Date.now()},sessionId:'debug-session',runId:'pre-fix',hypothesisId:'A'})}).catch(()=>{});
         }
-        // #endregion
         
         // Initialize mechanical counter
         setupElevationCounter(0);
@@ -6731,10 +6848,20 @@
 
         syncSliderWithInput();
 
-        // #region agent log
         checkElevationLabelOverlap();
-        window.addEventListener('resize', checkElevationLabelOverlap);
-        // #endregion
+        window.addEventListener('resize', function() {
+            if (elevationCounterElement) {
+                const currentCellHeight = getCellHeight();
+                
+                // Check if CELL_HEIGHT has changed and update if necessary
+                if (currentCellHeight !== CELL_HEIGHT) {
+                    CELL_HEIGHT = currentCellHeight;
+                    // Update all strip positions with new CELL_HEIGHT
+                    updateCounterStripsForNewHeight();
+                }
+            }
+            checkElevationLabelOverlap();
+        });
         
         // Run initial calculation after everything is set up (only if auto mode)
         if (isAutoCalcEnabled()) {
