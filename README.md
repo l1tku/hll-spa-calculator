@@ -15,8 +15,8 @@ A web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let 
 
 1. Select your tank/SPA vehicle
 2. Enter target distance (200-600m range)
-3. Enter height difference (negative if target is lower, positive if higher)
-4. Enter your current elevation adjustment if needed
+3. Enter height difference (meters, negative if target is lower, positive if higher)
+4. Enter your current elevation adjustment if needed (RED MIL indicator in the tank HUD))
 5. Get your calculated elevation setting
 
 ## Vehicles Supported
@@ -34,7 +34,7 @@ A web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let 
 
 ## Version
 
-v1.0.5 - 2025
+v1.0.6 - 2025
 
 ### Recent Updates
 - **Mobile HTML version**: Comprehensive mobile optimizations with enhanced touch interactions, iOS-specific input handling, and mobile-optimized UI elements
