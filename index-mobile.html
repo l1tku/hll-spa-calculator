@@ -4100,26 +4100,26 @@
                                     <div class="custom-select-wrapper" style="display: flex; align-items: center; gap: 8px;">
                                         <div class="custom-select" style="flex-shrink: 1; position: relative; flex: 1; min-width: 0; max-width: 100%;">
                                             <div class="select-selected" id="selectSelected">
-                                                <img src="images/UI/Icons/flags/BRITISH_30.png" alt="BRITISH" class="flag-icon" loading="eager" decoding="async"> <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0;">British (Bishop SP)</span>
+                                                <img src="images/UI/Icons/flags/BRITISH.png" alt="BRITISH" class="flag-icon" loading="eager" decoding="async"> <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0;">British (Bishop SP)</span>
                                             </div>
                                             <div class="select-items select-hide" id="selectItems">
                                                 <div data-value="British (Bishop SP)">
-                                                    <img src="images/UI/Icons/flags/BRITISH_30.png" alt="BRITISH" class="flag-icon" loading="lazy" decoding="async"> British (Bishop SP)
+                                                    <img src="images/UI/Icons/flags/BRITISH.png" alt="BRITISH" class="flag-icon" loading="lazy" decoding="async"> British (Bishop SP)
                                                 </div>
                                                 <div data-value="British (Churchill AVRE)">
-                                                    <img src="images/UI/Icons/flags/BRITISH_30.png" alt="BRITISH" class="flag-icon" loading="lazy" decoding="async"> British (Churchill AVRE)
+                                                    <img src="images/UI/Icons/flags/BRITISH.png" alt="BRITISH" class="flag-icon" loading="lazy" decoding="async"> British (Churchill AVRE)
                                                 </div>
                                                 <div data-value="US (Sherman M4A3 105)">
-                                                    <img src="images/UI/Icons/flags/US_30.png" alt="US" class="flag-icon" loading="lazy" decoding="async"> US (Sherman M4A3)
+                                                    <img src="images/UI/Icons/flags/US.png" alt="US" class="flag-icon" loading="lazy" decoding="async"> US (Sherman M4A3)
                                                 </div>
                                                 <div data-value="Soviet Union (KV-2)">
-                                                    <img src="images/UI/Icons/flags/SOVIET_30.png" alt="USSR" class="flag-icon" loading="lazy" decoding="async"> Soviet Union (KV-2)
+                                                    <img src="images/UI/Icons/flags/SOVIET.png" alt="USSR" class="flag-icon" loading="lazy" decoding="async"> Soviet Union (KV-2)
                                                 </div>
                                                 <div data-value="DAK (Panzer III Ausf.N)">
-                                                    <img src="images/UI/Icons/flags/GERMANY_30.png" alt="Germany" class="flag-icon" loading="lazy" decoding="async"> DAK (Panzer III Ausf.N)
+                                                    <img src="images/UI/Icons/flags/GERMANY.png" alt="Germany" class="flag-icon" loading="lazy" decoding="async"> DAK (Panzer III Ausf.N)
                                                 </div>
                                                 <div data-value="Germany (Sturmpanzer IV Brummbär)">
-                                                    <img src="images/UI/Icons/flags/GERMANY_30.png" alt="Germany" class="flag-icon" loading="lazy" decoding="async"> Germany (Sturmpanzer)
+                                                    <img src="images/UI/Icons/flags/GERMANY.png" alt="Germany" class="flag-icon" loading="lazy" decoding="async"> Germany (Sturmpanzer)
                                                 </div>
                                             </div>
                                         </div>
@@ -6536,15 +6536,15 @@
 
                     // Update custom select display
                     const flagMap = {
-                        'British (Bishop SP)': 'BRITISH_30.png',
-                        'British (Churchill AVRE)': 'BRITISH_30.png',
-                        'US (Sherman M4A3 105)': 'US_30.png',
-                        'Soviet Union (KV-2)': 'SOVIET_30.png',
-                        'DAK (Panzer III Ausf.N)': 'GERMANY_30.png',
-                        'Germany (Sturmpanzer IV Brummbär)': 'GERMANY_30.png'
+                        'British (Bishop SP)': 'BRITISH.png',
+                        'British (Churchill AVRE)': 'BRITISH.png',
+                        'US (Sherman M4A3 105)': 'US.png',
+                        'Soviet Union (KV-2)': 'SOVIET.png',
+                        'DAK (Panzer III Ausf.N)': 'GERMANY.png',
+                        'Germany (Sturmpanzer IV Brummbär)': 'GERMANY.png'
                     };
 
-                    const flag = flagMap[state.faction] || 'BRITISH_30.png';
+                    const flag = flagMap[state.faction] || 'BRITISH.png';
                     const selectSelected = document.getElementById('selectSelected');
                     // Format faction name for display (remove "105" from M4A3)
                     const displayName = state.faction.replace(' (Sherman M4A3 105)', ' (Sherman M4A3)');
