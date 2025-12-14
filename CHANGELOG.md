@@ -15,10 +15,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Better offline support and faster page loads
 
 ### Fixed
+- **Critical: Height difference calculation formula**
+  - Fixed incorrect height difference calculation that was adding meters directly to mils
+  - Now correctly converts height difference from meters to mils using standard ballistics formula: `mils = (height_diff_meters / distance_meters) * 1000`
+  - Applied fix to both `index.html` and `index-mobile.html`
+  - This significantly improves accuracy for targets at different elevations
 - **Mobile scaling improvements**
   - Enhanced viewport settings with `maximum-scale=5.0` and `user-scalable=yes` for better mobile usability
   - Prevents UI elements from scaling incorrectly on mobile devices
   - Better touch interaction and zoom control on mobile devices
+
+### Verified
+- **Ballistics data accuracy**
+  - Verified all ballistics mil values match the PDF reference data for all vehicles
+  - Confirmed minMil and maxMil values are correct for all vehicles
+  - All distance-to-mil mappings (200m-600m) verified against ballistics.pdf
 
 ## [1.0.6] - 2025-12-12
 
