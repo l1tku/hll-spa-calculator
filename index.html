@@ -8,7 +8,7 @@
     <!-- Preload critical tank image for faster initial render (WebP only - PNG is fallback loaded on demand) -->
     <link rel="preload" as="image" href="images/tanks/BISHOP_248.webp" type="image/webp" fetchpriority="high">
     <link rel="stylesheet" href="dist/output.css">
-    <link rel="icon" type="image/png" href="images/UI/Icons/vehicles/T_HUD_Status_Ammo_invert_28.png">
+    <link rel="icon" type="image/png" href="images/favicon.png">
 
     <style>
         @font-face {
@@ -5578,8 +5578,18 @@
             const minMil = table.minMil;
             const maxMil = table.maxMil;
             
-            // Check if final elevation is outside turret's MIL limits
-            if (final < minMil || final > maxMil) {
+            // Check distance range first (prioritize over MIL limits)
+            if (distance < minDist || distance > maxDist) {
+                // Keep distance warning if no MIL limit issue
+                if (warningDiv) {
+                    if (distance > maxDist) {
+                        showWarning(warningDiv, `Warning: Distance (${distance}m) exceeds max range (${maxDist}m). Elevation is locked to ${maxDist}m value - trajectory does not change beyond this range.`);
+                    } else {
+                        showWarning(warningDiv, `Warning: Distance (${distance}m) is below minimum range (${minDist}m). Elevation calculated may be inaccurate.`);
+                    }
+                }
+            } else if (final < minMil || final > maxMil) {
+                // Check if final elevation is outside turret's MIL limits
                 let limitWarning = '';
                 if (final < minMil) {
                     limitWarning = `WARNING: Calculated elevation (${final} MIL) is below this turret's minimum elevation (${minMil} MIL).`;
@@ -5588,15 +5598,6 @@
                 }
                 if (warningDiv) {
                     showWarning(warningDiv, limitWarning);
-                }
-            } else if (distance < minDist || distance > maxDist) {
-                // Keep distance warning if no MIL limit issue
-                if (warningDiv) {
-                    if (distance > maxDist) {
-                        showWarning(warningDiv, `Warning: Distance (${distance}m) exceeds max range (${maxDist}m). Elevation is locked to ${maxDist}m value - trajectory does not change beyond this range.`);
-                    } else {
-                        showWarning(warningDiv, `Warning: Distance (${distance}m) is below minimum range (${minDist}m). Extrapolating elevation.`);
-                    }
                 }
             } else {
                 if (warningDiv) {
