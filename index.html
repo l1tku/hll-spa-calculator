@@ -3554,6 +3554,24 @@
             margin: auto;
         }
 
+        .screenshot-lightbox-stage {
+            display: grid;
+            place-items: center;
+            max-width: 90%;
+            max-height: 90%;
+            margin: auto;
+        }
+
+        .screenshot-lightbox-stage .screenshot-lightbox-img {
+            grid-area: 1 / 1;
+            opacity: 0;
+            transition: opacity 0.18s ease;
+        }
+
+        .screenshot-lightbox-stage .screenshot-lightbox-img.is-visible {
+            opacity: 1;
+        }
+
         .screenshot-lightbox img {
             max-width: 100%;
             max-height: 90vh;
@@ -3920,10 +3938,10 @@
                         <div class="screenshot-lightbox-close">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                         </div>
-                        <picture>
-                            <source id="screenshotLightboxSource" srcset="" type="image/webp">
-                            <img id="screenshotLightboxImg" src="" alt="Screenshot">
-                        </picture>
+                        <div class="screenshot-lightbox-stage" id="screenshotLightboxStage">
+                            <img id="screenshotLightboxImgA" class="screenshot-lightbox-img" src="" alt="Screenshot">
+                            <img id="screenshotLightboxImgB" class="screenshot-lightbox-img" src="" alt="Screenshot">
+                        </div>
                     </div>
 
                     <!-- Version Info -->
@@ -6789,7 +6807,8 @@
                     'm4a3_4.png',
                     'm4a3_5.png',
                     'm4a3_6.png',
-                    'm4a3_7.png'
+                    'm4a3_7.png',
+                    'm4a3_8.png'
                 ],
                 'KV2': [
                     'kv2_1.png',
@@ -6883,161 +6902,144 @@
         // Store current screenshot gallery and index
         let currentScreenshotGallery = [];
         let currentScreenshotIndex = -1;
+        let screenshotNavRequestId = 0;
+        let screenshotActiveSlot = 0;
+
+        function getScreenshotLightboxElements() {
+            return {
+                lightbox: document.getElementById('screenshotLightbox'),
+                stage: document.getElementById('screenshotLightboxStage'),
+                imgA: document.getElementById('screenshotLightboxImgA'),
+                imgB: document.getElementById('screenshotLightboxImgB')
+            };
+        }
+
+        function buildScreenshotGalleryFromDOM() {
+            const screenshotItems = document.querySelectorAll('.screenshot-item');
+            return Array.from(screenshotItems).map(item => {
+                return {
+                    webp: item.getAttribute('data-src-webp') || '',
+                    png: item.getAttribute('data-src') || ''
+                };
+            }).filter(item => item.webp || item.png);
+        }
+
+        function preloadScreenshotByIndex(index) {
+            if (!currentScreenshotGallery || currentScreenshotGallery.length === 0) return;
+            if (index < 0 || index >= currentScreenshotGallery.length) return;
+            const item = currentScreenshotGallery[index];
+            const url = item.webp || item.png;
+            if (!url) return;
+            const img = new Image();
+            img.decoding = 'async';
+            img.src = url;
+        }
+
+        async function resolveScreenshotUrl(item) {
+            const loadAndDecode = async (url) => {
+                if (!url) {
+                    throw new Error('Missing image URL');
+                }
+                const tmp = new Image();
+                tmp.decoding = 'async';
+                tmp.src = url;
+                try {
+                    await tmp.decode();
+                } catch (e) {
+                    await new Promise(resolve => {
+                        tmp.onload = resolve;
+                        tmp.onerror = resolve;
+                    });
+                    if (!tmp.complete || tmp.naturalWidth === 0) {
+                        throw e;
+                    }
+                }
+                return url;
+            };
+
+            if (item.webp && item.png) {
+                try {
+                    return await loadAndDecode(item.webp);
+                } catch (e) {
+                    return await loadAndDecode(item.png);
+                }
+            }
+            return await loadAndDecode(item.webp || item.png);
+        }
+
+        async function showScreenshotAtIndex(index) {
+            const { imgA, imgB } = getScreenshotLightboxElements();
+            if (!imgA || !imgB) return;
+            if (!currentScreenshotGallery || currentScreenshotGallery.length === 0) return;
+            if (index < 0 || index >= currentScreenshotGallery.length) return;
+
+            const requestId = ++screenshotNavRequestId;
+            const slots = [imgA, imgB];
+            const outgoingSlot = screenshotActiveSlot;
+            const incomingSlot = outgoingSlot === 0 ? 1 : 0;
+            const outgoingImg = slots[outgoingSlot];
+            const incomingImg = slots[incomingSlot];
+            const item = currentScreenshotGallery[index];
+
+            incomingImg.classList.remove('is-visible');
+
+            let url;
+            try {
+                url = await resolveScreenshotUrl(item);
+            } catch (e) {
+                return;
+            }
+
+            if (requestId !== screenshotNavRequestId) return;
+
+            incomingImg.src = url;
+            try {
+                if (incomingImg.decode) {
+                    await incomingImg.decode();
+                }
+            } catch (e) {
+            }
+
+            if (requestId !== screenshotNavRequestId) return;
+
+            incomingImg.classList.add('is-visible');
+            outgoingImg.classList.remove('is-visible');
+            screenshotActiveSlot = incomingSlot;
+
+            const nextIndex = (index + 1) % currentScreenshotGallery.length;
+            const prevIndex = (index - 1 + currentScreenshotGallery.length) % currentScreenshotGallery.length;
+            preloadScreenshotByIndex(nextIndex);
+            preloadScreenshotByIndex(prevIndex);
+        }
 
         // Function to open screenshot in lightbox (make it global)
         window.openScreenshotLightbox = function(src) {
-            const lightbox = document.getElementById('screenshotLightbox');
-            const lightboxImg = document.getElementById('screenshotLightboxImg');
-            const lightboxSource = document.getElementById('screenshotLightboxSource');
-            if (lightbox && lightboxImg) {
-                // IMMEDIATELY clear old image source using transparent pixel to force clear
-                // This must happen before anything else to prevent old image flash
-                const blankPixel = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-                const lightboxPicture = lightboxImg.closest('picture');
-                
-                // ALWAYS hide picture element first if lightbox is active - prevents any rendering
-                if (lightbox.classList.contains('active') && lightboxPicture) {
-                    lightboxPicture.classList.add('switching');
-                }
-                
-                if (lightbox.classList.contains('active') && lightboxImg.src) {
-                    // Remove ready class and add hiding class
-                    lightboxImg.classList.remove('ready');
-                    lightboxImg.classList.add('hiding');
-                    
-                    // REMOVE source element from DOM entirely to prevent browser from using it
-                    if (lightboxSource && lightboxSource.parentNode) {
-                        lightboxSource.parentNode.removeChild(lightboxSource);
-                    }
-                    // Remove src entirely instead of setting to blank pixel - prevents browser from showing cached image
-                    lightboxImg.removeAttribute('src');
-                    lightboxImg.removeAttribute('srcset');
-                    // Also clear any cached image data
-                    if (lightboxImg.complete) {
-                        lightboxImg.src = '';
-                    }
-                    
-                    // Force multiple reflows to ensure the blank pixel is rendered
-                    void lightboxImg.offsetHeight;
-                    void lightboxImg.offsetWidth;
-                }
-                
-                // Get all screenshots from the current gallery (both PNG and WebP)
-                const screenshotItems = document.querySelectorAll('.screenshot-item');
-                currentScreenshotGallery = Array.from(screenshotItems).map(item => {
-                    // Try WebP first, fallback to PNG
-                    const webpSrc = item.getAttribute('data-src-webp');
-                    return webpSrc || item.getAttribute('data-src');
-                });
-                
-                // Find the index of the clicked image
-                const clickedItem = Array.from(screenshotItems).find(item => 
-                    item.getAttribute('data-src') === src || item.getAttribute('data-src-webp') === src
-                );
-                
-                let targetWebpSrc, targetPngSrc, targetSrc;
-                
-                if (clickedItem) {
-                    targetWebpSrc = clickedItem.getAttribute('data-src-webp');
-                    targetPngSrc = clickedItem.getAttribute('data-src');
-                    targetSrc = targetPngSrc || src;
-                    currentScreenshotIndex = Array.from(screenshotItems).indexOf(clickedItem);
-                } else {
-                    currentScreenshotIndex = 0;
-                    targetSrc = currentScreenshotGallery[0] || src;
-                }
-                
-                // If opening fresh, ensure image starts hidden but will show when ready
-                if (!lightbox.classList.contains('active') || !lightboxImg.src || lightboxImg.src === blankPixel) {
-                    // Remove ready class to ensure image is hidden initially
-                    lightboxImg.classList.remove('ready');
-                    lightboxImg.classList.remove('hiding');
-                    // Remove switching class if present
-                    if (lightboxPicture) {
-                        lightboxPicture.classList.remove('switching');
-                    }
-                }
-                
-                // Preload the new image before switching to avoid showing old image
-                const newImg = new Image();
-                let imageLoaded = false;
-                
-                const switchImage = function() {
-                    if (imageLoaded) return; // Prevent multiple calls
-                    imageLoaded = true;
-                    
-                    // Recreate source element if it was removed, or update existing one
-                    const pictureElement = lightboxImg.closest('picture');
-                    let currentSource = pictureElement ? pictureElement.querySelector('source') : null;
-                    
-                    if (targetWebpSrc) {
-                        if (!currentSource) {
-                            // Recreate source element if it was removed
-                            currentSource = document.createElement('source');
-                            currentSource.id = 'screenshotLightboxSource';
-                            currentSource.type = 'image/webp';
-                            if (pictureElement) {
-                                pictureElement.insertBefore(currentSource, lightboxImg);
-                            }
-                        }
-                        currentSource.srcset = targetWebpSrc;
-                    } else if (currentSource && currentSource.parentNode) {
-                        // Remove source if no WebP version
-                        currentSource.parentNode.removeChild(currentSource);
-                    }
-                    
-                    // Set the new image source BUT keep picture hidden until image loads
-                    lightboxImg.src = targetSrc;
-                    
-                    // Function to show the new image
-                    const showNewImage = function() {
-                        // Remove switching class from picture element
-                        const lightboxPicture = pictureElement;
-                        if (lightboxPicture) {
-                            lightboxPicture.classList.remove('switching');
-                        }
-                        
-                        // Remove hiding class and add ready class
-                        lightboxImg.classList.remove('hiding');
-                        lightboxImg.classList.add('ready');
-                    };
-                    
-                    // Check if image is already loaded (cached)
-                    if (lightboxImg.complete && lightboxImg.naturalWidth > 0) {
-                        // Image is already loaded, show it (use small delay to ensure src is set)
-                        setTimeout(function() {
-                            showNewImage();
-                        }, 10);
-                    } else {
-                        // Wait for image to load
-                        const originalOnload = lightboxImg.onload;
-                        lightboxImg.onload = function() {
-                            if (originalOnload) originalOnload();
-                            showNewImage();
-                        };
-                        const originalOnerror = lightboxImg.onerror;
-                        lightboxImg.onerror = function() {
-                            if (originalOnerror) originalOnerror();
-                            // Even on error, show the image
-                            showNewImage();
-                        };
-                    }
-                };
-                
-                // Set up load handlers before setting src
-                newImg.onload = switchImage;
-                newImg.onerror = switchImage; // Still show image even if preload fails
-                
-                // Start loading
-                newImg.src = targetSrc;
-                
-                // If image is already cached, onload may not fire, so check immediately
-                if (newImg.complete) {
-                    switchImage();
-                }
-                
-                lightbox.classList.add('active');
+            const { lightbox, imgA, imgB } = getScreenshotLightboxElements();
+            if (!lightbox || !imgA || !imgB) return;
+
+            currentScreenshotGallery = buildScreenshotGalleryFromDOM();
+            if (!currentScreenshotGallery || currentScreenshotGallery.length === 0) return;
+
+            const screenshotItems = document.querySelectorAll('.screenshot-item');
+            const clickedItem = Array.from(screenshotItems).find(item =>
+                item.getAttribute('data-src') === src || item.getAttribute('data-src-webp') === src
+            );
+
+            if (clickedItem) {
+                currentScreenshotIndex = Array.from(screenshotItems).indexOf(clickedItem);
+            } else {
+                currentScreenshotIndex = 0;
             }
+
+            imgA.classList.remove('is-visible');
+            imgB.classList.remove('is-visible');
+            imgA.removeAttribute('src');
+            imgB.removeAttribute('src');
+            screenshotActiveSlot = 0;
+            screenshotNavRequestId++;
+
+            lightbox.classList.add('active');
+            showScreenshotAtIndex(currentScreenshotIndex);
         };
 
         // Function to navigate between screenshots
@@ -7052,50 +7054,8 @@
             } else if (currentScreenshotIndex >= currentScreenshotGallery.length) {
                 currentScreenshotIndex = 0;
             }
-            
-            const lightboxImg = document.getElementById('screenshotLightboxImg');
-            const lightboxSource = document.getElementById('screenshotLightboxSource');
-            const screenshotItems = document.querySelectorAll('.screenshot-item');
-            
-            if (lightboxImg && screenshotItems[currentScreenshotIndex]) {
-                const item = screenshotItems[currentScreenshotIndex];
-                const webpSrc = item.getAttribute('data-src-webp');
-                const pngSrc = item.getAttribute('data-src');
-                const targetSrc = pngSrc || currentScreenshotGallery[currentScreenshotIndex];
-                
-                // Preload the image before switching to avoid visible loading
-                const newImg = new Image();
-                
-                // Fade out current image
-                lightboxImg.style.transition = 'opacity 0.15s ease';
-                lightboxImg.style.opacity = '0';
-                
-                // Preload the new image
-                const switchImage = function() {
-                    // Update source elements
-                    if (lightboxSource && webpSrc) {
-                        lightboxSource.srcset = webpSrc;
-                    }
-                    lightboxImg.src = targetSrc;
-                    
-                    // Fade in the new image
-                    requestAnimationFrame(function() {
-                        lightboxImg.style.opacity = '1';
-                    });
-                };
-                
-                // Set up load handlers before setting src
-                newImg.onload = switchImage;
-                newImg.onerror = switchImage; // Still show image even if preload fails
-                
-                // Start loading
-                newImg.src = targetSrc;
-                
-                // If image is already cached, onload may not fire, so check immediately
-                if (newImg.complete) {
-                    switchImage();
-                }
-            }
+
+            showScreenshotAtIndex(currentScreenshotIndex);
         };
 
         // Function to close screenshot lightbox (make it global)
@@ -7104,6 +7064,12 @@
             if (lightbox) {
                 lightbox.classList.remove('active');
             }
+
+            // Cancel any in-flight decode/load and reset visibility so re-open can't flash old content
+            screenshotNavRequestId++;
+            const { imgA, imgB } = getScreenshotLightboxElements();
+            if (imgA) imgA.classList.remove('is-visible');
+            if (imgB) imgB.classList.remove('is-visible');
         };
 
         // Keyboard navigation for lightbox
@@ -7492,46 +7458,10 @@
                     const screenshotItems = tankInfoContent.querySelectorAll('.screenshot-item');
                     screenshotItems.forEach(item => {
                         item.addEventListener('click', function(e) {
-                            // IMMEDIATELY clear old image before opening new one to prevent flash
-                            const lightboxImg = document.getElementById('screenshotLightboxImg');
-                            const lightboxSource = document.getElementById('screenshotLightboxSource');
-                            const lightboxPicture = lightboxImg ? lightboxImg.closest('picture') : null;
-                            
-                            // ALWAYS hide picture element FIRST using CSS class to prevent any rendering
-                            if (lightboxPicture) {
-                                lightboxPicture.classList.add('switching');
-                            }
-                            
-                            if (lightboxImg) {
-                                // Remove ready class and add hiding class
-                                lightboxImg.classList.remove('ready');
-                                lightboxImg.classList.add('hiding');
-                                
-                                // REMOVE source element from DOM entirely to prevent browser from using it
-                                if (lightboxSource && lightboxSource.parentNode) {
-                                    lightboxSource.parentNode.removeChild(lightboxSource);
-                                }
-                                
-                                // Remove src entirely instead of setting to blank pixel - prevents browser from showing cached image
-                                lightboxImg.removeAttribute('src');
-                                lightboxImg.removeAttribute('srcset');
-                                // Also clear any cached image data
-                                if (lightboxImg.complete) {
-                                    lightboxImg.src = '';
-                                }
-                                
-                                // Force multiple reflows to ensure changes take effect
-                                void lightboxImg.offsetHeight;
-                                void lightboxImg.offsetWidth;
-                            }
-                            
+                            e.stopPropagation();
                             const src = this.getAttribute('data-src');
                             const webpSrc = this.getAttribute('data-src-webp');
-                            
-                            // Use requestAnimationFrame to ensure clearing happens in next frame before opening
-                            requestAnimationFrame(function() {
-                                openScreenshotLightbox(webpSrc || src);
-                            });
+                            openScreenshotLightbox(webpSrc || src);
                         });
                     });
                 });
@@ -7737,9 +7667,9 @@
             }
 
             // Lightbox image
-            const lightboxImg = document.getElementById('screenshotLightboxImg');
-            if (lightboxImg) {
-                lightboxImg.addEventListener('click', function(e) {
+            const lightboxStage = document.getElementById('screenshotLightboxStage');
+            if (lightboxStage) {
+                lightboxStage.addEventListener('click', function(e) {
                     e.stopPropagation();
                 });
             }
