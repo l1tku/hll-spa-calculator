@@ -3795,21 +3795,21 @@
                                     <div style="display: flex; align-items: center; gap: 8px;">
                                         <span id="snapOffLabel" class="toggle-label-off">OFF</span>
                                         <input type="checkbox" id="snapToggle" class="sr-only" style="display: none;">
-                                        <div class="armored-toggle-switch" id="armoredSnapToggle" onclick="toggleArmoredSwitch('snapToggle', this)"></div>
+                                        <div class="armored-toggle-switch" id="armoredSnapToggle"></div>
                                         <span id="snapOnLabel" class="toggle-label-on">ON</span>
                                     </div>
                                 </div>
                                 <div class="distance-controls" style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 25px;">
-                                    <button onclick="adjustValue('distance', -1)" class="armored-button">-</button>
+                                    <button class="armored-button">-</button>
                                     <input type="text" id="distance" value="400" tabindex="1" class="armored-input">
-                                    <button onclick="adjustValue('distance', 1)" class="armored-button">+</button>
+                                    <button class="armored-button">+</button>
                                 </div>
                                 <div class="armored-toggle" style="position: absolute; right: 0; top: 20px; display: flex; flex-direction: column; align-items: center; gap: 6px;">
                                     <div class="armored-toggle-label">Auto Calculation</div>
                                     <div style="display: flex; align-items: center; gap: 8px;">
                                         <span id="calcOffLabel" class="toggle-label-off">OFF</span>
                                         <input type="checkbox" id="autoCalcToggle" class="sr-only" checked style="display: none;">
-                                        <div class="armored-toggle-switch active" id="armoredAutoToggle" onclick="toggleArmoredSwitch('autoCalcToggle', this)"></div>
+                                        <div class="armored-toggle-switch active" id="armoredAutoToggle"></div>
                                         <span id="calcOnLabel" class="toggle-label-on">ON</span>
                                     </div>
                                 </div>
@@ -3828,9 +3828,9 @@
                                         <p class="text-xs mb-1 text-center" style="color: #9ca3af; font-size: 0.7rem; margin-bottom: 4px;">(- target lower, + target higher, can leave empty)</p>
                                     </div>
                                     <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: auto;">
-                                        <button onclick="adjustValue('heightDiff', -1)" class="armored-button">-</button>
+                                        <button class="armored-button">-</button>
                                         <input type="text" id="heightDiff" value="0" tabindex="2" class="armored-input" max="5000">
-                                        <button onclick="adjustValue('heightDiff', 1)" class="armored-button">+</button>
+                                        <button class="armored-button">+</button>
                                     </div>
                                 </div>
                                 <div style="display: flex; flex-direction: column;">
@@ -3839,9 +3839,9 @@
                                         <p class="text-xs mb-1 text-center" style="color: #9ca3af; font-size: 0.7rem; margin-bottom: 4px;">(Enter exactly what your Red MIL HUD shows)</p>
                                     </div>
                                     <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: auto;">
-                                        <button onclick="adjustValue('redNumber', -1)" class="armored-button">-</button>
+                                        <button class="armored-button">-</button>
                                         <input type="text" id="redNumber" value="0" tabindex="3" class="armored-input">
-                                        <button onclick="adjustValue('redNumber', 1)" class="armored-button">+</button>
+                                        <button class="armored-button">+</button>
                                     </div>
                                 </div>
                             </div>
@@ -3849,7 +3849,7 @@
         
                         <!-- Calculate Button / Metal Panel -->
                         <div style="position: relative; margin-top: 0; margin-bottom: 5px;">
-                            <button onclick="calculate()" id="calculateButton" tabindex="4" class="armored-calculate">
+                            <button id="calculateButton" tabindex="4" class="armored-calculate">
                                 Calculate Elevation
                             </button>
                             <div id="metalPanel" class="armored-metal-panel" style="display: none;">
@@ -3860,8 +3860,8 @@
         
                         <!-- Result -->
                         <div id="result" class="armored-result">
-                            <button class="copy-result-button" onclick="copyResult(this)" title="Copy result to clipboard">⧉</button>
-                            <button class="reset-result-button" onclick="resetCalculator(this)" title="Reset all values">⟳</button>
+                            <button class="copy-result-button" title="Copy result to clipboard">⧉</button>
+                            <button class="reset-result-button" title="Reset all values">⟳</button>
                             <div class="panel-label" style="margin-bottom: 10px;">Set Elevation (Yellow) To:</div>
                             <div class="armored-result-value">
                                 <div class="mechanical-counter" id="elevationCounter">
@@ -3879,7 +3879,7 @@
                     </div>
 
                     <!-- Tank Info Button - Outside main container -->
-                    <button id="tankInfoIcon" class="select-info-button" onclick="showTankInfo()">
+                    <button id="tankInfoIcon" class="select-info-button">
                         <span>TANK INFORMATION</span>
                     </button>
 
@@ -3910,19 +3910,19 @@
                     </div>
 
                     <!-- Screenshot Lightbox -->
-                    <div id="screenshotLightbox" class="screenshot-lightbox" onclick="closeScreenshotLightbox()">
-                        <div class="nav-zone-left" onclick="event.stopPropagation(); navigateScreenshot(-1);">
+                    <div id="screenshotLightbox" class="screenshot-lightbox">
+                        <div class="nav-zone-left">
                             <span class="nav-arrow">◀</span>
                         </div>
-                        <div class="nav-zone-right" onclick="event.stopPropagation(); navigateScreenshot(1);">
+                        <div class="nav-zone-right">
                             <span class="nav-arrow">▶</span>
                         </div>
-                        <div class="screenshot-lightbox-close" onclick="event.stopPropagation(); closeScreenshotLightbox();">
+                        <div class="screenshot-lightbox-close">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                         </div>
                         <picture>
                             <source id="screenshotLightboxSource" srcset="" type="image/webp">
-                            <img id="screenshotLightboxImg" src="" alt="Screenshot" onclick="event.stopPropagation();">
+                            <img id="screenshotLightboxImg" src="" alt="Screenshot">
                         </picture>
                     </div>
 
@@ -7621,6 +7621,129 @@
                 }
             }
         }, true); // Use capture phase
+
+        // Add event listeners to replace inline onclick handlers (CSP compliance)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Armored toggle switches
+            const armoredSnapToggle = document.getElementById('armoredSnapToggle');
+            if (armoredSnapToggle) {
+                armoredSnapToggle.addEventListener('click', function() {
+                    toggleArmoredSwitch('snapToggle', this);
+                });
+            }
+
+            const armoredAutoToggle = document.getElementById('armoredAutoToggle');
+            if (armoredAutoToggle) {
+                armoredAutoToggle.addEventListener('click', function() {
+                    toggleArmoredSwitch('autoCalcToggle', this);
+                });
+            }
+
+            // Distance buttons
+            const distanceInput = document.getElementById('distance');
+            if (distanceInput) {
+                const distanceControls = distanceInput.closest('.distance-controls');
+                if (distanceControls) {
+                    const buttons = distanceControls.querySelectorAll('.armored-button');
+                    if (buttons.length >= 2) {
+                        buttons[0].addEventListener('click', function() { adjustValue('distance', -1); });
+                        buttons[1].addEventListener('click', function() { adjustValue('distance', 1); });
+                    }
+                }
+            }
+
+            // Height difference buttons
+            const heightDiffInput = document.getElementById('heightDiff');
+            if (heightDiffInput) {
+                const heightControls = heightDiffInput.parentElement;
+                if (heightControls) {
+                    const buttons = heightControls.querySelectorAll('.armored-button');
+                    if (buttons.length >= 2) {
+                        buttons[0].addEventListener('click', function() { adjustValue('heightDiff', -1); });
+                        buttons[1].addEventListener('click', function() { adjustValue('heightDiff', 1); });
+                    }
+                }
+            }
+
+            // Red number (terrain elevation) buttons
+            const redNumberInput = document.getElementById('redNumber');
+            if (redNumberInput) {
+                const redControls = redNumberInput.parentElement;
+                if (redControls) {
+                    const buttons = redControls.querySelectorAll('.armored-button');
+                    if (buttons.length >= 2) {
+                        buttons[0].addEventListener('click', function() { adjustValue('redNumber', -1); });
+                        buttons[1].addEventListener('click', function() { adjustValue('redNumber', 1); });
+                    }
+                }
+            }
+
+            // Calculate button
+            const calculateButton = document.getElementById('calculateButton');
+            if (calculateButton) {
+                calculateButton.addEventListener('click', calculate);
+            }
+
+            // Copy result button
+            const copyButton = document.querySelector('.copy-result-button');
+            if (copyButton) {
+                copyButton.addEventListener('click', function() {
+                    copyResult(this);
+                });
+            }
+
+            // Reset calculator button
+            const resetButton = document.querySelector('.reset-result-button');
+            if (resetButton) {
+                resetButton.addEventListener('click', function() {
+                    resetCalculator(this);
+                });
+            }
+
+            // Tank info button
+            const tankInfoIcon = document.getElementById('tankInfoIcon');
+            if (tankInfoIcon) {
+                tankInfoIcon.addEventListener('click', showTankInfo);
+            }
+
+            // Screenshot lightbox
+            const screenshotLightbox = document.getElementById('screenshotLightbox');
+            if (screenshotLightbox) {
+                screenshotLightbox.addEventListener('click', closeScreenshotLightbox);
+            }
+
+            // Navigation zones
+            document.querySelectorAll('.nav-zone-left').forEach(zone => {
+                zone.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    navigateScreenshot(-1);
+                });
+            });
+
+            document.querySelectorAll('.nav-zone-right').forEach(zone => {
+                zone.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    navigateScreenshot(1);
+                });
+            });
+
+            // Lightbox close button
+            const lightboxClose = document.querySelector('.screenshot-lightbox-close');
+            if (lightboxClose) {
+                lightboxClose.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    closeScreenshotLightbox();
+                });
+            }
+
+            // Lightbox image
+            const lightboxImg = document.getElementById('screenshotLightboxImg');
+            if (lightboxImg) {
+                lightboxImg.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            }
+        });
 
     </script>
 </body>
