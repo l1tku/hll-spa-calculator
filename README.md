@@ -5,7 +5,7 @@ A web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let 
 ## Features
 
 - Calculate accurate elevation settings for multiple SPA vehicles
-- Support for British Bishop, Churchill AVRE, US Sherman M4A3, Soviet KV-2, and German Panzer III/Brummbär
+- Support for British Bishop, Churchill AVRE, US Sherman M4A3, Soviet KV-2, and German Panzer III/Sturmpanzer IV
 - Interactive distance ruler with snap-to-grid functionality
 - Auto-calculation mode or manual calculation
 - Tank information with specifications and screenshots
@@ -23,10 +23,10 @@ A web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let 
 
 - **British (Bishop SP)**
 - **British (Churchill AVRE)**
-- **US (Sherman M4A3 105)**
+- **US (Sherman M4A3)**
 - **Soviet Union (KV-2)**
 - **DAK (Panzer III Ausf.N)**
-- **Germany (Sturmpanzer IV Brummbär)**
+- **Germany (Sturmpanzer IV)**
 
 ## Notes
 
