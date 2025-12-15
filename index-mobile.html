@@ -4310,7 +4310,7 @@
                                         <div style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 0; position: relative;">
                                             <div style="display: flex; align-items: center; gap: 4px;">
                                                 <div class="panel-label" style="margin-bottom: 0;">Height Difference (m) <span style="color: #ef4444; font-size: 0.8em; font-weight: normal; margin-left: 25px;">[EXPERIMENTAL]</span></div>
-                                                <button class="info-button" title="(- target lower, + target higher)" style="width: 20px; height: 20px; min-width: 20px; min-height: 20px; background: rgba(194, 178, 128, 0.2); border: 1px solid rgba(194, 178, 128, 0.4); color: #c2b280; font-size: 0.75rem; font-weight: bold; cursor: pointer; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0; margin: 0; font-family: 'Courier New', monospace; line-height: 1; transform: translate(-20px, -13px);">i</button>
+                                                <button id="heightInfoButton" class="info-button" title="(- target lower, + target higher)" style="width: 20px; height: 20px; min-width: 20px; min-height: 20px; background: rgba(194, 178, 128, 0.2); border: 1px solid rgba(194, 178, 128, 0.4); color: #c2b280; font-size: 0.75rem; font-weight: bold; cursor: pointer; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0; margin: 0; font-family: 'Courier New', monospace; line-height: 1; transform: translate(-20px, -13px);">i</button>
                                             </div>
                                         </div>
                                         <div style="display: flex; justify-content: center; align-items: center; gap: 4px; width: 100%; flex-wrap: wrap;">
@@ -4324,7 +4324,7 @@
                                     <div style="display: flex; flex-direction: column; gap: 6px;">
                                         <div style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 0;">
                                             <div class="panel-label" style="margin-bottom: 0;">Terrain Elevation (MIL)</div>
-                                            <button class="info-button" title="Red MIL HUD (- downhill/nose-down, + uphill/nose-up)" style="width: 20px; height: 20px; min-width: 20px; min-height: 20px; background: rgba(194, 178, 128, 0.2); border: 1px solid rgba(194, 178, 128, 0.4); color: #c2b280; font-size: 0.75rem; font-weight: bold; cursor: pointer; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0; margin: 0; font-family: 'Courier New', monospace; line-height: 1; transform: translate(0, -3px);">i</button>
+                                            <button id="terrainInfoButton" class="info-button" title="Red MIL HUD (- downhill/nose-down, + uphill/nose-up)" style="width: 20px; height: 20px; min-width: 20px; min-height: 20px; background: rgba(194, 178, 128, 0.2); border: 1px solid rgba(194, 178, 128, 0.4); color: #c2b280; font-size: 0.75rem; font-weight: bold; cursor: pointer; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0; margin: 0; font-family: 'Courier New', monospace; line-height: 1; transform: translate(0, -3px);">i</button>
                                         </div>
                                         <div style="display: flex; justify-content: center; align-items: center; gap: 4px; width: 100%; flex-wrap: wrap;">
                                             <div style="display: flex; align-items: center; gap: 4px;">
@@ -5359,8 +5359,11 @@
             
             // Prevent default to avoid double-firing (click event would also fire)
             // The immediate adjustValue call handles the single tap
-            if (event) {
+            if (event && event.cancelable) {
                 event.preventDefault();
+                event.stopPropagation();
+            } else if (event) {
+                // If not cancelable, just stop propagation if possible
                 event.stopPropagation();
             }
             
@@ -5555,15 +5558,37 @@
             });
         }
 
+        // Track user interaction to prevent haptic intervention errors
+        let hasUserInteracted = false;
+        
+        // Listen for first interaction
+        const interactionEvents = ['touchstart', 'click', 'keydown'];
+        const markInteraction = () => {
+            hasUserInteracted = true;
+            interactionEvents.forEach(e => document.removeEventListener(e, markInteraction));
+        };
+        interactionEvents.forEach(e => document.addEventListener(e, markInteraction, { passive: true, once: true }));
+
         // Haptic feedback
         function triggerHaptic(type = 'light') {
-            if ('vibrate' in navigator) {
+            // Check for navigator support and prior user interaction
+            if (!hasUserInteracted || !('vibrate' in navigator)) return;
+            
+            // Wrap in try-catch to prevent errors from browser interventions (autoplay policy)
+            try {
                 const patterns = {
                     'light': 10,
                     'medium': 20,
                     'strong': 30
                 };
-                navigator.vibrate(patterns[type] || 10);
+                // Some browsers throw if vibration is called before user interaction
+                const success = navigator.vibrate(patterns[type] || 10);
+                if (!success) {
+                    // Vibration failed or was blocked (normal on initial load)
+                }
+            } catch (e) {
+                // Ignore errors related to vibration (e.g. lack of user gesture)
+                console.debug('Haptic feedback blocked or failed:', e);
             }
         }
 
@@ -8623,7 +8648,7 @@
             const tooltip = document.createElement('div');
             tooltip.id = 'heightInfoTooltip';
             tooltip.style.cssText = 'position: fixed; background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%); border: 2px solid #c2b280; padding: 12px 16px; border-radius: 4px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8); z-index: 10000; color: #e5e7eb; font-family: "Courier New", monospace; font-size: 0.85rem; max-width: 250px; line-height: 1.5;';
-            tooltip.innerHTML = '<div style="font-weight: bold; color: #c2b280; margin-bottom: 8px;">Height Difference (M)</div><div style="color: #9ca3af;">CAN LEAVE EMPTY!<br>- target lower (negative value)<br>+ target higher (positive value)</div>';
+            tooltip.innerHTML = '<div style="font-weight: bold; color: #c2b280; margin-bottom: 8px;">Height Difference (M)</div><div style="color: #9ca3af;">CAN LEAVE EMPTY<br>- target lower (negative value)<br>+ target higher (positive value)</div>';
             
             // Position tooltip near the button
             const button = event.target;
@@ -8768,6 +8793,20 @@
             const tankInfoIcon = document.getElementById('tankInfoIcon');
             if (tankInfoIcon) {
                 tankInfoIcon.addEventListener('click', showTankInfo);
+            }
+
+            // Height info button
+            const heightInfoButton = document.getElementById('heightInfoButton');
+            if (heightInfoButton) {
+                heightInfoButton.addEventListener('click', showHeightInfo);
+                heightInfoButton.addEventListener('touchstart', showHeightInfo, { passive: false });
+            }
+
+            // Terrain info button
+            const terrainInfoButton = document.getElementById('terrainInfoButton');
+            if (terrainInfoButton) {
+                terrainInfoButton.addEventListener('click', showTerrainInfo);
+                terrainInfoButton.addEventListener('touchstart', showTerrainInfo, { passive: false });
             }
 
             // Distance buttons (first pair of armored-button)
