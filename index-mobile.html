@@ -1798,7 +1798,7 @@
             border: 1px solid rgba(252, 211, 77, 0.4);
             color: #fcd34d;
             padding: 0;
-            padding-top: 2px;
+            padding-top: 6px;
             font-size: 1.2rem;
             cursor: pointer;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -4347,8 +4347,8 @@
         
                         <!-- Result -->
                         <div id="result" class="armored-result">
-                            <button class="copy-result-button" title="Copy result to clipboard">⧉</button>
-                            <button class="reset-result-button" title="Reset all values">⟳</button>
+                            <button class="copy-result-button" title="Copy result to clipboard">📋</button>
+                            <button class="reset-result-button" title="Reset all values">🔄</button>
                             <div class="panel-label">Set Elevation To:</div>
                             <div class="armored-result-value">
                                 <div class="mechanical-counter" id="elevationCounter">
@@ -6656,9 +6656,9 @@
             
             // Store original content if not already stored, or always use the known original
             if (copyButton && !copyButton.dataset.originalContent) {
-                copyButton.dataset.originalContent = '⧉';
+                copyButton.dataset.originalContent = '📋';
             }
-            const originalContent = copyButton ? (copyButton.dataset.originalContent || '⧉') : '⧉';
+            const originalContent = copyButton ? (copyButton.dataset.originalContent || '📋') : '📋';
             
             // Copy to clipboard
             navigator.clipboard.writeText(resultText).then(() => {
@@ -6703,9 +6703,9 @@
             
             // Store original content if not already stored
             if (resetButton && !resetButton.dataset.originalContent) {
-                resetButton.dataset.originalContent = '⟳';
+                resetButton.dataset.originalContent = '🔄';
             }
-            const originalContent = resetButton ? (resetButton.dataset.originalContent || '⟳') : '⟳';
+            const originalContent = resetButton ? (resetButton.dataset.originalContent || '🔄') : '🔄';
             
             // Trigger haptic feedback
             triggerHaptic('medium');
