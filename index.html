@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="HLL SPA Artillery Calculator - Calculate accurate elevation settings for multiple Self-Propelled Artillery vehicles in Hell Let Loose">
     <title>HLL SPA Artillery Calculator</title>
+    <!-- Preload critical CSS to prevent FOUC -->
+    <link rel="preload" href="dist/output.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="dist/output.css"></noscript>
     <!-- Preload critical tank image for faster initial render (WebP only - PNG is fallback loaded on demand) -->
     <link rel="preload" as="image" href="images/tanks/BISHOP_248.webp" type="image/webp" fetchpriority="high">
-    <link rel="stylesheet" href="dist/output.css">
     <link rel="icon" type="image/png" href="images/favicon.png">
 
     <style>
