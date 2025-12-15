@@ -8634,9 +8634,21 @@
         function showHeightInfo(event) {
             if (event) {
                 event.stopPropagation();
-                // Don't preventDefault for passive events
-                if (event.cancelable && event.type !== 'touchstart') {
-                    event.preventDefault();
+                
+                // Handle touch/click duality
+                if (event.type === 'touchstart') {
+                    const target = event.currentTarget || event.target;
+                    if (target) {
+                        target.setAttribute('data-touch-handled', 'true');
+                        setTimeout(() => target.removeAttribute('data-touch-handled'), 500);
+                    }
+                } else if (event.type === 'click') {
+                    const target = event.currentTarget || event.target;
+                    if (target && target.getAttribute('data-touch-handled') === 'true') {
+                        if (event.cancelable) event.preventDefault();
+                        return;
+                    }
+                    if (event.cancelable) event.preventDefault();
                 }
             }
             
@@ -8697,7 +8709,22 @@
         function showTerrainInfo(event) {
             if (event) {
                 event.stopPropagation();
-                event.preventDefault();
+                
+                // Handle touch/click duality
+                if (event.type === 'touchstart') {
+                    const target = event.currentTarget || event.target;
+                    if (target) {
+                        target.setAttribute('data-touch-handled', 'true');
+                        setTimeout(() => target.removeAttribute('data-touch-handled'), 500);
+                    }
+                } else if (event.type === 'click') {
+                    const target = event.currentTarget || event.target;
+                    if (target && target.getAttribute('data-touch-handled') === 'true') {
+                        if (event.cancelable) event.preventDefault();
+                        return;
+                    }
+                    if (event.cancelable) event.preventDefault();
+                }
             }
             
             // Remove existing tooltip if any
