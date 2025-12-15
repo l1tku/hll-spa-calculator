@@ -3823,8 +3823,8 @@
                             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: stretch;">
                                 <div style="display: flex; flex-direction: column;">
                                     <div style="flex-shrink: 0; margin-bottom: 5px;">
-                                        <div class="panel-label">Height Difference (m)</div>
-                                        <p class="text-xs mb-1 text-center" style="color: #9ca3af; font-size: 0.7rem; margin-bottom: 4px;">(- target lower, + target higher)</p>
+                                        <div class="panel-label">Height Difference (m) <span style="color: #ef4444; font-size: 0.8em; font-weight: normal;">[EXPERIMENTAL]</span></div>
+                                        <p class="text-xs mb-1 text-center" style="color: #9ca3af; font-size: 0.7rem; margin-bottom: 4px;">(- target lower, + target higher, can leave empty)</p>
                                     </div>
                                     <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: auto;">
                                         <button onclick="adjustValue('heightDiff', -1)" class="armored-button">-</button>
@@ -3889,7 +3889,6 @@
                                 <div style="flex: 1;">
                                     <div class="field-manual-text field-manual-title">FIELD MANUAL</div>
                                     <div class="field-manual-text field-manual-subtitle">Artillery & Armored Vehicle Specifications</div>
-                                    <div class="field-manual-text field-manual-reference">REF: FM-ART-1944 | SECTION: VEHICLE DATA</div>
                                 </div>
                                 <div style="text-align: right;">
                                     <div class="field-manual-text field-manual-date">DATE: ██/██/1944</div>
@@ -4007,18 +4006,21 @@
                     heDamageRadius: '31m',
                     munitionsCost: '280'
                 },
-                history: 'The M4A3 Sherman variant equipped with a 105mm howitzer was developed to provide close infantry support. It saw extensive use in the European Theater, particularly during the breakout from Normandy and the push across France. The 105mm howitzer was effective against fortifications and infantry positions, making it valuable for breakthrough operations.',
+         history: 'The M4 Sherman tank variant equipped with the 105mm howitzer (typically the M4 or M4A3 chassis) was developed to provide powerful close infantry support. It saw extensive use in both the European and Pacific Theaters. The 105mm howitzer was highly effective against fortifications, infantry positions, and used primarily for demolition and smoke delivery, making it valuable for breakthrough operations.',
                 realLife: {
-                    range: '~11,000m (indirect fire), ~2,000m (direct fire)',
-                    production: 'Produced from 1943-1945 at Detroit Arsenal Tank Plant (Warren, Michigan), Fisher Body Tank Plant/Grand Blanc Metal Center (Grand Blanc, Michigan), and other US facilities',
-                    service: 'Used by US Army in European and Pacific theaters (1943-1945)',
+                    range: '11,500 yards (~10,500m) for indirect fire with M67 HE projectile; 1,500 yards (~1,400m) effective direct fire.',
+                    production: 'A total of 4,680 105mm Howitzer Shermans (across M4 and M4A3 chassis) were produced between February 1943 and March 1945, primarily by Detroit Arsenal and Chrysler at the Grand Blanc Arsenal.',
+                    service: 'Used by the US Army in European and Pacific theaters (1943-1945). It was typically issued one per tank company as a dedicated close-support vehicle.',
                     strengths: [
-                        'Versatile for both direct and indirect fire support',
-                        'Good mobility and reliability',
-                        'Standard HE and AP capabilities',
-                        'Effective against infantry and fortifications'
+                        'Carried a high volume of High Explosive (HE) and Smoke rounds, making it an excellent infantry support weapon.',
+                        'The 105mm HE shell was far more destructive against dug-in positions and buildings than the standard 75mm or 76mm shells.',
+                        'Good mobility and reliability, maintaining the logistical advantage of the Sherman chassis.'
                     ],
-                    weaknesses: []
+                    weaknesses: [
+                        'The M4 105mm Howitzer model used a lower turret (D50878) which lacked a power traverse.',
+                        'The tank was primarily armed with HE rounds and had limited effectiveness against heavily armored enemy tanks in direct fire combat (though it did carry a Heat/HESH round).',
+                        'Used the older Vertical Volute Spring Suspension (VVSS) on many versions, which was less stable than the later Horizontal Volute Spring Suspension (HVSS).'
+                    ]
                 }
             },
             'Soviet Union (KV-2)': {
@@ -4051,19 +4053,19 @@
                     heDamageRadius: '31m',
                     munitionsCost: '280'
                 },
-                history: 'The KV-2 was a Soviet heavy tank armed with a massive 152mm howitzer, designed as an assault tank to destroy fortifications and bunkers. It saw action during the Winter War against Finland and early stages of Operation Barbarossa. Despite its powerful armament, its slow speed, long reload time, and mechanical issues made it vulnerable to German anti-tank weapons.',
+                history: 'The KV-2 was a Soviet heavy tank armed with the massive 152mm M-10 howitzer (specifically the M-10T). It was designed as an assault tank to destroy fortifications and bunkers. It saw action during the Winter War against Finland (though production models were post-war) and was famously used in the early stages of Operation Barbarossa, where its heavy armor proved almost impervious to early German anti-tank guns. Despite its powerful armament, its slow speed, long reload time, and mechanical issues made it highly problematic.',
                 realLife: {
-                    range: '~12,000m (indirect fire), ~1,200m (direct fire)',
-                    production: 'Produced from 1939-1941, ~334 units built at Kirov Plant (Factory No. 100) in Leningrad (now St. Petersburg, Russia)',
-                    service: 'Used by Red Army in Winter War and early Eastern Front (1939-1941)',
+                    range: '12,400 meters (maximum indirect fire range with the M-10 howitzer); effective direct fire range for tank combat was less than 1,000 meters.',
+                    production: 'Produced from 1940-1941 (not 1939), with approximately 334 units built at the Kirov Plant (LKZ) in Leningrad.',
+                    service: 'Used by the Red Army in the early Eastern Front (1940-1941). Most were lost due to mechanical failure and fuel shortage rather than enemy fire.',
                     strengths: [
-                        'Extremely powerful armament',
-                        'Highly effective against fortifications'
+                        'Carried the most powerful gun mounted on a tank chassis at the time, capable of destroying any Axis tank and most fortifications.',
+                        'Heavy armor (up to 110mm on the turret front) provided near-invulnerability to most German anti-tank weapons in 1941.'
                     ],
                     weaknesses: [
-                        'Very slow turret rotation and movement',
-                        'Long reload time (20-40 seconds)',
-                        'Vulnerable to mechanical breakdowns'
+                        'Turret rotation was extremely slow, and often impossible on uneven ground or slopes due to its immense weight.',
+                        'Long, two-piece ammunition reload time (upwards of 40 seconds), limiting its fire rate in tank combat.',
+                        'The immense weight (52 tons) caused severe reliability and mechanical issues with the transmission and running gear.'
                     ]
                 }
             },
@@ -4097,20 +4099,20 @@
                     heDamageRadius: '31m',
                     munitionsCost: '280'
                 },
-                history: 'The Churchill AVRE (Armoured Vehicle Royal Engineers) was a specialized engineering vehicle designed to destroy fortifications. It was armed with a 290mm Petard mortar, capable of firing a 40-pound "Flying Dustbin" projectile. These vehicles were crucial during D-Day and subsequent operations, used to breach enemy defenses and clear obstacles.',
+   history: 'The Churchill AVRE (Armoured Vehicle Royal Engineers) was a specialized engineering vehicle designed to destroy fortifications. It was armed with a 290mm Petard mortar, capable of firing a 40-pound "Flying Dustbin" projectile (containing 28 pounds of high explosive). These vehicles were crucial during D-Day and subsequent operations, used to breach enemy defenses and clear obstacles.',
                 realLife: {
-                    range: '~100m (very short range in real life)',
-                    production: 'Base Churchill tanks manufactured at Vauxhall Motors in Luton, Bedfordshire, UK. AVRE conversions performed by Royal Engineers',
-                    service: 'Used by British and Canadian forces in Normandy and beyond (1944-1945)',
+                    range: '73 - 100 meters (effective range) or 210 meters (maximum range). The extremely short range was due to the mortar\'s design.',
+                    production: 'Base Churchill tanks manufactured at Vauxhall Motors in Luton, Bedfordshire, UK. Approximately 700 total conversions were performed by Royal Engineers on various Churchill marks.',
+                    service: 'Used by British and Canadian forces in Normandy and beyond (1944-1945), forming part of the specialized "Hobart\'s Funnies" (79th Armoured Division).',
                     strengths: [
-                        'Designed specifically for assaulting fortifications',
-                        'Devastating firepower against structures',
-                        'Large high-explosive blast radius',
-                        'Heavily armored'
+                        'Designed specifically for assaulting fortifications and pillboxes at point-blank range',
+                        'Devastating firepower against structures due to the large high-explosive charge',
+                        'Heavily armored for protection during close-quarters breaching operations'
                     ],
                     weaknesses: [
-                        'Extremely short effective range (~100m)',
-                        'Slow'
+                        'Extremely short effective range (~100m) forced the tank to operate dangerously close to the enemy',
+                        'Slow and risky muzzle-loading reload process, performed by the co-driver via the hull front',
+                        'Slow top speed, typical of the Churchill chassis'
                     ]
                 }
             },
@@ -4144,18 +4146,19 @@
                     heDamageRadius: '31m',
                     munitionsCost: '280'
                 },
-                history: 'The Bishop was a British self-propelled artillery vehicle based on the Valentine tank chassis, armed with a 25-pounder field gun. It was used during World War II, primarily in North Africa. The vehicle was named after its boxy superstructure resembling a bishop\'s mitre. It had limited elevation and traverse, which affected its effectiveness as an artillery piece.',
+                history: 'The Bishop was a British self-propelled artillery vehicle based on the Valentine tank chassis, armed with a 25-pounder field gun. It was used during World War II, primarily in North Africa. The vehicle was named after its boxy superstructure resembling a bishop\'s mitre. It had limited elevation and traverse, which severely affected its effectiveness as an artillery piece.',
                 realLife: {
-                    range: '~6,000-12,000m (indirect fire)',
+                    range: '6,400 yards (~5,900m) due to limited 15° elevation (compared to 12,253m for the standard towed gun)',
                     production: 'Produced from 1942-1943, ~149 units built by Birmingham Railway Carriage and Wagon Company in Birmingham, UK',
                     service: 'Used by British forces in North Africa and Italy (1942-1943)',
                     strengths: [
-                        'Good for medium-range engagements',
-                        'Balanced between mobility and firepower'
+                        'Provided immediate, mobile artillery support when needed most',
+                        'Used a powerful and standardized gun (the 25-pdr)'
                     ],
                     weaknesses: [
-                        'Limited turret elevation and traverse',
-                        'Replaced by more effective SPGs like the Sexton'
+                        'Severely limited elevation (15°) and traverse, which drastically cut the maximum range',
+                        'Tall silhouette, making it an easy target',
+                        'Quickly replaced by more effective SPGs like the M7 Priest and the Sexton'
                     ]
                 }
             },
@@ -4189,20 +4192,20 @@
                     heDamageRadius: '31m',
                     munitionsCost: '280'
                 },
-                history: 'The Brummbär (Grizzly Bear) was a German assault gun based on the Panzer IV chassis, armed with a 150mm StuH 43 L/12 howitzer. It was designed for urban combat and destroying fortifications. First deployed in 1943, it saw extensive use on the Eastern Front and in urban battles like Stalingrad. Its nickname "Brummbär" reflected its powerful but slow nature.',
+      history: 'The Sturmpanzer IV, unofficially known as the Brummbär (Grizzly Bear), was a German assault gun based on the Panzer IV chassis, armed with a 150mm StuH 43 L/12 howitzer. It was designed primarily for heavy infantry support, demolishing fortifications and buildings in urban and close-quarters combat. First deployed at the **Battle of Kursk** in mid-1943, it saw use on both the Eastern and Western Fronts.',
                 realLife: {
-                    range: '~4,600m (indirect fire), ~1,000m (direct fire)',
-                    production: 'Produced from 1943-1945, ~306 units built by Alkett (Altmärkische Kettenfabrik) in Berlin-Spandau, Germany',
-                    service: 'Used by Wehrmacht on Eastern and Western Fronts (1943-1945)',
+                    range: '4,600 meters (maximum indirect fire range); effective direct fire range was around 1,000 meters.',
+                    production: 'Produced from April 1943 to March 1945, with 306 units built by Deutsche Eisenwerke.',
+                    service: 'Used by dedicated Sturmpanzer units within the Wehrmacht on both the Eastern and Western Fronts (1943-1945), including at Kursk and during the fighting for Italy and Normandy.',
                     strengths: [
-                        'Extremely powerful armament',
-                        'Large high-explosive blast radius',
-                        'Heavily armored',
-                        'Effective in urban warfare'
+                        'Carried the extremely powerful 150mm StuH 43, firing a massive 38kg (84 lb) High-Explosive (HE) shell.',
+                        'Featured heavy frontal armor (up to 100mm) designed to protect it during close-quarters assaults.',
+                        'Effective in urban and breakthrough combat against reinforced positions and enemy bunkers.'
                     ],
                     weaknesses: [
-                        'Limited traverse (30° total)',
-                        'Slow'
+                        'Limited gun traverse (7° left, 7° right) and slow elevation, making it difficult to engage targets quickly.',
+                        'The immense weight and high silhouette made it susceptible to mechanical breakdown and difficult to conceal.',
+                        'The main gun had a very slow muzzle velocity, limiting its effectiveness against enemy tanks.'
                     ]
                 }
             },
@@ -4236,19 +4239,20 @@
                     heDamageRadius: '31m',
                     munitionsCost: '280'
                 },
-                history: 'The Panzer III Ausf.N was a German medium tank variant armed with a 75mm L/24 short-barreled gun, designed for infantry support rather than anti-tank warfare. It saw service primarily in North Africa with the Afrika Korps and later on the Eastern Front. The Ausf.N was specifically designed for close support with high-explosive rounds.',
+  history: 'The Panzer III Ausf. N was a German medium tank variant armed with the short-barreled 7.5 cm KwK 37 L/24 gun. It was designed specifically for close infantry support with high-explosive (HE) rounds, as the chassis was no longer competitive in anti-tank roles. It saw service primarily on the Eastern Front, but also with the Afrika Korps and in Italy.',
                 realLife: {
-                    range: '~6,000m (indirect fire), ~1,500m (direct fire)',
-                    production: 'Produced from 1942-1943 at Daimler-Benz (Berlin-Marienfelde), MAN (Nuremberg), and Henschel (Kassel), Germany',
-                    service: 'Used by Afrika Korps and on Eastern Front (1942-1943)',
+                    range: '5,400 meters (maximum indirect fire range); effective direct fire range was around 600-1,000 meters.',
+                    production: 'A total of 700 Ausf. N tanks were produced between August 1942 and August 1943. Most were conversions of older Panzer III chassis (Ausf. J, L, and M) and the tank turret was fitted with the gun previously mounted on the early Panzer IV.',
+                    service: 'Used by the Wehrmacht on the Eastern Front, North Africa (Tunisia campaign), and Italy (1942-1944). It often served in independent tank battalions for infantry support.',
                     strengths: [
-                        'Good balance of mobility and firepower',
-                        'Effective against infantry and light vehicles',
-                        'Faster than heavy tanks',
-                        'Designed for infantry support role'
+                        'The large-caliber, low-velocity 75mm HE shell was highly effective against infantry, unarmored targets, and field fortifications.',
+                        'The chassis provided good mobility and reliability.',
+                        'It was a highly cost-effective way to utilize older Panzer III chassis for a dedicated support role.'
                     ],
                     weaknesses: [
-                        'Limited anti-tank capability'
+                        'Very limited anti-tank capability due to the low muzzle velocity of the L/24 gun (though it could carry HEAT rounds).',
+                        'Armor protection was becoming increasingly inadequate by 1943.',
+                        'Production of the Ausf. N ceased as the Panzer III was phased out in favor of the Panzer IV and the newer Panther.'
                     ]
                 }
             }
@@ -7396,7 +7400,6 @@
                             
                             <div class="field-manual-footer">
                                 <div class="footer-line">────────────────────────────────────────</div>
-                                <div class="footer-note">NOTES: Specifications based on in-game data. Actual performance may vary.</div>
                                 <div class="footer-stamp">VERIFIED: ██/██/1944</div>
                             </div>
                         </div>

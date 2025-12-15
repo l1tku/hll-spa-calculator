@@ -90,6 +90,10 @@
         
         /* Mobile optimizations */
         @media (max-width: 768px) {
+            :root {
+                --counter-scale: 0.75; /* Reduce scale by 25% for mobile */
+            }
+            
             .container {
                 padding-left: 10px;
                 padding-right: 10px;
@@ -293,7 +297,7 @@
             font-family: 'SpecialElite', 'Courier New', monospace;
             font-weight: 700;
             text-transform: uppercase;
-            font-size: 0.64rem;
+            font-size: 0.55rem;
             letter-spacing: 0.12em;
             color: #fef3c7;
             text-align: center;
@@ -304,7 +308,7 @@
             position: relative;
             z-index: 1;
             margin: 0;
-            line-height: 1.1;
+            line-height: 1.0;
         }
 
         .hidden {
@@ -324,7 +328,7 @@
             border: 2px solid #8b7355;
             border-top: 3px dashed #6b5d47;
             border-bottom: 2px solid #8b7355;
-            padding: 6px 28px 6px 16px;
+            padding: 3px 28px 3px 16px;
             position: fixed;
             top: 0;
             left: 50%;
@@ -387,24 +391,24 @@
         
         /* Prevent buttons and inputs from scaling - keep fixed sizes */
         #calculator-card .armored-button {
-            width: 52px !important;
-            height: 52px !important;
-            min-width: 52px !important;
-            min-height: 52px !important;
-            max-width: 52px !important;
-            max-height: 52px !important;
-            font-size: 1.5625rem !important;
+            width: 45px !important;
+            height: 45px !important;
+            min-width: 45px !important;
+            min-height: 45px !important;
+            max-width: 45px !important;
+            max-height: 45px !important;
+            font-size: 1.4rem !important;
             flex-shrink: 0 !important;
         }
         
         #calculator-card .armored-input {
-            width: 85px !important;
-            min-width: 85px !important;
-            max-width: 85px !important;
-            height: 52px !important;
-            min-height: 52px !important;
-            max-height: 52px !important;
-            font-size: 20px !important;
+            width: 75px !important;
+            min-width: 75px !important;
+            max-width: 75px !important;
+            height: 45px !important;
+            min-height: 45px !important;
+            max-height: 45px !important;
+            font-size: 18px !important;
             flex-shrink: 0 !important;
         }
         
@@ -544,14 +548,14 @@
             text-transform: uppercase;
             letter-spacing: 0.1em;
             font-family: 'Courier New', 'Courier', monospace;
-            font-size: 1rem;
+            font-size: 0.85rem;
             text-shadow: 0.5px 0.5px 1px rgba(255, 255, 255, 0.3);
             padding-left: 35px;
             margin: 0;
             flex: 1;
             overflow: visible;
             white-space: normal;
-            line-height: 1.4;
+            line-height: 1.2;
             word-wrap: break-word;
         }
 
@@ -1566,8 +1570,10 @@
         /* Mobile-specific: Ensure inputs are at least 16px to prevent iOS zoom */
         @media (max-width: 768px) {
             .armored-input {
-                font-size: 20px;
-                width: 85px;
+                font-size: 18px;
+                width: 75px;
+                height: 45px;
+                min-height: 45px;
             }
         }
 
@@ -1960,7 +1966,7 @@
                     rgba(139, 115, 85, 0.3) 90%,
                     transparent 100%
                 );
-            box-shadow: 0 0 calc(8px * var(--counter-scale)) rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
             z-index: 1;
         }
         
@@ -1976,7 +1982,7 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: calc(2px * var(--counter-scale));
+            gap: 2px;
             height: calc(var(--counter-base-size) * var(--counter-scale));
             vertical-align: middle;
         }
@@ -1984,7 +1990,7 @@
         .digit-wheel {
             display: inline-block;
             position: relative;
-            width: calc(0.7em * var(--counter-scale));
+            width: 0.75em;
             height: calc(var(--counter-base-size) * var(--counter-scale));
             overflow: hidden;
             font-variant-numeric: tabular-nums;
@@ -2062,8 +2068,8 @@
             display: inline-flex !important;
             align-items: center;
             justify-content: center;
-            gap: calc(2px * var(--counter-scale));
-            margin-left: calc(2px * var(--counter-scale));
+            gap: 2px;
+            margin-left: 2px;
             height: calc(var(--counter-base-size) * var(--counter-scale));
             vertical-align: middle;
             visibility: visible !important;
@@ -2074,7 +2080,7 @@
             font-family: 'Courier New', 'Courier', monospace;
             display: inline-block;
             position: relative;
-            width: calc(0.7em * var(--counter-scale));
+            width: 0.75em;
             height: calc(var(--counter-base-size) * var(--counter-scale));
             overflow: hidden;
             font-variant-numeric: tabular-nums;
@@ -2084,7 +2090,7 @@
         
         /* Make the first letter (M) counter box wider */
         .mil-static-counter .mil-wheel:first-child {
-            width: calc((0.9em - 1px) * var(--counter-scale));
+            width: calc(0.95em - 1px);
         }
         
         .mil-strip {
@@ -2124,10 +2130,10 @@
         #elevationValue .digit:not(:last-child)::after {
             content: '';
             position: absolute;
-            right: calc(-1px * var(--counter-scale));
+            right: -1px;
             top: 0;
             bottom: 0;
-            width: calc(1px * var(--counter-scale));
+            width: 1px;
             background: linear-gradient(
                 180deg,
                 transparent 0%,
@@ -2139,7 +2145,7 @@
                 rgba(139, 115, 85, 0.3) 90%,
                 transparent 100%
             );
-            box-shadow: 0 0 calc(8px * var(--counter-scale)) rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
             z-index: 1;
         }
         
@@ -2147,10 +2153,10 @@
         .armored-result-value .digit:first-child::before {
             content: '';
             position: absolute;
-            left: calc(-1px * var(--counter-scale));
+            left: -1px;
             top: 0;
             bottom: 0;
-            width: calc(1px * var(--counter-scale));
+            width: 1px;
             background: linear-gradient(
                 180deg,
                 transparent 0%,
@@ -2162,7 +2168,7 @@
                 rgba(139, 115, 85, 0.3) 90%,
                 transparent 100%
             );
-            box-shadow: 0 0 calc(8px * var(--counter-scale)) rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
             z-index: 1;
         }
         
@@ -2170,7 +2176,7 @@
         .armored-result-value .mil-label .digit:first-child::before {
             content: '';
             position: absolute;
-            left: calc(-1px * var(--counter-scale));
+            left: -1px;
             top: 0;
             bottom: 0;
             width: calc(1px * var(--counter-scale));
@@ -2185,7 +2191,7 @@
                 rgba(139, 115, 85, 0.3) 90%,
                 transparent 100%
             );
-            box-shadow: 0 0 calc(8px * var(--counter-scale)) rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
             z-index: 1;
         }
         
@@ -2193,10 +2199,10 @@
         .armored-result-value .mil-label .digit::after {
             content: '';
             position: absolute;
-            right: calc(-1px * var(--counter-scale));
+            right: -1px;
             top: 0;
             bottom: 0;
-            width: calc(1px * var(--counter-scale));
+            width: 1px;
             background: linear-gradient(
                 180deg,
                 transparent 0%,
@@ -2208,13 +2214,13 @@
                 rgba(139, 115, 85, 0.3) 90%,
                 transparent 100%
             );
-            box-shadow: 0 0 calc(8px * var(--counter-scale)) rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
             z-index: 1;
         }
         
         /* Add spacing between digits for better separation */
         .armored-result-value .digit {
-            margin-right: calc(2px * var(--counter-scale));
+            margin-right: 2px;
             position: relative;
         }
         
@@ -4300,9 +4306,11 @@
                                 </div>
                                 <div style="display: flex; flex-direction: column; gap: 16px; align-items: stretch; width: 100%;">
                                     <div style="display: flex; flex-direction: column; gap: 6px;">
-                                        <div style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 0;">
-                                            <div class="panel-label" style="margin-bottom: 0;">Height Difference (m)</div>
-                                            <button class="info-button" onclick="showHeightInfo(event)" title="(- target lower, + target higher)" style="width: 20px; height: 20px; min-width: 20px; min-height: 20px; background: rgba(194, 178, 128, 0.2); border: 1px solid rgba(194, 178, 128, 0.4); color: #c2b280; font-size: 0.75rem; font-weight: bold; cursor: pointer; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0; margin: 0; font-family: 'Courier New', monospace; line-height: 1;">i</button>
+                                        <div style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 0; position: relative;">
+                                            <div style="display: flex; align-items: center; gap: 4px;">
+                                                <div class="panel-label" style="margin-bottom: 0;">Height Difference (m) <span style="color: #ef4444; font-size: 0.8em; font-weight: normal; margin-left: 25px;">[EXPERIMENTAL]</span></div>
+                                                <button class="info-button" onclick="showHeightInfo(event)" title="(- target lower, + target higher)" style="width: 20px; height: 20px; min-width: 20px; min-height: 20px; background: rgba(194, 178, 128, 0.2); border: 1px solid rgba(194, 178, 128, 0.4); color: #c2b280; font-size: 0.75rem; font-weight: bold; cursor: pointer; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0; margin: 0; font-family: 'Courier New', monospace; line-height: 1; transform: translate(-20px, -13px);">i</button>
+                                            </div>
                                         </div>
                                         <div style="display: flex; justify-content: center; align-items: center; gap: 4px; width: 100%; flex-wrap: wrap;">
                                             <div style="display: flex; align-items: center; gap: 4px;">
@@ -4315,7 +4323,7 @@
                                     <div style="display: flex; flex-direction: column; gap: 6px;">
                                         <div style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 0;">
                                             <div class="panel-label" style="margin-bottom: 0;">Terrain Elevation (MIL)</div>
-                                            <button class="info-button" onclick="showTerrainInfo(event)" title="Red MIL HUD (- downhill/nose-down, + uphill/nose-up)" style="width: 20px; height: 20px; min-width: 20px; min-height: 20px; background: rgba(194, 178, 128, 0.2); border: 1px solid rgba(194, 178, 128, 0.4); color: #c2b280; font-size: 0.75rem; font-weight: bold; cursor: pointer; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0; margin: 0; font-family: 'Courier New', monospace; line-height: 1;">i</button>
+                                            <button class="info-button" onclick="showTerrainInfo(event)" title="Red MIL HUD (- downhill/nose-down, + uphill/nose-up)" style="width: 20px; height: 20px; min-width: 20px; min-height: 20px; background: rgba(194, 178, 128, 0.2); border: 1px solid rgba(194, 178, 128, 0.4); color: #c2b280; font-size: 0.75rem; font-weight: bold; cursor: pointer; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0; margin: 0; font-family: 'Courier New', monospace; line-height: 1; transform: translate(0, -3px);">i</button>
                                         </div>
                                         <div style="display: flex; justify-content: center; align-items: center; gap: 4px; width: 100%; flex-wrap: wrap;">
                                             <div style="display: flex; align-items: center; gap: 4px;">
@@ -4366,7 +4374,6 @@
                                 <div style="flex: 1;">
                                     <div class="field-manual-text field-manual-title">FIELD MANUAL</div>
                                     <div class="field-manual-text field-manual-subtitle">Artillery & Armored Vehicle Specifications</div>
-                                    <div class="field-manual-text field-manual-reference">REF: FM-ART-1944 | SECTION: VEHICLE DATA</div>
                                 </div>
                                 <h3 id="tankInfoTitle" style="position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); margin: 0; font-size: 19px; text-align: center; white-space: nowrap;">Tank Information</h3>
                                 <button class="info-modal-close" id="closeTankInfo">&times;</button>
@@ -4480,18 +4487,21 @@
                     heDamageRadius: '31m',
                     munitionsCost: '280'
                 },
-                history: 'The M4A3 Sherman variant equipped with a 105mm howitzer was developed to provide close infantry support. It saw extensive use in the European Theater, particularly during the breakout from Normandy and the push across France. The 105mm howitzer was effective against fortifications and infantry positions, making it valuable for breakthrough operations.',
+                history: 'The M4 Sherman tank variant equipped with the 105mm howitzer (typically the M4 or M4A3 chassis) was developed to provide powerful close infantry support. It saw extensive use in both the European and Pacific Theaters. The 105mm howitzer was highly effective against fortifications, infantry positions, and used primarily for demolition and smoke delivery, making it valuable for breakthrough operations.',
                 realLife: {
-                    range: '~11,000m (indirect fire), ~2,000m (direct fire)',
-                    production: 'Produced from 1943-1945 at Detroit Arsenal Tank Plant (Warren, Michigan), Fisher Body Tank Plant/Grand Blanc Metal Center (Grand Blanc, Michigan), and other US facilities',
-                    service: 'Used by US Army in European and Pacific theaters (1943-1945)',
+                    range: '11,500 yards (~10,500m) for indirect fire with M67 HE projectile; 1,500 yards (~1,400m) effective direct fire.',
+                    production: 'A total of 4,680 105mm Howitzer Shermans (across M4 and M4A3 chassis) were produced between February 1943 and March 1945, primarily by Detroit Arsenal and Chrysler at the Grand Blanc Arsenal.',
+                    service: 'Used by the US Army in European and Pacific theaters (1943-1945). It was typically issued one per tank company as a dedicated close-support vehicle.',
                     strengths: [
-                        'Versatile for both direct and indirect fire support',
-                        'Good mobility and reliability',
-                        'Standard HE and AP capabilities',
-                        'Effective against infantry and fortifications'
+                        'Carried a high volume of High Explosive (HE) and Smoke rounds, making it an excellent infantry support weapon.',
+                        'The 105mm HE shell was far more destructive against dug-in positions and buildings than the standard 75mm or 76mm shells.',
+                        'Good mobility and reliability, maintaining the logistical advantage of the Sherman chassis.'
                     ],
-                    weaknesses: []
+                    weaknesses: [
+                        'The M4 105mm Howitzer model used a lower turret (D50878) which lacked a power traverse.',
+                        'The tank was primarily armed with HE rounds and had limited effectiveness against heavily armored enemy tanks in direct fire combat (though it did carry a Heat/HESH round).',
+                        'Used the older Vertical Volute Spring Suspension (VVSS) on many versions, which was less stable than the later Horizontal Volute Spring Suspension (HVSS).'
+                    ]
                 }
             },
             'Soviet Union (KV-2)': {
@@ -4524,19 +4534,19 @@
                     heDamageRadius: '31m',
                     munitionsCost: '280'
                 },
-                history: 'The KV-2 was a Soviet heavy tank armed with a massive 152mm howitzer, designed as an assault tank to destroy fortifications and bunkers. It saw action during the Winter War against Finland and early stages of Operation Barbarossa. Despite its powerful armament, its slow speed, long reload time, and mechanical issues made it vulnerable to German anti-tank weapons.',
+                history: 'The KV-2 was a Soviet heavy tank armed with the massive 152mm M-10 howitzer (specifically the M-10T). It was designed as an assault tank to destroy fortifications and bunkers. It saw action during the Winter War against Finland (though production models were post-war) and was famously used in the early stages of Operation Barbarossa, where its heavy armor proved almost impervious to early German anti-tank guns. Despite its powerful armament, its slow speed, long reload time, and mechanical issues made it highly problematic.',
                 realLife: {
-                    range: '~12,000m (indirect fire), ~1,200m (direct fire)',
-                    production: 'Produced from 1939-1941, ~334 units built at Kirov Plant (Factory No. 100) in Leningrad (now St. Petersburg, Russia)',
-                    service: 'Used by Red Army in Winter War and early Eastern Front (1939-1941)',
+                    range: '12,400 meters (maximum indirect fire range with the M-10 howitzer); effective direct fire range for tank combat was less than 1,000 meters.',
+                    production: 'Produced from 1940-1941 (not 1939), with approximately 334 units built at the Kirov Plant (LKZ) in Leningrad.',
+                    service: 'Used by the Red Army in the early Eastern Front (1940-1941). Most were lost due to mechanical failure and fuel shortage rather than enemy fire.',
                     strengths: [
-                        'Extremely powerful armament',
-                        'Highly effective against fortifications'
+                        'Carried the most powerful gun mounted on a tank chassis at the time, capable of destroying any Axis tank and most fortifications.',
+                        'Heavy armor (up to 110mm on the turret front) provided near-invulnerability to most German anti-tank weapons in 1941.'
                     ],
                     weaknesses: [
-                        'Very slow turret rotation and movement',
-                        'Long reload time (20-40 seconds)',
-                        'Vulnerable to mechanical breakdowns'
+                        'Turret rotation was extremely slow, and often impossible on uneven ground or slopes due to its immense weight.',
+                        'Long, two-piece ammunition reload time (upwards of 40 seconds), limiting its fire rate in tank combat.',
+                        'The immense weight (52 tons) caused severe reliability and mechanical issues with the transmission and running gear.'
                     ]
                 }
             },
@@ -4570,20 +4580,20 @@
                     heDamageRadius: '31m',
                     munitionsCost: '280'
                 },
-                history: 'The Churchill AVRE (Armoured Vehicle Royal Engineers) was a specialized engineering vehicle designed to destroy fortifications. It was armed with a 290mm Petard mortar, capable of firing a 40-pound "Flying Dustbin" projectile. These vehicles were crucial during D-Day and subsequent operations, used to breach enemy defenses and clear obstacles.',
+                history: 'The Churchill AVRE (Armoured Vehicle Royal Engineers) was a specialized engineering vehicle designed to destroy fortifications. It was armed with a 290mm Petard mortar, capable of firing a 40-pound "Flying Dustbin" projectile (containing 28 pounds of high explosive). These vehicles were crucial during D-Day and subsequent operations, used to breach enemy defenses and clear obstacles.',
                 realLife: {
-                    range: '~100m (very short range in real life)',
-                    production: 'Base Churchill tanks manufactured at Vauxhall Motors in Luton, Bedfordshire, UK. AVRE conversions performed by Royal Engineers',
-                    service: 'Used by British and Canadian forces in Normandy and beyond (1944-1945)',
+                    range: '73 - 100 meters (effective range) or 210 meters (maximum range). The extremely short range was due to the mortar\'s design.',
+                    production: 'Base Churchill tanks manufactured at Vauxhall Motors in Luton, Bedfordshire, UK. Approximately 700 total conversions were performed by Royal Engineers on various Churchill marks.',
+                    service: 'Used by British and Canadian forces in Normandy and beyond (1944-1945), forming part of the specialized "Hobart\'s Funnies" (79th Armoured Division).',
                     strengths: [
-                        'Designed specifically for assaulting fortifications',
-                        'Devastating firepower against structures',
-                        'Large high-explosive blast radius',
-                        'Heavily armored'
+                        'Designed specifically for assaulting fortifications and pillboxes at point-blank range',
+                        'Devastating firepower against structures due to the large high-explosive charge',
+                        'Heavily armored for protection during close-quarters breaching operations'
                     ],
                     weaknesses: [
-                        'Extremely short effective range (~100m)',
-                        'Slow'
+                        'Extremely short effective range (~100m) forced the tank to operate dangerously close to the enemy',
+                        'Slow and risky muzzle-loading reload process, performed by the co-driver via the hull front',
+                        'Slow top speed, typical of the Churchill chassis'
                     ]
                 }
             },
@@ -4617,18 +4627,19 @@
                     heDamageRadius: '31m',
                     munitionsCost: '280'
                 },
-                history: 'The Bishop was a British self-propelled artillery vehicle based on the Valentine tank chassis, armed with a 25-pounder field gun. It was used during World War II, primarily in North Africa. The vehicle was named after its boxy superstructure resembling a bishop\'s mitre. It had limited elevation and traverse, which affected its effectiveness as an artillery piece.',
+                history: 'The Bishop was a British self-propelled artillery vehicle based on the Valentine tank chassis, armed with a 25-pounder field gun. It was used during World War II, primarily in North Africa. The vehicle was named after its boxy superstructure resembling a bishop\'s mitre. It had limited elevation and traverse, which severely affected its effectiveness as an artillery piece.',
                 realLife: {
-                    range: '~6,000-12,000m (indirect fire)',
+                    range: '6,400 yards (~5,900m) due to limited 15° elevation (compared to 12,253m for the standard towed gun)',
                     production: 'Produced from 1942-1943, ~149 units built by Birmingham Railway Carriage and Wagon Company in Birmingham, UK',
                     service: 'Used by British forces in North Africa and Italy (1942-1943)',
                     strengths: [
-                        'Good for medium-range engagements',
-                        'Balanced between mobility and firepower'
+                        'Provided immediate, mobile artillery support when needed most',
+                        'Used a powerful and standardized gun (the 25-pdr)'
                     ],
                     weaknesses: [
-                        'Limited turret elevation and traverse',
-                        'Replaced by more effective SPGs like the Sexton'
+                        'Severely limited elevation (15°) and traverse, which drastically cut the maximum range',
+                        'Tall silhouette, making it an easy target',
+                        'Quickly replaced by more effective SPGs like the M7 Priest and the Sexton'
                     ]
                 }
             },
@@ -4662,20 +4673,20 @@
                     heDamageRadius: '31m',
                     munitionsCost: '280'
                 },
-                history: 'The Brummbär (Grizzly Bear) was a German assault gun based on the Panzer IV chassis, armed with a 150mm StuH 43 L/12 howitzer. It was designed for urban combat and destroying fortifications. First deployed in 1943, it saw extensive use on the Eastern Front and in urban battles like Stalingrad. Its nickname "Brummbär" reflected its powerful but slow nature.',
+                history: 'The Sturmpanzer IV, unofficially known as the Brummbär (Grizzly Bear), was a German assault gun based on the Panzer IV chassis, armed with a 150mm StuH 43 L/12 howitzer. It was designed primarily for heavy infantry support, demolishing fortifications and buildings in urban and close-quarters combat. First deployed at the **Battle of Kursk** in mid-1943, it saw use on both the Eastern and Western Fronts.',
                 realLife: {
-                    range: '~4,600m (indirect fire), ~1,000m (direct fire)',
-                    production: 'Produced from 1943-1945, ~306 units built by Alkett (Altmärkische Kettenfabrik) in Berlin-Spandau, Germany',
-                    service: 'Used by Wehrmacht on Eastern and Western Fronts (1943-1945)',
+                    range: '4,600 meters (maximum indirect fire range); effective direct fire range was around 1,000 meters.',
+                    production: 'Produced from April 1943 to March 1945, with 306 units built by Deutsche Eisenwerke.',
+                    service: 'Used by dedicated Sturmpanzer units within the Wehrmacht on both the Eastern and Western Fronts (1943-1945), including at Kursk and during the fighting for Italy and Normandy.',
                     strengths: [
-                        'Extremely powerful armament',
-                        'Large high-explosive blast radius',
-                        'Heavily armored',
-                        'Effective in urban warfare'
+                        'Carried the extremely powerful 150mm StuH 43, firing a massive 38kg (84 lb) High-Explosive (HE) shell.',
+                        'Featured heavy frontal armor (up to 100mm) designed to protect it during close-quarters assaults.',
+                        'Effective in urban and breakthrough combat against reinforced positions and enemy bunkers.'
                     ],
                     weaknesses: [
-                        'Limited traverse (30° total)',
-                        'Slow'
+                        'Limited gun traverse (7° left, 7° right) and slow elevation, making it difficult to engage targets quickly.',
+                        'The immense weight and high silhouette made it susceptible to mechanical breakdown and difficult to conceal.',
+                        'The main gun had a very slow muzzle velocity, limiting its effectiveness against enemy tanks.'
                     ]
                 }
             },
@@ -4709,19 +4720,20 @@
                     heDamageRadius: '31m',
                     munitionsCost: '280'
                 },
-                history: 'The Panzer III Ausf.N was a German medium tank variant armed with a 75mm L/24 short-barreled gun, designed for infantry support rather than anti-tank warfare. It saw service primarily in North Africa with the Afrika Korps and later on the Eastern Front. The Ausf.N was specifically designed for close support with high-explosive rounds.',
+                history: 'The Panzer III Ausf. N was a German medium tank variant armed with the short-barreled 7.5 cm KwK 37 L/24 gun. It was designed specifically for close infantry support with high-explosive (HE) rounds, as the chassis was no longer competitive in anti-tank roles. It saw service primarily on the Eastern Front, but also with the Afrika Korps and in Italy.',
                 realLife: {
-                    range: '~6,000m (indirect fire), ~1,500m (direct fire)',
-                    production: 'Produced from 1942-1943 at Daimler-Benz (Berlin-Marienfelde), MAN (Nuremberg), and Henschel (Kassel), Germany',
-                    service: 'Used by Afrika Korps and on Eastern Front (1942-1943)',
+                    range: '5,400 meters (maximum indirect fire range); effective direct fire range was around 600-1,000 meters.',
+                    production: 'A total of 700 Ausf. N tanks were produced between August 1942 and August 1943. Most were conversions of older Panzer III chassis (Ausf. J, L, and M) and the tank turret was fitted with the gun previously mounted on the early Panzer IV.',
+                    service: 'Used by the Wehrmacht on the Eastern Front, North Africa (Tunisia campaign), and Italy (1942-1944). It often served in independent tank battalions for infantry support.',
                     strengths: [
-                        'Good balance of mobility and firepower',
-                        'Effective against infantry and light vehicles',
-                        'Faster than heavy tanks',
-                        'Designed for infantry support role'
+                        'The large-caliber, low-velocity 75mm HE shell was highly effective against infantry, unarmored targets, and field fortifications.',
+                        'The chassis provided good mobility and reliability.',
+                        'It was a highly cost-effective way to utilize older Panzer III chassis for a dedicated support role.'
                     ],
                     weaknesses: [
-                        'Limited anti-tank capability'
+                        'Very limited anti-tank capability due to the low muzzle velocity of the L/24 gun (though it could carry HEAT rounds).',
+                        'Armor protection was becoming increasingly inadequate by 1943.',
+                        'Production of the Ausf. N ceased as the Panzer III was phased out in favor of the Panzer IV and the newer Panther.'
                     ]
                 }
             }
@@ -4784,7 +4796,7 @@
                 'US (Sherman M4A3 105)': 'M4A3_248',
                 'Soviet Union (KV-2)': 'KV2_248',
                 'DAK (Panzer III Ausf.N)': 'PANZERIII_248',
-                'Germany (Sturmpanzer IV)': 'BRUMMBAR_248'
+                'Germany (Sturmpanzer IV Brummbär)': 'BRUMMBAR_248'
             };
             
             // Classified reference text for each tank
@@ -7513,30 +7525,21 @@
             distanceInputEl.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();
-                    heightInputEl.focus();
-                    heightInputEl.select();
+                    this.blur(); // Hide keyboard
                 }
             });
             
             heightInputEl.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();
-                    redInputEl.focus();
-                    redInputEl.select();
+                    this.blur(); // Hide keyboard
                 }
             });
             
             redInputEl.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();
-                    if (isAutoCalcEnabled()) {
-                        // Auto mode: loop back to distance
-                        distanceInputEl.focus();
-                        distanceInputEl.select();
-                    } else {
-                        // Manual mode: focus calculate button
-                        calcButtonEl.focus();
-                    }
+                    this.blur(); // Hide keyboard
                 }
             });
         }
@@ -8267,7 +8270,6 @@
                             
                             <div class="field-manual-footer">
                                 <div class="footer-line">────────────────────────────────────────</div>
-                                <div class="footer-note">NOTES: Specifications based on in-game data. Actual performance may vary.</div>
                                 <div class="footer-stamp">VERIFIED: ██/██/1944</div>
                             </div>
                         </div>
@@ -8328,6 +8330,10 @@
                     tankInfoContent.innerHTML = statsContent + screenshotsContent + historyContent;
                     tankInfoModal.style.display = 'block';
                     tankInfoModal.setAttribute('data-open', 'true');
+                    // Prevent body scrolling when modal is open
+                    document.body.style.overflow = 'hidden';
+                    document.body.style.position = 'fixed';
+                    document.body.style.width = '100%';
                     // Keep button extended when modal is open
                     if (tankInfoIcon) {
                         tankInfoIcon.classList.add('extended');
@@ -8436,6 +8442,10 @@
             if (tankInfoModal) {
                 tankInfoModal.style.display = 'none';
                 tankInfoModal.removeAttribute('data-open');
+                // Restore body scrolling when modal is closed
+                document.body.style.overflow = '';
+                document.body.style.position = '';
+                document.body.style.width = '';
             }
             // Move button back to original position when modal closes
             if (tankInfoIcon) {
@@ -8612,7 +8622,7 @@
             const tooltip = document.createElement('div');
             tooltip.id = 'heightInfoTooltip';
             tooltip.style.cssText = 'position: fixed; background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%); border: 2px solid #c2b280; padding: 12px 16px; border-radius: 4px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8); z-index: 10000; color: #e5e7eb; font-family: "Courier New", monospace; font-size: 0.85rem; max-width: 250px; line-height: 1.5;';
-            tooltip.innerHTML = '<div style="font-weight: bold; color: #c2b280; margin-bottom: 8px;">Height Difference (M)</div><div style="color: #9ca3af;">- target lower (negative value)<br>+ target higher (positive value)</div>';
+            tooltip.innerHTML = '<div style="font-weight: bold; color: #c2b280; margin-bottom: 8px;">Height Difference (M)</div><div style="color: #9ca3af;">CAN LEAVE EMPTY!<br>- target lower (negative value)<br>+ target higher (positive value)</div>';
             
             // Position tooltip near the button
             const button = event.target;

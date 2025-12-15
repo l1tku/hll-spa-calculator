@@ -24,6 +24,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Enhanced viewport settings with `maximum-scale=5.0` and `user-scalable=yes` for better mobile usability
   - Prevents UI elements from scaling incorrectly on mobile devices
   - Better touch interaction and zoom control on mobile devices
+- **History correction and small bug fixes**
+  - Fixed calculation history display issues
+  - Resolved minor UI inconsistencies
+  - Improved error handling for edge cases
 
 ### Verified
 - **Ballistics data accuracy**
