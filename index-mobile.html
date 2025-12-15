@@ -1701,6 +1701,20 @@
             transition: left 0.3s ease;
         }
 
+        .armored-calculate.tap-animate {
+            background: linear-gradient(145deg, #5a4a2a, #3a2f1f);
+            transform: scale(0.96);
+            box-shadow: 
+                inset 0 4px 12px rgba(0, 0, 0, 0.8),
+                0 3px 10px rgba(0, 0, 0, 0.7);
+            border-color: #7b6010;
+        }
+
+        .armored-calculate.tap-animate::before {
+            left: 100%;
+            transition: left 0.3s ease;
+        }
+
         /* Hover only for desktop (less important on mobile) */
         @media (hover: hover) and (pointer: fine) {
             .armored-calculate:hover::before {
@@ -4302,7 +4316,7 @@
                                         <div class="range-indicator" id="distanceRangeIndicator">
                                             <div class="range-indicator-bar" id="distanceRangeBar"></div>
                                         </div>
-                                        <input type="range" id="distanceSlider" min="200" max="600" value="400" step="1" class="slider armored-slider" style="width: 100%; height: 8px; margin-top: 8px;">
+                                        <input type="range" id="distanceSlider" min="200" max="600" value="400" step="1" class="slider armored-slider" style="width: 100%; height: 8px; margin-top: 8px; touch-action: none;">
                                     </div>
                                 </div>
                                 <div style="display: flex; flex-direction: column; gap: 16px; align-items: stretch; width: 100%;">
@@ -5520,7 +5534,7 @@
                         const deltaY = e.touches[0].clientY - swipeStartY;
                         const deltaX = e.touches[0].clientX - swipeStartX;
                         // Only process if vertical swipe is dominant
-                        if (Math.abs(deltaY) > Math.abs(deltaX)) {
+                        if (Math.abs(deltaY) > Math.abs(deltaX) && e.cancelable) {
                             e.preventDefault();
                         }
                     }, { passive: false });
@@ -5561,34 +5575,68 @@
         // Track user interaction to prevent haptic intervention errors
         let hasUserInteracted = false;
         
+        // Suppress console warnings about vibration interventions
+        const originalConsoleWarn = console.warn;
+        const originalConsoleError = console.error;
+        
+        console.warn = function(...args) {
+            const message = args.join(' ');
+            if (message.includes('Blocked call to navigator.vibrate') || message.includes('vibrate')) {
+                return; // Suppress all vibration-related warnings
+            }
+            return originalConsoleWarn.apply(console, args);
+        };
+        
+        console.error = function(...args) {
+            const message = args.join(' ');
+            if (message.includes('Blocked call to navigator.vibrate') || message.includes('vibrate')) {
+                return; // Suppress all vibration-related errors
+            }
+            return originalConsoleError.apply(console, args);
+        };
+        
         // Listen for first interaction
-        const interactionEvents = ['touchstart', 'click', 'keydown'];
+        const interactionEvents = ['touchstart', 'click', 'keydown', 'mousedown', 'pointerdown'];
         const markInteraction = () => {
             hasUserInteracted = true;
             interactionEvents.forEach(e => document.removeEventListener(e, markInteraction));
         };
         interactionEvents.forEach(e => document.addEventListener(e, markInteraction, { passive: true, once: true }));
 
+        function triggerCalculateButtonAnimation() {
+            const btn = document.getElementById('calculateButton');
+            if (!btn) return;
+            btn.classList.remove('tap-animate');
+            void btn.offsetWidth;
+            btn.classList.add('tap-animate');
+            setTimeout(() => {
+                btn.classList.remove('tap-animate');
+            }, 280);
+        }
+
         // Haptic feedback
         function triggerHaptic(type = 'light') {
-            // Check for navigator support and prior user interaction
-            if (!hasUserInteracted || !('vibrate' in navigator)) return;
+            // Check for navigator support
+            if (!('vibrate' in navigator)) return;
             
-            // Wrap in try-catch to prevent errors from browser interventions (autoplay policy)
+            // Only proceed if user has interacted
+            if (!hasUserInteracted) return;
+            
+            // Additional safety: wait a tick to ensure browser has processed interaction
             try {
+                const userActivation = navigator.userActivation;
+                if (userActivation && userActivation.isActive !== true) return;
+
                 const patterns = {
                     'light': 10,
                     'medium': 20,
                     'strong': 30
                 };
                 // Some browsers throw if vibration is called before user interaction
-                const success = navigator.vibrate(patterns[type] || 10);
-                if (!success) {
-                    // Vibration failed or was blocked (normal on initial load)
-                }
+                navigator.vibrate(patterns[type] || 10);
             } catch (e) {
-                // Ignore errors related to vibration (e.g. lack of user gesture)
-                console.debug('Haptic feedback blocked or failed:', e);
+                // Silently ignore errors related to vibration
+                // Don't log to console to avoid spamming during normal usage
             }
         }
 
@@ -5893,17 +5941,27 @@
                 }
                 
                 distanceSlider.addEventListener('touchstart', function(e) {
+                    // Mark user interaction immediately to allow haptic feedback
+                    if (!hasUserInteracted) {
+                        hasUserInteracted = true;
+                        interactionEvents.forEach(event => document.removeEventListener(event, markInteraction));
+                    }
+                    
                     isDragging = true;
                     updateSliderFromTouch(e);
-                    // Prevent default to stop page scrolling
-                    e.preventDefault();
+                    // Prevent default to stop page scrolling (only if cancelable)
+                    if (e.cancelable) {
+                        e.preventDefault();
+                    }
                 }, { passive: false });
                 
                 distanceSlider.addEventListener('touchmove', function(e) {
                     if (isDragging) {
                         updateSliderFromTouch(e);
-                        // Prevent default to stop page scrolling while dragging
-                        e.preventDefault();
+                        // Prevent default to stop page scrolling while dragging (only if cancelable)
+                        if (e.cancelable) {
+                            e.preventDefault();
+                        }
                     }
                 }, { passive: false });
                 
@@ -8914,7 +8972,13 @@
             // Calculate button
             const calculateButton = document.getElementById('calculateButton');
             if (calculateButton) {
-                calculateButton.addEventListener('click', calculate);
+                calculateButton.addEventListener('touchstart', function() {
+                    triggerCalculateButtonAnimation();
+                }, { passive: true });
+                calculateButton.addEventListener('click', function() {
+                    triggerCalculateButtonAnimation();
+                    calculate();
+                });
             }
 
             // Copy result button
