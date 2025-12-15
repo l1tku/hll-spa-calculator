@@ -5359,7 +5359,7 @@
             
             // Prevent default to avoid double-firing (click event would also fire)
             // The immediate adjustValue call handles the single tap
-            if (event && event.cancelable) {
+            if (event && event.cancelable && event.type !== 'touchstart') {
                 event.preventDefault();
                 event.stopPropagation();
             } else if (event) {
@@ -8634,7 +8634,10 @@
         function showHeightInfo(event) {
             if (event) {
                 event.stopPropagation();
-                event.preventDefault();
+                // Don't preventDefault for passive events
+                if (event.cancelable && event.type !== 'touchstart') {
+                    event.preventDefault();
+                }
             }
             
             // Remove existing tooltip if any
@@ -8799,14 +8802,14 @@
             const heightInfoButton = document.getElementById('heightInfoButton');
             if (heightInfoButton) {
                 heightInfoButton.addEventListener('click', showHeightInfo);
-                heightInfoButton.addEventListener('touchstart', showHeightInfo, { passive: false });
+                heightInfoButton.addEventListener('touchstart', showHeightInfo, { passive: true });
             }
 
             // Terrain info button
             const terrainInfoButton = document.getElementById('terrainInfoButton');
             if (terrainInfoButton) {
                 terrainInfoButton.addEventListener('click', showTerrainInfo);
-                terrainInfoButton.addEventListener('touchstart', showTerrainInfo, { passive: false });
+                terrainInfoButton.addEventListener('touchstart', showTerrainInfo, { passive: true });
             }
 
             // Distance buttons (first pair of armored-button)
@@ -8819,14 +8822,14 @@
                         // Minus button
                         buttons[0].addEventListener('mousedown', function(e) { startHoldIncrement('distance', -1, e); });
                         buttons[0].addEventListener('mouseup', stopHoldIncrement);
-                        buttons[0].addEventListener('touchstart', function(e) { startHoldIncrement('distance', -1, e); });
+                        buttons[0].addEventListener('touchstart', function(e) { startHoldIncrement('distance', -1, e); }, { passive: true });
                         buttons[0].addEventListener('touchend', stopHoldIncrement);
                         buttons[0].addEventListener('click', function() { adjustValue('distance', -1); });
                         
                         // Plus button
                         buttons[1].addEventListener('mousedown', function(e) { startHoldIncrement('distance', 1, e); });
                         buttons[1].addEventListener('mouseup', stopHoldIncrement);
-                        buttons[1].addEventListener('touchstart', function(e) { startHoldIncrement('distance', 1, e); });
+                        buttons[1].addEventListener('touchstart', function(e) { startHoldIncrement('distance', 1, e); }, { passive: true });
                         buttons[1].addEventListener('touchend', stopHoldIncrement);
                         buttons[1].addEventListener('click', function() { adjustValue('distance', 1); });
                     }
@@ -8843,14 +8846,14 @@
                         // Minus button
                         buttons[0].addEventListener('mousedown', function(e) { startHoldIncrement('heightDiff', -1, e); });
                         buttons[0].addEventListener('mouseup', stopHoldIncrement);
-                        buttons[0].addEventListener('touchstart', function(e) { startHoldIncrement('heightDiff', -1, e); });
+                        buttons[0].addEventListener('touchstart', function(e) { startHoldIncrement('heightDiff', -1, e); }, { passive: true });
                         buttons[0].addEventListener('touchend', stopHoldIncrement);
                         buttons[0].addEventListener('click', function() { adjustValue('heightDiff', -1); });
                         
                         // Plus button
                         buttons[1].addEventListener('mousedown', function(e) { startHoldIncrement('heightDiff', 1, e); });
                         buttons[1].addEventListener('mouseup', stopHoldIncrement);
-                        buttons[1].addEventListener('touchstart', function(e) { startHoldIncrement('heightDiff', 1, e); });
+                        buttons[1].addEventListener('touchstart', function(e) { startHoldIncrement('heightDiff', 1, e); }, { passive: true });
                         buttons[1].addEventListener('touchend', stopHoldIncrement);
                         buttons[1].addEventListener('click', function() { adjustValue('heightDiff', 1); });
                     }
@@ -8867,14 +8870,14 @@
                         // Minus button
                         buttons[0].addEventListener('mousedown', function(e) { startHoldIncrement('redNumber', -1, e); });
                         buttons[0].addEventListener('mouseup', stopHoldIncrement);
-                        buttons[0].addEventListener('touchstart', function(e) { startHoldIncrement('redNumber', -1, e); });
+                        buttons[0].addEventListener('touchstart', function(e) { startHoldIncrement('redNumber', -1, e); }, { passive: true });
                         buttons[0].addEventListener('touchend', stopHoldIncrement);
                         buttons[0].addEventListener('click', function() { adjustValue('redNumber', -1); });
                         
                         // Plus button
                         buttons[1].addEventListener('mousedown', function(e) { startHoldIncrement('redNumber', 1, e); });
                         buttons[1].addEventListener('mouseup', stopHoldIncrement);
-                        buttons[1].addEventListener('touchstart', function(e) { startHoldIncrement('redNumber', 1, e); });
+                        buttons[1].addEventListener('touchstart', function(e) { startHoldIncrement('redNumber', 1, e); }, { passive: true });
                         buttons[1].addEventListener('touchend', stopHoldIncrement);
                         buttons[1].addEventListener('click', function() { adjustValue('redNumber', 1); });
                     }
