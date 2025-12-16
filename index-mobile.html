@@ -5767,6 +5767,7 @@
 
         // Constants
         const SLIDER_THUMB_WIDTH = 18;
+        const MILS_PER_RAD_APPROX = 1000;
 
         // Check if auto calculation is enabled
         function isAutoCalcEnabled() {
@@ -6507,7 +6508,7 @@
             // Convert height difference from meters to mils: mils = (height_diff_meters / distance_meters) * 1000
             // If target is higher (positive heightDiff), aim higher (add)
             // If tank is elevated (positive redNumber), compensate by aiming lower (subtract)
-            const heightDiffMils = (heightDiff / distance) * 1000;
+            const heightDiffMils = (heightDiff / distance) * MILS_PER_RAD_APPROX;
             const final = Math.round(base + heightDiffMils - redNumber);
             
 
