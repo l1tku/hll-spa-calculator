@@ -4785,9 +4785,12 @@
             
             // Extrapolate for distances > maxDist (600m)
             if (meters > maxDist) {
-                // Beyond 600m, use 600m as the base value
-                // The game appears to have max effective range at 600m
-                return table[maxDist];
+                const d1 = distances[0];
+                const d2 = distances[1];
+                const m1 = table[d1];
+                const m2 = table[d2];
+                const slope = (m1 - m2) / (d1 - d2);
+                return m1 + (meters - d1) * slope;
             }
             
             // Extrapolate for distances < minDist (200m)
@@ -5767,7 +5770,7 @@
 
         // Constants
         const SLIDER_THUMB_WIDTH = 18;
-        const MILS_PER_RAD_APPROX = 1000;
+        const MILS_PER_RAD_APPROX = -80;
 
         // Check if auto calculation is enabled
         function isAutoCalcEnabled() {
@@ -6505,9 +6508,6 @@
 
             const base = interpolate(table, distance);
             // Calculate final elevation: base plus height difference (converted to mils) minus tank body angle
-            // Convert height difference from meters to mils: mils = (height_diff_meters / distance_meters) * 1000
-            // If target is higher (positive heightDiff), aim higher (add)
-            // If tank is elevated (positive redNumber), compensate by aiming lower (subtract)
             const heightDiffMils = (heightDiff / distance) * MILS_PER_RAD_APPROX;
             const final = Math.round(base + heightDiffMils - redNumber);
             
@@ -6521,9 +6521,9 @@
                 // Keep distance warning if no MIL limit issue
                 if (warningDiv) {
                     if (distance > maxDist) {
-                        showWarning(warningDiv, `Warning: Distance (${distance}m) exceeds max range (${maxDist}m). Elevation is locked to ${maxDist}m value - trajectory does not change beyond this range.`);
+                        showWarning(warningDiv, `Warning: ${distance}m is above supported range (${maxDist}m max). Extrapolating.`);
                     } else {
-                        showWarning(warningDiv, `Warning: Distance (${distance}m) is below minimum range (${minDist}m). Elevation calculated may be inaccurate.`);
+                        showWarning(warningDiv, `Warning: ${distance}m is below supported range (${minDist}m min). Elevation may be inaccurate.`);
                     }
                 }
                 // Update result validation - warning
@@ -6959,12 +6959,24 @@
 
                 const heightDiffInput = document.getElementById('heightDiff');
                 if (state.heightDiff !== undefined && state.heightDiff !== null && state.heightDiff !== '') {
-                    heightDiffInput.value = state.heightDiff;
+                    const rawHeightDiff = String(state.heightDiff).trim();
+                    if (rawHeightDiff === '' || rawHeightDiff === '-' || rawHeightDiff === '+') {
+                        heightDiffInput.value = '0';
+                    } else {
+                        const parsedHeightDiff = parseFloat(rawHeightDiff.replace(/\+/g, ''));
+                        heightDiffInput.value = Number.isFinite(parsedHeightDiff) ? rawHeightDiff : '0';
+                    }
                 }
 
                 const redNumberInput = document.getElementById('redNumber');
                 if (state.redNumber !== undefined && state.redNumber !== null && state.redNumber !== '') {
-                    redNumberInput.value = state.redNumber;
+                    const rawRedNumber = String(state.redNumber).trim();
+                    if (rawRedNumber === '' || rawRedNumber === '-' || rawRedNumber === '+') {
+                        redNumberInput.value = '0';
+                    } else {
+                        const parsedRedNumber = parseFloat(rawRedNumber.replace(/\+/g, ''));
+                        redNumberInput.value = Number.isFinite(parsedRedNumber) ? rawRedNumber : '0';
+                    }
                 }
 
                 const autoCalcToggle = document.getElementById('autoCalcToggle');
