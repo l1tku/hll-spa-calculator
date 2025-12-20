@@ -4113,6 +4113,8 @@
                     tankInfoContent.innerHTML = statsContent + screenshotsContent + historyContent;
                     tankInfoModal.style.display = 'block';
                     tankInfoModal.setAttribute('data-open', 'true');
+                    document.body.classList.add('modal-open');
+                    
                     // Keep button extended when modal is open
                     if (tankInfoIcon) {
                         tankInfoIcon.classList.add('extended');
@@ -4220,8 +4222,10 @@
         function closeTankInfoModal() {
             if (tankInfoModal) {
                 tankInfoModal.style.display = 'none';
+
                 tankInfoModal.removeAttribute('data-open');
             }
+            document.body.classList.remove('modal-open');
             // Move button back to original position when modal closes
             if (tankInfoIcon) {
                 tankInfoIcon.classList.remove('extended');
@@ -4237,6 +4241,7 @@
                 selectSelected.classList.remove('select-arrow-active');
                 showTankInfo();
             });
+
         }
 
         if (closeTankInfo) {
