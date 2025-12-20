@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.8] - 2025-12-20
+
+### Changed
+- Visual polish for toggle buttons (ruler snap, auto calc) with clearer ON/OFF states
+- Refined height difference handling for more reliable elevation results
+- Improved structure by moving inline styles/scripts into bundled CSS/JS for better caching and performance
+
+### Affected
+- index.html
+- index-mobile.html
+- index-lite.html
+- dist/styles.css, dist/styles-lite.css
+- dist/main.js, dist/main-lite.js, dist/main-mobile.js
+
 ## [1.0.7] - 2025-01-XX
 
 ### Changed
