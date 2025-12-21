@@ -3373,7 +3373,7 @@
             word-break: break-word;
             min-width: 0;
             overflow-wrap: break-word;
-            margin-left: -59px;
+            margin-left: 0;
         }
 
         .spec-value {
@@ -4201,4 +4201,22 @@
         .nav-zone-right:hover .nav-arrow {
             color: rgba(255, 255, 255, 0.9);
             transform: scale(1.2);
+        }
+
+        @media (max-width: 768px) {
+            /* Reduce fixed label width on mobile so value has more room */
+            .spec-row {
+                grid-template-columns: 140px 1fr !important; 
+                gap: 8px !important;
+            }
+
+            /* Slightly smaller font for labels to prevent wrapping */
+            .field-manual-specs .spec-label {
+                font-size: 11px !important;
+            }
+            
+            /* Ensure no negative margin on mobile */
+            .field-manual-specs .spec-value {
+                margin-left: 0 !important;
+            }
         }
