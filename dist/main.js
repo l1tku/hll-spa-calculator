@@ -4656,224 +4656,136 @@ document.addEventListener('keydown', function(e) {
     }
 }, true); // Use capture phase
 
-// Add event listeners to replace inline onclick handlers (CSP compliance)
+// ==========================================
+// EVENT LISTENER WIRING (Add to bottom of main.js)
+// ==========================================
+
 document.addEventListener('DOMContentLoaded', function() {
-// Armored toggle switches
-    const armoredSnapToggle = document.getElementById('armoredSnapToggle');
-    if (armoredSnapToggle) {
-        armoredSnapToggle.addEventListener('click', function() {
-            toggleArmoredSwitch('snapToggle', this);
+    // 1. Wire up the Calculate Button
+    const calcBtn = document.getElementById('calculateButton');
+    if (calcBtn) {
+        calcBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            calculate();
         });
     }
 
-    const armoredAutoToggle = document.getElementById('armoredAutoToggle');
-    if (armoredAutoToggle) {
-        armoredAutoToggle.addEventListener('click', function() {
-            toggleArmoredSwitch('autoCalcToggle', this);
-        });
+    // 2. Wire up Copy and Reset Buttons
+    const copyBtn = document.querySelector('.copy-result-button');
+    if (copyBtn) {
+        copyBtn.addEventListener('click', function() { copyResult(this); });
     }
 
-// Distance buttons
-    const distanceInput = document.getElementById('distance');
-    if (distanceInput) {
-        const distanceControls = distanceInput.closest('.distance-controls');
-        if (distanceControls) {
-            const buttons = distanceControls.querySelectorAll('.armored-button');
-            if (buttons.length >= 2) {
-                buttons[0].addEventListener('click', function() { adjustValue('distance', -1); });
-                buttons[1].addEventListener('click', function() { adjustValue('distance', 1); });
+    const resetBtn = document.querySelector('.reset-result-button');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', function() { resetCalculator(this); });
+    }
+
+    // 3. Wire up the Plus/Minus Buttons for all inputs
+    // We find the inputs by ID, then grab the buttons immediately before (-) and after (+)
+    ['distance', 'heightDiff', 'redNumber'].forEach(id => {
+        const input = document.getElementById(id);
+        if (input) {
+            // The structure is: <button -> [input] <button +>
+            const minusBtn = input.previousElementSibling;
+            const plusBtn = input.nextElementSibling;
+
+            // Determine step size (25 for distance in snap mode, 1 for others)
+            // We use a small step here, logic inside adjustValue handles snapping
+            if (minusBtn && minusBtn.tagName === 'BUTTON') {
+                minusBtn.addEventListener('click', () => adjustValue(id, -1));
+            }
+            if (plusBtn && plusBtn.tagName === 'BUTTON') {
+                plusBtn.addEventListener('click', () => adjustValue(id, 1));
             }
         }
-    }
+    });
 
-// Height difference buttons
-    const heightDiffInput = document.getElementById('heightDiff');
-    if (heightDiffInput) {
-        const heightControls = heightDiffInput.parentElement;
-        if (heightControls) {
-            const buttons = heightControls.querySelectorAll('.armored-button');
-            if (buttons.length >= 2) {
-                buttons[0].addEventListener('click', function() { adjustValue('heightDiff', -1); });
-                buttons[1].addEventListener('click', function() { adjustValue('heightDiff', 1); });
-            }
+    // 4. Wire up the Armored Toggles (Snap & Auto Calc)
+    // This connects the switch AND the text labels to the checkbox
+    const toggleConfig = [
+        { 
+            checkboxId: 'snapToggle', 
+            triggerIds: ['armoredSnapToggle', 'snapOffLabel', 'snapOnLabel'] 
+        },
+        { 
+            checkboxId: 'autoCalcToggle', 
+            triggerIds: ['armoredAutoToggle', 'calcOffLabel', 'calcOnLabel'] 
         }
-    }
+    ];
 
-// Red number (terrain elevation) buttons
-    const redNumberInput = document.getElementById('redNumber');
-    if (redNumberInput) {
-        const redControls = redNumberInput.parentElement;
-        if (redControls) {
-            const buttons = redControls.querySelectorAll('.armored-button');
-            if (buttons.length >= 2) {
-                buttons[0].addEventListener('click', function() { adjustValue('redNumber', -1); });
-                buttons[1].addEventListener('click', function() { adjustValue('redNumber', 1); });
-            }
-        }
-    }
-
-// Calculate button
-    const calculateButton = document.getElementById('calculateButton');
-    if (calculateButton) {
-        calculateButton.addEventListener('click', calculate);
-    }
-
-// Copy result button
-    const copyButton = document.querySelector('.copy-result-button');
-    if (copyButton) {
-        copyButton.addEventListener('click', function() {
-            copyResult(this);
-        });
-    }
-
-// Reset calculator button
-    const resetButton = document.querySelector('.reset-result-button');
-    if (resetButton) {
-        resetButton.addEventListener('click', function() {
-            resetCalculator(this);
-        });
-    }
-
-    const trajectoryToggleButton = document.getElementById('trajectoryToggleButton');
-    if (trajectoryToggleButton) {
-        trajectoryToggleButton.addEventListener('click', function() {
-            toggleTrajectoryWindow();
-        });
-    }
-
-    const trajectoryCloseButton = document.getElementById('trajectoryCloseButton');
-    if (trajectoryCloseButton) {
-        trajectoryCloseButton.addEventListener('click', function() {
-            setTrajectoryWindowVisible(false);
-        });
-    }
-
-    const trajectoryPlayButton = document.getElementById('trajectoryPlayButton');
-    if (trajectoryPlayButton) {
-        trajectoryPlayButton.addEventListener('click', function(e) {
-            e.stopPropagation();
-            if (!isTrajectoryWindowVisible) return;
-            if (!lastTrajectorySim) {
-                renderTrajectoryPreview(lastTrajectoryPreviewArgs);
-            }
-            const impactTime = lastTrajectorySim ? Number(lastTrajectorySim.impactTimeSec) : NaN;
-            if (!Number.isFinite(impactTime) || impactTime <= 0) return;
-
-            if (!trajectoryAnimPlaying) {
-                if (trajectoryMarkerTimeSec >= impactTime) {
-                    trajectoryMarkerTimeSec = 0;
+    toggleConfig.forEach(config => {
+        const checkbox = document.getElementById(config.checkboxId);
+        
+        if (checkbox) {
+            config.triggerIds.forEach(triggerId => {
+                const element = document.getElementById(triggerId);
+                if (element) {
+                    // Remove old listeners to be safe (cloning trick)
+                    const newElement = element.cloneNode(true);
+                    element.parentNode.replaceChild(newElement, element);
+                    
+                    // Add fresh listener
+                    newElement.addEventListener('click', function(e) {
+                        e.preventDefault(); // Stop double-firing
+                        e.stopPropagation();
+                        
+                        // Toggle the state
+                        checkbox.checked = !checkbox.checked;
+                        
+                        // Force the 'change' event so other scripts know it changed
+                        // (This triggers the syncArmoredToggles function you already have)
+                        const event = new Event('change', { bubbles: true });
+                        checkbox.dispatchEvent(event);
+                    });
+                    
+                    // Add visual pointer cursor
+                    newElement.style.cursor = 'pointer';
                 }
-                trajectoryAnimStartMs = performance.now();
-                trajectoryAnimStartTimeSec = trajectoryMarkerTimeSec;
-                setTrajectoryAnimationPlaying(true);
-                cancelTrajectoryAnimFrame();
-                trajectoryAnimRafId = requestAnimationFrame(trajectoryAnimFrame);
-            } else {
-                setTrajectoryAnimationPlaying(false);
-                renderTrajectoryPreview(lastTrajectoryPreviewArgs);
-            }
-        });
-    }
-
-    window.addEventListener('resize', function() {
-        if (isTrajectoryWindowVisible) {
-            renderTrajectoryPreview(lastTrajectoryPreviewArgs);
+            });
         }
-    }, { passive: true });
-
-// Tank info button
-    const tankInfoIcon = document.getElementById('tankInfoIcon');
-    if (tankInfoIcon) {
-        tankInfoIcon.addEventListener('click', showTankInfo);
-    }
-
-// Screenshot lightbox
-    const screenshotLightbox = document.getElementById('screenshotLightbox');
-    if (screenshotLightbox) {
-        screenshotLightbox.addEventListener('click', closeScreenshotLightbox);
-    }
-
-// Navigation zones
-    document.querySelectorAll('.nav-zone-left').forEach(zone => {
-        zone.addEventListener('click', function(e) {
-            e.stopPropagation();
-            navigateScreenshot(-1);
-        });
     });
 
-    document.querySelectorAll('.nav-zone-right').forEach(zone => {
-        zone.addEventListener('click', function(e) {
-            e.stopPropagation();
-            navigateScreenshot(1);
-        });
-    });
+    // 5. Wire up Screenshot Lightbox Navigation (Arrows & Close Button)
+    const lightbox = document.getElementById('screenshotLightbox');
+    if (lightbox) {
+        const leftZone = lightbox.querySelector('.nav-zone-left');
+        const rightZone = lightbox.querySelector('.nav-zone-right');
+        const closeIcon = lightbox.querySelector('.screenshot-lightbox-close');
 
-// Lightbox close button
-    const lightboxClose = document.querySelector('.screenshot-lightbox-close');
-    if (lightboxClose) {
-        lightboxClose.addEventListener('click', function(e) {
-            e.stopPropagation();
-            closeScreenshotLightbox();
-        });
-    }
-
-// Lightbox image
-    const lightboxStage = document.getElementById('screenshotLightboxStage');
-    if (lightboxStage) {
-        lightboxStage.addEventListener('click', function(e) {
-            e.stopPropagation();
-        });
-    }
-});
-
-// Minimal hold increment support for lite view (desktop logic)
-let __holdTimer = null;
-function startHoldIncrement(id, delta, event) {
-    if (event) {
-        event.preventDefault?.();
-    }
-    adjustValue(id, delta);
-    clearInterval(__holdTimer);
-    __holdTimer = setInterval(() => adjustValue(id, delta), 150);
-}
-function stopHoldIncrement() {
-    if (__holdTimer) {
-        clearInterval(__holdTimer);
-        __holdTimer = null;
-    }
-}
-
-// Force auto-calc on for lite view, regardless of stored state
-document.addEventListener('DOMContentLoaded', function() {
-    if (document.querySelector('.lite-compact')) {
-        const autoCalcToggle = document.getElementById('autoCalcToggle');
-        if (autoCalcToggle) {
-            autoCalcToggle.checked = true;
-        }
-        // Sync UI labels/LEDs and ensure calculation runs once
-        if (typeof updateCalcModeLabel === 'function') updateCalcModeLabel();
-        if (typeof updateToggleLEDs === 'function') updateToggleLEDs();
-        if (typeof syncArmoredToggles === 'function') syncArmoredToggles();
-        if (typeof calculate === 'function') calculate();
-    }
-});
-
-// View Mode Toggle Logic (Full/Lite)
-function setupViewModeToggle(switchId, targetUrl) {
-    const switchEl = document.getElementById(switchId);
-    if (switchEl) {
-        const navigate = function(e) {
-            if (e.type === 'click' || e.key === 'Enter' || e.key === ' ') {
+        // Left Arrow
+        if (leftZone) {
+            leftZone.addEventListener('click', function(e) {
                 e.preventDefault();
-                window.location.href = targetUrl;
-            }
-        };
-        switchEl.addEventListener('click', navigate);
-        switchEl.addEventListener('keypress', navigate);
-    }
-}
+                e.stopPropagation(); // Stop click from hitting the background
+                navigateScreenshot(-1);
+            });
+        }
 
-document.addEventListener('DOMContentLoaded', function() {
-    setupViewModeToggle('viewModeSwitchFull', 'index-lite.html');
-    setupViewModeToggle('viewModeSwitchLite', 'index.html');
+        // Right Arrow
+        if (rightZone) {
+            rightZone.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                navigateScreenshot(1);
+            });
+        }
+
+        // Close 'X' Button
+        if (closeIcon) {
+            closeIcon.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                closeScreenshotLightbox();
+            });
+        }
+
+        // Close when clicking the dark background (optional quality of life)
+        lightbox.addEventListener('click', function(e) {
+            // Only close if clicking the background itself, not the image
+            if (e.target === lightbox || e.target.id === 'screenshotLightboxStage') {
+                closeScreenshotLightbox();
+            }
+        });
+    }
 });

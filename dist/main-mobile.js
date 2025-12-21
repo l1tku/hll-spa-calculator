@@ -40,162 +40,287 @@
 
         // Tank information data (in-game statistics, history, and real life)
         const tankInfo = {
-            'US (Sherman M4A3 105)': {
-                title: 'M4A3 Sherman with 105mm Howitzer',
-                stats: {
-                    elevation: '-89 MIL to 533 MIL',
-                    hullGun: 'M1919 .30 cal - 200 rounds × 6 magazines',
-                    mainGun: '105mm HOWIZER - 50 HE rounds, 35 SMOKE rounds, 20 AP rounds',
-                    turretRotation: '360°',
-                    coaxial: 'M1919 .30 cal - 200 rounds × 6 magazines',
-                    topSpeed: '24 km/h'
-                },
-                history: 'The M4 Sherman tank variant equipped with the 105mm howitzer (typically the M4 or M4A3 chassis) was developed to provide powerful close infantry support. It saw extensive use in both the European and Pacific Theaters. The 105mm howitzer was highly effective against fortifications, infantry positions, and used primarily for demolition and smoke delivery, making it valuable for breakthrough operations.',
-                realLife: {
-                    range: '~11,000m (indirect fire), ~2,000m (direct fire)',
-                    production: 'Produced from 1943-1945 at Detroit Arsenal Tank Plant (Warren, Michigan), Fisher Body Tank Plant/Grand Blanc Metal Center (Grand Blanc, Michigan), and other US facilities',
-                    service: 'Used by US Army in European and Pacific theaters (1943-1945)',
-                    strengths: [
-                        'Versatile for both direct and indirect fire support',
-                        'Good mobility and reliability',
-                        'Standard HE and AP capabilities',
-                        'Effective against infantry and fortifications'
-                    ],
-                    weaknesses: []
-                }
-            },
-            'Soviet Union (KV-2)': {
-                title: 'KV-2 Heavy Tank',
-                stats: {
-                    elevation: '-89 MIL to 533 MIL',
-                    hullGun: 'DT .30 cal - 200 rounds × 6 magazines',
-                    mainGun: '152MM M-10T - 50 HE rounds, 35 SMOKE rounds, 20 AP rounds',
-                    turretRotation: '360°',
-                    coaxial: 'NO COAXIAL',
-                    topSpeed: '23 km/h'
-                },
-                history: 'The KV-2 was a Soviet heavy tank armed with the massive 152mm M-10 howitzer (specifically the M-10T). It was designed as an assault tank to destroy fortifications and bunkers. It saw action during the Winter War against Finland (though production models were post-war) and was famously used in the early stages of Operation Barbarossa, where its heavy armor proved almost impervious to early German anti-tank guns. Despite its powerful armament, its slow speed, long reload time, and mechanical issues made it highly problematic.',
-                realLife: {
-                    range: '~12,000m (indirect fire), ~1,200m (direct fire)',
-                    production: 'Produced from 1939-1941, ~334 units built at Kirov Plant (Factory No. 100) in Leningrad (now St. Petersburg, Russia)',
-                    service: 'Used by Red Army in Winter War and early Eastern Front (1939-1941)',
-                    strengths: [
-                        'Extremely powerful armament',
-                        'Highly effective against fortifications'
-                    ],
-                    weaknesses: [
-                        'Very slow turret rotation and movement',
-                        'Long reload time (20-40 seconds)',
-                        'Vulnerable to mechanical breakdowns'
-                    ]
-                }
-            },
-            'British (Churchill AVRE)': {
-                title: 'Churchill Mk III AVRE',
-                stats: {
-                    elevation: '-89 MIL to 356 MIL',
-                    hullGun: '7.92 BESA - 200 rounds × 6 magazines',
-                    mainGun: '230MM PETARD - 50 HE rounds, 35 SMOKE rounds, 20 AP rounds',
-                    turretRotation: '360°',
-                    coaxial: '7.92 BESA - 200 rounds × 6 magazines',
-                    topSpeed: '20 km/h'
-                },
-                history: 'The Churchill AVRE (Armoured Vehicle Royal Engineers) was a specialized engineering vehicle designed to destroy fortifications. It was armed with a 290mm Petard mortar, capable of firing a 40-pound "Flying Dustbin" projectile (containing 28 pounds of high explosive). These vehicles were crucial during D-Day and subsequent operations, used to breach enemy defenses and clear obstacles.',
-                realLife: {
-                    range: '~100m (very short range in real life)',
-                    production: 'Base Churchill tanks manufactured at Vauxhall Motors in Luton, Bedfordshire, UK. AVRE conversions performed by Royal Engineers',
-                    service: 'Used by British and Canadian forces in Normandy and beyond (1944-1945)',
-                    strengths: [
-                        'Designed specifically for assaulting fortifications',
-                        'Devastating firepower against structures',
-                        'Large high-explosive blast radius',
-                        'Heavily armored'
-                    ],
-                    weaknesses: [
-                        'Extremely short effective range (~100m)',
-                        'Slow'
-                    ]
-                }
-            },
-            'British (Bishop SP)': {
-                title: 'Bishop SP 25pdr',
-                stats: {
-                    elevation: '-89 MIL to 267 MIL',
-                    hullGun: 'NO MG ON DRIVER',
-                    mainGun: 'QF 25 POUNDER - 50 HE rounds, 35 SMOKE rounds, 20 AP rounds',
-                    turretRotation: '8° total (4° left and 4° right)',
-                    coaxial: 'NO COAXIAL GUN',
-                    topSpeed: '20 km/h'
-                },
-                history: 'The Bishop was a British self-propelled artillery vehicle based on the Valentine tank chassis, armed with a 25-pounder field gun. It was used during World War II, primarily in North Africa. The vehicle was named after its boxy superstructure resembling a bishop\'s mitre. It had limited elevation and traverse, which severely affected its effectiveness as an artillery piece.',
-                realLife: {
-                    range: '~6,000-12,000m (indirect fire)',
-                    production: 'Produced from 1942-1943, ~149 units built by Birmingham Railway Carriage and Wagon Company in Birmingham, UK',
-                    service: 'Used by British forces in North Africa and Italy (1942-1943)',
-                    strengths: [
-                        'Good for medium-range engagements',
-                        'Balanced between mobility and firepower'
-                    ],
-                    weaknesses: [
-                        'Limited turret elevation and traverse',
-                        'Replaced by more effective SPGs like the Sexton'
-                    ]
-                }
-            },
-            'Germany (Sturmpanzer IV Brummbär)': {
-                title: 'Sturmpanzer IV Brummbär',
-                stats: {
-                    elevation: '-89 MIL to 533 MIL',
-                    hullGun: 'NO MG DRIVER',
-                    mainGun: 'StuH 45 L/12 - 50 HE rounds, 35 SMOKE rounds, 20 AP rounds',
-                    turretRotation: '30° total (15° left and 15° right)',
-                    coaxial: 'NO COAXIAL GUN',
-                    topSpeed: '24 km/h'
-                },
-                history: 'The Sturmpanzer IV, unofficially known as the Brummbär (Grizzly Bear), was a German assault gun based on the Panzer IV chassis, armed with a 150mm StuH 43 L/12 howitzer. It was designed primarily for heavy infantry support, demolishing fortifications and buildings in urban and close-quarters combat. First deployed at the **Battle of Kursk** in mid-1943, it saw use on both the Eastern and Western Fronts.',
-                realLife: {
-                    range: '~4,600m (indirect fire), ~1,000m (direct fire)',
-                    production: 'Produced from 1943-1945, ~306 units built by Alkett (Altmärkische Kettenfabrik) in Berlin-Spandau, Germany',
-                    service: 'Used by Wehrmacht on Eastern and Western Fronts (1943-1945)',
-                    strengths: [
-                        'Extremely powerful armament',
-                        'Large high-explosive blast radius',
-                        'Heavily armored',
-                        'Effective in urban warfare'
-                    ],
-                    weaknesses: [
-                        'Limited traverse (30° total)',
-                        'Slow'
-                    ]
-                }
-            },
-            'DAK (Panzer III Ausf.N)': {
-                title: 'Panzer III Ausf.N',
-                stats: {
-                    elevation: '-89 MIL to 533 MIL',
-                    hullGun: 'MG34 7.92mm - 200 rounds × 6 magazines',
-                    mainGun: '7.5CM KwK 37 - 50 HE rounds, 35 SMOKE rounds, 20 AP rounds',
-                    turretRotation: '360°',
-                    coaxial: 'MG34 7.92mm - 200 rounds × 6 magazines',
-                    topSpeed: '24 km/h'
-                },
-                history: 'The Panzer III Ausf. N was a German medium tank variant armed with the short-barreled 7.5 cm KwK 37 L/24 gun. It was designed specifically for close infantry support with high-explosive (HE) rounds, as the chassis was no longer competitive in anti-tank roles. It saw service primarily on the Eastern Front, but also with the Afrika Korps and in Italy.',
-                realLife: {
-                    range: '~6,000m (indirect fire), ~1,500m (direct fire)',
-                    production: 'Produced from 1942-1943 at Daimler-Benz (Berlin-Marienfelde), MAN (Nuremberg), and Henschel (Kassel), Germany',
-                    service: 'Used by Afrika Korps and on Eastern Front (1942-1943)',
-                    strengths: [
-                        'Good balance of mobility and firepower',
-                        'Effective against infantry and light vehicles',
-                        'Faster than heavy tanks',
-                        'Designed for infantry support role'
-                    ],
-                    weaknesses: [
-                        'Limited anti-tank capability'
-                    ]
-                }
-            }
-        };
+    'US (Sherman M4A3 105)': {
+        title: 'M4A3 Sherman with 105mm Howitzer',
+        stats: {
+            elevation: '-89 MIL to 533 MIL',
+            hullGun: 'M1919 .30 cal - 200 rounds × 6 magazines',
+            mainGun: '105mm HOWIZER - 50 HE rounds, 35 SMOKE rounds, 20 AP rounds',
+            turretRotation: '360°',
+            coaxial: 'M1919 .30 cal - 200 rounds × 6 magazines',
+            topSpeed: '24 km/h',
+            yawRate: '4°/s',
+            pitchRate: '1°/s',
+            pitchAngleMin: '-5°',
+            pitchAngleMax: '30°',
+            hullHealth: '900',
+            turretHealth: '790',
+            mobilityHealth: '710',
+            engineBlockHealth: '420',
+            gearSwitchTime: '0.8s',
+            reloadSpeed: '10s',
+            maxClipsAP: '20',
+            maxClipsHE: '50',
+            maxClipsSmoke: '45',
+            apDamage: '950',
+            apDirectArmor: 'Very High',
+            heDamage: '590',
+            heDirectArmor: 'Low',
+            heExplosionArmor: 'Low',
+            heDamageRadius: '31m',
+            munitionsCost: '280'
+        },
+ history: 'The M4 Sherman tank variant equipped with the 105mm howitzer (typically the M4 or M4A3 chassis) was developed to provide powerful close infantry support. It saw extensive use in both the European and Pacific Theaters. The 105mm howitzer was highly effective against fortifications, infantry positions, and used primarily for demolition and smoke delivery, making it valuable for breakthrough operations.',
+        realLife: {
+            range: '11,500 yards (~10,500m) for indirect fire with M67 HE projectile; 1,500 yards (~1,400m) effective direct fire.',
+            production: 'A total of 4,680 105mm Howitzer Shermans (across M4 and M4A3 chassis) were produced between February 1943 and March 1945, primarily by Detroit Arsenal and Chrysler at the Grand Blanc Arsenal.',
+            service: 'Used by the US Army in European and Pacific theaters (1943-1945). It was typically issued one per tank company as a dedicated close-support vehicle.',
+            strengths: [
+                'Carried a high volume of High Explosive (HE) and Smoke rounds, making it an excellent infantry support weapon.',
+                'The 105mm HE shell was far more destructive against dug-in positions and buildings than the standard 75mm or 76mm shells.',
+                'Good mobility and reliability, maintaining the logistical advantage of the Sherman chassis.'
+            ],
+            weaknesses: [
+                'The M4 105mm Howitzer model used a lower turret (D50878) which lacked a power traverse.',
+                'The tank was primarily armed with HE rounds and had limited effectiveness against heavily armored enemy tanks in direct fire combat (though it did carry a Heat/HESH round).',
+                'Used the older Vertical Volute Spring Suspension (VVSS) on many versions, which was less stable than the later Horizontal Volute Spring Suspension (HVSS).'
+            ]
+        }
+    },
+    'Soviet Union (KV-2)': {
+        title: 'KV-2 Heavy Tank',
+        stats: {
+            elevation: '-89 MIL to 533 MIL',
+            hullGun: 'DT .30 cal - 200 rounds × 6 magazines',
+            mainGun: '152MM M-10T - 50 HE rounds, 35 SMOKE rounds, 20 AP rounds',
+            turretRotation: '360°',
+            coaxial: 'NO COAXIAL',
+            topSpeed: '23 km/h',
+            yawRate: '4°/s',
+            pitchRate: '1°/s',
+            pitchAngleMin: '-5°',
+            pitchAngleMax: '30°',
+            hullHealth: '890',
+            turretHealth: '830',
+            mobilityHealth: '700',
+            engineBlockHealth: '420',
+            gearSwitchTime: '1.1s',
+            reloadSpeed: '10s',
+            maxClipsAP: '20',
+            maxClipsHE: '50',
+            maxClipsSmoke: '45',
+            apDamage: '950',
+            apDirectArmor: 'Very High',
+            heDamage: '590',
+            heDirectArmor: 'Low',
+            heExplosionArmor: 'Low',
+            heDamageRadius: '31m',
+            munitionsCost: '280'
+        },
+        history: 'The KV-2 was a Soviet heavy tank armed with the massive 152mm M-10 howitzer (specifically the M-10T). It was designed as an assault tank to destroy fortifications and bunkers. It saw action during the Winter War against Finland (though production models were post-war) and was famously used in the early stages of Operation Barbarossa, where its heavy armor proved almost impervious to early German anti-tank guns. Despite its powerful armament, its slow speed, long reload time, and mechanical issues made it highly problematic.',
+        realLife: {
+            range: '12,400 meters (maximum indirect fire range with the M-10 howitzer); effective direct fire range for tank combat was less than 1,000 meters.',
+            production: 'Produced from 1940-1941 (not 1939), with approximately 334 units built at the Kirov Plant (LKZ) in Leningrad.',
+            service: 'Used by the Red Army in the early Eastern Front (1940-1941). Most were lost due to mechanical failure and fuel shortage rather than enemy fire.',
+            strengths: [
+                'Carried the most powerful gun mounted on a tank chassis at the time, capable of destroying any Axis tank and most fortifications.',
+                'Heavy armor (up to 110mm on the turret front) provided near-invulnerability to most German anti-tank weapons in 1941.'
+            ],
+            weaknesses: [
+                'Turret rotation was extremely slow, and often impossible on uneven ground or slopes due to its immense weight.',
+                'Long, two-piece ammunition reload time (upwards of 40 seconds), limiting its fire rate in tank combat.',
+                'The immense weight (52 tons) caused severe reliability and mechanical issues with the transmission and running gear.'
+            ]
+        }
+    },
+    'British (Churchill AVRE)': {
+        title: 'Churchill Mk III AVRE',
+        stats: {
+            elevation: '-89 MIL to 356 MIL',
+            hullGun: '7.92 BESA - 200 rounds × 6 magazines',
+            mainGun: '230MM PETARD - 50 HE rounds, 35 SMOKE rounds, 20 AP rounds',
+            turretRotation: '360°',
+            coaxial: '7.92 BESA - 200 rounds × 6 magazines',
+            topSpeed: '20 km/h',
+            yawRate: '4°/s',
+            pitchRate: '1°/s',
+            pitchAngleMin: '-5°',
+            pitchAngleMax: '30°',
+            hullHealth: '910',
+            turretHealth: '830',
+            mobilityHealth: '710',
+            engineBlockHealth: '430',
+            gearSwitchTime: '0.8s',
+            reloadSpeed: '10s',
+            maxClipsAP: '20',
+            maxClipsHE: '50',
+            maxClipsSmoke: '45',
+            apDamage: '950',
+            apDirectArmor: 'Very High',
+            heDamage: '590',
+            heDirectArmor: 'Low',
+            heExplosionArmor: 'Low',
+            heDamageRadius: '31m',
+            munitionsCost: '280'
+        },
+history: 'The Churchill AVRE (Armoured Vehicle Royal Engineers) was a specialized engineering vehicle designed to destroy fortifications. It was armed with a 290mm Petard mortar, capable of firing a 40-pound "Flying Dustbin" projectile (containing 28 pounds of high explosive). These vehicles were crucial during D-Day and subsequent operations, used to breach enemy defenses and clear obstacles.',
+        realLife: {
+            range: '73 - 100 meters (effective range) or 210 meters (maximum range). The extremely short range was due to the mortar\'s design.',
+            production: 'Base Churchill tanks manufactured at Vauxhall Motors in Luton, Bedfordshire, UK. Approximately 700 total conversions were performed by Royal Engineers on various Churchill marks.',
+            service: 'Used by British and Canadian forces in Normandy and beyond (1944-1945), forming part of the specialized "Hobart\'s Funnies" (79th Armoured Division).',
+            strengths: [
+                'Designed specifically for assaulting fortifications and pillboxes at point-blank range',
+                'Devastating firepower against structures due to the large high-explosive charge',
+                'Heavily armored for protection during close-quarters breaching operations'
+            ],
+            weaknesses: [
+                'Extremely short effective range (~100m) forced the tank to operate dangerously close to the enemy',
+                'Slow and risky muzzle-loading reload process, performed by the co-driver via the hull front',
+                'Slow top speed, typical of the Churchill chassis'
+            ]
+        }
+    },
+    'British (Bishop SP)': {
+        title: 'Bishop SP 25pdr',
+        stats: {
+            elevation: '-89 MIL to 267 MIL',
+            hullGun: 'NO MG ON DRIVER',
+            mainGun: 'QF 25 POUNDER - 50 HE rounds, 35 SMOKE rounds, 20 AP rounds',
+            turretRotation: '8° total (4° left and 4° right)',
+            coaxial: 'NO COAXIAL GUN',
+            topSpeed: '20 km/h',
+            yawRate: '4°/s',
+            pitchRate: '1°/s',
+            pitchAngleMin: '-5°',
+            pitchAngleMax: '30°',
+            hullHealth: '910',
+            turretHealth: '830',
+            mobilityHealth: '710',
+            engineBlockHealth: '430',
+            gearSwitchTime: '0.8s',
+            reloadSpeed: '10s',
+            maxClipsAP: '20',
+            maxClipsHE: '50',
+            maxClipsSmoke: '45',
+            apDamage: '950',
+            apDirectArmor: 'Very High',
+            heDamage: '590',
+            heDirectArmor: 'Low',
+            heExplosionArmor: 'Low',
+            heDamageRadius: '31m',
+            munitionsCost: '280'
+        },
+        history: 'The Bishop was a British self-propelled artillery vehicle based on the Valentine tank chassis, armed with a 25-pounder field gun. It was used during World War II, primarily in North Africa. The vehicle was named after its boxy superstructure resembling a bishop\'s mitre. It had limited elevation and traverse, which severely affected its effectiveness as an artillery piece.',
+        realLife: {
+            range: '6,400 yards (~5,900m) due to limited 15° elevation (compared to 12,253m for the standard towed gun)',
+            production: 'Produced from 1942-1943, ~149 units built by Birmingham Railway Carriage and Wagon Company in Birmingham, UK',
+            service: 'Used by British forces in North Africa and Italy (1942-1943)',
+            strengths: [
+                'Provided immediate, mobile artillery support when needed most',
+                'Used a powerful and standardized gun (the 25-pdr)'
+            ],
+            weaknesses: [
+                'Severely limited elevation (15°) and traverse, which drastically cut the maximum range',
+                'Tall silhouette, making it an easy target',
+                'Quickly replaced by more effective SPGs like the M7 Priest and the Sexton'
+            ]
+        }
+    },
+    'Germany (Sturmpanzer IV Brummbär)': {
+        title: 'Sturmpanzer IV Brummbär',
+        stats: {
+            elevation: '-89 MIL to 533 MIL',
+            hullGun: 'NO MG DRIVER',
+            mainGun: 'StuH 45 L/12 - 50 HE rounds, 35 SMOKE rounds, 20 AP rounds',
+            turretRotation: '30° total (15° left and 15° right)',
+            coaxial: 'NO COAXIAL GUN',
+            topSpeed: '24 km/h',
+            yawRate: '4°/s',
+            pitchRate: '1°/s',
+            pitchAngleMin: '-5°',
+            pitchAngleMax: '30°',
+            hullHealth: '910',
+            turretHealth: '830',
+            mobilityHealth: '710',
+            engineBlockHealth: '430',
+            gearSwitchTime: '0.8s',
+            reloadSpeed: '10s',
+            maxClipsAP: '20',
+            maxClipsHE: '50',
+            maxClipsSmoke: '45',
+            apDamage: '950',
+            apDirectArmor: 'Very High',
+            heDamage: '590',
+            heDirectArmor: 'Low',
+            heExplosionArmor: 'Low',
+            heDamageRadius: '31m',
+            munitionsCost: '280'
+        },
+  history: 'The Sturmpanzer IV, unofficially known as the Brummbär (Grizzly Bear), was a German assault gun based on the Panzer IV chassis, armed with a 150mm StuH 43 L/12 howitzer. It was designed primarily for heavy infantry support, demolishing fortifications and buildings in urban and close-quarters combat. First deployed at the **Battle of Kursk** in mid-1943, it saw use on both the Eastern and Western Fronts.',
+        realLife: {
+            range: '4,600 meters (maximum indirect fire range); effective direct fire range was around 1,000 meters.',
+            production: 'Produced from April 1943 to March 1945, with 306 units built by Deutsche Eisenwerke.',
+            service: 'Used by dedicated Sturmpanzer units within the Wehrmacht on both the Eastern and Western Fronts (1943-1945), including at Kursk and during the fighting for Italy and Normandy.',
+            strengths: [
+                'Carried the extremely powerful 150mm StuH 43, firing a massive 38kg (84 lb) High-Explosive (HE) shell.',
+                'Featured heavy frontal armor (up to 100mm) designed to protect it during close-quarters assaults.',
+                'Effective in urban and breakthrough combat against reinforced positions and enemy bunkers.'
+            ],
+            weaknesses: [
+                'Limited gun traverse (7° left, 7° right) and slow elevation, making it difficult to engage targets quickly.',
+                'The immense weight and high silhouette made it susceptible to mechanical breakdown and difficult to conceal.',
+                'The main gun had a very slow muzzle velocity, limiting its effectiveness against enemy tanks.'
+            ]
+        }
+    },
+    'DAK (Panzer III Ausf.N)': {
+        title: 'Panzer III Ausf.N',
+        stats: {
+            elevation: '-89 MIL to 533 MIL',
+            hullGun: 'MG34 7.92mm - 200 rounds × 6 magazines',
+            mainGun: '7.5CM KwK 37 - 50 HE rounds, 35 SMOKE rounds, 20 AP rounds',
+            turretRotation: '360°',
+            coaxial: 'MG34 7.92mm - 200 rounds × 6 magazines',
+            topSpeed: '24 km/h',
+            yawRate: '4°/s',
+            pitchRate: '1°/s',
+            pitchAngleMin: '-5°',
+            pitchAngleMax: '30°',
+            hullHealth: '910',
+            turretHealth: '830',
+            mobilityHealth: '710',
+            engineBlockHealth: '430',
+            gearSwitchTime: '0.8s',
+            reloadSpeed: '10s',
+            maxClipsAP: '20',
+            maxClipsHE: '50',
+            maxClipsSmoke: '45',
+            apDamage: '950',
+            apDirectArmor: 'Very High',
+            heDamage: '590',
+            heDirectArmor: 'Low',
+            heExplosionArmor: 'Low',
+            heDamageRadius: '31m',
+            munitionsCost: '280'
+        },
+history: 'The Panzer III Ausf. N was a German medium tank variant armed with the short-barreled 7.5 cm KwK 37 L/24 gun. It was designed specifically for close infantry support with high-explosive (HE) rounds, as the chassis was no longer competitive in anti-tank roles. It saw service primarily on the Eastern Front, but also with the Afrika Korps and in Italy.',
+        realLife: {
+            range: '5,400 meters (maximum indirect fire range); effective direct fire range was around 600-1,000 meters.',
+            production: 'A total of 700 Ausf. N tanks were produced between August 1942 and August 1943. Most were conversions of older Panzer III chassis (Ausf. J, L, and M) and the tank turret was fitted with the gun previously mounted on the early Panzer IV.',
+            service: 'Used by the Wehrmacht on the Eastern Front, North Africa (Tunisia campaign), and Italy (1942-1944). It often served in independent tank battalions for infantry support.',
+            strengths: [
+                'The large-caliber, low-velocity 75mm HE shell was highly effective against infantry, unarmored targets, and field fortifications.',
+                'The chassis provided good mobility and reliability.',
+                'It was a highly cost-effective way to utilize older Panzer III chassis for a dedicated support role.'
+            ],
+            weaknesses: [
+                'Very limited anti-tank capability due to the low muzzle velocity of the L/24 gun (though it could carry HEAT rounds).',
+                'Armor protection was becoming increasingly inadequate by 1943.',
+                'Production of the Ausf. N ceased as the Panzer III was phased out in favor of the Panzer IV and the newer Panther.'
+            ]
+        }
+    }
+};
 
         let muzzleHeightByFaction = {};
         const DEFAULT_MUZZLE_HEIGHTS_M = {
@@ -736,39 +861,41 @@
             }
         }
 
-        // Adjust value function for increment/decrement buttons
-        function adjustValue(fieldId, delta, event) {
-            // Allow keyboard events to always work (they should only increment by 1)
-            if (event && event.type === 'keydown') {
-                // Keyboard events always proceed - they're handled separately and only increment by 1
-            } else if (event && event.type === 'click') {
-                // On mobile, prevent double-firing from touchstart + click
-                // Check if this button was already handled by touchstart
-                const target = event.target || event.currentTarget;
-                if (target && target.getAttribute('data-touch-handled') === 'true') {
-                    // This click was from a touch event, ignore it (touchstart already handled it)
-                    event.preventDefault();
-                    event.stopPropagation();
-                    return;
-                }
-                
-                // Also check time-based prevention for desktop mouse clicks
-                const now = Date.now();
-                if ((now - lastTapTime < 600 && lastTapField === fieldId && lastTapDelta === delta) || isProcessingHold) {
-                    // This click was likely from the same tap, ignore it
-                    return;
-                }
+        // --- Rewritten button press handling for simplicity and reliability ---
+
+        // Global flag to prevent rapid-fire clicks/taps.
+        let isProcessingClick = false;
+
+        // This is the single function called by button clicks/taps.
+        function handleValueChange(fieldId, delta, event) {
+            if (event) {
+                if (event.cancelable) event.preventDefault();
+                event.stopPropagation();
             }
-            
-            // Also prevent if we're processing a hold and this isn't from the hold interval
-            // But allow keyboard events to proceed
-            if (isProcessingHold && (!event || (event.type !== 'touchstart' && event.type !== 'mousedown' && event.type !== 'keydown'))) {
+
+            // Prevent processing if a click is already being handled.
+            // This creates a "cooldown" period.
+            if (isProcessingClick) {
                 return;
             }
+
+            isProcessingClick = true;
             
+            // Adjust the value.
+            adjustValue(fieldId, delta);
+            
+            // Keep this short (50ms) so you can tap fast manually
+            setTimeout(() => {
+                isProcessingClick = false;
+            }, 50);
+        }
+
+        // Simplified adjustValue function - its only job is to change the number.
+        function adjustValue(fieldId, delta) {
             const input = document.getElementById(fieldId);
-            const inputValue = input.value || '0';
-            const currentValue = parseFloat(inputValue.replace('+', '')) || 0;
+            if (!input) return;
+
+            const currentValue = parseFloat(input.value) || 0;
             let newValue = Math.round(currentValue + delta);
 
             // Apply limits
@@ -780,153 +907,54 @@
                 newValue = Math.max(-5000, Math.min(5000, newValue));
             }
 
-            // Write raw numeric value into the field for fast manual editing
             input.value = newValue;
             
-            // Update input wrapper state
+            // --- The rest of the logic remains the same ---
             updateInputWrappers();
             
-            // Update preset buttons if distance changed
             if (fieldId === 'distance') {
                 updatePresetButtons();
                 updateArmoredRuler(newValue);
                 
-                // Update slider to match input value
                 const distanceSlider = document.getElementById('distanceSlider');
                 if (distanceSlider) {
                     const clampedValue = Math.max(200, Math.min(600, newValue));
                     distanceSlider.value = clampedValue;
                 }
                 
-                // Update range indicator immediately
                 updateRangeIndicators();
-                
-                // Also trigger input event to ensure all listeners are notified
                 input.dispatchEvent(new Event('input', { bubbles: true }));
             }
             
-            // Always save state when values change
             saveState();
             
-            // Trigger calculation if we have distance and auto mode is enabled
-            // calculate() will set all display values correctly
             const distance = parseFloat(document.getElementById('distance').value);
             if (distance && !isNaN(distance) && isAutoCalcEnabled()) {
                 calculate();
             } else {
-                // When auto calc is off, reset base value to "--" and final value to 0000 when any value changes
                 const baseValueEl = document.getElementById('baseValue');
                 if (baseValueEl) {
                     baseValueEl.textContent = '--';
                 }
-                // Reset final value to 0000 when auto calc is off
                 if (fieldId === 'distance' || fieldId === 'heightDiff' || fieldId === 'redNumber') {
                     rollElevationToNumber(0);
-                    // Show "--" for height and elevation when auto calc is off
                     const heightValueEl = document.getElementById('heightValue');
                     const redValueEl = document.getElementById('redValue');
                     if (heightValueEl) heightValueEl.textContent = '--';
                     if (redValueEl) redValueEl.textContent = '--';
-                    // Update MIL labels after values are set to "--"
                     updateMilLabels();
                 }
             }
         }
-
-        // Hold-to-increment functionality
-        let holdInterval = null;
-        let holdTimeout = null;
-        let holdSpeed = 200; // Initial speed in ms
-        let holdButton = null;
-        let lastTapTime = 0;
-        let lastTapField = null;
-        let lastTapDelta = null;
-        let isProcessingHold = false; // Flag to prevent double-firing
-
+        
+        // The old functions are no longer needed, but we keep them empty
+        // to prevent errors if they are still called from HTML.
         function startHoldIncrement(fieldId, delta, event) {
-            if (event) {
-                if (event.cancelable) {
-                    event.preventDefault();
-                }
-                event.stopPropagation();
-            }
-
-            // If a hold is already active, do nothing. This prevents multiple triggers.
-            if (holdInterval || holdTimeout) {
-                return;
-            }
-            
-            isProcessingHold = true;
-            holdButton = event?.target || event?.currentTarget;
-            if (holdButton) {
-                holdButton.classList.add('holding');
-                if (event && event.type === 'touchstart') {
-                    holdButton.setAttribute('data-touch-handled', 'true');
-                    setTimeout(() => {
-                        if (holdButton) {
-                            holdButton.removeAttribute('data-touch-handled');
-                        }
-                    }, 500);
-                }
-            }
-
-            // Add listeners to the document to ensure stop is called, even if the cursor leaves the button.
-            // Using { once: true } ensures they are automatically removed after firing once.
-            document.addEventListener('mouseup', stopHoldIncrement, { once: true });
-            document.addEventListener('touchend', stopHoldIncrement, { once: true });
-            document.addEventListener('touchcancel', stopHoldIncrement, { once: true });
-            
-            const now = Date.now();
-            lastTapTime = now;
-            lastTapField = fieldId;
-            lastTapDelta = delta;
-            
-            adjustValue(fieldId, delta, event);
-            
-            setTimeout(() => {
-                isProcessingHold = false;
-            }, 100);
-            
-            holdTimeout = setTimeout(() => {
-                holdSpeed = 200; // Reset speed
-                holdInterval = setInterval(() => {
-                    adjustValue(fieldId, delta);
-                    // Accelerate increment speed
-                    if (holdSpeed > 50) {
-                        clearInterval(holdInterval);
-                        holdSpeed = Math.max(50, holdSpeed - 10);
-                        holdInterval = setInterval(() => {
-                            adjustValue(fieldId, delta);
-                        }, holdSpeed);
-                    }
-                }, holdSpeed);
-            }, 300);
+            handleValueChange(fieldId, delta, event);
         }
-
+        
         function stopHoldIncrement() {
-            // Remove the document-level listeners in case they haven't fired yet (e.g., if stop is called by an inline onmouseup)
-            document.removeEventListener('mouseup', stopHoldIncrement);
-            document.removeEventListener('touchend', stopHoldIncrement);
-            document.removeEventListener('touchcancel', stopHoldIncrement);
-
-            if (holdTimeout) {
-                clearTimeout(holdTimeout);
-                holdTimeout = null;
-            }
-            if (holdInterval) {
-                clearInterval(holdInterval);
-                holdInterval = null;
-            }
-            if (holdButton) {
-                holdButton.classList.remove('holding');
-                holdButton = null;
-            }
-            holdSpeed = 200;
-            triggerHaptic('light');
-            // Reset processing flag after a delay to allow for new taps
-            setTimeout(() => {
-                isProcessingHold = false;
-            }, 150);
+            // No longer needed.
         }
 
         // Preset distance buttons
@@ -1045,20 +1073,29 @@
             });
         }
 
-        // Haptic feedback
+        // Haptic feedback with "Intervention" protection
         function triggerHaptic(type = 'light') {
-            if ('vibrate' in navigator) {
-                const patterns = {
-                    'light': 10,
-                    'medium': 20,
-                    'strong': 30
-                };
-                try {
-                    navigator.vibrate(patterns[type] || 10);
-                } catch (e) {
-                    // Chrome blocks vibration if no user gesture - suppress error
-                    console.debug('Vibration blocked by browser:', e.message);
-                }
+            // 1. Check if hardware supports vibration
+            if (!('vibrate' in navigator)) return;
+
+            // 2. CHECK FOR USER ACTIVATION (The Fix)
+            // If the browser supports this API and says the user hasn't interacted yet,
+            // we return early to stop the console warning.
+            if (navigator.userActivation && !navigator.userActivation.hasBeenActive) {
+                return; 
+            }
+
+            const patterns = {
+                'light': 10,
+                'medium': 20,
+                'strong': 30
+            };
+
+            // 3. Wrap in try-catch to be safe
+            try {
+                navigator.vibrate(patterns[type] || 10);
+            } catch (e) {
+                // If it fails, fail silently
             }
         }
 
@@ -2811,23 +2848,15 @@
             const specsPanel = document.getElementById('milRangeText');
             const toggleIcon = document.getElementById('tankSpecsToggleIcon');
             
-            if (specsPanel && toggleIcon) {
-                const isCollapsed = specsPanel.classList.contains('tank-specs-collapsed');
-                
-                if (isCollapsed) {
-                    specsPanel.classList.remove('tank-specs-collapsed');
-                    toggleIcon.textContent = '▲';
-                    toggleIcon.style.transform = 'rotate(0deg)';
-                } else {
-                    specsPanel.classList.add('tank-specs-collapsed');
-                    toggleIcon.textContent = '▼';
-                    toggleIcon.style.transform = 'rotate(0deg)';
-                }
+            if (!specsPanel || !toggleIcon) {
+                return;
             }
+            
+            const isCollapsed = specsPanel.classList.contains('tank-specs-collapsed');
+            specsPanel.classList.toggle('tank-specs-collapsed');
+            toggleIcon.textContent = isCollapsed ? '▲' : '▼';
+            toggleIcon.style.transform = isCollapsed ? 'rotate(180deg)' : 'rotate(0deg)';
         }
-        
-        // Expose to global scope for inline onclick handlers
-        window.toggleTankSpecs = toggleTankSpecs;
 
         // Sync armored toggles with checkboxes on load
         function syncArmoredToggles() {
@@ -3606,219 +3635,160 @@
         // Store current screenshot gallery and index
         let currentScreenshotGallery = [];
         let currentScreenshotIndex = -1;
+        let screenshotNavRequestId = 0;
+        let screenshotActiveSlot = 0;
+
+        function getScreenshotLightboxElements() {
+            return {
+                lightbox: document.getElementById('screenshotLightbox'),
+                stage: document.getElementById('screenshotLightboxStage'),
+                imgA: document.getElementById('screenshotLightboxImgA'),
+                imgB: document.getElementById('screenshotLightboxImgB')
+            };
+        }
+
+        function buildScreenshotGalleryFromDOM() {
+            const screenshotItems = document.querySelectorAll('.screenshot-item');
+            return Array.from(screenshotItems).map(item => {
+                return {
+                    webp: item.getAttribute('data-src-webp') || '',
+                    png: item.getAttribute('data-src') || ''
+                };
+            }).filter(item => item.webp || item.png);
+        }
+
+        function preloadScreenshotByIndex(index) {
+            if (!currentScreenshotGallery || currentScreenshotGallery.length === 0) return;
+            if (index < 0 || index >= currentScreenshotGallery.length) return;
+            const item = currentScreenshotGallery[index];
+            const url = item.webp || item.png;
+            if (!url) return;
+            const img = new Image();
+            img.decoding = 'async';
+            img.src = url;
+        }
+
+        async function resolveScreenshotUrl(item) {
+            const loadAndDecode = async (url) => {
+                if (!url) {
+                    throw new Error('Missing image URL');
+                }
+                const tmp = new Image();
+                tmp.decoding = 'async';
+                tmp.src = url;
+                try {
+                    await tmp.decode();
+                } catch (e) {
+                    await new Promise(resolve => {
+                        tmp.onload = resolve;
+                        tmp.onerror = resolve;
+                    });
+                    if (!tmp.complete || tmp.naturalWidth === 0) {
+                        throw e;
+                    }
+                }
+                return url;
+            };
+
+            if (item.webp && item.png) {
+                try {
+                    return await loadAndDecode(item.webp);
+                } catch (e) {
+                    return await loadAndDecode(item.png);
+                }
+            }
+            return await loadAndDecode(item.webp || item.png);
+        }
+
+        async function showScreenshotAtIndex(index) {
+            const { imgA, imgB } = getScreenshotLightboxElements();
+            if (!imgA || !imgB) return;
+            if (!currentScreenshotGallery || currentScreenshotGallery.length === 0) return;
+            if (index < 0 || index >= currentScreenshotGallery.length) return;
+
+            const requestId = ++screenshotNavRequestId;
+            const slots = [imgA, imgB];
+            const outgoingSlot = screenshotActiveSlot;
+            const incomingSlot = outgoingSlot === 0 ? 1 : 0;
+            const outgoingImg = slots[outgoingSlot];
+            const incomingImg = slots[incomingSlot];
+            const item = currentScreenshotGallery[index];
+
+            incomingImg.classList.remove('is-visible');
+
+            let url;
+            try {
+                url = await resolveScreenshotUrl(item);
+            } catch (e) {
+                return;
+            }
+
+            if (requestId !== screenshotNavRequestId) return;
+
+            incomingImg.src = url;
+            try {
+                if (incomingImg.decode) {
+                    await incomingImg.decode();
+                }
+            } catch (e) {
+            }
+
+            if (requestId !== screenshotNavRequestId) return;
+
+            incomingImg.classList.add('is-visible');
+            outgoingImg.classList.remove('is-visible');
+            screenshotActiveSlot = incomingSlot;
+
+            const nextIndex = (index + 1) % currentScreenshotGallery.length;
+            const prevIndex = (index - 1 + currentScreenshotGallery.length) % currentScreenshotGallery.length;
+            preloadScreenshotByIndex(nextIndex);
+            preloadScreenshotByIndex(prevIndex);
+        }
 
         // Function to open screenshot in lightbox (make it global)
         window.openScreenshotLightbox = function(src) {
-            const lightbox = document.getElementById('screenshotLightbox');
-            const lightboxImg = document.getElementById('screenshotLightboxImg');
-            const lightboxSource = document.getElementById('screenshotLightboxSource');
-            if (lightbox && lightboxImg) {
-                // IMMEDIATELY clear old image source using transparent pixel to force clear
-                // This must happen before anything else to prevent old image flash
-                const blankPixel = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-                const lightboxPicture = lightboxImg.closest('picture');
-                
-                // ALWAYS hide picture element first if lightbox is active - prevents any rendering
-                if (lightbox.classList.contains('active') && lightboxPicture) {
-                    lightboxPicture.classList.add('switching');
-                }
-                
-                if (lightbox.classList.contains('active') && lightboxImg.src) {
-                    // Remove ready class and add hiding class
-                    lightboxImg.classList.remove('ready');
-                    lightboxImg.classList.add('hiding');
-                    
-                    // REMOVE source element from DOM entirely to prevent browser from using it
-                    if (lightboxSource && lightboxSource.parentNode) {
-                        lightboxSource.parentNode.removeChild(lightboxSource);
-                    }
-                    // Remove src entirely instead of setting to blank pixel - prevents browser from showing cached image
-                    lightboxImg.removeAttribute('src');
-                    lightboxImg.removeAttribute('srcset');
-                    // Also clear any cached image data
-                    if (lightboxImg.complete) {
-                        lightboxImg.src = '';
-                    }
-                    
-                    // Force multiple reflows to ensure the blank pixel is rendered
-                    void lightboxImg.offsetHeight;
-                    void lightboxImg.offsetWidth;
-                }
-                
-                // Get all screenshots from the current gallery (both PNG and WebP)
-                const screenshotItems = document.querySelectorAll('.screenshot-item');
-                currentScreenshotGallery = Array.from(screenshotItems).map(item => {
-                    // Try WebP first, fallback to PNG
-                    const webpSrc = item.getAttribute('data-src-webp');
-                    return webpSrc || item.getAttribute('data-src');
-                });
-                
-                // Find the index of the clicked image
-                const clickedItem = Array.from(screenshotItems).find(item => 
-                    item.getAttribute('data-src') === src || item.getAttribute('data-src-webp') === src
-                );
-                
-                let targetWebpSrc, targetPngSrc, targetSrc;
-                
-                if (clickedItem) {
-                    targetWebpSrc = clickedItem.getAttribute('data-src-webp');
-                    targetPngSrc = clickedItem.getAttribute('data-src');
-                    targetSrc = targetPngSrc || src;
-                    currentScreenshotIndex = Array.from(screenshotItems).indexOf(clickedItem);
-                } else {
-                    currentScreenshotIndex = 0;
-                    targetSrc = currentScreenshotGallery[0] || src;
-                }
-                
-                // If opening fresh, ensure image starts hidden but will show when ready
-                if (!lightbox.classList.contains('active') || !lightboxImg.src || lightboxImg.src === blankPixel) {
-                    // Remove ready class to ensure image is hidden initially
-                    lightboxImg.classList.remove('ready');
-                    lightboxImg.classList.remove('hiding');
-                    // Remove switching class if present
-                    if (lightboxPicture) {
-                        lightboxPicture.classList.remove('switching');
-                    }
-                }
-                
-                // Preload the new image before switching to avoid showing old image
-                const newImg = new Image();
-                let imageLoaded = false;
-                
-                const switchImage = function() {
-                    if (imageLoaded) return; // Prevent multiple calls
-                    imageLoaded = true;
-                    
-                    // Recreate source element if it was removed, or update existing one
-                    const pictureElement = lightboxImg.closest('picture');
-                    let currentSource = pictureElement ? pictureElement.querySelector('source') : null;
-                    
-                    if (targetWebpSrc) {
-                        if (!currentSource) {
-                            // Recreate source element if it was removed
-                            currentSource = document.createElement('source');
-                            currentSource.id = 'screenshotLightboxSource';
-                            currentSource.type = 'image/webp';
-                            if (pictureElement) {
-                                pictureElement.insertBefore(currentSource, lightboxImg);
-                            }
-                        }
-                        currentSource.srcset = targetWebpSrc;
-                    } else if (currentSource && currentSource.parentNode) {
-                        // Remove source if no WebP version
-                        currentSource.parentNode.removeChild(currentSource);
-                    }
-                    
-                    // Set the new image source BUT keep picture hidden until image loads
-                    lightboxImg.src = targetSrc;
-                    
-                    // Function to show the new image
-                    const showNewImage = function() {
-                        // Remove switching class from picture element
-                        const lightboxPicture = pictureElement;
-                        if (lightboxPicture) {
-                            lightboxPicture.classList.remove('switching');
-                        }
-                        
-                        // Remove hiding class and add ready class
-                        lightboxImg.classList.remove('hiding');
-                        lightboxImg.classList.add('ready');
-                    };
-                    
-                    // Check if image is already loaded (cached)
-                    if (lightboxImg.complete && lightboxImg.naturalWidth > 0) {
-                        // Image is already loaded, show it (use small delay to ensure src is set)
-                        setTimeout(function() {
-                            showNewImage();
-                        }, 10);
-                    } else {
-                        // Wait for image to load
-                        const originalOnload = lightboxImg.onload;
-                        lightboxImg.onload = function() {
-                            if (originalOnload) originalOnload();
-                            showNewImage();
-                        };
-                        const originalOnerror = lightboxImg.onerror;
-                        lightboxImg.onerror = function() {
-                            if (originalOnerror) originalOnerror();
-                            // Even on error, show the image
-                            showNewImage();
-                        };
-                    }
-                };
-                
-                // Set up load handlers before setting src
-                newImg.onload = switchImage;
-                newImg.onerror = switchImage; // Still show image even if preload fails
-                
-                // Start loading
-                newImg.src = targetSrc;
-                
-                // If image is already cached, onload may not fire, so check immediately
-                if (newImg.complete) {
-                    switchImage();
-                }
-                
-                lightbox.classList.add('active');
+            const { lightbox, imgA, imgB } = getScreenshotLightboxElements();
+            if (!lightbox || !imgA || !imgB) return;
+
+            currentScreenshotGallery = buildScreenshotGalleryFromDOM();
+            if (!currentScreenshotGallery || currentScreenshotGallery.length === 0) return;
+
+            const screenshotItems = document.querySelectorAll('.screenshot-item');
+            const clickedItem = Array.from(screenshotItems).find(item =>
+                item.getAttribute('data-src') === src || item.getAttribute('data-src-webp') === src
+            );
+
+            if (clickedItem) {
+                currentScreenshotIndex = Array.from(screenshotItems).indexOf(clickedItem);
+            } else {
+                currentScreenshotIndex = 0;
             }
+
+            imgA.classList.remove('is-visible');
+            imgB.classList.remove('is-visible');
+            imgA.removeAttribute('src');
+            imgB.removeAttribute('src');
+            screenshotActiveSlot = 0;
+            screenshotNavRequestId++;
+
+            lightbox.classList.add('active');
+            showScreenshotAtIndex(currentScreenshotIndex);
         };
 
         // Function to navigate between screenshots
         window.navigateScreenshot = function(direction) {
             if (currentScreenshotGallery.length === 0) return;
-            
+
             currentScreenshotIndex += direction;
-            
+
             // Loop around
             if (currentScreenshotIndex < 0) {
                 currentScreenshotIndex = currentScreenshotGallery.length - 1;
             } else if (currentScreenshotIndex >= currentScreenshotGallery.length) {
                 currentScreenshotIndex = 0;
             }
-            
-            const lightboxImg = document.getElementById('screenshotLightboxImg');
-            const lightboxSource = document.getElementById('screenshotLightboxSource');
-            const screenshotItems = document.querySelectorAll('.screenshot-item');
-            
-            if (lightboxImg && screenshotItems[currentScreenshotIndex]) {
-                const item = screenshotItems[currentScreenshotIndex];
-                const webpSrc = item.getAttribute('data-src-webp');
-                const pngSrc = item.getAttribute('data-src');
-                const targetSrc = pngSrc || currentScreenshotGallery[currentScreenshotIndex];
-                
-                // Preload the image before switching to avoid visible loading
-                const newImg = new Image();
-                
-                // Fade out current image
-                lightboxImg.style.transition = 'opacity 0.15s ease';
-                lightboxImg.style.opacity = '0';
-                
-                // Preload the new image
-                const switchImage = function() {
-                    // Update source elements
-                    if (lightboxSource && webpSrc) {
-                        lightboxSource.srcset = webpSrc;
-                    }
-                    lightboxImg.src = targetSrc;
-                    
-                    // Fade in the new image
-                    requestAnimationFrame(function() {
-                        lightboxImg.style.opacity = '1';
-                    });
-                };
-                
-                // Set up load handlers before setting src
-                newImg.onload = switchImage;
-                newImg.onerror = switchImage; // Still show image even if preload fails
-                
-                // Start loading
-                newImg.src = targetSrc;
-                
-                // If image is already cached, onload may not fire, so check immediately
-                if (newImg.complete) {
-                    switchImage();
-                }
-            }
+
+            showScreenshotAtIndex(currentScreenshotIndex);
         };
 
         // Function to close screenshot lightbox (make it global)
@@ -3962,7 +3932,13 @@
                 function formatTopSpeed(text) {
                     return `<span class="highlight-number">${text}</span>`;
                 }
-                
+
+                // Function to format numeric values with units
+                function formatNumericValue(value) {
+                    if (!value) return '';
+                    return `<span class="highlight-number">${value}</span>`;
+                }
+
                 // Function to highlight coaxial and hull gun (gun name only)
                 function formatGunAmmo(text) {
                     if (text.includes('NO') || text.includes('NO ')) {
@@ -4048,6 +4024,108 @@
                                     <div class="spec-label">MAXIMUM SPEED:</div>
                                     <div class="spec-value">${formatTopSpeed(info.stats.topSpeed)}</div>
                                 </div>
+                                ${info.stats.yawRate ? `
+                                <div class="spec-row">
+                                    <div class="spec-label">YAW RATE:</div>
+                                    <div class="spec-value">${formatNumericValue(info.stats.yawRate)}</div>
+                                </div>
+                                ` : ''}
+                                ${info.stats.pitchRate ? `
+                                <div class="spec-row">
+                                    <div class="spec-label">PITCH RATE:</div>
+                                    <div class="spec-value">${formatNumericValue(info.stats.pitchRate)}</div>
+                                </div>
+                                ` : ''}
+                                ${info.stats.pitchAngleMin && info.stats.pitchAngleMax ? `
+                                <div class="spec-row">
+                                    <div class="spec-label">PITCH ANGLE RANGE:</div>
+                                    <div class="spec-value">${formatNumericValue(info.stats.pitchAngleMin)} <span style="color: #000000;">to</span> ${formatNumericValue(info.stats.pitchAngleMax)}</div>
+                                </div>
+                                ` : ''}
+                                ${info.stats.hullHealth ? `
+                                <div class="spec-row">
+                                    <div class="spec-label">HULL HEALTH:</div>
+                                    <div class="spec-value">${formatNumericValue(info.stats.hullHealth)}</div>
+                                </div>
+                                ` : ''}
+                                ${info.stats.turretHealth ? `
+                                <div class="spec-row">
+                                    <div class="spec-label">TURRET HEALTH:</div>
+                                    <div class="spec-value">${formatNumericValue(info.stats.turretHealth)}</div>
+                                </div>
+                                ` : ''}
+                                ${info.stats.mobilityHealth ? `
+                                <div class="spec-row">
+                                    <div class="spec-label">MOBILITY HEALTH:</div>
+                                    <div class="spec-value">${formatNumericValue(info.stats.mobilityHealth)}</div>
+                                </div>
+                                ` : ''}
+                                ${info.stats.engineBlockHealth ? `
+                                <div class="spec-row">
+                                    <div class="spec-label">ENGINE BLOCK HEALTH:</div>
+                                    <div class="spec-value">${formatNumericValue(info.stats.engineBlockHealth)}</div>
+                                </div>
+                                ` : ''}
+                                ${info.stats.gearSwitchTime ? `
+                                <div class="spec-row">
+                                    <div class="spec-label">GEAR SWITCH TIME:</div>
+                                    <div class="spec-value">${formatNumericValue(info.stats.gearSwitchTime)}</div>
+                                </div>
+                                ` : ''}
+                                ${info.stats.reloadSpeed ? `
+                                <div class="spec-row">
+                                    <div class="spec-label">RELOAD SPEED:</div>
+                                    <div class="spec-value">${formatNumericValue(info.stats.reloadSpeed)}</div>
+                                </div>
+                                ` : ''}
+                                ${info.stats.maxClipsAP || info.stats.maxClipsHE || info.stats.maxClipsSmoke ? `
+                                <div class="spec-row">
+                                    <div class="spec-label">MAX CLIPS:</div>
+                                    <div class="spec-value">${[info.stats.maxClipsAP ? `<span style="color: #000000;">AP:</span> ${formatNumericValue(info.stats.maxClipsAP)}` : '', info.stats.maxClipsHE ? `<span style="color: #000000;">HE:</span> ${formatNumericValue(info.stats.maxClipsHE)}` : '', info.stats.maxClipsSmoke ? `<span style="color: #000000;">SMOKE:</span> ${formatNumericValue(info.stats.maxClipsSmoke)}` : ''].filter(Boolean).join(', ')}</div>
+                                </div>
+                                ` : ''}
+                                ${info.stats.apDamage ? `
+                                <div class="spec-row">
+                                    <div class="spec-label">AP DAMAGE:</div>
+                                    <div class="spec-value">${formatNumericValue(info.stats.apDamage)}</div>
+                                </div>
+                                ` : ''}
+                                ${info.stats.apDirectArmor ? `
+                                <div class="spec-row">
+                                    <div class="spec-label">AP DIRECT ARMOR:</div>
+                                    <div class="spec-value">${formatNumericValue(info.stats.apDirectArmor)}</div>
+                                </div>
+                                ` : ''}
+                                ${info.stats.heDamage ? `
+                                <div class="spec-row">
+                                    <div class="spec-label">HE DAMAGE:</div>
+                                    <div class="spec-value">${formatNumericValue(info.stats.heDamage)}</div>
+                                </div>
+                                ` : ''}
+                                ${info.stats.heDirectArmor ? `
+                                <div class="spec-row">
+                                    <div class="spec-label">HE DIRECT ARMOR:</div>
+                                    <div class="spec-value">${formatNumericValue(info.stats.heDirectArmor)}</div>
+                                </div>
+                                ` : ''}
+                                ${info.stats.heExplosionArmor ? `
+                                <div class="spec-row">
+                                    <div class="spec-label">HE EXPLOSION ARMOR:</div>
+                                    <div class="spec-value">${formatNumericValue(info.stats.heExplosionArmor)}</div>
+                                </div>
+                                ` : ''}
+                                ${info.stats.heDamageRadius ? `
+                                <div class="spec-row">
+                                    <div class="spec-label">HE DAMAGE RADIUS:</div>
+                                    <div class="spec-value">${formatNumericValue(info.stats.heDamageRadius)}</div>
+                                </div>
+                                ` : ''}
+                                ${info.stats.munitionsCost ? `
+                                <div class="spec-row">
+                                    <div class="spec-label">MUNITIONS COST:</div>
+                                    <div class="spec-value">${formatNumericValue(info.stats.munitionsCost)}</div>
+                                </div>
+                                ` : ''}
                             </div>
                             
                             <div class="field-manual-footer">
@@ -4146,46 +4224,10 @@
                     const screenshotItems = tankInfoContent.querySelectorAll('.screenshot-item');
                     screenshotItems.forEach(item => {
                         item.addEventListener('click', function(e) {
-                            // IMMEDIATELY clear old image before opening new one to prevent flash
-                            const lightboxImg = document.getElementById('screenshotLightboxImg');
-                            const lightboxSource = document.getElementById('screenshotLightboxSource');
-                            const lightboxPicture = lightboxImg ? lightboxImg.closest('picture') : null;
-                            
-                            // ALWAYS hide picture element FIRST using CSS class to prevent any rendering
-                            if (lightboxPicture) {
-                                lightboxPicture.classList.add('switching');
-                            }
-                            
-                            if (lightboxImg) {
-                                // Remove ready class and add hiding class
-                                lightboxImg.classList.remove('ready');
-                                lightboxImg.classList.add('hiding');
-                                
-                                // REMOVE source element from DOM entirely to prevent browser from using it
-                                if (lightboxSource && lightboxSource.parentNode) {
-                                    lightboxSource.parentNode.removeChild(lightboxSource);
-                                }
-                                
-                                // Remove src entirely instead of setting to blank pixel - prevents browser from showing cached image
-                                lightboxImg.removeAttribute('src');
-                                lightboxImg.removeAttribute('srcset');
-                                // Also clear any cached image data
-                                if (lightboxImg.complete) {
-                                    lightboxImg.src = '';
-                                }
-                                
-                                // Force multiple reflows to ensure changes take effect
-                                void lightboxImg.offsetHeight;
-                                void lightboxImg.offsetWidth;
-                            }
-                            
+                            e.stopPropagation();
                             const src = this.getAttribute('data-src');
                             const webpSrc = this.getAttribute('data-src-webp');
-                            
-                            // Use requestAnimationFrame to ensure clearing happens in next frame before opening
-                            requestAnimationFrame(function() {
-                                openScreenshotLightbox(webpSrc || src);
-                            });
+                            openScreenshotLightbox(webpSrc || src);
                         });
                     });
                 });
@@ -4254,6 +4296,25 @@
                 closeTankInfoModal();
             }
         });
+
+        // Prevent background scrolling when modal is open
+        if (tankInfoModal) {
+            tankInfoModal.addEventListener('touchmove', function(e) {
+                // Allow scrolling within modal content, but prevent background scroll
+                const modalContent = e.target.closest('.info-modal-content');
+                if (!modalContent) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+
+            tankInfoModal.addEventListener('touchstart', function(e) {
+                // Prevent background scroll when touching modal overlay
+                const modalContent = e.target.closest('.info-modal-content');
+                if (!modalContent) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+        }
 
         // Close modal with Escape key - comprehensive handler
         document.addEventListener('keydown', function(e) {
@@ -4343,47 +4404,81 @@
                 }
             });
             
-            // Add keyboard handlers to increment/decrement buttons
-            // This ensures buttons only increment by 1 when using keyboard (Space/Enter)
-            const buttonConfigs = [
-                { fieldId: 'distance', delta: -1 },
-                { fieldId: 'distance', delta: 1 },
-                { fieldId: 'heightDiff', delta: -1 },
-                { fieldId: 'heightDiff', delta: 1 },
-                { fieldId: 'redNumber', delta: -1 },
-                { fieldId: 'redNumber', delta: 1 }
-            ];
-            
-            // Find buttons by checking their onclick handlers
-            buttonConfigs.forEach(config => {
-                const buttons = document.querySelectorAll('.armored-button');
-                buttons.forEach(button => {
-                    const onclickAttr = button.getAttribute('onclick');
-                    if (onclickAttr && onclickAttr.includes(`adjustValue('${config.fieldId}', ${config.delta})`)) {
-                        // Add keyboard handler to this button
-                        button.addEventListener('keydown', function(e) {
-                            // Handle Space or Enter key - only increment by 1
-                            if (e.key === ' ' || e.key === 'Enter') {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                // Directly call adjustValue with the correct delta, bypassing hold-to-increment
-                                adjustValue(config.fieldId, config.delta, { type: 'keydown' });
-                            }
-                        });
-                        
-                        // Add touchstart handler for hold-to-increment on armored buttons
-                        button.addEventListener('touchstart', (e) => {
-                            startHoldIncrement(config.fieldId, config.delta, e);
-                        }, { passive: false });
+            // ROBUST HANDLER: Separates Touch and Click to prevent double-firing
+            function setupInstantTap(button) {
+                const fieldId = button.dataset.field;
+                const delta = parseFloat(button.dataset.delta);
+                if (!fieldId || isNaN(delta)) return;
+
+                // Variable to track the last time this specific button was touched
+                let lastTouchTime = 0;
+
+                // 1. Handle Touch (Mobile) - Instant response
+                button.addEventListener('touchstart', (e) => {
+                    // Stop the browser from generating a click, scrolling, or zooming
+                    if (e.cancelable) e.preventDefault();
+                    
+                    // Update timestamp so we know to ignore upcoming mouse clicks
+                    lastTouchTime = Date.now();
+
+                    // Execute math immediately
+                    // We pass 'null' for event to avoid re-triggering propagations
+                    handleValueChange(fieldId, delta, null); 
+                    triggerHaptic('light');
+                }, { passive: false });
+
+                // 2. Handle Click (Desktop/Mouse)
+                button.addEventListener('click', (e) => {
+                    const now = Date.now();
+                    // THE FIX: If a touch event happened less than 500ms ago, 
+                    // this is a "Ghost Click". Ignore it.
+                    if (now - lastTouchTime < 500) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        return;
                     }
+
+                    // Otherwise, it's a real mouse click
+                    handleValueChange(fieldId, delta, null);
                 });
+
+                // Remove legacy inline handlers to be safe
+                button.onclick = null;
+                button.removeAttribute('onclick');
+            }
+
+            // Apply to all armored adjust buttons
+            const armoredAdjustButtons = document.querySelectorAll('.armored-button[data-field][data-delta]');
+            armoredAdjustButtons.forEach(button => {
+                setupInstantTap(button);
             });
 
-            // Add click listener for haptic feedback on the calculate button
+            // Helper to handle touch + click without double fire
+            function attachActionButton(button, handler) {
+                if (!button) return;
+                button.addEventListener('touchstart', (e) => {
+                    if (e.cancelable) e.preventDefault();
+                    button.setAttribute('data-touch-handled', 'true');
+                    handler(e);
+                }, { passive: false });
+
+                button.addEventListener('click', (e) => {
+                    if (button.getAttribute('data-touch-handled') === 'true') {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        button.removeAttribute('data-touch-handled');
+                        return;
+                    }
+                    handler(e);
+                });
+            }
+
+            // Calculate button
             const calculateButton = document.getElementById('calculateButton');
             if (calculateButton) {
-                calculateButton.addEventListener('click', () => {
+                attachActionButton(calculateButton, () => {
                     triggerHaptic('medium');
+                    calculate();
                 });
             }
             
@@ -4394,6 +4489,15 @@
                     e.target.setAttribute('data-touch-handled', 'true');
                     showHeightInfo(e);
                 }, { passive: false });
+                heightInfoButton.addEventListener('click', (e) => {
+                    if (heightInfoButton.getAttribute('data-touch-handled') === 'true') {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        heightInfoButton.removeAttribute('data-touch-handled');
+                        return;
+                    }
+                    showHeightInfo(e);
+                });
             }
             
             const terrainInfoButton = document.getElementById('terrainInfo');
@@ -4402,6 +4506,39 @@
                     e.target.setAttribute('data-touch-handled', 'true');
                     showTerrainInfo(e);
                 }, { passive: false });
+                terrainInfoButton.addEventListener('click', (e) => {
+                    if (terrainInfoButton.getAttribute('data-touch-handled') === 'true') {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        terrainInfoButton.removeAttribute('data-touch-handled');
+                        return;
+                    }
+                    showTerrainInfo(e);
+                });
+            }
+
+            // Tank specs toggle button
+            const tankSpecsToggleButton = document.getElementById('tankSpecsToggle');
+            if (tankSpecsToggleButton) {
+                attachActionButton(tankSpecsToggleButton, (e) => {
+                    e.preventDefault();
+                    toggleTankSpecs();
+                });
+            }
+
+            // Copy/reset buttons
+            const copyButton = document.querySelector('.copy-result-button');
+            if (copyButton) {
+                attachActionButton(copyButton, (e) => {
+                    copyResult(copyButton);
+                });
+            }
+
+            const resetButton = document.querySelector('.reset-result-button');
+            if (resetButton) {
+                attachActionButton(resetButton, (e) => {
+                    resetCalculator(resetButton);
+                });
             }
         }
 
@@ -4525,33 +4662,200 @@
             }, 5000);
         }
 
-        // Run initialization when DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initializeMobileEnhancements);
+        // --- INITIALIZATION LOGIC ---
+        // Run initialization only after full page load to avoid FOUC/layout thrash
+        if (document.readyState === 'complete') {
+            if (typeof initializeMobileEnhancements === 'function') {
+                initializeMobileEnhancements();
+            }
         } else {
-            initializeMobileEnhancements();
+            window.addEventListener('load', function() {
+                if (typeof initializeMobileEnhancements === 'function') {
+                    initializeMobileEnhancements();
+                }
+            }, { once: true });
         }
 
-        // Defensive patch for MutationObserver to prevent errors from external scripts
-        // This handles cases where external scripts (like browser extensions) try to observe null/undefined elements
-        if (typeof MutationObserver !== 'undefined') {
-            const OriginalMutationObserver = MutationObserver;
-            MutationObserver = function(callback) {
-                const observer = new OriginalMutationObserver(callback);
-                const originalObserve = observer.observe.bind(observer);
-                
-                observer.observe = function(target, options) {
-                    // Validate that target is a valid Node object
-                    if (!target || typeof target !== 'object' || !(target instanceof Node)) {
-                        console.warn('MutationObserver.observe: Invalid target provided, skipping observation', target);
+        // --- SMART HANDLER FOR CONTROLS ---
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // --- 1. Toggles ---
+            const armoredSnapToggle = document.getElementById('armoredSnapToggle');
+            if (armoredSnapToggle) {
+                armoredSnapToggle.addEventListener('click', function() {
+                    toggleArmoredSwitch('snapToggle', this);
+                });
+            }
+
+            const armoredAutoToggle = document.getElementById('armoredAutoToggle');
+            if (armoredAutoToggle) {
+                armoredAutoToggle.addEventListener('click', function() {
+                    toggleArmoredSwitch('autoCalcToggle', this);
+                });
+            }
+
+            // --- 2. Smart Buttons (Instant Tap Fix) ---
+            const actionButtons = document.querySelectorAll('button[data-field]');
+            let lastButtonTouchTime = 0;
+
+            actionButtons.forEach(btn => {
+                const fieldId = btn.getAttribute('data-field');
+                const delta = parseFloat(btn.getAttribute('data-delta'));
+
+                // CRITICAL FIX: Remove legacy inline onclick handlers to prevent double firing
+                btn.onclick = null;
+                btn.removeAttribute('onclick');
+
+                // HANDLE TOUCH (Instant execution)
+                btn.addEventListener('touchstart', function(e) {
+                    // Stop the browser from generating a fake 'click' event later
+                    if (e.cancelable) e.preventDefault(); 
+                    
+                    lastButtonTouchTime = Date.now();
+
+                    // Visual feedback
+                    btn.classList.add('holding');
+                    setTimeout(() => btn.classList.remove('holding'), 150);
+
+                    // Trigger Haptic
+                    if (typeof triggerHaptic === 'function') triggerHaptic('light');
+
+                    // Run math via the debounced handler
+                    // We use handleValueChange because it has the isProcessingClick guard
+                    if (typeof handleValueChange === 'function') {
+                        handleValueChange(fieldId, delta, e);
+                    } else {
+                        adjustValue(fieldId, delta);
+                    }
+                }, { passive: false });
+
+                // HANDLE CLICK (Desktop/Mouse Backup)
+                btn.addEventListener('click', function(e) {
+                    const now = Date.now();
+                    
+                    // Ignore if we just touched it (Ghost Click Prevention)
+                    // If a touch event happened less than 600ms ago, this is a duplicate click
+                    if (now - lastButtonTouchTime < 600) {
+                        e.preventDefault();
+                        e.stopPropagation();
                         return;
                     }
-                    return originalObserve(target, options);
-                };
-                
-                return observer;
-            };
-            // Copy static properties if any
-            Object.setPrototypeOf(MutationObserver, OriginalMutationObserver);
-            MutationObserver.prototype = OriginalMutationObserver.prototype;
-        }
+
+                    // Otherwise, it's a real mouse click
+                    if (typeof handleValueChange === 'function') {
+                        handleValueChange(fieldId, delta, e);
+                    } else {
+                        adjustValue(fieldId, delta);
+                    }
+                });
+            });
+
+            // --- 3. Other Buttons ---
+            const calculateButton = document.getElementById('calculateButton');
+            if (calculateButton) {
+                calculateButton.onclick = null; // Remove inline handler
+                calculateButton.addEventListener('click', function(e) {
+                     if (typeof calculate === 'function') calculate(); 
+                });
+            }
+
+            const copyButton = document.querySelector('.copy-result-button');
+            if (copyButton) {
+                copyButton.addEventListener('click', function() { 
+                    if (typeof copyResult === 'function') copyResult(this); 
+                });
+            }
+
+            const resetButton = document.querySelector('.reset-result-button');
+            if (resetButton) {
+                resetButton.addEventListener('click', function() { 
+                    if (typeof resetCalculator === 'function') resetCalculator(this); 
+                });
+            }
+
+            // --- 4. Trajectory Controls ---
+            const trajectoryToggleButton = document.getElementById('trajectoryToggleButton');
+            if (trajectoryToggleButton) {
+                trajectoryToggleButton.addEventListener('click', function() {
+                    if (typeof toggleTrajectoryWindow === 'function') toggleTrajectoryWindow();
+                });
+            }
+            
+            const trajectoryCloseButton = document.getElementById('trajectoryCloseButton');
+            if (trajectoryCloseButton) {
+                trajectoryCloseButton.addEventListener('click', () => {
+                     if (typeof setTrajectoryWindowVisible === 'function') setTrajectoryWindowVisible(false);
+                });
+            }
+
+            const trajectoryPlayButton = document.getElementById('trajectoryPlayButton');
+            if (trajectoryPlayButton) {
+                trajectoryPlayButton.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    // Check if variables exist in scope before accessing
+                    if (typeof isTrajectoryWindowVisible !== 'undefined' && !isTrajectoryWindowVisible) return;
+                    
+                    // Logic for play button (assuming variables are global)
+                    if (typeof lastTrajectorySim !== 'undefined' && typeof lastTrajectoryPreviewArgs !== 'undefined' && typeof renderTrajectoryPreview === 'function') {
+                        if (!lastTrajectorySim && lastTrajectoryPreviewArgs) {
+                             renderTrajectoryPreview(lastTrajectoryPreviewArgs);
+                        }
+                        
+                        const impactTime = lastTrajectorySim ? Number(lastTrajectorySim.impactTimeSec) : NaN;
+                        if (!Number.isFinite(impactTime) || impactTime <= 0) return;
+
+                        if (typeof trajectoryAnimPlaying !== 'undefined' && !trajectoryAnimPlaying) {
+                            if (trajectoryMarkerTimeSec >= impactTime) {
+                                trajectoryMarkerTimeSec = 0;
+                            }
+                            trajectoryAnimStartMs = performance.now();
+                            trajectoryAnimStartTimeSec = trajectoryMarkerTimeSec;
+                            setTrajectoryAnimationPlaying(true);
+                            if (typeof cancelTrajectoryAnimFrame === 'function') cancelTrajectoryAnimFrame();
+                            trajectoryAnimRafId = requestAnimationFrame(trajectoryAnimFrame);
+                        } else if (typeof setTrajectoryAnimationPlaying === 'function') {
+                            setTrajectoryAnimationPlaying(false);
+                        }
+                    }
+                });
+            }
+
+            // --- 5. Info & Lightbox ---
+            const tankInfoIcon = document.getElementById('tankInfoIcon');
+            if (tankInfoIcon) {
+                tankInfoIcon.onclick = null; // Remove inline
+                tankInfoIcon.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (typeof showTankInfo === 'function') showTankInfo();
+                });
+            }
+
+            const screenshotLightbox = document.getElementById('screenshotLightbox');
+            if (screenshotLightbox) {
+                screenshotLightbox.addEventListener('click', function() {
+                    if (typeof closeScreenshotLightbox === 'function') closeScreenshotLightbox();
+                });
+            }
+            
+            const lightboxClose = document.querySelector('.screenshot-lightbox-close');
+            if (lightboxClose) {
+                lightboxClose.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (typeof closeScreenshotLightbox === 'function') closeScreenshotLightbox();
+                });
+            }
+
+            document.querySelectorAll('.nav-zone-left').forEach(zone => {
+                zone.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (typeof navigateScreenshot === 'function') navigateScreenshot(-1);
+                });
+            });
+
+            document.querySelectorAll('.nav-zone-right').forEach(zone => {
+                zone.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (typeof navigateScreenshot === 'function') navigateScreenshot(1);
+                });
+            });
+        }); // end Smart Handler DOMContentLoaded

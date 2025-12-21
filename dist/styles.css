@@ -1317,6 +1317,36 @@
                 0 0 10px rgba(194, 178, 128, 0.3);
         }
 
+        .armored-button, 
+        .armored-calculate, 
+        .copy-result-button, 
+        .reset-result-button {
+            position: relative;
+            z-index: 50;
+            pointer-events: auto;
+        }
+
+        /* Force toggles to be clickable and above other elements */
+        .armored-toggle {
+            position: absolute;
+            z-index: 100 !important; /* Force high z-index */
+            pointer-events: auto !important;
+        }
+
+        .armored-toggle-switch {
+            cursor: pointer;
+            z-index: 101 !important;
+            position: relative;
+        }
+
+        /* Make the labels clickable too for easier use */
+        .toggle-label-off, 
+        .toggle-label-on {
+            cursor: pointer;
+            z-index: 101;
+            position: relative;
+        }
+
         .armored-toggle-container {
             display: flex;
             justify-content: space-around;

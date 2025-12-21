@@ -4656,175 +4656,6 @@ document.addEventListener('keydown', function(e) {
     }
 }, true); // Use capture phase
 
-// Add event listeners to replace inline onclick handlers (CSP compliance)
-document.addEventListener('DOMContentLoaded', function() {
-// Armored toggle switches
-    const armoredSnapToggle = document.getElementById('armoredSnapToggle');
-    if (armoredSnapToggle) {
-        armoredSnapToggle.addEventListener('click', function() {
-            toggleArmoredSwitch('snapToggle', this);
-        });
-    }
-
-    const armoredAutoToggle = document.getElementById('armoredAutoToggle');
-    if (armoredAutoToggle) {
-        armoredAutoToggle.addEventListener('click', function() {
-            toggleArmoredSwitch('autoCalcToggle', this);
-        });
-    }
-
-// Distance buttons
-    const distanceInput = document.getElementById('distance');
-    if (distanceInput) {
-        const distanceControls = distanceInput.closest('.distance-controls');
-        if (distanceControls) {
-            const buttons = distanceControls.querySelectorAll('.armored-button');
-            if (buttons.length >= 2) {
-                buttons[0].addEventListener('click', function() { adjustValue('distance', -1); });
-                buttons[1].addEventListener('click', function() { adjustValue('distance', 1); });
-            }
-        }
-    }
-
-// Height difference buttons
-    const heightDiffInput = document.getElementById('heightDiff');
-    if (heightDiffInput) {
-        const heightControls = heightDiffInput.parentElement;
-        if (heightControls) {
-            const buttons = heightControls.querySelectorAll('.armored-button');
-            if (buttons.length >= 2) {
-                buttons[0].addEventListener('click', function() { adjustValue('heightDiff', -1); });
-                buttons[1].addEventListener('click', function() { adjustValue('heightDiff', 1); });
-            }
-        }
-    }
-
-// Red number (terrain elevation) buttons
-    const redNumberInput = document.getElementById('redNumber');
-    if (redNumberInput) {
-        const redControls = redNumberInput.parentElement;
-        if (redControls) {
-            const buttons = redControls.querySelectorAll('.armored-button');
-            if (buttons.length >= 2) {
-                buttons[0].addEventListener('click', function() { adjustValue('redNumber', -1); });
-                buttons[1].addEventListener('click', function() { adjustValue('redNumber', 1); });
-            }
-        }
-    }
-
-// Calculate button
-    const calculateButton = document.getElementById('calculateButton');
-    if (calculateButton) {
-        calculateButton.addEventListener('click', calculate);
-    }
-
-// Copy result button
-    const copyButton = document.querySelector('.copy-result-button');
-    if (copyButton) {
-        copyButton.addEventListener('click', function() {
-            copyResult(this);
-        });
-    }
-
-// Reset calculator button
-    const resetButton = document.querySelector('.reset-result-button');
-    if (resetButton) {
-        resetButton.addEventListener('click', function() {
-            resetCalculator(this);
-        });
-    }
-
-    const trajectoryToggleButton = document.getElementById('trajectoryToggleButton');
-    if (trajectoryToggleButton) {
-        trajectoryToggleButton.addEventListener('click', function() {
-            toggleTrajectoryWindow();
-        });
-    }
-
-    const trajectoryCloseButton = document.getElementById('trajectoryCloseButton');
-    if (trajectoryCloseButton) {
-        trajectoryCloseButton.addEventListener('click', function() {
-            setTrajectoryWindowVisible(false);
-        });
-    }
-
-    const trajectoryPlayButton = document.getElementById('trajectoryPlayButton');
-    if (trajectoryPlayButton) {
-        trajectoryPlayButton.addEventListener('click', function(e) {
-            e.stopPropagation();
-            if (!isTrajectoryWindowVisible) return;
-            if (!lastTrajectorySim) {
-                renderTrajectoryPreview(lastTrajectoryPreviewArgs);
-            }
-            const impactTime = lastTrajectorySim ? Number(lastTrajectorySim.impactTimeSec) : NaN;
-            if (!Number.isFinite(impactTime) || impactTime <= 0) return;
-
-            if (!trajectoryAnimPlaying) {
-                if (trajectoryMarkerTimeSec >= impactTime) {
-                    trajectoryMarkerTimeSec = 0;
-                }
-                trajectoryAnimStartMs = performance.now();
-                trajectoryAnimStartTimeSec = trajectoryMarkerTimeSec;
-                setTrajectoryAnimationPlaying(true);
-                cancelTrajectoryAnimFrame();
-                trajectoryAnimRafId = requestAnimationFrame(trajectoryAnimFrame);
-            } else {
-                setTrajectoryAnimationPlaying(false);
-                renderTrajectoryPreview(lastTrajectoryPreviewArgs);
-            }
-        });
-    }
-
-    window.addEventListener('resize', function() {
-        if (isTrajectoryWindowVisible) {
-            renderTrajectoryPreview(lastTrajectoryPreviewArgs);
-        }
-    }, { passive: true });
-
-// Tank info button
-    const tankInfoIcon = document.getElementById('tankInfoIcon');
-    if (tankInfoIcon) {
-        tankInfoIcon.addEventListener('click', showTankInfo);
-    }
-
-// Screenshot lightbox
-    const screenshotLightbox = document.getElementById('screenshotLightbox');
-    if (screenshotLightbox) {
-        screenshotLightbox.addEventListener('click', closeScreenshotLightbox);
-    }
-
-// Navigation zones
-    document.querySelectorAll('.nav-zone-left').forEach(zone => {
-        zone.addEventListener('click', function(e) {
-            e.stopPropagation();
-            navigateScreenshot(-1);
-        });
-    });
-
-    document.querySelectorAll('.nav-zone-right').forEach(zone => {
-        zone.addEventListener('click', function(e) {
-            e.stopPropagation();
-            navigateScreenshot(1);
-        });
-    });
-
-// Lightbox close button
-    const lightboxClose = document.querySelector('.screenshot-lightbox-close');
-    if (lightboxClose) {
-        lightboxClose.addEventListener('click', function(e) {
-            e.stopPropagation();
-            closeScreenshotLightbox();
-        });
-    }
-
-// Lightbox image
-    const lightboxStage = document.getElementById('screenshotLightboxStage');
-    if (lightboxStage) {
-        lightboxStage.addEventListener('click', function(e) {
-            e.stopPropagation();
-        });
-    }
-});
 
 // Minimal hold increment support for lite view (desktop logic)
 let __holdTimer = null;
@@ -4909,4 +4740,151 @@ function setupViewModeToggle(switchId, targetUrl) {
 document.addEventListener('DOMContentLoaded', function() {
     setupViewModeToggle('viewModeSwitchFull', 'index-lite.html');
     setupViewModeToggle('viewModeSwitchLite', 'index.html');
+});
+
+// Smart Handler for controls and toggles
+document.addEventListener('DOMContentLoaded', function() {
+
+// --- 1. Toggles ---
+    const armoredSnapToggle = document.getElementById('armoredSnapToggle');
+    if (armoredSnapToggle) {
+        armoredSnapToggle.addEventListener('click', function() {
+            toggleArmoredSwitch('snapToggle', this);
+        });
+    }
+
+    const armoredAutoToggle = document.getElementById('armoredAutoToggle');
+    if (armoredAutoToggle) {
+        armoredAutoToggle.addEventListener('click', function() {
+            toggleArmoredSwitch('autoCalcToggle', this);
+        });
+    }
+
+// --- 2. Smart Buttons (Instant Tap) ---
+// This finds ALL buttons with a data-field attribute automatically
+    const actionButtons = document.querySelectorAll('button[data-field]');
+    let lastButtonTouchTime = 0;
+
+    actionButtons.forEach(btn => {
+        const fieldId = btn.getAttribute('data-field');
+        const delta = parseFloat(btn.getAttribute('data-delta'));
+
+// HANDLE TOUCH (Instant execution)
+        btn.addEventListener('touchstart', function(e) {
+            if (e.cancelable) e.preventDefault(); // Stop mouse emulation
+            lastButtonTouchTime = Date.now();
+
+// Visual feedback
+            btn.classList.add('holding');
+            setTimeout(() => btn.classList.remove('holding'), 150);
+
+// Run math
+            adjustValue(fieldId, delta);
+
+// Haptic
+            if (navigator.vibrate) navigator.vibrate(10);
+        }, { passive: false });
+
+// HANDLE CLICK (Desktop Backup)
+        btn.addEventListener('click', function(e) {
+            const now = Date.now();
+// Ignore if we just touched it (prevents double fire)
+            if (now - lastButtonTouchTime < 600) {
+                e.preventDefault();
+                e.stopPropagation();
+                return;
+            }
+            adjustValue(fieldId, delta);
+        });
+    });
+
+// --- 3. Other Buttons ---
+    const calculateButton = document.getElementById('calculateButton');
+    if (calculateButton) {
+        calculateButton.addEventListener('click', calculate);
+    }
+
+    const copyButton = document.querySelector('.copy-result-button');
+    if (copyButton) {
+        copyButton.addEventListener('click', function() { copyResult(this); });
+    }
+
+    const resetButton = document.querySelector('.reset-result-button');
+    if (resetButton) {
+        resetButton.addEventListener('click', function() { resetCalculator(this); });
+    }
+
+// --- 4. Trajectory Controls ---
+    const trajectoryToggleButton = document.getElementById('trajectoryToggleButton');
+    if (trajectoryToggleButton) {
+        trajectoryToggleButton.addEventListener('click', toggleTrajectoryWindow);
+    }
+
+    const trajectoryCloseButton = document.getElementById('trajectoryCloseButton');
+    if (trajectoryCloseButton) {
+        trajectoryCloseButton.addEventListener('click', () => setTrajectoryWindowVisible(false));
+    }
+
+    const trajectoryPlayButton = document.getElementById('trajectoryPlayButton');
+    if (trajectoryPlayButton) {
+        trajectoryPlayButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (!isTrajectoryWindowVisible) return;
+
+// Initialize simulation if missing
+            if (!lastTrajectorySim && lastTrajectoryPreviewArgs) {
+                renderTrajectoryPreview(lastTrajectoryPreviewArgs);
+            }
+
+            const impactTime = lastTrajectorySim ? Number(lastTrajectorySim.impactTimeSec) : NaN;
+            if (!Number.isFinite(impactTime) || impactTime <= 0) return;
+
+            if (!trajectoryAnimPlaying) {
+// Restart if at end
+                if (trajectoryMarkerTimeSec >= impactTime) {
+                    trajectoryMarkerTimeSec = 0;
+                }
+                trajectoryAnimStartMs = performance.now();
+                trajectoryAnimStartTimeSec = trajectoryMarkerTimeSec;
+                setTrajectoryAnimationPlaying(true);
+                cancelTrajectoryAnimFrame();
+                trajectoryAnimRafId = requestAnimationFrame(trajectoryAnimFrame);
+            } else {
+                setTrajectoryAnimationPlaying(false);
+            }
+        });
+    }
+
+// --- 5. Info & Lightbox ---
+    const tankInfoIcon = document.getElementById('tankInfoIcon');
+    if (tankInfoIcon) {
+        tankInfoIcon.addEventListener('click', showTankInfo);
+    }
+
+    const screenshotLightbox = document.getElementById('screenshotLightbox');
+    if (screenshotLightbox) {
+        screenshotLightbox.addEventListener('click', closeScreenshotLightbox);
+    }
+
+    const lightboxClose = document.querySelector('.screenshot-lightbox-close');
+    if (lightboxClose) {
+        lightboxClose.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeScreenshotLightbox();
+        });
+    }
+
+    document.querySelectorAll('.nav-zone-left').forEach(zone => {
+        zone.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navigateScreenshot(-1);
+        });
+    });
+
+    document.querySelectorAll('.nav-zone-right').forEach(zone => {
+        zone.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navigateScreenshot(1);
+        });
+    });
 });

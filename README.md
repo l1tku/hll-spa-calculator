@@ -34,7 +34,7 @@ A web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let 
 
 ## Version
 
-v1.0.8 - 2025
+v1.0.9 - 2025
 
 ### Recent Updates
 - **Lite mode**: Lightweight HTML/CSS/JS build for faster loads and low-end devices.

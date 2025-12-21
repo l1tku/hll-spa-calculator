@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="dist/output.css">
 
     <link rel="stylesheet" href="dist/styles-mobile.css">
+    <script src="mobile-detector.js"></script>
 </head>
 <body class="min-h-screen">
     <div class="container mx-auto px-2 py-4">
@@ -62,20 +63,20 @@
                                                     <img src="images/UI/Icons/flags/GERMANY_30.webp" alt="Germany" class="flag-icon" loading="lazy" decoding="async"> DAK (Panzer III Ausf.N)
                                                 </div>
                                                 <div data-value="Germany (Sturmpanzer IV Brummbär)">
-                                                    <img src="images/UI/Icons/flags/GERMANY_30.webp" alt="Germany" class="flag-icon" loading="lazy" decoding="async"> Germany (Sturmpanzer)
+                                                    <img src="images/UI/Icons/flags/GERMANY_30.webp" alt="Germany" class="flag-icon" loading="lazy" decoding="async"> Germany (Sturmpanzer IV)
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div style="margin-top: 8px; position: relative;">
-                                    <button id="tankSpecsToggle" onclick="toggleTankSpecs()" style="display: flex; align-items: center; justify-content: center; width: 100%; padding: 8px 40px; background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%); border: 2px solid #3a3a3a; color: #c2b280; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: all 0.2s; position: relative;">
+                                    <button id="tankSpecsToggle" type="button" style="display: flex; align-items: center; justify-content: center; width: 100%; padding: 8px 40px; background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%); border: 2px solid #3a3a3a; color: #c2b280; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: all 0.2s; position: relative;">
                                         <span>Tank Specifications</span>
                                         <span id="tankSpecsToggleIcon" style="position: absolute; right: 12px; transition: transform 0.2s;">▼</span>
                                     </button>
                                     <div id="milRangeText" class="tank-specs-panel tank-specs-collapsed" style="flex-shrink: 0; overflow: hidden; max-width: 100%; margin-top: 0;">
                                         <div style="display: flex; flex-direction: row; align-items: flex-start; gap: 12px; margin-bottom: 12px;">
-                                            <button id="tankInfoIcon" class="select-info-button" onclick="showTankInfo()">
+                                            <button id="tankInfoIcon" class="select-info-button" type="button">
                                                 <span>INTEL</span>
                                             </button>
                                             <div class="faction-image-compact overflow-hidden flex items-center justify-center flex-shrink-0" style="width: 112px; height: 112px; max-width: 112px; max-height: 112px; margin-left: auto;">
@@ -109,12 +110,12 @@
                                     </div>
                                 </div>
                                 <div style="width: 100%;">
-                                    <div class="panel-label" style="margin-bottom: 8px;">Target Distance (meters)</div>
+                                    <div class="panel-label" style="margin-bottom: 8px;">Target Distance (m)</div>
                                     <div class="distance-controls" style="display: flex; justify-content: center; align-items: center; gap: 4px; width: 100%; flex-wrap: wrap;">
                                         <div style="display: flex; align-items: center; gap: 4px;">
-                                            <button onmousedown="startHoldIncrement('distance', -1, event)" onmouseup="stopHoldIncrement()" onmouseleave="stopHoldIncrement()"  onclick="adjustValue('distance', -1)" class="armored-button" style="width: 52px; height: 52px; min-width: 52px; min-height: 52px; font-size: 1.5625rem; padding: 0;">-</button>
+                                            <button class="armored-button" type="button" data-field="distance" data-delta="-1" style="width: 52px; height: 52px; min-width: 52px; min-height: 52px; font-size: 1.5625rem; padding: 0;">-</button>
                                             <input type="text" id="distance" value="400" class="armored-input" inputmode="numeric" pattern="[0-9]*" style="width: 85px; min-width: 85px; max-width: 85px;">
-                                            <button onmousedown="startHoldIncrement('distance', 1, event)" onmouseup="stopHoldIncrement()" onmouseleave="stopHoldIncrement()"  onclick="adjustValue('distance', 1)" class="armored-button" style="width: 52px; height: 52px; min-width: 52px; min-height: 52px; font-size: 1.5625rem; padding: 0;">+</button>
+                                            <button class="armored-button" type="button" data-field="distance" data-delta="1" style="width: 52px; height: 52px; min-width: 52px; min-height: 52px; font-size: 1.5625rem; padding: 0;">+</button>
                                         </div>
                                     </div>
                                     <!-- Range indicator and slider -->
@@ -129,13 +130,13 @@
                                     <div style="display: flex; flex-direction: column; gap: 6px;">
                                         <div style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 0;">
                                             <div class="panel-label" style="margin-bottom: 0;">Height Difference (m)</div>
-                                            <button class="info-button" onclick="showHeightInfo(event)" title="(- target lower, + target higher)" style="width: 20px; height: 20px; min-width: 20px; min-height: 20px; background: rgba(194, 178, 128, 0.2); border: 1px solid rgba(194, 178, 128, 0.4); color: #c2b280; font-size: 0.75rem; font-weight: bold; cursor: pointer; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0; margin: 0; font-family: 'Courier New', monospace; line-height: 1;">i</button>
+                                            <button id="heightInfo" class="info-button" type="button" title="(- target lower, + target higher)" style="width: 20px; height: 20px; min-width: 20px; min-height: 20px; background: rgba(194, 178, 128, 0.2); border: 1px solid rgba(194, 178, 128, 0.4); color: #c2b280; font-size: 0.75rem; font-weight: bold; cursor: pointer; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0; margin: 0; font-family: 'Courier New', monospace; line-height: 1;">i</button>
                                         </div>
                                         <div style="display: flex; justify-content: center; align-items: center; gap: 4px; width: 100%; flex-wrap: wrap;">
                                             <div style="display: flex; align-items: center; gap: 4px;">
-                                                <button onmousedown="startHoldIncrement('heightDiff', -1, event)" onmouseup="stopHoldIncrement()" onmouseleave="stopHoldIncrement()"  onclick="adjustValue('heightDiff', -1)" class="armored-button" style="width: 52px; height: 52px; min-width: 52px; min-height: 52px; font-size: 1.5625rem; padding: 0;">-</button>
+                                                <button class="armored-button" type="button" data-field="heightDiff" data-delta="-1" style="width: 52px; height: 52px; min-width: 52px; min-height: 52px; font-size: 1.5625rem; padding: 0;">-</button>
                                                 <input type="text" id="heightDiff" value="0" class="armored-input" inputmode="numeric" pattern="[0-9]*" max="5000" style="width: 85px; min-width: 85px;">
-                                                <button onmousedown="startHoldIncrement('heightDiff', 1, event)" onmouseup="stopHoldIncrement()" onmouseleave="stopHoldIncrement()"  onclick="adjustValue('heightDiff', 1)" class="armored-button" style="width: 52px; height: 52px; min-width: 52px; min-height: 52px; font-size: 1.5625rem; padding: 0;">+</button>
+                                                <button class="armored-button" type="button" data-field="heightDiff" data-delta="1" style="width: 52px; height: 52px; min-width: 52px; min-height: 52px; font-size: 1.5625rem; padding: 0;">+</button>
                                             </div>
                                         </div>
                                         <input type="hidden" id="muzzleHeight" value="2.5">
@@ -143,13 +144,13 @@
                                     <div style="display: flex; flex-direction: column; gap: 6px;">
                                         <div style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 0;">
                                             <div class="panel-label" style="margin-bottom: 0;">Terrain Elevation (MIL)</div>
-                                            <button class="info-button" onclick="showTerrainInfo(event)" title="Red MIL HUD (- downhill/nose-down, + uphill/nose-up)" style="width: 20px; height: 20px; min-width: 20px; min-height: 20px; background: rgba(194, 178, 128, 0.2); border: 1px solid rgba(194, 178, 128, 0.4); color: #c2b280; font-size: 0.75rem; font-weight: bold; cursor: pointer; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0; margin: 0; font-family: 'Courier New', monospace; line-height: 1;">i</button>
+                                            <button id="terrainInfo" class="info-button" type="button" title="Red MIL HUD (- downhill/nose-down, + uphill/nose-up)" style="width: 20px; height: 20px; min-width: 20px; min-height: 20px; background: rgba(194, 178, 128, 0.2); border: 1px solid rgba(194, 178, 128, 0.4); color: #c2b280; font-size: 0.75rem; font-weight: bold; cursor: pointer; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0; margin: 0; font-family: 'Courier New', monospace; line-height: 1;">i</button>
                                         </div>
                                         <div style="display: flex; justify-content: center; align-items: center; gap: 4px; width: 100%; flex-wrap: wrap;">
                                             <div style="display: flex; align-items: center; gap: 4px;">
-                                                <button onmousedown="startHoldIncrement('redNumber', -1, event)" onmouseup="stopHoldIncrement()" onmouseleave="stopHoldIncrement()"  onclick="adjustValue('redNumber', -1)" class="armored-button" style="width: 52px; height: 52px; min-width: 52px; min-height: 52px; font-size: 1.5625rem; padding: 0;">-</button>
+                                                <button class="armored-button" type="button" data-field="redNumber" data-delta="-1" style="width: 52px; height: 52px; min-width: 52px; min-height: 52px; font-size: 1.5625rem; padding: 0;">-</button>
                                                 <input type="text" id="redNumber" value="0" class="armored-input" inputmode="numeric" pattern="[0-9]*" style="width: 85px; min-width: 85px;">
-                                                <button onmousedown="startHoldIncrement('redNumber', 1, event)" onmouseup="stopHoldIncrement()" onmouseleave="stopHoldIncrement()"  onclick="adjustValue('redNumber', 1)" class="armored-button" style="width: 52px; height: 52px; min-width: 52px; min-height: 52px; font-size: 1.5625rem; padding: 0;">+</button>
+                                                <button class="armored-button" type="button" data-field="redNumber" data-delta="1" style="width: 52px; height: 52px; min-width: 52px; min-height: 52px; font-size: 1.5625rem; padding: 0;">+</button>
                                             </div>
                                         </div>
                                     </div>
@@ -159,15 +160,15 @@
         
                         <!-- Calculate Button -->
                         <div style="position: relative; margin-top: 0; margin-bottom: 5px;">
-                            <button onclick="calculate()" id="calculateButton" class="armored-calculate">
+                            <button id="calculateButton" type="button" class="armored-calculate">
                                 Calculate Elevation
                             </button>
                         </div>
         
                         <!-- Result -->
                         <div id="result" class="armored-result">
-                            <button class="copy-result-button" onclick="copyResult(this)" title="Copy result to clipboard">📋</button>
-                            <button class="reset-result-button" onclick="resetCalculator(this)" title="Reset all values">🔄</button>
+                            <button class="copy-result-button" type="button" title="Copy result to clipboard">📋</button>
+                            <button class="reset-result-button" type="button" title="Reset all values">🔄</button>
                             <div class="panel-label">Set Elevation To:</div>
                             <div class="armored-result-value">
                                 <div class="mechanical-counter" id="elevationCounter">
@@ -211,25 +212,32 @@
                     </div>
 
                     <!-- Screenshot Lightbox -->
-                    <div id="screenshotLightbox" class="screenshot-lightbox" onclick="closeScreenshotLightbox()">
-                        <div class="nav-zone-left" onclick="event.stopPropagation(); navigateScreenshot(-1);">
+                    <div id="screenshotLightbox" class="screenshot-lightbox">
+                        <div class="nav-zone-left">
                             <span class="nav-arrow">◀</span>
                         </div>
-                        <div class="nav-zone-right" onclick="event.stopPropagation(); navigateScreenshot(1);">
+                        <div class="nav-zone-right">
                             <span class="nav-arrow">▶</span>
                         </div>
-                        <div class="screenshot-lightbox-close" onclick="event.stopPropagation(); closeScreenshotLightbox();">
+                        <div class="screenshot-lightbox-close">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                         </div>
-                        <picture>
-                            <source id="screenshotLightboxSource" srcset="" type="image/webp">
-                            <img id="screenshotLightboxImg" src="" alt="Screenshot" onclick="event.stopPropagation();">
-                        </picture>
+                        <div class="screenshot-lightbox-stage" id="screenshotLightboxStage">
+                            <img id="screenshotLightboxImgA" class="screenshot-lightbox-img" src="" alt="Screenshot">
+                            <img id="screenshotLightboxImgB" class="screenshot-lightbox-img" src="" alt="Screenshot">
+                        </div>
+                    </div>
+
+                    <!-- Desktop link -->
+                    <div class="text-center mt-6 mb-4">
+                        <a href="index-lite.html?mode=desktop" style="color: #6b7280; font-size: 0.8rem; text-decoration: underline;">
+                            Desktop View
+                        </a>
                     </div>
 
                     <!-- Version Info -->
                     <div class="text-xs text-gray-500 text-center mt-4" style="margin-top: calc(1rem - 2px);">
-                        <p>HLL SPA Artillery Calculator v1.0.8 - 2025</p>
+                        <p>HLL SPA Artillery Calculator v1.0.9 - 2025</p>
                         <p class="text-orange-400 mt-1">⚠️ Results may not always be perfect. Please use your best judgment when using these calculations.</p>
                     </div>
                 </div>
