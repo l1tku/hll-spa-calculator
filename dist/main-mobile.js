@@ -4458,6 +4458,12 @@ history: 'The Panzer III Ausf. N was a German medium tank variant armed with the
                 if (!button) return;
                 button.addEventListener('touchstart', (e) => {
                     if (e.cancelable) e.preventDefault();
+                    
+                    // --- ADD VISUAL FEEDBACK HERE ---
+                    button.classList.add('pressed');
+                    setTimeout(() => button.classList.remove('pressed'), 150);
+                    // --------------------------------
+
                     button.setAttribute('data-touch-handled', 'true');
                     handler(e);
                 }, { passive: false });

@@ -1682,7 +1682,8 @@
         }
 
         /* Mobile-optimized: Active state is primary feedback (replaces hover) */
-        .armored-calculate:active {
+        .armored-calculate:active,
+        .armored-calculate.pressed {
             background: linear-gradient(145deg, #5a4a2a, #3a2f1f);
             transform: scale(0.96);
             box-shadow: 
@@ -1691,7 +1692,8 @@
             border-color: #7b6010;
         }
 
-        .armored-calculate:active::before {
+        .armored-calculate:active::before,
+        .armored-calculate.pressed::before {
             left: 100%;
             transition: left 0.3s ease;
         }
