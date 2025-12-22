@@ -2286,7 +2286,7 @@
         .select-info-button {
             position: absolute;
             left: calc(50% + 380px - 17px);
-            top: calc(50% - 419px);
+            top: calc(50% - 404px);
             transform: translateY(calc(-50% + 10px));
             width: 60px;
             height: 165px;

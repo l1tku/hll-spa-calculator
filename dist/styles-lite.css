@@ -1641,7 +1641,7 @@
             border-left-color: #5a5a5a;
             color: #e5e7eb;
             font-size: 0.95rem; /* ~15px */
-            line-height: 1;
+            line-height: normal !important;
             font-weight: bold;
             cursor: pointer;
             box-shadow: 
@@ -1652,11 +1652,11 @@
             border-radius: 0; /* Match armored-button style */
             width: 30px;
             height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
             font-family: 'Courier New', monospace;
-            padding: 0; /* Remove padding */
+            padding: 0 !important;
 
             filter: none; /* Remove existing filter */
             text-shadow: none; /* Remove existing text-shadow */
@@ -1664,7 +1664,7 @@
 
         .result-button-icon {
             display: inline-block;
-            transform: translateY(2px);
+            transform: none !important;
         }
 
         .copy-result-button:hover,
@@ -1706,15 +1706,12 @@
             background: #166534; /* Dark green */
             border-color: #15803d;
             color: #86efac;
-            box-shadow:
-                inset 0 2px 6px rgba(0, 0, 0, 0.6),
-                0 0 8px rgba(74, 222, 128, 0.5);
-            animation: pulse-green 0.5s ease;
+            animation: pulse-green 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         @keyframes pulse-green {
             0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            40% { transform: scale(1.15); box-shadow: 0 0 12px rgba(74, 222, 128, 0.6); }
             100% { transform: scale(1); }
         }
 
@@ -2169,7 +2166,6 @@
         
         .armored-result-value span {
             display: inline-block;
-            transform: translateY(4px);
         }
         
         .armored-result-value .digit {
@@ -2353,7 +2349,7 @@
         .select-info-button {
             position: absolute;
             left: calc(50% + 380px - 17px);
-            top: calc(50% - 419px);
+            top: calc(50% - 404px);
             transform: translateY(calc(-50% + 10px));
             width: 60px;
             height: 165px;
@@ -4048,3 +4044,23 @@
             color: rgba(255, 255, 255, 0.9);
             transform: scale(1.2);
         }
+
+/* Prevent overlap on smaller screens */
+@media (max-width: 720px) {
+    .top-right-toggle {
+        /* Stop sticking to the window corner */
+        position: relative !important; 
+        top: auto !important;
+        right: auto !important;
+        
+        /* Center the button at the top of the page */
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        
+        /* Add breathing room between button and title */
+        margin-bottom: 15px; 
+        padding-top: 15px; 
+        z-index: 50;
+    }
+}

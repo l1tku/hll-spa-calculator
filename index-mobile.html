@@ -98,17 +98,28 @@
                             <div class="armored-rivet-small armored-rivet-small-bottom-left"></div>
                             <div class="armored-rivet-small armored-rivet-small-bottom-right"></div>
                             <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; margin: 8px 0;">
-                                <div style="display: flex; justify-content: center; width: 100%; margin-bottom: 4px;">
-                                    <div class="armored-toggle" style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
-                                        <div class="armored-toggle-label">Auto Calculation</div>
-                                        <div style="display: flex; align-items: center; gap: 8px;">
-                                            <span id="calcOffLabel" class="toggle-label-off">OFF</span>
-                                            <input type="checkbox" id="autoCalcToggle" class="sr-only" checked style="display: none;">
-                                            <div class="armored-toggle-switch active" id="armoredAutoToggle"></div>
-                                            <span id="calcOnLabel" class="toggle-label-on">ON</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div style="display: flex; justify-content: center; gap: 24px; width: 100%; margin-bottom: 8px; margin-top: 5px;">
+    
+    <div class="armored-toggle" style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+        <div class="armored-toggle-label">Auto Calculation</div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <span id="calcOffLabel" class="toggle-label-off">OFF</span>
+            <input type="checkbox" id="autoCalcToggle" class="sr-only" checked style="display: none;">
+            <div class="armored-toggle-switch active" id="armoredAutoToggle"></div>
+            <span id="calcOnLabel" class="toggle-label-on">ON</span>
+        </div>
+    </div>
+
+    <div class="armored-toggle" style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+        <div class="armored-toggle-label">Rangefinder</div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <span id="rfOffLabel" class="toggle-label-off">OFF</span>
+            <input type="checkbox" id="rangeFinderToggle" class="sr-only" checked style="display: none;">
+            <div class="armored-toggle-switch active" id="armoredRangeFinderToggle"></div>
+            <span id="rfOnLabel" class="toggle-label-on">ON</span>
+        </div>
+    </div>
+</div>
                                 <div style="width: 100%;">
                                     <div class="panel-label" style="margin-bottom: 8px;">Target Distance (m)</div>
                                     <div class="distance-controls" style="display: flex; justify-content: center; align-items: center; gap: 4px; width: 100%; flex-wrap: wrap;">
@@ -118,8 +129,7 @@
                                             <button class="armored-button" type="button" data-field="distance" data-delta="1" style="width: 52px; height: 52px; min-width: 52px; min-height: 52px; font-size: 1.5625rem; padding: 0;">+</button>
                                         </div>
                                     </div>
-                                    <!-- Range indicator and slider -->
-                                    <div style="margin-top: 12px; margin-bottom: 8px; touch-action: none;">
+                                    <div id="rangeFinderContainer" style="margin-top: 12px; margin-bottom: 8px; touch-action: none; transition: all 0.3s ease;">
                                         <div class="range-indicator" id="distanceRangeIndicator">
                                             <div class="range-indicator-bar" id="distanceRangeBar"></div>
                                         </div>

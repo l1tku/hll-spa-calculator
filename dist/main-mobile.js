@@ -2727,7 +2727,8 @@ history: 'The Panzer III Ausf. N was a German medium tank variant armed with the
                     distance: document.getElementById('distance').value,
                     heightDiff: document.getElementById('heightDiff').value,
                     redNumber: document.getElementById('redNumber').value,
-                    autoCalc: document.getElementById('autoCalcToggle') ? document.getElementById('autoCalcToggle').checked : true
+                    autoCalc: document.getElementById('autoCalcToggle') ? document.getElementById('autoCalcToggle').checked : true,
+                    rangeFinder: document.getElementById('rangeFinderToggle') ? document.getElementById('rangeFinderToggle').checked : true
                 };
                 localStorage.setItem('hllSpaState', JSON.stringify(state));
             } catch (e) {
@@ -2786,13 +2787,18 @@ history: 'The Panzer III Ausf. N was a German medium tank variant armed with the
                     autoCalcToggle.checked = state.autoCalc;
                     updateCalcModeLabel();
                 }
+
+                const rfToggle = document.getElementById('rangeFinderToggle');
+                if (rfToggle && state.rangeFinder !== undefined) {
+                    rfToggle.checked = state.rangeFinder;
+                }
                 
                 // Update UI elements after loading state
                 if (distanceInput) {
                     updateArmoredRuler(parseFloat(distanceInput.value) || 400);
                 }
                 updateCalculateButton();
-                updateToggleLEDs();
+                syncArmoredToggles();
             } catch (e) {
                 // Ignore parse/storage errors
             }
@@ -2860,39 +2866,78 @@ history: 'The Panzer III Ausf. N was a German medium tank variant armed with the
 
         // Sync armored toggles with checkboxes on load
         function syncArmoredToggles() {
+            // Sync Auto Calc
             const autoToggle = document.getElementById('autoCalcToggle');
             const armoredAuto = document.getElementById('armoredAutoToggle');
-            
             if (autoToggle && armoredAuto) {
-                if (autoToggle.checked) {
-                    armoredAuto.classList.add('active');
+                if (autoToggle.checked) armoredAuto.classList.add('active');
+                else armoredAuto.classList.remove('active');
+            }
+
+            // Sync Rangefinder
+            const rfToggle = document.getElementById('rangeFinderToggle');
+            const armoredRf = document.getElementById('armoredRangeFinderToggle');
+            if (rfToggle && armoredRf) {
+                if (rfToggle.checked) armoredRf.classList.add('active');
+                else armoredRf.classList.remove('active');
+            }
+
+            updateToggleLEDs();
+            toggleRangeFinderVisibility(); // Ensure visibility matches state
+        }
+
+        // Function to toggle Rangefinder visibility
+        function toggleRangeFinderVisibility() {
+            const rfToggle = document.getElementById('rangeFinderToggle');
+            const container = document.getElementById('rangeFinderContainer');
+            
+            if (rfToggle && container) {
+                if (rfToggle.checked) {
+                    container.style.display = 'block';
+                    container.style.opacity = '1';
+                    // Slight delay to allow display block to apply before opacity transition if needed
+                    setTimeout(() => { container.style.opacity = '1'; }, 10);
                 } else {
-                    armoredAuto.classList.remove('active');
+                    container.style.opacity = '0';
+                    // Wait for transition (if any) or hide immediately
+                    container.style.display = 'none';
                 }
             }
-            
-            // Update LED indicators
-            updateToggleLEDs();
         }
 
         // Function to update LED-style toggle labels
         function updateToggleLEDs() {
+            // --- Auto Calc LEDs ---
             const autoCalcToggle = document.getElementById('autoCalcToggle');
             const calcOnLabel = document.getElementById('calcOnLabel');
             const calcOffLabel = document.getElementById('calcOffLabel');
             
-            // Update Auto Calculation toggle labels
             if (autoCalcToggle && calcOnLabel && calcOffLabel) {
                 if (autoCalcToggle.checked) {
-                    // ON state: light up ON label with green LED, turn OFF label off
                     calcOnLabel.classList.add('led-on-green');
                     calcOnLabel.classList.remove('led-off');
                     calcOffLabel.classList.remove('led-on-green', 'led-off');
                 } else {
-                    // OFF state: light up OFF label with red LED, turn ON label off
                     calcOffLabel.classList.add('led-off');
                     calcOffLabel.classList.remove('led-on-green');
                     calcOnLabel.classList.remove('led-on-green', 'led-off');
+                }
+            }
+
+            // --- Rangefinder LEDs ---
+            const rfToggle = document.getElementById('rangeFinderToggle');
+            const rfOnLabel = document.getElementById('rfOnLabel');
+            const rfOffLabel = document.getElementById('rfOffLabel');
+
+            if (rfToggle && rfOnLabel && rfOffLabel) {
+                if (rfToggle.checked) {
+                    rfOnLabel.classList.add('led-on-green');
+                    rfOnLabel.classList.remove('led-off');
+                    rfOffLabel.classList.remove('led-on-green', 'led-off');
+                } else {
+                    rfOffLabel.classList.add('led-off');
+                    rfOffLabel.classList.remove('led-on-green');
+                    rfOnLabel.classList.remove('led-on-green', 'led-off');
                 }
             }
         }
@@ -2977,6 +3022,12 @@ history: 'The Panzer III Ausf. N was a German medium tank variant armed with the
         const autoToggleCheckbox = document.getElementById('autoCalcToggle');
         if (autoToggleCheckbox) {
             autoToggleCheckbox.addEventListener('change', syncArmoredToggles);
+        }
+
+        const rangeFinderCheckbox = document.getElementById('rangeFinderToggle');
+        if (rangeFinderCheckbox) {
+            // This ensures the visual switch moves when the internal value changes
+            rangeFinderCheckbox.addEventListener('change', syncArmoredToggles);
         }
         
         // Mobile-optimized toggle switch event handling
@@ -4130,7 +4181,6 @@ history: 'The Panzer III Ausf. N was a German medium tank variant armed with the
                             
                             <div class="field-manual-footer">
                                 <div class="footer-line">────────────────────────────────────────</div>
-                                <div class="footer-note">NOTES: Specifications based on in-game data. Actual performance may vary.</div>
                                 <div class="footer-stamp">VERIFIED: ██/██/1944</div>
                             </div>
                         </div>
@@ -4527,7 +4577,9 @@ history: 'The Panzer III Ausf. N was a German medium tank variant armed with the
             const tankSpecsToggleButton = document.getElementById('tankSpecsToggle');
             if (tankSpecsToggleButton) {
                 attachActionButton(tankSpecsToggleButton, (e) => {
-                    e.preventDefault();
+                    if (e.cancelable) {
+                        e.preventDefault();
+                    }
                     toggleTankSpecs();
                 });
             }
@@ -4698,6 +4750,24 @@ history: 'The Panzer III Ausf. N was a German medium tank variant armed with the
                 armoredAutoToggle.addEventListener('click', function() {
                     toggleArmoredSwitch('autoCalcToggle', this);
                 });
+            }
+
+            const armoredRangeFinderToggle = document.getElementById('armoredRangeFinderToggle');
+            if (armoredRangeFinderToggle) {
+                // Handle click (and touch via helper if you use one)
+                armoredRangeFinderToggle.addEventListener('click', function(e) {
+                    // Prevent default behavior if needed, or rely on toggleArmoredSwitch helper
+                    toggleArmoredSwitch('rangeFinderToggle', this);
+                    toggleRangeFinderVisibility();
+                    saveState();
+                });
+                
+                // Add specific touch support if using your custom touch handler logic
+                armoredRangeFinderToggle.addEventListener('touchstart', function(e) {
+                     // ... your existing touch logic ...
+                     // usually: e.preventDefault(); toggleArmoredSwitch(...);
+                     // make sure to call toggleRangeFinderVisibility();
+                }, {passive: false});
             }
 
             // --- 2. Smart Buttons (Instant Tap Fix) ---
