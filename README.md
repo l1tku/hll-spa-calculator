@@ -4,37 +4,45 @@ A web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let 
 
 ## Features
 
-- Calculate accurate elevation settings for multiple SPA vehicles
-- Support for British Bishop, Churchill AVRE, US Sherman M4A3, Soviet KV-2, and German Panzer III/Sturmpanzer IV
-- Interactive distance ruler with snap-to-grid functionality
-- Auto-calculation mode or manual calculation
-- Tank information with specifications and screenshots
-- Military-themed UI with authentic styling
+- **Multi-Vehicle Support:** Accurate formulas for British Bishop, Churchill AVRE, US Sherman M4A3, Soviet KV-2, and German Panzer III/Sturmpanzer IV.
+- **Precision Tools:** Interactive distance ruler with snap-to-grid functionality.
+- **Smart Calculation:** Auto-calculation modes with manual overrides.
+- **Intel Database:** Built-in "Field Manual" with tank specifications and screenshots.
+- **Immersive UI:** Military-themed interface with authentic styling.
+- **Lite Mode:** Lightweight version optimized for low-end devices and slow connections.
 
 ## How to Use
 
-1. Select your tank/SPA vehicle
-2. Enter target distance (200-600m range)
-3. Enter height difference (meters, negative if target is lower, positive if higher)
-4. Enter your current elevation adjustment if needed (RED MIL indicator in the tank HUD))
-5. Get your calculated elevation setting
+1. **Select Vehicle:** Choose your tank/SPA from the dropdown.
+2. **Set Distance:** Enter target distance (Range varies by vehicle).
+3. **Adjust Height:** Enter height difference in meters (Negative if target is lower, positive if higher).
+4. **Input Terrain Elev:** Enter the current elevation adjustment (The **RED MIL** number visible in your HUD).
+5. **Fire:** Use the calculated Yellow Elevation setting.
 
 ## Vehicles Supported
 
-- **British (Bishop SP)**
-- **British (Churchill AVRE)**
-- **US (Sherman M4A3)**
-- **Soviet Union (KV-2)**
-- **DAK (Panzer III Ausf.N)**
-- **Germany (Sturmpanzer IV)**
+- **British:** Bishop SP, Churchill AVRE
+- **US:** Sherman M4A3 (105)
+- **Soviet Union:** KV-2
+- **DAK:** Panzer III Ausf.N
+- **Germany:** Sturmpanzer IV (Brummbär)
 
-## Notes
+## Disclaimer & Copyright
 
-⚠️ This calculator is still being tested and improved. The results may not always be perfect. Please use your best judgment when using these calculations.
+This project is a community-made tool and is **not** affiliated with, endorsed by, or sponsored by Team17, Cover 6 Studios, or Black Matter.
 
-## Version
+**Hell Let Loose** content and materials are trademarks and copyrights of their respective owners.
+* **Game Assets:** The vehicle images and specific game icons used in this tool are the property of the Hell Let Loose developers and publishers. They are used here for educational and informational purposes.
 
-v1.0.9 - 2025
+## License
+
+The source code (HTML, CSS, JavaScript) of this project is licensed under the **MIT License**.
+
+> **Note:** The game assets (vehicle images in `/images/tanks`) are **excluded** from this license and remain the intellectual property of their respective owners.
+
+## Version History
+
+**v1.0.9 - 2025**
 
 ### Recent Updates
 - **Lite mode**: Lightweight HTML/CSS/JS build for faster loads and low-end devices.
@@ -47,4 +55,3 @@ v1.0.9 - 2025
 - **Mobile HTML version**: Comprehensive mobile optimizations with enhanced touch interactions, iOS-specific input handling, and mobile-optimized UI elements.
 - **Performance improvements**: Optimized icon assets (flags resized to 30px, vehicle icons to 28px).
 - **Cleanup**: Removed unused assets to reduce repository size.
-
