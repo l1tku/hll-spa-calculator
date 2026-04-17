@@ -34,7 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Terrain elevation calculating correctly (was returning 0)
 - Base value showing correct MIL instead of 0
 - Tab/Enter navigation working correctly across modes
-- Tank history content corrections (removed game patch notes)
+- Tank history content corrections
 
 ## [1.0.9] - 2025-12-21
 
