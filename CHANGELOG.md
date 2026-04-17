@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2026-04-17
+
+### Major Mobile Overhaul
+- Complete mobile layout redesign with responsive panels and optimized touch targets
+- Added collapsible tank specs panel with toggle button and slide-in animation
+- Mobile tank info button restyled as classified document with noise texture
+- Compact tank image box positioned inside specs panel
+
+### New Features
+- Height difference toggle to enable/disable height inputs
+- Mobile "More HLL Tools" button for accessing project hub
+- Hold-to-repeat (+/-) buttons with 1.5s delay before auto-increment
+- PWA support with manifest.json and app icons (192px/512px)
+- Cache-busting version system for GitHub Pages deployment
+
+### UI/UX Improvements
+- Lite mode result box styling with border/shadow/gradient
+- Unified full/lite mode result display handling
+- Tank dropdown visual consistency with dark gradient theme
+- More Projects modal restyled with dark armored panel and screws
+- Removed deprecated armored ruler component
+- Simplified screenshot gallery (WebP only)
+
+### Fixes
+- +/- buttons for height/terrain elevation now working across full/lite modes
+- Reset button properly clears height and terrain inputs
+- Terrain elevation calculating correctly (was returning 0)
+- Base value showing correct MIL instead of 0
+- Tank dropdown z-index fix (now appears above toggles)
+- Tab/Enter navigation working correctly across modes
+- AVRE default distance set to 200m (from 400m)
+- Metal panel height maintained when switching full/lite modes
+- Tank history content corrections (removed game patch notes)
+
 ## [1.0.9] - 2025-12-21
 
 ### Fixed

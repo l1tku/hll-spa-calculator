@@ -1,27 +1,35 @@
+// ============================================
+// VERSION CONFIG - Update this when game patch changes
+// ============================================
+const HLL_VERSION = {
+    appVersion: 'v1.5.0',    // App version
+    gamePatch: 'HLL Update 19.1',  // HLL game patch
+    author: 'by litku'
+};
+
 // Artillery data tables
 const tables = {
     'British (Bishop SP)': {
-        600: 133, 573: 142, 547: 151, 520: 160, 493: 169, 467: 178,
+        800: 67, 773: 76, 747: 85, 720: 94, 693: 103, 667: 112,
+        640: 121, 613: 130, 600: 133, 573: 142, 547: 151, 520: 160, 493: 169, 467: 178,
         440: 187, 413: 196, 387: 204, 360: 213, 333: 222, 307: 231,
         280: 240, 253: 249, 227: 258, 200: 267,
         minMil: -89, maxMil: 267
     },
     'British (Churchill AVRE)': {
-        600: 178, 573: 190, 547: 201, 520: 213, 493: 225, 467: 237,
-        440: 249, 413: 261, 387: 273, 360: 284, 333: 296, 307: 308,
-        280: 320, 253: 332, 227: 344, 200: 356,
+        250: 133, 233: 142, 216: 151, 200: 160,
         minMil: -89, maxMil: 356
     },
     'DAK (Panzer III Ausf.N)': {
-        600: 267, 573: 284, 547: 302, 520: 320, 493: 338, 467: 356,
-        440: 373, 413: 391, 387: 409, 360: 427, 333: 444, 307: 462,
-        280: 480, 253: 498, 227: 516, 200: 533,
+        500: 267, 480: 284, 460: 302, 440: 320, 420: 338, 400: 356,
+        380: 373, 360: 391, 340: 409, 320: 427, 300: 444, 280: 462,
+        260: 480, 240: 498, 220: 516, 200: 533,
         minMil: -89, maxMil: 533
     },
     'Germany (Sturmpanzer IV Brummbär)': {
-        600: 267, 573: 284, 547: 302, 520: 320, 493: 338, 467: 356,
-        440: 373, 413: 391, 387: 409, 360: 427, 333: 444, 307: 462,
-        280: 480, 253: 498, 227: 516, 200: 533,
+        500: 267, 480: 284, 460: 302, 440: 320, 420: 338, 400: 356,
+        380: 373, 360: 391, 340: 409, 320: 427, 300: 444, 280: 462,
+        260: 480, 240: 498, 220: 516, 200: 533,
         minMil: -89, maxMil: 533
     },
     'Soviet Union (KV-2)': {
@@ -37,6 +45,293 @@ const tables = {
         minMil: -89, maxMil: 533
     }
 };
+
+// ============================================
+// TANK DATA ARRAY - For dynamic dropdown generation
+// ============================================
+const tankData = [
+    {
+        value: "British (Bishop SP)",
+        flag: "images/UI/Icons/flags/BRITISH_30.webp",
+        flagAlt: "BRITISH",
+        image: "images/tanks/BISHOP_248.webp",
+        imageBase: "BISHOP_248",
+        elevation: "-89 MIL to 267 MIL",
+        shortName: "Bishop SP",
+        classifiedRef: {
+            ref: "REF: ORD-1942/SPA-007",
+            designation: "CLASSIFIED: VALENTINE-BISHOP",
+            classification: "OPERATION TORCH | 25-PDR SPA"
+        }
+    },
+    {
+        value: "British (Churchill AVRE)",
+        flag: "images/UI/Icons/flags/BRITISH_30.webp",
+        flagAlt: "BRITISH",
+        image: "images/tanks/AVRE_248.webp",
+        imageBase: "AVRE_248",
+        elevation: "-89 MIL to 356 MIL",
+        shortName: "Churchill AVRE",
+        classifiedRef: {
+            ref: "REF: WO-1943/AVRE-001",
+            designation: "CLASSIFIED: CHURCHILL-290MM",
+            classification: "OVERLORD PREP | BREACHING VEHICLE"
+        }
+    },
+    {
+        value: "US (Sherman M4A3 105)",
+        flag: "images/UI/Icons/flags/US_30.webp",
+        flagAlt: "US",
+        image: "images/tanks/M4A3_248.webp",
+        imageBase: "M4A3_248",
+        elevation: "-89 MIL to 533 MIL",
+        shortName: "Sherman M4A3",
+        classifiedRef: {
+            ref: "REF: OCM-1944/M4A3-105",
+            designation: "CLASSIFIED: SHERMAN-105MM",
+            classification: "OPERATION COBRA | CLOSE SUPPORT"
+        }
+    },
+    {
+        value: "Soviet Union (KV-2)",
+        flag: "images/UI/Icons/flags/SOVIET_30.webp",
+        flagAlt: "USSR",
+        image: "images/tanks/KV2_248.webp",
+        imageBase: "KV2_248",
+        elevation: "-89 MIL to 533 MIL",
+        shortName: "KV-2",
+        classifiedRef: {
+            ref: "REF: STAVKA-1941/KV-2-152",
+            designation: "CLASSIFIED: KV-2 \"DRUNKEN MONSTER\"",
+            classification: "BARBAROSSA DEFENSE | 152MM HOWITZER"
+        }
+    },
+    {
+        value: "DAK (Panzer III Ausf.N)",
+        flag: "images/UI/Icons/flags/GERMANY_30.webp",
+        flagAlt: "Germany",
+        image: "images/tanks/PANZERIII_248.webp",
+        imageBase: "PANZERIII_248",
+        elevation: "-89 MIL to 533 MIL",
+        shortName: "Panzer III Ausf.N",
+        classifiedRef: {
+            ref: "REF: AK-1942/PzIII-Ausf.N",
+            designation: "CLASSIFIED: PANZER-III-AFRIKA",
+            classification: "SONNENBLUME | 75MM L/24 INFANTRY SUPPORT"
+        }
+    },
+    {
+        value: "Germany (Sturmpanzer IV Brummbär)",
+        flag: "images/UI/Icons/flags/GERMANY_30.webp",
+        flagAlt: "Germany",
+        image: "images/tanks/BRUMMBAR_248.webp",
+        imageBase: "BRUMMBAR_248",
+        elevation: "-89 MIL to 533 MIL",
+        shortName: "Sturmpanzer IV",
+        classifiedRef: {
+            ref: "REF: WH-1943/StuPz-IV-150",
+            designation: "CLASSIFIED: BRUMMBÄR",
+            classification: "ZITADELLE | URBAN ASSAULT GUN"
+        }
+    }
+];
+
+// Helper function to handle tank selection (used by both full and lite dropdowns)
+function handleTankSelection(value, selectSelected, selectItems, factionInput, isLite) {
+    const tank = tankData.find(t => t.value === value);
+
+    if (!tank) return false;
+
+    // Update hidden input
+    factionInput.value = tank.value;
+
+    // Update selected display
+    selectSelected.innerHTML = `
+        <img src="${tank.flag}" alt="${tank.flagAlt}" class="flag-icon" loading="eager" decoding="async">
+        <span class="text-ellipsis flex-1 min-w-0">${tank.shortName}</span>
+    `;
+
+    // Hide dropdown
+    selectItems.classList.add('select-hide');
+    selectSelected.classList.remove('select-arrow-active');
+
+    // Lite mode specific: update aria-expanded
+    if (isLite) {
+        selectSelected.setAttribute('aria-expanded', 'false');
+    } else {
+        // Full mode specific: update related UI elements
+        updateFactionImage();
+        updateMilRangeText();
+    }
+
+    // Calculate appropriate default distance based on tank's max range
+    const table = tables[tank.value];
+    let defaultDistance = 400;
+    if (table) {
+        const distances = Object.keys(table)
+            .filter(k => !isNaN(parseInt(k)))
+            .map(k => parseInt(k))
+            .sort((a, b) => a - b);
+        const maxRange = distances[distances.length - 1] || 600;
+        // Use 200m for tanks with max range <= 250m (AVRE), otherwise 400m
+        defaultDistance = maxRange <= 250 ? 200 : 400;
+    }
+
+    // Update all distance inputs to the default value for this tank
+    const distanceInputs = document.querySelectorAll('input#distance');
+    distanceInputs.forEach(input => {
+        input.value = String(defaultDistance);
+        const event = new Event('input', { bubbles: true });
+        input.dispatchEvent(event);
+    });
+
+    // Save state and recalculate
+    saveState();
+    if (isAutoCalcEnabled()) {
+        calculate();
+    }
+
+    return true;
+}
+
+function generateTankDropdown() {
+    const selectSelected = document.getElementById('selectSelected');
+    const selectItems = document.getElementById('selectItems');
+    const factionInput = document.getElementById('faction');
+
+    
+    if (!selectSelected || !selectItems || !factionInput) return;
+    
+    // Get current faction or default to first tank
+    const currentFaction = factionInput.value || tankData[0].value;
+    const currentTank = tankData.find(t => t.value === currentFaction) || tankData[0];
+    
+    // Generate selected item HTML
+    selectSelected.innerHTML = `
+        <img src="${currentTank.flag}" alt="${currentTank.flagAlt}" class="flag-icon" loading="eager" decoding="async">
+        <span class="text-ellipsis flex-1 min-w-0">${currentTank.shortName}</span>
+    `;
+    
+    // Generate dropdown items HTML
+    selectItems.innerHTML = tankData.map(tank => `
+        <div data-value="${tank.value}">
+            <img src="${tank.flag}" alt="${tank.flagAlt}" class="flag-icon" loading="lazy" decoding="async">
+            ${tank.shortName}
+        </div>
+    `).join('');
+    
+    // Re-attach click handlers to new dropdown items
+    const items = selectItems.querySelectorAll('div[data-value]');
+    items.forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const value = this.getAttribute('data-value');
+            handleTankSelection(value, selectSelected, selectItems, factionInput, false);
+        });
+    });
+}
+
+function getTankByValue(value) {
+    return tankData.find(t => t.value === value) || tankData[0];
+}
+
+// Switch between full and lite view modes
+function switchViewMode(mode) {
+    document.body.setAttribute('data-mode', mode);
+    
+    // Save preference to localStorage
+    try {
+        localStorage.setItem('hll-calculator-mode', mode);
+    } catch (e) {
+        // Ignore localStorage errors
+    }
+    
+    // Regenerate dropdowns for the new mode
+    if (mode === 'lite') {
+        generateLiteTankDropdown();
+        // Sync lite toggles with full mode state when switching to lite
+        syncFullTogglesToLite();
+    } else {
+        generateTankDropdown();
+        // Ensure calculate button is visible/hidden correctly when returning to full mode
+        updateCalculateButton();
+    }
+
+    // Recalculate if auto-calc is enabled
+    if (isAutoCalcEnabled()) {
+        calculate();
+    }
+}
+
+// Generate lite mode dropdown
+function generateLiteTankDropdown() {
+    const selectSelected = document.getElementById('selectSelectedLite');
+    const selectItems = document.getElementById('selectItemsLite');
+    const factionInput = document.getElementById('faction');
+    
+    if (!selectSelected || !selectItems || !factionInput) return;
+    
+    // Get current faction or default to first tank
+    const currentFaction = factionInput.value || tankData[0].value;
+    const currentTank = tankData.find(t => t.value === currentFaction) || tankData[0];
+    
+    // Generate selected item HTML
+    selectSelected.innerHTML = `
+        <img src="${currentTank.flag}" alt="${currentTank.flagAlt}" class="flag-icon" loading="eager" decoding="async">
+        <span class="text-ellipsis flex-1 min-w-0">${currentTank.shortName}</span>
+    `;
+    
+    // Generate dropdown items HTML
+    selectItems.innerHTML = tankData.map(tank => `
+        <div data-value="${tank.value}">
+            <img src="${tank.flag}" alt="${tank.flagAlt}" class="flag-icon" loading="lazy" decoding="async">
+            ${tank.shortName}
+        </div>
+    `).join('');
+    
+    // Re-attach click handlers to new dropdown items
+    const items = selectItems.querySelectorAll('div[data-value]');
+    items.forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const value = this.getAttribute('data-value');
+            handleTankSelection(value, selectSelected, selectItems, factionInput, true);
+        });
+    });
+    
+    // Only attach selectSelected click handler once
+    if (!selectSelected.dataset.liteHandlerAttached) {
+        selectSelected.dataset.liteHandlerAttached = 'true';
+        
+        // Toggle dropdown on click
+        selectSelected.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const isExpanded = selectSelected.getAttribute('aria-expanded') === 'true';
+            selectSelected.setAttribute('aria-expanded', !isExpanded);
+            selectSelected.classList.toggle('select-arrow-active');
+            selectItems.classList.toggle('select-hide');
+        });
+    }
+    
+    // Only attach document click handler once
+    if (!document.body.dataset.liteDropdownCloseAttached) {
+        document.body.dataset.liteDropdownCloseAttached = 'true';
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const liteDropdown = document.querySelector('.mode-lite-only .custom-select');
+            if (liteDropdown && !liteDropdown.contains(e.target)) {
+                const liteSelectItems = document.getElementById('selectItemsLite');
+                const liteSelectSelected = document.getElementById('selectSelectedLite');
+                if (liteSelectItems) liteSelectItems.classList.add('select-hide');
+                if (liteSelectSelected) {
+                    liteSelectSelected.classList.remove('select-arrow-active');
+                    liteSelectSelected.setAttribute('aria-expanded', 'false');
+                }
+            }
+        });
+    }
+}
 
 let muzzleHeightByFaction = {};
 const DEFAULT_MUZZLE_HEIGHTS_M = {
@@ -71,11 +366,11 @@ const tankInfo = {
         stats: {
             elevation: '-89 MIL to 533 MIL',
             hullGun: 'M1919 .30 cal - 200 rounds × 6 magazines',
-            mainGun: '105mm HOWIZER - 50 HE rounds, 35 SMOKE rounds, 20 AP rounds',
+            mainGun: '105mm HOWIZER - 50 HE rounds, 35 SMOKE rounds, 20 HEAT rounds',
             turretRotation: '360°',
             coaxial: 'M1919 .30 cal - 200 rounds × 6 magazines',
             topSpeed: '24 km/h',
-            yawRate: '4°/s',
+            yawRate: '7°/s',
             pitchRate: '1°/s',
             pitchAngleMin: '-5°',
             pitchAngleMax: '30°',
@@ -93,10 +388,10 @@ const tankInfo = {
             heDamage: '590',
             heDirectArmor: 'Low',
             heExplosionArmor: 'Low',
-            heDamageRadius: '31m',
+            heDamageRadius: '28m',
             munitionsCost: '280'
         },
- history: 'The M4 Sherman tank variant equipped with the 105mm howitzer (typically the M4 or M4A3 chassis) was developed to provide powerful close infantry support. It saw extensive use in both the European and Pacific Theaters. The 105mm howitzer was highly effective against fortifications, infantry positions, and used primarily for demolition and smoke delivery, making it valuable for breakthrough operations.',
+        history: 'The M4 Sherman tank variant equipped with the 105mm howitzer (typically the M4 or M4A3 chassis) was developed to provide powerful close infantry support. It saw extensive use in both the European and Pacific Theaters. The 105mm howitzer was highly effective against fortifications, infantry positions, and used primarily for demolition and smoke delivery, making it valuable for breakthrough operations.',
         realLife: {
             range: '11,500 yards (~10,500m) for indirect fire with M67 HE projectile; 1,500 yards (~1,400m) effective direct fire.',
             production: 'A total of 4,680 105mm Howitzer Shermans (across M4 and M4A3 chassis) were produced between February 1943 and March 1945, primarily by Detroit Arsenal and Chrysler at the Grand Blanc Arsenal.',
@@ -118,11 +413,11 @@ const tankInfo = {
         stats: {
             elevation: '-89 MIL to 533 MIL',
             hullGun: 'DT .30 cal - 200 rounds × 6 magazines',
-            mainGun: '152MM M-10T - 50 HE rounds, 35 SMOKE rounds, 20 AP rounds',
+            mainGun: '152MM M-10T - 50 HE rounds, 35 SMOKE rounds, 20 HEAT rounds',
             turretRotation: '360°',
             coaxial: 'NO COAXIAL',
             topSpeed: '23 km/h',
-            yawRate: '4°/s',
+            yawRate: '6°/s',
             pitchRate: '1°/s',
             pitchAngleMin: '-5°',
             pitchAngleMax: '30°',
@@ -131,7 +426,7 @@ const tankInfo = {
             mobilityHealth: '700',
             engineBlockHealth: '420',
             gearSwitchTime: '1.1s',
-            reloadSpeed: '10s',
+            reloadSpeed: '12s',
             maxClipsAP: '20',
             maxClipsHE: '50',
             maxClipsSmoke: '45',
@@ -140,10 +435,10 @@ const tankInfo = {
             heDamage: '590',
             heDirectArmor: 'Low',
             heExplosionArmor: 'Low',
-            heDamageRadius: '31m',
+            heDamageRadius: '32m',
             munitionsCost: '280'
         },
-        history: 'The KV-2 was a Soviet heavy tank armed with the massive 152mm M-10 howitzer (specifically the M-10T). It was designed as an assault tank to destroy fortifications and bunkers. It saw action during the Winter War against Finland (though production models were post-war) and was famously used in the early stages of Operation Barbarossa, where its heavy armor proved almost impervious to early German anti-tank guns. Despite its powerful armament, its slow speed, long reload time, and mechanical issues made it highly problematic.',
+        history: 'The KV-2 was a Soviet heavy tank armed with the massive 152mm M-10 howitzer (specifically the M-10T). It was designed as an assault tank to destroy fortifications and bunkers. It saw action during the Winter War against Finland and was famously used in the early stages of Operation Barbarossa, where its heavy armor proved almost impervious to early German anti-tank guns. Despite its powerful armament, its slow speed, long reload time, and mechanical issues made it highly problematic.',
         realLife: {
             range: '12,400 meters (maximum indirect fire range with the M-10 howitzer); effective direct fire range for tank combat was less than 1,000 meters.',
             production: 'Produced from 1940-1941 (not 1939), with approximately 334 units built at the Kirov Plant (LKZ) in Leningrad.',
@@ -164,11 +459,11 @@ const tankInfo = {
         stats: {
             elevation: '-89 MIL to 356 MIL',
             hullGun: '7.92 BESA - 200 rounds × 6 magazines',
-            mainGun: '230MM PETARD - 50 HE rounds, 35 SMOKE rounds, 20 AP rounds',
+            mainGun: '230MM PETARD "FLYING DUSTBIN" - 50 HE rounds, 35 SMOKE rounds, 20 HEAT rounds',
             turretRotation: '360°',
             coaxial: '7.92 BESA - 200 rounds × 6 magazines',
             topSpeed: '20 km/h',
-            yawRate: '4°/s',
+            yawRate: '7°/s',
             pitchRate: '1°/s',
             pitchAngleMin: '-5°',
             pitchAngleMax: '30°',
@@ -177,19 +472,21 @@ const tankInfo = {
             mobilityHealth: '710',
             engineBlockHealth: '430',
             gearSwitchTime: '0.8s',
-            reloadSpeed: '10s',
+            reloadSpeed: '16s',
             maxClipsAP: '20',
             maxClipsHE: '50',
             maxClipsSmoke: '45',
-            apDamage: '950',
+            apDamage: '1300',
             apDirectArmor: 'Very High',
-            heDamage: '590',
-            heDirectArmor: 'Low',
-            heExplosionArmor: 'Low',
-            heDamageRadius: '31m',
-            munitionsCost: '280'
+            heDamage: 'Extremely High',
+            heDirectArmor: 'Very High',
+            heExplosionArmor: 'High',
+            heDamageRadius: '36m',
+            munitionsCost: '360',
+            maxRange: '250m (short range mortar)',
+            specialNote: 'Direct hit applies damage directly to hull health - fatal to all vehicles'
         },
-history: 'The Churchill AVRE (Armoured Vehicle Royal Engineers) was a specialized engineering vehicle designed to destroy fortifications. It was armed with a 290mm Petard mortar, capable of firing a 40-pound "Flying Dustbin" projectile (containing 28 pounds of high explosive). These vehicles were crucial during D-Day and subsequent operations, used to breach enemy defenses and clear obstacles.',
+        history: 'The Churchill AVRE (Armoured Vehicle Royal Engineers) was a specialized engineering vehicle designed to destroy fortifications. It was armed with a 290mm Petard mortar, capable of firing a 40-pound "Flying Dustbin" projectile (containing 28 pounds of high explosive). These vehicles were crucial during D-Day and subsequent operations, used to breach enemy defenses and clear obstacles.',
         realLife: {
             range: '73 - 100 meters (effective range) or 210 meters (maximum range). The extremely short range was due to the mortar\'s design.',
             production: 'Base Churchill tanks manufactured at Vauxhall Motors in Luton, Bedfordshire, UK. Approximately 700 total conversions were performed by Royal Engineers on various Churchill marks.',
@@ -233,8 +530,9 @@ history: 'The Churchill AVRE (Armoured Vehicle Royal Engineers) was a specialize
             heDamage: '590',
             heDirectArmor: 'Low',
             heExplosionArmor: 'Low',
-            heDamageRadius: '31m',
-            munitionsCost: '280'
+            heDamageRadius: '30m',
+            munitionsCost: '280',
+            maxRange: '800m (can exceed on slopes)'
         },
         history: 'The Bishop was a British self-propelled artillery vehicle based on the Valentine tank chassis, armed with a 25-pounder field gun. It was used during World War II, primarily in North Africa. The vehicle was named after its boxy superstructure resembling a bishop\'s mitre. It had limited elevation and traverse, which severely affected its effectiveness as an artillery piece.',
         realLife: {
@@ -257,11 +555,11 @@ history: 'The Churchill AVRE (Armoured Vehicle Royal Engineers) was a specialize
         stats: {
             elevation: '-89 MIL to 533 MIL',
             hullGun: 'NO MG DRIVER',
-            mainGun: 'StuH 45 L/12 - 50 HE rounds, 35 SMOKE rounds, 20 AP rounds',
+            mainGun: 'StuH 45 L/12 - 50 HE rounds, 35 SMOKE rounds, 20 HEAT rounds',
             turretRotation: '30° total (15° left and 15° right)',
             coaxial: 'NO COAXIAL GUN',
             topSpeed: '24 km/h',
-            yawRate: '4°/s',
+            yawRate: '8°/s',
             pitchRate: '1°/s',
             pitchAngleMin: '-5°',
             pitchAngleMax: '30°',
@@ -270,7 +568,7 @@ history: 'The Churchill AVRE (Armoured Vehicle Royal Engineers) was a specialize
             mobilityHealth: '710',
             engineBlockHealth: '430',
             gearSwitchTime: '0.8s',
-            reloadSpeed: '10s',
+            reloadSpeed: '11s',
             maxClipsAP: '20',
             maxClipsHE: '50',
             maxClipsSmoke: '45',
@@ -279,10 +577,11 @@ history: 'The Churchill AVRE (Armoured Vehicle Royal Engineers) was a specialize
             heDamage: '590',
             heDirectArmor: 'Low',
             heExplosionArmor: 'Low',
-            heDamageRadius: '31m',
-            munitionsCost: '280'
+            heDamageRadius: '32m',
+            munitionsCost: '280',
+            frontalArmor: 'Very Heavy (front plate only)'
         },
-  history: 'The Sturmpanzer IV, unofficially known as the Brummbär (Grizzly Bear), was a German assault gun based on the Panzer IV chassis, armed with a 150mm StuH 43 L/12 howitzer. It was designed primarily for heavy infantry support, demolishing fortifications and buildings in urban and close-quarters combat. First deployed at the **Battle of Kursk** in mid-1943, it saw use on both the Eastern and Western Fronts.',
+        history: 'The Sturmpanzer IV, unofficially known as the Brummbär (Grizzly Bear), was a German assault gun based on the Panzer IV chassis, armed with a 150mm StuH 43 L/12 howitzer. It was designed primarily for heavy infantry support, demolishing fortifications and buildings in urban and close-quarters combat. First deployed at the **Battle of Kursk** in mid-1943, it saw use on both the Eastern and Western Fronts.',
         realLife: {
             range: '4,600 meters (maximum indirect fire range); effective direct fire range was around 1,000 meters.',
             production: 'Produced from April 1943 to March 1945, with 306 units built by Deutsche Eisenwerke.',
@@ -304,11 +603,11 @@ history: 'The Churchill AVRE (Armoured Vehicle Royal Engineers) was a specialize
         stats: {
             elevation: '-89 MIL to 533 MIL',
             hullGun: 'MG34 7.92mm - 200 rounds × 6 magazines',
-            mainGun: '7.5CM KwK 37 - 50 HE rounds, 35 SMOKE rounds, 20 AP rounds',
+            mainGun: '7.5CM KwK 37 - 50 HE rounds, 35 SMOKE rounds, 20 HEAT rounds',
             turretRotation: '360°',
             coaxial: 'MG34 7.92mm - 200 rounds × 6 magazines',
             topSpeed: '24 km/h',
-            yawRate: '4°/s',
+            yawRate: '9°/s',
             pitchRate: '1°/s',
             pitchAngleMin: '-5°',
             pitchAngleMax: '30°',
@@ -317,27 +616,26 @@ history: 'The Churchill AVRE (Armoured Vehicle Royal Engineers) was a specialize
             mobilityHealth: '710',
             engineBlockHealth: '430',
             gearSwitchTime: '0.8s',
-            reloadSpeed: '10s',
+            reloadSpeed: '7s',
             maxClipsAP: '20',
             maxClipsHE: '50',
             maxClipsSmoke: '45',
-            apDamage: '950',
-            apDirectArmor: 'Very High',
+            apDamage: '610',
+            apDirectArmor: 'Medium',
             heDamage: '590',
             heDirectArmor: 'Low',
             heExplosionArmor: 'Low',
-            heDamageRadius: '31m',
+            heDamageRadius: '24m',
             munitionsCost: '280'
         },
-history: 'The Panzer III Ausf. N was a German medium tank variant armed with the short-barreled 7.5 cm KwK 37 L/24 gun. It was designed specifically for close infantry support with high-explosive (HE) rounds, as the chassis was no longer competitive in anti-tank roles. It saw service primarily on the Eastern Front, but also with the Afrika Korps and in Italy.',
+        history: 'The Panzer III Ausf. N was a German medium tank variant armed with the short-barreled 7.5 cm KwK 37 L/24 gun. It was designed specifically for close infantry support with high-explosive (HE) rounds, as the chassis was no longer competitive in anti-tank roles. It saw service primarily on the Eastern Front, but also with the Afrika Korps and in Italy.',
         realLife: {
             range: '5,400 meters (maximum indirect fire range); effective direct fire range was around 600-1,000 meters.',
             production: 'A total of 700 Ausf. N tanks were produced between August 1942 and August 1943. Most were conversions of older Panzer III chassis (Ausf. J, L, and M) and the tank turret was fitted with the gun previously mounted on the early Panzer IV.',
             service: 'Used by the Wehrmacht on the Eastern Front, North Africa (Tunisia campaign), and Italy (1942-1944). It often served in independent tank battalions for infantry support.',
             strengths: [
                 'The large-caliber, low-velocity 75mm HE shell was highly effective against infantry, unarmored targets, and field fortifications.',
-                'The chassis provided good mobility and reliability.',
-                'It was a highly cost-effective way to utilize older Panzer III chassis for a dedicated support role.'
+                'The chassis provided good mobility and reliability.'
             ],
             weaknesses: [
                 'Very limited anti-tank capability due to the low muzzle velocity of the L/24 gun (though it could carry HEAT rounds).',
@@ -350,6 +648,7 @@ history: 'The Panzer III Ausf. N was a German medium tank variant armed with the
 
 // Helper function to interpolate values
 function interpolate(table, meters) {
+    // Filter out minMil and maxMil properties, only use distance keys
 // Filter out minMil and maxMil properties, only use distance keys
     const distances = Object.keys(table)
         .filter(k => k !== 'minMil' && k !== 'maxMil')
@@ -400,10 +699,20 @@ function updateMilRangeText() {
     const table = tables[faction];
     const info = tankInfo[faction];
     const milRangeText = document.getElementById('milRangeText');
+    const tank = getTankByValue(faction);
 
     if (table && info && info.stats) {
         const stats = info.stats;
         const elevation = `${table.minMil} MIL to ${table.maxMil} MIL`;
+
+// Get range min/max from table keys
+        const distances = Object.keys(table)
+            .filter(k => !isNaN(parseInt(k)))
+            .map(k => parseInt(k))
+            .sort((a, b) => a - b);
+        const rangeMin = distances[0] || 0;
+        const rangeMax = distances[distances.length - 1] || 0;
+        const rangeDisplay = `${rangeMin}m - ${rangeMax}m`;
 
 // Format main gun - extract only ammo (remove gun name)
         let mainGunText = stats.mainGun;
@@ -480,11 +789,24 @@ function updateMilRangeText() {
         const coaxCrossed = coaxialGunText === 'NO MG' ? 'text-decoration: line-through; opacity: 0.6;' : '';
         const hullCrossed = hullGunText === 'NO MG' ? 'text-decoration: line-through; opacity: 0.6;' : '';
 
+        const isMobile = window.innerWidth <= 768;
+        const compactImageHtml = isMobile ? `
+            <div class="faction-image-compact" id="compactImageContainer">
+                <picture>
+                    <source srcset="${tank.image}" type="image/webp">
+                    <img id="factionImageCompact" src="${tank.image}" alt="Selected tank" class="max-w-full max-h-full object-contain">
+                </picture>
+            </div>
+        ` : '';
+
+        // Get reference to tank info button before clearing innerHTML
+        const tankInfoBtn = document.getElementById('tankInfoIcon');
+
         milRangeText.innerHTML = `
             <div class="spec-item">
                 <span class="spec-bullet">▸</span>
-                <span class="spec-label">Main Gun:</span>
-                <span class="spec-value">${mainGunDisplay}</span>
+                <span class="spec-label">Range:</span>
+                <span class="spec-value">${rangeDisplay}</span>
             </div>
             <div class="spec-item">
                 <span class="spec-bullet">▸</span>
@@ -511,7 +833,13 @@ function updateMilRangeText() {
                 <span class="spec-label">Top Speed:</span>
                 <span class="spec-value">${stats.topSpeed}</span>
             </div>
+            ${compactImageHtml}
         `;
+        // Append tank info button back after innerHTML clears it
+        if (isMobile && tankInfoBtn && !milRangeText.contains(tankInfoBtn)) {
+            tankInfoBtn.classList.remove('hidden');
+            milRangeText.appendChild(tankInfoBtn);
+        }
     } else if (table) {
         milRangeText.innerHTML = `
             <div class="spec-item">
@@ -520,63 +848,29 @@ function updateMilRangeText() {
                 <span class="spec-value">${table.minMil} MIL to ${table.maxMil} MIL</span>
             </div>
         `;
+        // Append tank info button back after innerHTML clears it
+        if (isMobile && tankInfoBtn && !milRangeText.contains(tankInfoBtn)) {
+            tankInfoBtn.classList.remove('hidden');
+            milRangeText.appendChild(tankInfoBtn);
+        }
     }
 }
 
 // Update faction image
 function updateFactionImage() {
     const faction = document.getElementById('faction').value;
-    const factionMap = {
-        'British (Bishop SP)': 'BISHOP_248',
-        'British (Churchill AVRE)': 'AVRE_248',
-        'US (Sherman M4A3 105)': 'M4A3_248',
-        'Soviet Union (KV-2)': 'KV2_248',
-        'DAK (Panzer III Ausf.N)': 'PANZERIII_248',
-        'Germany (Sturmpanzer IV Brummbär)': 'BRUMMBAR_248'
-    };
-
-    const classifiedTextMap = {
-        'British (Bishop SP)': {
-            ref: 'REF: ORD-1942/SPA-007',
-            designation: 'CLASSIFIED: VALENTINE-BISHOP',
-            classification: 'OPERATION TORCH | 25-PDR SPA'
-        },
-        'British (Churchill AVRE)': {
-            ref: 'REF: WO-1943/AVRE-001',
-            designation: 'CLASSIFIED: CHURCHILL-290MM',
-            classification: 'OVERLORD PREP | BREACHING VEHICLE'
-        },
-        'US (Sherman M4A3 105)': {
-            ref: 'REF: OCM-1944/M4A3-105',
-            designation: 'CLASSIFIED: SHERMAN-105MM',
-            classification: 'OPERATION COBRA | CLOSE SUPPORT'
-        },
-        'Soviet Union (KV-2)': {
-            ref: 'REF: STAVKA-1941/KV-2-152',
-            designation: 'CLASSIFIED: KV-2 "DRUNKEN MONSTER"',
-            classification: 'BARBAROSSA DEFENSE | 152MM HOWITZER'
-        },
-        'DAK (Panzer III Ausf.N)': {
-            ref: 'REF: AK-1942/PzIII-Ausf.N',
-            designation: 'CLASSIFIED: PANZER-III-AFRIKA',
-            classification: 'SONNENBLUME | 75MM L/24 INFANTRY SUPPORT'
-        },
-        'Germany (Sturmpanzer IV Brummbär)': {
-            ref: 'REF: WH-1943/StuPz-IV-150',
-            designation: 'CLASSIFIED: BRUMMBÄR',
-            classification: 'ZITADELLE | URBAN ASSAULT GUN'
-        }
-    };
-
-    const baseName = factionMap[faction] || 'BISHOP_248';
+    const tank = getTankByValue(faction);
+    
     const img = document.getElementById('factionImage');
     const picture = img ? img.closest('picture') : null;
+    const imgCompact = document.getElementById('factionImageCompact');
+    const pictureCompact = imgCompact ? imgCompact.closest('picture') : null;
 
     if (img && picture) {
-        const webpSrc = `images/tanks/${baseName}.webp`;
-        const pngSrc = `images/tanks/${baseName}.png`;
+        const webpSrc = tank.image;
         const currentSrc = img.src;
-        if (currentSrc && (currentSrc.includes(baseName) || currentSrc.endsWith(`${baseName}.png`))) {
+        
+        if (currentSrc && (currentSrc.includes(tank.imageBase) || currentSrc.endsWith(`${tank.imageBase}.png`))) {
             img.style.opacity = '1';
         } else {
             const source = picture.querySelector('source');
@@ -592,9 +886,9 @@ function updateFactionImage() {
 
             const switchImage = function(useWebP = true) {
                 if (source) {
-                    source.srcset = useWebP ? webpSrc : pngSrc;
+                    source.srcset = webpSrc;
                 }
-                img.src = pngSrc;
+                img.src = webpSrc;
                 if (img.hasAttribute('fetchpriority')) {
                     img.removeAttribute('fetchpriority');
                 }
@@ -612,24 +906,12 @@ function updateFactionImage() {
             };
             newImage.onerror = function() {
                 if (!imageLoaded) {
-                    const pngImage = new Image();
-                    pngImage.onload = function() {
-                        if (!imageLoaded) {
-                            imageLoaded = true;
-                            switchImage(false);
-                        }
-                    };
-                    pngImage.onerror = function() {
-                        if (!imageLoaded) {
-                            imageLoaded = true;
-                            if (source) {
-                                source.srcset = 'images/tanks/BISHOP_248.webp';
-                            }
-                            img.src = 'images/tanks/BISHOP_248.png';
-                            img.style.opacity = '1';
-                        }
-                    };
-                    pngImage.src = pngSrc;
+                    imageLoaded = true;
+                    if (source) {
+                        source.srcset = tankData[0].image;
+                    }
+                    img.src = tankData[0].image;
+                    img.style.opacity = '1';
                 }
             };
 
@@ -641,16 +923,43 @@ function updateFactionImage() {
 
             img.onerror = function() {
                 if (source) {
-                    source.srcset = 'images/tanks/BISHOP_248.webp';
+                    source.srcset = tankData[0].image;
                 }
-                this.src = 'images/tanks/BISHOP_248.png';
+                this.src = tankData[0].image;
                 this.style.opacity = '1';
             };
         }
     }
 
-// Update classified reference text
-    const classifiedText = classifiedTextMap[faction] || classifiedTextMap['British (Bishop SP)'];
+    // Also update compact image
+    if (imgCompact && pictureCompact) {
+        const webpSrc = tank.image;
+        const sourceCompact = pictureCompact.querySelector('source');
+        if (sourceCompact) {
+            sourceCompact.srcset = webpSrc;
+        }
+        imgCompact.src = webpSrc;
+        
+        // Move compact image inside milRangeText panel on mobile
+        const milRangeText = document.getElementById('milRangeText');
+        if (milRangeText && window.innerWidth <= 768) {
+            const compactContainer = imgCompact.closest('.faction-image-compact');
+            if (compactContainer && !milRangeText.contains(compactContainer)) {
+                compactContainer.classList.remove('hidden');
+                milRangeText.appendChild(compactContainer);
+            }
+            
+            // Also move tank info button inside panel on mobile
+            const tankInfoBtn = document.getElementById('tankInfoIcon');
+            if (tankInfoBtn && !milRangeText.contains(tankInfoBtn)) {
+                tankInfoBtn.classList.remove('hidden');
+                milRangeText.appendChild(tankInfoBtn);
+            }
+        }
+    }
+
+    // Update classified reference text
+    const classifiedText = tank.classifiedRef;
     const refTextElement = document.getElementById('classifiedRefText');
     if (refTextElement) {
         refTextElement.innerHTML = `${classifiedText.ref}<br>${classifiedText.designation}<br>${classifiedText.classification}`;
@@ -667,14 +976,19 @@ function updateFactionImage() {
 
 // Adjust value function for increment/decrement buttons
 function adjustValue(fieldId, delta) {
-    const input = document.getElementById(fieldId);
+    // Find all inputs with this ID (handles duplicate IDs for lite/full modes)
+    const allInputs = document.querySelectorAll(`input[id="${fieldId}"]`);
+    if (allInputs.length === 0) return;
+    
+    // Get value from first input
+    const input = allInputs[0];
     const inputValue = input.value || '0';
     const currentValue = parseFloat(inputValue.replace('+', '')) || 0;
     let newValue = (fieldId === 'muzzleHeight')
         ? (Math.round((currentValue + delta) * 10) / 10)
         : Math.round(currentValue + delta);
 
-// Apply limits
+    // Apply limits
     if (fieldId === 'distance') {
         newValue = Math.max(0, Math.min(1000, newValue));
     } else if (fieldId === 'redNumber') {
@@ -685,13 +999,16 @@ function adjustValue(fieldId, delta) {
         newValue = Math.max(0, Math.min(50, newValue));
     }
 
-// Write raw numeric value into the field for fast manual editing
-    input.value = newValue;
+    // Update ALL inputs with this ID
+    allInputs.forEach(inp => {
+        inp.value = newValue;
+    });
 
-// Update ruler if distance field changed
+    // Update ruler if distance field changed
     if (fieldId === 'distance') {
         const snapToggle = document.getElementById('snapToggle');
 
+        // Turn off snap mode when using +/- buttons if value is not a 25m increment
 // Turn off snap mode when using +/- buttons if value is not a 25m increment
         if (snapToggle && snapToggle.checked) {
             const isMultipleOf25 = Math.abs(newValue % 25) < 0.001; // Check if value is a multiple of 25
@@ -702,8 +1019,6 @@ function adjustValue(fieldId, delta) {
                 saveState(); // Save state when snap mode is toggled off
             }
         }
-
-        updateArmoredRuler(newValue);
     }
 
 // Always save state when values change
@@ -726,8 +1041,10 @@ function adjustValue(fieldId, delta) {
 // Show "--" for height and elevation when auto calc is off
             const heightValueEl = document.getElementById('heightValue');
             const redValueEl = document.getElementById('redValue');
-            if (heightValueEl) heightValueEl.textContent = '--';
-            if (redValueEl) redValueEl.textContent = '--';
+            if (heightValueEl) { heightValueEl.textContent = '--'; heightValueEl.className = 'text-gray-300'; }
+            if (redValueEl) { redValueEl.textContent = '--'; redValueEl.className = 'text-gray-300'; }
+            const redValueUnitEl = document.getElementById('redValueUnit');
+            if (redValueUnitEl) { redValueUnitEl.className = 'text-gray-300'; }
 // Update MIL labels after values are set to "--"
             updateMilLabels();
         }
@@ -1876,10 +2193,28 @@ function isAutoCalcEnabled() {
     return toggle ? toggle.checked : true; // Default to auto
 }
 
+// Helper to set value on all inputs in a NodeList (used by faction change and reset handlers)
+function setAllValues(inputs, value) {
+    inputs.forEach(input => { 
+        input.value = value;
+        // Trigger input event to ensure any listeners update
+        const event = new Event('input', { bubbles: true });
+        input.dispatchEvent(event);
+    });
+}
+
 // Function to update display values from input fields ONLY when not calculated
 // This should NOT overwrite calculated values from calculate() function
 function updateDisplayValues() {
-    const heightInput = document.getElementById('heightDiff');
+    // Find the visible heightDiff input (there are duplicates in lite/full modes)
+    const allHeightInputs = document.querySelectorAll('input#heightDiff');
+    let heightInput = null;
+    for (const input of allHeightInputs) {
+        if (input.offsetParent !== null) {
+            heightInput = input;
+            break;
+        }
+    }
     const muzzleHeightInput = document.getElementById('muzzleHeight');
     const redInput = document.getElementById('redNumber');
     const distanceInput = document.getElementById('distance');
@@ -1915,7 +2250,7 @@ function updateDisplayValues() {
 
             const hText = (enteredHeight >= 0 ? '+' : '') + enteredHeight + 'm';
             heightEl.textContent = hText;
-            heightEl.className = enteredHeight >= 0 ? 'text-green-400' : 'text-red-400';
+            heightEl.className = enteredHeight > 0 ? 'text-green-400' : (enteredHeight < 0 ? 'text-red-400' : 'text-gray-300');
             if (heightSymbolEl) {
                 heightSymbolEl.textContent = (enteredHeight >= 0) ? '▲' : '▼';
                 heightSymbolEl.className = 'text-gray-300';
@@ -1930,7 +2265,7 @@ function updateDisplayValues() {
             const displayRVal = hudQuantizeMil(rVal);
             const rText = (displayRVal >= 1 ? '+' : '') + displayRVal;
             redEl.textContent = rText;
-            const colorClass = displayRVal >= 0 ? 'text-green-400' : 'text-red-400';
+            const colorClass = displayRVal > 0 ? 'text-green-400' : (displayRVal < 0 ? 'text-red-400' : 'text-gray-300');
             redEl.className = colorClass;
             const redUnitEl = document.getElementById('redValueUnit');
             if (redUnitEl) {
@@ -1940,28 +2275,49 @@ function updateDisplayValues() {
     }
 }
 
-// Update calculate button visibility based on mode
 function updateCalculateButton() {
     const button = document.getElementById('calculateButton');
     const metalPanel = document.getElementById('metalPanel');
     const isAuto = isAutoCalcEnabled();
+
     if (button && metalPanel) {
         if (isAuto) {
-// Ensure button is visible to get its height
-            if (button.style.display === 'none') {
+            // Temporarily make button visible for measurement if hidden
+            const wasHidden = button.offsetHeight === 0;
+            let originalVisibility = button.style.visibility;
+            let originalPosition = button.style.position;
+
+            if (wasHidden) {
+                button.style.visibility = 'hidden';
+                button.style.position = 'absolute';
                 button.style.display = '';
             }
-// Get button height before hiding it
-            const buttonHeight = button.offsetHeight;
-// Hide button, show metal panel
+
+            // Get button height before hiding it
+            let buttonHeight = button.offsetHeight;
+
+            // Restore styles if we changed them
+            if (wasHidden) {
+                button.style.visibility = originalVisibility;
+                button.style.position = originalPosition;
+            }
+
+            // Fallback to CSS-defined height if still 0
+            if (buttonHeight === 0) {
+                buttonHeight = 54; // Default height from CSS
+            }
+
+            // Hide button, show metal panel
             button.style.display = 'none';
+            metalPanel.classList.remove('hidden');
             metalPanel.style.display = 'block';
-// Match metal panel height to button height exactly
+            // Match metal panel height to button height exactly
             metalPanel.style.height = buttonHeight + 'px';
             button.disabled = true;
         } else {
-// Show button, hide metal panel
+            // Show button, hide metal panel
             button.style.display = '';
+            metalPanel.classList.add('hidden');
             metalPanel.style.display = 'none';
             button.disabled = false;
         }
@@ -1987,382 +2343,6 @@ function updateMilLabels() {
     if (baseValueEl && baseMilLabelEl) {
         baseMilLabelEl.style.display = (baseValueEl.textContent.trim() === '--') ? 'none' : '';
     }
-    if (redValueEl && redValueUnitEl) {
-        redValueUnitEl.style.display = (redValueEl.textContent.trim() === '--') ? 'none' : '';
-    }
-}
-
-// Sync ruler with input field
-function syncSliderWithInput() {
-    const distanceInput = document.getElementById('distance');
-    const armoredRuler = document.getElementById('armoredRuler');
-
-    distanceInput.addEventListener('input', function() {
-        const snapToggle = document.getElementById('snapToggle');
-        const inputValue = parseFloat(this.value) || 400;
-
-// Turn off snap mode if value is not a 25m increment
-        if (snapToggle && snapToggle.checked) {
-            const isMultipleOf25 = Math.abs(inputValue % 25) < 0.001; // Check if value is a multiple of 25
-            if (!isMultipleOf25) {
-                snapToggle.checked = false;
-                syncArmoredToggles();
-                updateToggleLEDs();
-                saveState(); // Save state when snap mode is toggled off
-            }
-        }
-
-        updateArmoredRuler(inputValue);
-        if (isAutoCalcEnabled()) {
-            calculate();
-        } else {
-// When auto calc is off, reset base value to "--" and final value to 0000
-            const baseValueEl = document.getElementById('baseValue');
-            if (baseValueEl) {
-                baseValueEl.textContent = '--';
-            }
-            rollElevationToNumber(0);
-// Show "--" for height and elevation when auto calc is off
-            const heightValueEl = document.getElementById('heightValue');
-            const redValueEl = document.getElementById('redValue');
-            if (heightValueEl) heightValueEl.textContent = '--';
-            if (redValueEl) redValueEl.textContent = '--';
-// Update MIL labels after values are set to "--"
-            updateMilLabels();
-        }
-        saveState();
-    });
-
-// Make ruler draggable with pixel-perfect snapping
-    if (armoredRuler) {
-        let isDragging = false;
-
-// Helper function to calculate value from mouse position
-        function calculateValueFromMouse(e, rulerElement) {
-            const containerRect = rulerElement.getBoundingClientRect();
-            let relativeX = e.clientX - containerRect.left;
-// Account for padding so clicks map to the same grid as marks
-            const style = getComputedStyle(rulerElement);
-            const padLeft = parseFloat(style.paddingLeft) || 0;
-            const padRight = parseFloat(style.paddingRight) || 0;
-            const usableWidth = Math.max(1, (rulerElement.clientWidth || containerRect.width) - padLeft - padRight);
-
-// Clamp to padded area
-            relativeX = Math.max(padLeft, Math.min(relativeX, padLeft + usableWidth));
-
-            const min = 200;
-            const max = 600;
-            const range = max - min;
-
-// Align click math with rendering math (usable width)
-            const ratio = Math.max(0, Math.min(1, (relativeX - padLeft) / usableWidth));
-
-            let newValue = min + ratio * range;
-
-// Apply snap if enabled - snap to nearest 25m mark
-            const snapToggle = document.getElementById('snapToggle');
-            if (snapToggle && snapToggle.checked) {
-// Snap to nearest 25m increment
-                newValue = Math.round(newValue / 25) * 25;
-            } else {
-// Round to nearest integer when not snapping
-                newValue = Math.round(newValue);
-            }
-
-            return Math.max(min, Math.min(max, newValue));
-        }
-
-// Helper function to update indicator position only (lightweight for dragging)
-        function updateIndicatorOnly(newValue) {
-            const indicator = document.getElementById('armoredRulerIndicator');
-            if (!indicator || !armoredRuler) return;
-
-            const min = 200;
-            const max = 600;
-            const range = max - min;
-            const clampedValue = Math.max(min, Math.min(max, newValue));
-
-            const style = getComputedStyle(armoredRuler);
-            const padLeft = parseFloat(style.paddingLeft) || 0;
-            const padRight = parseFloat(style.paddingRight) || 0;
-            const rulerWidth = armoredRuler.clientWidth || armoredRuler.getBoundingClientRect().width;
-            const usableWidth = Math.max(1, rulerWidth - padLeft - padRight);
-
-            const ratio = (clampedValue - min) / range;
-            const pixelPosition = Math.round(ratio * usableWidth) + padLeft;
-            indicator.style.left = pixelPosition + 'px';
-        }
-
-// Helper function to update value (full update with calculations)
-        function updateValue(newValue, skipExpensive = false) {
-            distanceInput.value = newValue;
-
-            if (skipExpensive) {
-// During dragging, only update indicator position
-                updateIndicatorOnly(newValue);
-// Trigger calculation if auto mode is enabled, even during drag
-                if (isAutoCalcEnabled()) {
-                    calculate();
-                } else {
-// When auto calc is off, reset base value to "--" and final value to 0000
-                    const baseValueEl = document.getElementById('baseValue');
-                    if (baseValueEl) {
-                        baseValueEl.textContent = '--';
-                    }
-                    rollElevationToNumber(0);
-// Show "--" for height and elevation when auto calc is off
-                    const heightValueEl = document.getElementById('heightValue');
-                    const redValueEl = document.getElementById('redValue');
-                    if (heightValueEl) heightValueEl.textContent = '--';
-                    if (redValueEl) redValueEl.textContent = '--';
-// Update MIL labels after values are set to "--"
-                    updateMilLabels();
-                }
-            } else {
-// Full update when not dragging
-                updateArmoredRuler(newValue);
-
-                if (isAutoCalcEnabled()) {
-                    calculate();
-                } else {
-// When auto calc is off, reset base value to "--" and final value to 0000
-                    const baseValueEl = document.getElementById('baseValue');
-                    if (baseValueEl) {
-                        baseValueEl.textContent = '--';
-                    }
-                    rollElevationToNumber(0);
-// Show "--" for height and elevation when auto calc is off
-                    const heightValueEl = document.getElementById('heightValue');
-                    const redValueEl = document.getElementById('redValue');
-                    if (heightValueEl) heightValueEl.textContent = '--';
-                    if (redValueEl) redValueEl.textContent = '--';
-// Update MIL labels after values are set to "--"
-                    updateMilLabels();
-                }
-                saveState();
-            }
-        }
-
-// Throttle using requestAnimationFrame
-        let rafId = null;
-        let pendingValue = null;
-
-        function scheduleUpdate(newValue, skipExpensive) {
-            pendingValue = { value: newValue, skipExpensive: skipExpensive };
-            if (rafId === null) {
-                rafId = requestAnimationFrame(() => {
-                    if (pendingValue) {
-                        updateValue(pendingValue.value, pendingValue.skipExpensive);
-                        pendingValue = null;
-                    }
-                    rafId = null;
-                });
-            }
-        }
-
-// Helper to get coordinates from mouse or touch event
-        function getEventCoordinates(e) {
-            if (e.touches && e.touches.length > 0) {
-                return { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY };
-            }
-            return { clientX: e.clientX, clientY: e.clientY };
-        }
-
-// Mouse down - start dragging
-        armoredRuler.addEventListener('mousedown', function(e) {
-            isDragging = true;
-            e.preventDefault(); // Prevent text selection
-
-            const newValue = calculateValueFromMouse(e, this);
-            updateValue(newValue, false); // Full update on initial click
-        });
-
-// Touch start - start dragging
-        armoredRuler.addEventListener('touchstart', function(e) {
-            isDragging = true;
-            e.preventDefault(); // Prevent scrolling
-
-            const coords = getEventCoordinates(e);
-            const touchEvent = { clientX: coords.clientX };
-            const newValue = calculateValueFromMouse(touchEvent, this);
-            updateValue(newValue, false); // Full update on initial touch
-        }, { passive: false });
-
-// Mouse move - update while dragging (throttled)
-        document.addEventListener('mousemove', function(e) {
-            if (isDragging && armoredRuler) {
-                e.preventDefault();
-                const newValue = calculateValueFromMouse(e, armoredRuler);
-                scheduleUpdate(newValue, true); // Lightweight update during drag
-            }
-        });
-
-// Touch move - update while dragging (throttled)
-        document.addEventListener('touchmove', function(e) {
-            if (isDragging && armoredRuler) {
-                e.preventDefault();
-                const coords = getEventCoordinates(e);
-                const touchEvent = { clientX: coords.clientX };
-                const newValue = calculateValueFromMouse(touchEvent, armoredRuler);
-                scheduleUpdate(newValue, true); // Lightweight update during drag
-            }
-        }, { passive: false });
-
-// Mouse up - stop dragging and do full update
-        document.addEventListener('mouseup', function() {
-            if (isDragging) {
-                isDragging = false;
-// Cancel any pending RAF updates
-                if (rafId !== null) {
-                    cancelAnimationFrame(rafId);
-                    rafId = null;
-                }
-// Do final full update with calculations
-                if (pendingValue) {
-                    updateValue(pendingValue.value, false);
-                    pendingValue = null;
-                } else {
-// Ensure final value is saved
-                    const currentValue = parseFloat(distanceInput.value);
-                    if (!isNaN(currentValue)) {
-                        updateValue(currentValue, false);
-                    }
-                }
-            }
-        });
-
-// Touch end - stop dragging and do full update
-        document.addEventListener('touchend', function() {
-            if (isDragging) {
-                isDragging = false;
-// Cancel any pending RAF updates
-                if (rafId !== null) {
-                    cancelAnimationFrame(rafId);
-                    rafId = null;
-                }
-// Do final full update with calculations
-                if (pendingValue) {
-                    updateValue(pendingValue.value, false);
-                    pendingValue = null;
-                } else {
-// Ensure final value is saved
-                    const currentValue = parseFloat(distanceInput.value);
-                    if (!isNaN(currentValue)) {
-                        updateValue(currentValue, false);
-                    }
-                }
-            }
-        });
-
-// Touch cancel - stop dragging
-        document.addEventListener('touchcancel', function() {
-            if (isDragging) {
-                isDragging = false;
-                if (rafId !== null) {
-                    cancelAnimationFrame(rafId);
-                    rafId = null;
-                }
-                pendingValue = null;
-            }
-        });
-
-// Mouse leave - stop dragging if mouse leaves the ruler
-        armoredRuler.addEventListener('mouseleave', function() {
-            if (isDragging) {
-// Keep dragging active even when mouse leaves, but stop on mouseup
-            }
-        });
-    }
-
-// Initialize ruler position
-    updateArmoredRuler(parseFloat(distanceInput.value) || 400);
-}
-
-// Update armored ruler with marks and indicator - pixel perfect
-function updateArmoredRuler(value) {
-    const ruler = document.getElementById('armoredRuler');
-    const indicator = document.getElementById('armoredRulerIndicator');
-    if (!ruler || !indicator) return;
-
-// Get padding to align marks/indicator inside the box
-    const style = getComputedStyle(ruler);
-    const padLeft = parseFloat(style.paddingLeft) || 0;
-    const padRight = parseFloat(style.paddingRight) || 0;
-
-// Get actual pixel width of ruler (content box, excluding border)
-    let rulerWidth = ruler.clientWidth;
-    if (!rulerWidth) {
-        const rulerRect = ruler.getBoundingClientRect();
-        rulerWidth = rulerRect.width;
-    }
-
-// Usable width for marks/indicator (inside padding)
-    const usableWidth = Math.max(1, rulerWidth - padLeft - padRight);
-
-// If ruler not yet rendered (width is 0), use offsetWidth or schedule retry
-    if (rulerWidth === 0) {
-        rulerWidth = ruler.offsetWidth;
-        if (rulerWidth === 0) {
-// Ruler not ready yet, retry on next frame
-            requestAnimationFrame(() => updateArmoredRuler(value));
-            return;
-        }
-    }
-
-// Clear existing marks and labels
-    const existingMarks = ruler.querySelectorAll('.armored-ruler-mark');
-    existingMarks.forEach(mark => mark.remove());
-    const existingLabels = ruler.querySelectorAll('.armored-ruler-label');
-    existingLabels.forEach(label => label.remove());
-
-// Ruler range
-    const min = 200;
-    const max = 600;
-    const range = max - min;
-
-// Clamp value to valid range
-    const clampedValue = Math.max(min, Math.min(max, value));
-
-// Create marks with pixel-perfect positioning
-// Big lines at 50m intervals, small lines at 25m intervals
-    const step = 25;
-    const steps = (max - min) / step; // 16 intervals
-    for (let idx = 0; idx <= steps; idx++) {
-        const i = min + idx * step;
-        const isMajor = (i % 50 === 0);
-
-// Calculate exact pixel position with distributed rounding
-        let pixelPosition;
-        if (idx === 0) {
-// First mark: position at 1px to cover left edge (mark is 2px wide, centered)
-            pixelPosition = 1;
-        } else if (idx === steps) {
-// Last mark: position at rulerWidth - 1px to cover right edge
-            pixelPosition = rulerWidth - 1;
-        } else {
-// Middle marks: distribute evenly within usable width
-            pixelPosition = Math.round((idx * usableWidth) / steps) + padLeft;
-        }
-
-// Create mark
-        const mark = document.createElement('div');
-        mark.className = 'armored-ruler-mark' + (isMajor ? ' major' : '');
-        mark.style.left = pixelPosition + 'px';
-        mark.style.transform = 'translate3d(-50%, 0, 0)';
-        ruler.appendChild(mark);
-
-// Create label for all marks (major and minor)
-        const label = document.createElement('div');
-        label.className = 'armored-ruler-label' + (isMajor ? '' : ' minor');
-        label.textContent = i.toString();
-        label.style.left = pixelPosition + 'px';
-        ruler.appendChild(label);
-    }
-
-// Update indicator position - pixel perfect alignment with marks
-    const ratio = (clampedValue - min) / range;
-    const pixelPosition = Math.round(ratio * usableWidth) + padLeft;
-    indicator.style.left = pixelPosition + 'px';
 }
 
 // Mechanical Counter System - from demo
@@ -2598,104 +2578,58 @@ function normalizeWarningMessage(message) {
     return normalized;
 }
 
-// Show warning with animation only if warning type changed
+// Show warning with compact icon - shows icon, message hidden by default
 function showWarning(warningDiv, message) {
     if (!warningDiv) return;
 
     const warningP = warningDiv.querySelector('p');
+    const warningIconBtn = document.getElementById('warningIcon');
+    
     if (warningP) {
         const currentMessage = message || warningP.textContent;
-        const currentWarningType = normalizeWarningMessage(currentMessage);
-
-// Check if warning type changed (not just the message values)
-        const warningTypeChanged = currentWarningType !== previousWarningType;
-        const wasHidden = warningDiv.classList.contains('hidden');
-
-// Remove hiding class if present
-        warningDiv.classList.remove('hiding');
-
-// Update the message
         warningP.textContent = currentMessage;
-
-// Only animate if warning type changed or warning was hidden
-// AND animation is not currently in progress
-        if ((warningTypeChanged || wasHidden) && !isWarningAnimating) {
-            warningDiv.classList.remove('hidden');
-// Mark animation as in progress
-            isWarningAnimating = true;
-
-// Clear any pending animation timeout
-            if (warningAnimationTimeout) {
-                clearTimeout(warningAnimationTimeout);
-            }
-
-// Reset animation to ensure it plays
-            warningDiv.style.animation = 'none';
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    warningDiv.style.animation = '';
-// Reset animation flag after animation completes (400ms)
-                    warningAnimationTimeout = setTimeout(() => {
-                        isWarningAnimating = false;
-                        warningAnimationTimeout = null;
-                    }, 400);
-                });
-            });
-            previousWarningType = currentWarningType;
-            previousWarningMessage = currentMessage;
-        } else {
-// Warning type didn't change, just update the text without animation
-            warningDiv.classList.remove('hidden');
-// Update stored message but keep the same type
-            previousWarningMessage = currentMessage;
+        
+        // Show the warning icon button
+        if (warningIconBtn) {
+            warningIconBtn.classList.remove('hidden');
         }
-    } else {
-// Fallback if no p element
-        warningDiv.classList.remove('hiding');
-        warningDiv.classList.remove('hidden');
-        previousWarningType = normalizeWarningMessage(message || '');
-        previousWarningMessage = message || '';
+        
+        // Keep warning message hidden by default (user must click icon to see it)
+        warningDiv.classList.add('hidden');
     }
 }
 
-// Hide warning with reverse animation
+// Hide warning - hides both icon and message
 function hideWarning(warningDiv) {
     if (!warningDiv) return;
+    
+    const warningIconBtn = document.getElementById('warningIcon');
+    
+    // Hide the warning message
+    warningDiv.classList.add('hidden');
+    
+    // Hide the warning icon button
+    if (warningIconBtn) {
+        warningIconBtn.classList.add('hidden');
+    }
+    
+    previousWarningType = '';
+    previousWarningMessage = '';
+}
 
-// Only animate if warning is currently visible and not already animating
-    if (!warningDiv.classList.contains('hidden') && !isWarningAnimating) {
-// Mark animation as in progress
-        isWarningAnimating = true;
+// Toggle warning message visibility when icon is clicked
+function toggleWarningMessage() {
+    const warningDiv = document.getElementById('warning');
+    if (warningDiv) {
+        warningDiv.classList.toggle('hidden');
+    }
+}
 
-// Clear any pending animation timeout
-        if (warningAnimationTimeout) {
-            clearTimeout(warningAnimationTimeout);
-        }
-
-// Add hiding class first to trigger reverse animation
-        warningDiv.classList.add('hiding');
-// Reset animation to ensure it plays
-        warningDiv.style.animation = 'none';
-        requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                warningDiv.style.animation = '';
-// After animation completes, add hidden class and remove hiding
-                setTimeout(() => {
-                    warningDiv.classList.remove('hiding');
-                    warningDiv.classList.add('hidden');
-                    previousWarningType = '';
-                    previousWarningMessage = '';
-                    isWarningAnimating = false;
-                    warningAnimationTimeout = null;
-                }, 400); // Match animation duration
-            });
-        });
-    } else {
-// Already hidden or animating, just ensure it stays hidden
-        warningDiv.classList.remove('hiding');
+// Close warning message when X is clicked
+function closeWarningMessage() {
+    const warningDiv = document.getElementById('warning');
+    if (warningDiv) {
         warningDiv.classList.add('hidden');
-        previousWarningType = '';
-        previousWarningMessage = '';
     }
 }
 
@@ -2717,9 +2651,22 @@ function calculate() {
         const distance = parseFloat(document.getElementById('distance').value);
 
 // Parse heightDiff - handle +, -, and empty values
-    const heightDiffInput = document.getElementById('heightDiff');
+// Check if height difference toggle is enabled (default OFF)
+    const heightDiffToggle = document.getElementById('heightDiffToggle');
+    const heightDiffEnabled = heightDiffToggle ? heightDiffToggle.checked : false;
+
+    // Find the visible heightDiff input (there are duplicates in lite/full modes)
+    const allHeightInputs = document.querySelectorAll('input#heightDiff');
+    let heightDiffInput = null;
+    for (const input of allHeightInputs) {
+        if (input.offsetParent !== null) { // Visible check
+            heightDiffInput = input;
+            break;
+        }
+    }
+
     let enteredHeight = 0;
-    if (heightDiffInput) {
+    if (heightDiffInput && heightDiffEnabled) {
         const v = heightDiffInput.value.trim();
         if (v === '' || v === '-' || v === '+') {
             enteredHeight = 0;
@@ -2738,7 +2685,15 @@ function calculate() {
     const heightDiff = enteredHeight;
 
 // Parse redNumber - handle +, -, and empty values
-    const redNumberInput = document.getElementById('redNumber');
+    // Find the visible redNumber input (there are duplicates in lite/full modes)
+    const allRedInputs = document.querySelectorAll('input#redNumber');
+    let redNumberInput = null;
+    for (const input of allRedInputs) {
+        if (input.offsetParent !== null) { // Visible check
+            redNumberInput = input;
+            break;
+        }
+    }
     let redNumber = 0;
     if (redNumberInput) {
         const redNumberValue = redNumberInput.value.trim();
@@ -2759,9 +2714,14 @@ function calculate() {
         }
 // Show default "0000 MIL" when validation fails
         rollElevationToNumber(0);
-        document.getElementById('baseValue').textContent = '--';
-        document.getElementById('heightValue').textContent = '--';
-        document.getElementById('redValue').textContent = '--';
+        const baseValueEl = document.getElementById('baseValue');
+        const heightValueEl = document.getElementById('heightValue');
+        const redValueEl = document.getElementById('redValue');
+        const redValueUnitEl = document.getElementById('redValueUnit');
+        if (baseValueEl) baseValueEl.textContent = '--';
+        if (heightValueEl) { heightValueEl.textContent = '--'; heightValueEl.className = 'text-gray-300'; }
+        if (redValueEl) { redValueEl.textContent = '--'; redValueEl.className = 'text-gray-300'; }
+        if (redValueUnitEl) { redValueUnitEl.className = 'text-gray-300'; }
         updateMilLabels();
         return;
     }
@@ -2773,9 +2733,14 @@ function calculate() {
         }
 // Show default "0000 MIL" when faction error
         rollElevationToNumber(0);
-        document.getElementById('baseValue').textContent = '--';
-        document.getElementById('heightValue').textContent = '--';
-        document.getElementById('redValue').textContent = '--';
+        const baseValueEl2 = document.getElementById('baseValue');
+        const heightValueEl2 = document.getElementById('heightValue');
+        const redValueEl2 = document.getElementById('redValue');
+        const redValueUnitEl2 = document.getElementById('redValueUnit');
+        if (baseValueEl2) baseValueEl2.textContent = '--';
+        if (heightValueEl2) { heightValueEl2.textContent = '--'; heightValueEl2.className = 'text-gray-300'; }
+        if (redValueEl2) { redValueEl2.textContent = '--'; redValueEl2.className = 'text-gray-300'; }
+        if (redValueUnitEl2) { redValueUnitEl2.className = 'text-gray-300'; }
         updateMilLabels();
         return;
     }
@@ -2783,9 +2748,13 @@ function calculate() {
     const maxDist = Math.max(...Object.keys(table).filter(k => k !== 'minMil' && k !== 'maxMil').map(Number));
 
     const perfectBase = computePerfectSpaBaseMil(table, distance);
-    const base = (USE_PERFECT_SPA_MECHANIC && Number.isFinite(perfectBase))
+    let base = (USE_PERFECT_SPA_MECHANIC && Number.isFinite(perfectBase))
         ? perfectBase
         : interpolate(table, distance);
+    // Ensure base is always a valid number - fallback to interpolate if still NaN
+    if (typeof base !== 'number' || isNaN(base)) {
+        base = interpolate(table, distance);
+    }
 // Calculate final elevation: base plus height difference (converted to mils) minus tank body angle
     const usePhysicsHeightCorrection = USE_PHYSICS_HEIGHT_CORRECTION && (distance > minDist) && (distance < maxDist);
     let heightDiffMils = usePhysicsHeightCorrection
@@ -2806,9 +2775,9 @@ function calculate() {
 // Keep distance warning if no MIL limit issue
         if (warningDiv) {
             if (distance > maxDist) {
-                showWarning(warningDiv, `Warning: ${distance}m is above supported range (${maxDist}m max). Elevation may be inaccurate.`);
+                showWarning(warningDiv, `Warning: ${distance}m is above supported range (${maxDist}m max).`);
             } else {
-                showWarning(warningDiv, `Warning: ${distance}m is below supported range (${minDist}m min). Elevation may be inaccurate.`);
+                showWarning(warningDiv, `Warning: ${distance}m is below supported range (${minDist}m min).`);
             }
         }
     } else if (final < minMil || final > maxMil) {
@@ -2857,11 +2826,8 @@ function calculate() {
             const baseText = String(hudQuantizeMil(base));
             baseValueEl.textContent = baseText;
             baseValueEl.innerHTML = baseText;
-        } else {
-            console.error('Base value is invalid:', base);
         }
     } else {
-        console.error('baseValue element not found!');
     }
 
     const heightEl = document.getElementById('heightValue');
@@ -2872,9 +2838,7 @@ function calculate() {
     }
     if (heightEl) {
         heightEl.textContent = displayHeightValue + 'm';
-        heightEl.className = (displayHeightValue >= 0) ? 'text-green-400' : 'text-red-400';
-    } else {
-        console.error('heightValue element not found!');
+        heightEl.className = (displayHeightValue > 0) ? 'text-green-400' : (displayHeightValue < 0 ? 'text-red-400' : 'text-gray-300');
     }
 
     const redElement = document.getElementById('redValue');
@@ -2882,13 +2846,11 @@ function calculate() {
     if (redElement) {
         const redText = (displayRedNumberHud >= 1 ? '+' : '') + displayRedNumberHud;
         redElement.textContent = redText;
-        const colorClass = displayRedNumberHud >= 0 ? 'text-green-400' : 'text-red-400';
+        const colorClass = displayRedNumberHud > 0 ? 'text-green-400' : (displayRedNumberHud < 0 ? 'text-red-400' : 'text-gray-300');
         redElement.className = colorClass;
         if (redUnitElement) {
             redUnitElement.className = colorClass;
         }
-    } else {
-        console.error('redValue element not found!');
     }
 
 // Final verification - ensure values are set and not overwritten
@@ -2955,7 +2917,6 @@ function calculate() {
 // Persist current state
     saveState();
     } catch (error) {
-        console.error('Error in calculate function:', error);
 // Show error to user
         const warningDiv = document.getElementById('warning');
         if (warningDiv) {
@@ -3097,43 +3058,47 @@ function resetCalculator(buttonElement) {
     }
 
 // Reset input fields
-    const distanceInput = document.getElementById('distance');
-    const heightDiffInput = document.getElementById('heightDiff');
-    const muzzleHeightInput = document.getElementById('muzzleHeight');
-    const redNumberInput = document.getElementById('redNumber');
+    const distanceInputs = document.querySelectorAll('input#distance');
+    const heightDiffInputs = document.querySelectorAll('input#heightDiff');
+    const muzzleHeightInputs = document.querySelectorAll('input#muzzleHeight');
+    const redNumberInputs = document.querySelectorAll('input#redNumber');
 
-    if (distanceInput) {
-        distanceInput.value = '400';
-// Update ruler directly (don't trigger input event which might interfere with snap)
-        if (typeof updateArmoredRuler === 'function') {
-            updateArmoredRuler(400);
-        }
+    // Get current faction and calculate appropriate default distance
+    const faction = document.getElementById('faction').value;
+    const table = tables[faction];
+    let defaultDistance = 400;
+    if (table) {
+        const distances = Object.keys(table)
+            .filter(k => !isNaN(parseInt(k)))
+            .map(k => parseInt(k))
+            .sort((a, b) => a - b);
+        const maxRange = distances[distances.length - 1] || 600;
+        // Use 200m for tanks with max range <= 250m (AVRE), otherwise 400m
+        defaultDistance = maxRange <= 250 ? 200 : 400;
     }
-    if (heightDiffInput) {
-        heightDiffInput.value = '0';
+
+    if (distanceInputs.length > 0) {
+        setAllValues(distanceInputs, String(defaultDistance));
     }
-    if (muzzleHeightInput) {
-        const faction = document.getElementById('faction').value;
-        muzzleHeightInput.value = String(getMuzzleHeightMForFaction(faction));
+    if (heightDiffInputs.length > 0) {
+        setAllValues(heightDiffInputs, '0');
     }
-    if (redNumberInput) {
-        redNumberInput.value = '0';
+    if (muzzleHeightInputs.length > 0) {
+        setAllValues(muzzleHeightInputs, String(getMuzzleHeightMForFaction(faction)));
+    }
+    if (redNumberInputs.length > 0) {
+        setAllValues(redNumberInputs, '0');
     }
 
 // Sync snap toggle state if snap is enabled
     const snapToggle = document.getElementById('snapToggle');
     if (snapToggle && snapToggle.checked) {
-// If snap is on, ensure it's properly synced and value is snapped
         if (typeof syncArmoredToggles === 'function') {
             syncArmoredToggles();
         }
-// Snap value to nearest 25m (400 is already on 25m boundary)
-        const snappedValue = Math.round(400 / 25) * 25;
-        if (distanceInput) {
-            distanceInput.value = snappedValue;
-            if (typeof updateArmoredRuler === 'function') {
-                updateArmoredRuler(snappedValue);
-            }
+        const snappedValue = Math.round(defaultDistance / 25) * 25;
+        if (distanceInputs.length > 0) {
+            setAllValues(distanceInputs, String(snappedValue));
         }
     }
 
@@ -3158,6 +3123,7 @@ function resetCalculator(buttonElement) {
             if (baseValueEl) baseValueEl.textContent = '0';
             if (heightValueEl) heightValueEl.textContent = '0m';
             if (redValueEl) redValueEl.textContent = '0';
+
         }
 
 // Hide warning if visible
@@ -3200,14 +3166,25 @@ function saveState() {
                 muzzleHeightByFaction[faction] = Math.max(0, Math.min(50, parsed));
             }
         }
+        // Find the visible heightDiff input to save its value
+        const allHeightInputs = document.querySelectorAll('input#heightDiff');
+        let visibleHeightInput = null;
+        for (const input of allHeightInputs) {
+            if (input.offsetParent !== null) {
+                visibleHeightInput = input;
+                break;
+            }
+        }
+
         const state = {
             faction,
             distance: document.getElementById('distance').value,
-            heightDiff: document.getElementById('heightDiff').value,
+            heightDiff: visibleHeightInput ? visibleHeightInput.value : document.getElementById('heightDiff').value,
             muzzleHeightByFaction,
             redNumber: document.getElementById('redNumber').value,
             fineTune: document.getElementById('snapToggle') ? document.getElementById('snapToggle').checked : false,
-            autoCalc: document.getElementById('autoCalcToggle') ? document.getElementById('autoCalcToggle').checked : true
+            autoCalc: document.getElementById('autoCalcToggle') ? document.getElementById('autoCalcToggle').checked : true,
+            heightDiffEnabled: document.getElementById('heightDiffToggle') ? document.getElementById('heightDiffToggle').checked : false
         };
         localStorage.setItem('hllSpaState', JSON.stringify(state));
     } catch (e) {
@@ -3257,17 +3234,17 @@ function loadState() {
         const distanceInput = document.getElementById('distance');
         if (state.distance !== undefined && state.distance !== null && state.distance !== '') {
             distanceInput.value = state.distance;
-            updateArmoredRuler(parseFloat(state.distance) || 400);
         }
 
-        const heightDiffInput = document.getElementById('heightDiff');
+        // Set all heightDiff inputs (both lite and full modes)
         if (state.heightDiff !== undefined && state.heightDiff !== null && state.heightDiff !== '') {
             const rawHeightDiff = String(state.heightDiff).trim();
             if (rawHeightDiff === '' || rawHeightDiff === '-' || rawHeightDiff === '+') {
-                heightDiffInput.value = '0';
+                setAllValues(document.querySelectorAll('input#heightDiff'), '0');
             } else {
                 const parsedHeightDiff = parseFloat(rawHeightDiff.replace(/\+/g, ''));
-                heightDiffInput.value = Number.isFinite(parsedHeightDiff) ? rawHeightDiff : '0';
+                const heightValue = Number.isFinite(parsedHeightDiff) ? rawHeightDiff : '0';
+                setAllValues(document.querySelectorAll('input#heightDiff'), heightValue);
             }
         }
 
@@ -3294,12 +3271,16 @@ function loadState() {
             updateCalcModeLabel();
         }
 
-// Update UI elements after loading state
-        if (distanceInput) {
-            updateArmoredRuler(parseFloat(distanceInput.value) || 400);
+        const heightDiffToggle = document.getElementById('heightDiffToggle');
+        if (heightDiffToggle && typeof state.heightDiffEnabled === 'boolean') {
+            heightDiffToggle.checked = state.heightDiffEnabled;
         }
+
+// Update UI elements after loading state
         updateCalculateButton();
         updateToggleLEDs();
+        updateHeightDiffToggleUI();
+        syncArmoredToggles();
     } catch (e) {
 // Ignore parse/storage errors
     }
@@ -3341,9 +3322,14 @@ function toggleArmoredSwitch(checkboxId, element) {
             checkbox.dispatchEvent(event);
 // Also sync the toggle state to ensure it's correct
             syncArmoredToggles();
+        } else if (checkboxId === 'heightDiffToggle') {
+            const event = new Event('change', { bubbles: true });
+            checkbox.dispatchEvent(event);
+            updateHeightDiffToggleUI();
+            saveState();
         }
     } catch (error) {
-        console.error('Error in toggleArmoredSwitch:', error);
+        // Silently ignore - error is already handled gracefully
     }
 }
 
@@ -3354,8 +3340,10 @@ window.toggleArmoredSwitch = toggleArmoredSwitch;
 function syncArmoredToggles() {
     const snapToggle = document.getElementById('snapToggle');
     const autoToggle = document.getElementById('autoCalcToggle');
+    const heightDiffToggle = document.getElementById('heightDiffToggle');
     const armoredSnap = document.getElementById('armoredSnapToggle');
     const armoredAuto = document.getElementById('armoredAutoToggle');
+    const armoredHeightDiffToggle = document.getElementById('armoredHeightDiffToggle');
 
     if (snapToggle && armoredSnap) {
         if (snapToggle.checked) {
@@ -3373,8 +3361,17 @@ function syncArmoredToggles() {
         }
     }
 
+    if (heightDiffToggle && armoredHeightDiffToggle) {
+        if (heightDiffToggle.checked) {
+            armoredHeightDiffToggle.classList.add('active');
+        } else {
+            armoredHeightDiffToggle.classList.remove('active');
+        }
+    }
+
 // Update LED indicators
     updateToggleLEDs();
+    updateHeightDiffToggleUI();
 }
 
 // Function to update LED-style toggle labels
@@ -3415,9 +3412,87 @@ function updateToggleLEDs() {
             calcOnLabel.classList.remove('led-on-green', 'led-off');
         }
     }
+
+// Update Height Difference toggle labels
+    const heightDiffToggleLED = document.getElementById('heightDiffToggle');
+    const heightDiffOnLabel = document.getElementById('heightDiffOnLabel');
+    const heightDiffOffLabel = document.getElementById('heightDiffOffLabel');
+    if (heightDiffToggleLED && heightDiffOnLabel && heightDiffOffLabel) {
+        if (heightDiffToggleLED.checked) {
+// ON state: light up ON label with green LED, turn OFF label off
+            heightDiffOnLabel.classList.add('led-on-green');
+            heightDiffOnLabel.classList.remove('led-off');
+            heightDiffOffLabel.classList.remove('led-on-green', 'led-off');
+        } else {
+// OFF state: light up OFF label with red LED, turn ON label off
+            heightDiffOffLabel.classList.add('led-off');
+            heightDiffOffLabel.classList.remove('led-on-green');
+            heightDiffOnLabel.classList.remove('led-on-green', 'led-off');
+        }
+    }
+}
+
+// Update Height Difference toggle UI (visibility and grid layout)
+function updateHeightDiffToggleUI() {
+    const heightDiffToggle = document.getElementById('heightDiffToggle');
+    const heightDiffColumn = document.getElementById('heightDiffColumn');
+    const terrainElevationColumn = document.getElementById('terrainElevationColumn');
+    const heightRedGrid = document.getElementById('heightRedGrid');
+    const armoredHeightDiffToggle = document.getElementById('armoredHeightDiffToggle');
+    const targetHeightSection = document.getElementById('targetHeightSection');
+
+    if (!heightDiffToggle) return;
+
+    const isEnabled = heightDiffToggle.checked;
+
+    // Update armored toggle switch visual
+    if (armoredHeightDiffToggle) {
+        if (isEnabled) {
+            armoredHeightDiffToggle.classList.add('active');
+            armoredHeightDiffToggle.setAttribute('aria-checked', 'true');
+        } else {
+            armoredHeightDiffToggle.classList.remove('active');
+            armoredHeightDiffToggle.setAttribute('aria-checked', 'false');
+        }
+    }
+
+    // Update visibility and grid layout
+    if (heightDiffColumn && heightRedGrid) {
+        if (isEnabled) {
+            // Show height diff column and switch to 2-column layout
+            heightDiffColumn.classList.remove('hidden');
+            heightRedGrid.classList.remove('grid-cols-1');
+            heightRedGrid.classList.add('grid-cols-2');
+        } else {
+            // Hide height diff column and switch to 1-column layout
+            heightDiffColumn.classList.add('hidden');
+            heightRedGrid.classList.remove('grid-cols-2');
+            heightRedGrid.classList.add('grid-cols-1');
+            // Reset height diff value to 0 when disabled (all inputs)
+            setAllValues(document.querySelectorAll('input#heightDiff'), '0');
+        }
+    }
+
+    // Update result display - hide/show Target Height section
+    if (targetHeightSection) {
+        if (isEnabled) {
+            targetHeightSection.classList.remove('hidden');
+        } else {
+            targetHeightSection.classList.add('hidden');
+        }
+    }
+
+    // Update LED labels
+    updateToggleLEDs();
+
+    // Trigger recalculation if auto calc is enabled
+    if (isAutoCalcEnabled()) {
+        calculate();
+    }
 }
 
 // Load any saved state before wiring up interactions
+updateHeightDiffToggleUI();
 loadState();
 
 // Initialize mechanical counter
@@ -3427,8 +3502,6 @@ initializeElevationMIL();
 // Ensure faction image and badges are displayed on initial load
 updateFactionImage();
 updateMilRangeText();
-
-syncSliderWithInput();
 
 // Run initial calculation after everything is set up (only if auto mode)
 if (isAutoCalcEnabled()) {
@@ -3440,13 +3513,19 @@ if (isAutoCalcEnabled()) {
     const baseEl = document.getElementById('baseValue');
     const heightEl = document.getElementById('heightValue');
     const redEl = document.getElementById('redValue');
+    const redUnitEl = document.getElementById('redValueUnit');
     if (baseEl) baseEl.textContent = '--';
 // Show "--" when auto calculation is off
     if (heightEl) {
         heightEl.textContent = '--';
+        heightEl.className = 'text-gray-300';
     }
     if (redEl) {
         redEl.textContent = '--';
+        redEl.className = 'text-gray-300';
+    }
+    if (redUnitEl) {
+        redUnitEl.className = 'text-gray-300';
     }
 }
 updateCalculateButton();
@@ -3456,11 +3535,162 @@ syncArmoredToggles();
 // Sync armored toggles when checkboxes change
 const snapToggleCheckbox = document.getElementById('snapToggle');
 const autoToggleCheckbox = document.getElementById('autoCalcToggle');
+const heightDiffToggleCheckbox = document.getElementById('heightDiffToggle');
 if (snapToggleCheckbox) {
     snapToggleCheckbox.addEventListener('change', syncArmoredToggles);
 }
 if (autoToggleCheckbox) {
     autoToggleCheckbox.addEventListener('change', syncArmoredToggles);
+}
+if (heightDiffToggleCheckbox) {
+    heightDiffToggleCheckbox.addEventListener('change', function() {
+        updateHeightDiffToggleUI();
+        saveState();
+    });
+}
+
+// Lite toggle handling
+const heightDiffToggleLite = document.getElementById('heightDiffToggleLite');
+const autoCalcToggleLite = document.getElementById('autoCalcToggleLite');
+const armoredHeightDiffToggleLite = document.getElementById('armoredHeightDiffToggleLite');
+const armoredAutoToggleLite = document.getElementById('armoredAutoToggleLite');
+
+function updateLiteToggleUI(toggle, armoredToggle, onLabel, offLabel, isActive) {
+    if (armoredToggle) {
+        if (isActive) {
+            armoredToggle.classList.add('active');
+            armoredToggle.setAttribute('aria-checked', 'true');
+        } else {
+            armoredToggle.classList.remove('active');
+            armoredToggle.setAttribute('aria-checked', 'false');
+        }
+    }
+    if (onLabel && offLabel) {
+        if (isActive) {
+            onLabel.classList.add('active');
+            offLabel.classList.remove('active');
+        } else {
+            onLabel.classList.remove('active');
+            offLabel.classList.add('active');
+        }
+    }
+}
+
+function updateLiteHeightDiffVisibility() {
+    const heightDiffToggleLite = document.getElementById('heightDiffToggleLite');
+    const liteHeightDiffRow = document.getElementById('liteHeightDiffRow');
+    if (liteHeightDiffRow && heightDiffToggleLite) {
+        if (heightDiffToggleLite.checked) {
+            liteHeightDiffRow.classList.remove('hidden');
+        } else {
+            liteHeightDiffRow.classList.add('hidden');
+        }
+    }
+}
+
+function updateLiteCalcButtonVisibility() {
+    const autoCalcToggleLite = document.getElementById('autoCalcToggleLite');
+    const liteCalcButtonRow = document.getElementById('liteCalcButtonRow');
+    if (liteCalcButtonRow && autoCalcToggleLite) {
+        if (autoCalcToggleLite.checked) {
+            liteCalcButtonRow.classList.add('hidden');
+        } else {
+            liteCalcButtonRow.classList.remove('hidden');
+        }
+    }
+}
+
+function syncLiteTogglesToFull() {
+    const fullHeightToggle = document.getElementById('heightDiffToggle');
+    const fullAutoToggle = document.getElementById('autoCalcToggle');
+    if (heightDiffToggleLite && fullHeightToggle) {
+        fullHeightToggle.checked = heightDiffToggleLite.checked;
+    }
+    if (autoCalcToggleLite && fullAutoToggle) {
+        fullAutoToggle.checked = autoCalcToggleLite.checked;
+    }
+    syncArmoredToggles();
+    updateHeightDiffToggleUI();
+}
+
+function syncFullTogglesToLite() {
+    const fullHeightToggle = document.getElementById('heightDiffToggle');
+    const fullAutoToggle = document.getElementById('autoCalcToggle');
+    if (fullHeightToggle && heightDiffToggleLite) {
+        heightDiffToggleLite.checked = fullHeightToggle.checked;
+        updateLiteToggleUI(heightDiffToggleLite, armoredHeightDiffToggleLite,
+            document.getElementById('heightDiffOnLabelLite'), document.getElementById('heightDiffOffLabelLite'),
+            fullHeightToggle.checked);
+        updateLiteHeightDiffVisibility();
+    }
+    if (fullAutoToggle && autoCalcToggleLite) {
+        autoCalcToggleLite.checked = fullAutoToggle.checked;
+        updateLiteToggleUI(autoCalcToggleLite, armoredAutoToggleLite,
+            document.getElementById('calcOnLabelLite'), document.getElementById('calcOffLabelLite'),
+            fullAutoToggle.checked);
+        updateLiteCalcButtonVisibility();
+    }
+}
+
+if (heightDiffToggleLite) {
+    heightDiffToggleLite.addEventListener('change', function() {
+        updateLiteToggleUI(this, armoredHeightDiffToggleLite,
+            document.getElementById('heightDiffOnLabelLite'), document.getElementById('heightDiffOffLabelLite'),
+            this.checked);
+        updateLiteHeightDiffVisibility();
+        syncLiteTogglesToFull();
+        saveState();
+    });
+    updateLiteToggleUI(heightDiffToggleLite, armoredHeightDiffToggleLite,
+        document.getElementById('heightDiffOnLabelLite'), document.getElementById('heightDiffOffLabelLite'),
+        heightDiffToggleLite.checked);
+    updateLiteHeightDiffVisibility();
+}
+
+if (autoCalcToggleLite) {
+    autoCalcToggleLite.addEventListener('change', function() {
+        updateLiteToggleUI(this, armoredAutoToggleLite,
+            document.getElementById('calcOnLabelLite'), document.getElementById('calcOffLabelLite'),
+            this.checked);
+        updateLiteCalcButtonVisibility();
+        syncLiteTogglesToFull();
+        saveState();
+        if (this.checked) calculate();
+    });
+    updateLiteToggleUI(autoCalcToggleLite, armoredAutoToggleLite,
+        document.getElementById('calcOnLabelLite'), document.getElementById('calcOffLabelLite'),
+        autoCalcToggleLite.checked);
+    updateLiteCalcButtonVisibility();
+}
+
+// Add click handlers to visual switch elements (checkboxes are hidden)
+if (armoredHeightDiffToggleLite && heightDiffToggleLite) {
+    armoredHeightDiffToggleLite.addEventListener('click', function() {
+        heightDiffToggleLite.checked = !heightDiffToggleLite.checked;
+        heightDiffToggleLite.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+}
+
+if (armoredAutoToggleLite && autoCalcToggleLite) {
+    armoredAutoToggleLite.addEventListener('click', function() {
+        autoCalcToggleLite.checked = !autoCalcToggleLite.checked;
+        autoCalcToggleLite.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+}
+
+// Lite calculate button click handler
+const calculateButtonLite = document.getElementById('calculateButtonLite');
+if (calculateButtonLite) {
+    calculateButtonLite.addEventListener('click', function() {
+        calculate();
+    });
+}
+
+if (autoToggleCheckbox) {
+    autoToggleCheckbox.addEventListener('change', syncFullTogglesToLite);
+}
+if (heightDiffToggleCheckbox) {
+    heightDiffToggleCheckbox.addEventListener('change', syncFullTogglesToLite);
 }
 
 // Make editing fast and keep fields from being empty
@@ -3494,10 +3724,6 @@ if (autoToggleCheckbox) {
                 this.value = '0';
             }
             try {
-                if (this.id === 'distance') {
-// update ruler with distance
-                    updateArmoredRuler(0);
-                }
                 saveState();
                 if (isAutoCalcEnabled()) {
                 calculate();
@@ -3533,9 +3759,6 @@ if (autoToggleCheckbox) {
                     if (finalValue !== numValue) {
                         this.value = finalValue;
                     }
-
-// Update ruler with final value
-                    updateArmoredRuler(finalValue);
 
 // If value was snapped, trigger calculation and save state
                     if (finalValue !== numValue) {
@@ -3689,8 +3912,6 @@ if (snapToggleEl) {
             const currentValue = parseFloat(distanceInput.value) || 400;
             const snappedValue = Math.round(currentValue / 25) * 25;
             distanceInput.value = snappedValue;
-// Update ruler with new snapped value
-            updateArmoredRuler(snappedValue);
 // Trigger calculation if auto mode is enabled
             if (isAutoCalcEnabled()) {
                 calculate();
@@ -3712,43 +3933,181 @@ function updateTabLoop() {
     const isAuto = isAutoCalcEnabled();
 
     if (calcButtonEl) {
-// In auto mode, remove button from tab order; in manual mode, include it
+        // In auto mode, remove button from tab order; in manual mode, include it
         calcButtonEl.tabIndex = isAuto ? -1 : 4;
     }
 }
 
-if (calcButtonEl && distanceInputEl && heightInputEl && redInputEl) {
-// Calculate button: loop back to Distance when tabbing forward (manual mode only)
-    calcButtonEl.addEventListener('keydown', function(e) {
-        if (e.key === 'Tab' && !e.shiftKey) {
-            if (!isAutoCalcEnabled()) {
-                e.preventDefault();
-                distanceInputEl.focus();
-                distanceInputEl.select();
-            }
-        } else if (e.key === 'Enter') {
-// Enter key will trigger calculate() via button's onclick
-// Focus will be set to distance input by calculate() function in manual mode
-        }
-    });
+// Unified navigation for Enter and Tab keys
+function getFocusOrder() {
+    const heightDiffToggle = document.getElementById('heightDiffToggle');
+    const heightDiffToggleLite = document.getElementById('heightDiffToggleLite');
+    const isHeightDiffEnabled = (heightDiffToggle && heightDiffToggle.checked) || (heightDiffToggleLite && heightDiffToggleLite.checked);
+    const isManualMode = !isAutoCalcEnabled();
 
-// RedNumber input: loop back to Distance when tabbing forward in auto mode
-    redInputEl.addEventListener('keydown', function(e) {
-        if (e.key === 'Tab' && !e.shiftKey) {
-            if (isAutoCalcEnabled()) {
-                e.preventDefault();
-                distanceInputEl.focus();
-                distanceInputEl.select();
-            }
-        }
-    });
+    const order = [];
 
-// Initialize tab loop
-    updateTabLoop();
+    // Helper to check if element is actually visible (not display:none and not hidden class)
+    function isVisible(el) {
+        if (!el) return false;
+        if (el.classList.contains('hidden')) return false;
+        if (el.style.display === 'none') return false;
+        // Check if offsetParent is null (means display:none or not in document)
+        if (el.offsetParent === null) return false;
+        return true;
+    }
+
+    // Get fresh references to inputs (in case mode changed)
+    // Find the visible distance input (there are duplicates in lite and full modes)
+    const allDistInputs = document.querySelectorAll('input#distance');
+    let distInput = null;
+    for (const input of allDistInputs) {
+        if (isVisible(input)) {
+            distInput = input;
+            break;
+        }
+    }
+
+    // Find the visible heightDiff input (there are duplicates in lite and full modes)
+    const allHeightInputs = document.querySelectorAll('input#heightDiff');
+    let heightInput = null;
+    for (const input of allHeightInputs) {
+        if (isVisible(input)) {
+            heightInput = input;
+            break;
+        }
+    }
+
+    // Find the visible redNumber input (there are duplicates in lite and full modes)
+    const allRedInputs = document.querySelectorAll('input#redNumber');
+    let redInput = null;
+    for (const input of allRedInputs) {
+        if (isVisible(input)) {
+            redInput = input;
+            break;
+        }
+    }
+
+    const calcBtn = document.getElementById('calculateButton');
+    const calcBtnLite = document.getElementById('calculateButtonLite');
+
+    // Distance is always first if visible
+    if (isVisible(distInput)) order.push(distInput);
+
+    // Height diff only if toggle is ON AND input is visible
+    if (isHeightDiffEnabled && isVisible(heightInput)) {
+        order.push(heightInput);
+    }
+
+    // Red/terrain elevation always included if visible
+    if (isVisible(redInput)) order.push(redInput);
+
+    // Calculate button only in manual mode AND if visible
+    if (isManualMode && isVisible(calcBtn)) {
+        order.push(calcBtn);
+    }
+    // Lite calculate button only in manual mode AND if visible
+    if (isManualMode && isVisible(calcBtnLite)) {
+        order.push(calcBtnLite);
+    }
+
+    return order;
 }
 
-// Auto calculation toggle functionality
-const autoCalcToggle = document.getElementById('autoCalcToggle');
+function navigateFocus(e) {
+    // Handle both Enter and Tab
+    if (e.key !== 'Enter' && e.key !== 'Tab') return;
+
+    const order = getFocusOrder();
+    if (order.length === 0) return;
+
+    const currentIndex = order.indexOf(document.activeElement);
+    if (currentIndex === -1) return;
+
+    e.preventDefault();
+
+    // Calculate direction
+    const direction = (e.key === 'Tab' && e.shiftKey) ? -1 : 1;
+    let nextIndex = currentIndex + direction;
+
+    // Wrap around
+    if (nextIndex < 0) nextIndex = order.length - 1;
+    if (nextIndex >= order.length) nextIndex = 0;
+
+    // Calculate before moving focus (only if auto calc is enabled, OR if on calculate button)
+    const currentId = document.activeElement.id;
+    if (currentId === 'calculateButton' || currentId === 'calculateButtonLite') {
+        // Calculate button pressed - always calculate
+        calculate();
+        saveState();
+    } else if ((currentId === 'distance' || currentId === 'heightDiff' || currentId === 'redNumber') && isAutoCalcEnabled()) {
+        // Input field with auto calc on - calculate automatically
+        calculate();
+        saveState();
+    } else if ((currentId === 'distance' || currentId === 'heightDiff' || currentId === 'redNumber') && !isAutoCalcEnabled()) {
+        // Input field with auto calc off - reset final counter to 0000
+        rollElevationToNumber(0);
+        const baseValueEl = document.getElementById('baseValue');
+        const heightValueEl = document.getElementById('heightValue');
+        const redValueEl = document.getElementById('redValue');
+        const redValueUnitEl = document.getElementById('redValueUnit');
+        if (baseValueEl) baseValueEl.textContent = '--';
+        if (heightValueEl) { heightValueEl.textContent = '--'; heightValueEl.className = 'text-gray-300'; }
+        if (redValueEl) { redValueEl.textContent = '--'; redValueEl.className = 'text-gray-300'; }
+        if (redValueUnitEl) redValueUnitEl.className = 'text-gray-300';
+        updateMilLabels();
+        saveState();
+    }
+
+    // Move focus
+    const nextEl = order[nextIndex];
+    if (nextEl) {
+        nextEl.focus();
+        if (nextEl.select) nextEl.select();
+    }
+}
+
+// Attach unified handler to all inputs and button (using keydown for both Tab and Enter)
+// Attach to ALL distance inputs (both lite and full modes)
+document.querySelectorAll('input#distance').forEach(input => {
+    input.addEventListener('keydown', navigateFocus);
+});
+
+// Attach to ALL heightDiff inputs (both lite and full modes)
+document.querySelectorAll('input#heightDiff').forEach(input => {
+    input.addEventListener('keydown', navigateFocus);
+});
+
+// Attach to ALL redNumber inputs (both lite and full modes)
+document.querySelectorAll('input#redNumber').forEach(input => {
+    input.addEventListener('keydown', navigateFocus);
+});
+
+if (calcButtonEl) calcButtonEl.addEventListener('keydown', navigateFocus);
+
+// Attach keydown handler to lite calculate button
+const calcButtonLiteEl = document.getElementById('calculateButtonLite');
+if (calcButtonLiteEl) calcButtonLiteEl.addEventListener('keydown', navigateFocus);
+
+// Sync input values between full and lite modes (bidirectional)
+function syncInputValue(sourceInput, targetIds) {
+    targetIds.forEach(id => {
+        document.querySelectorAll('input#' + id).forEach(target => {
+            if (target !== sourceInput && target.value !== sourceInput.value) {
+                target.value = sourceInput.value;
+            }
+        });
+    });
+}
+
+// Attach input event listeners to sync values across all modes
+['distance', 'heightDiff', 'redNumber'].forEach(id => {
+    document.querySelectorAll('input#' + id).forEach(input => {
+        input.addEventListener('input', function() {
+            syncInputValue(this, [id]);
+        });
+    });
+});
 
 // Set initial label text
 updateCalcModeLabel();
@@ -3776,72 +4135,77 @@ if (autoCalcToggle) {
 // Show "--" when auto calculation is off
             if (heightValueEl) {
                 heightValueEl.textContent = '--';
+                heightValueEl.className = 'text-gray-300';
             }
             if (redValueEl) {
                 redValueEl.textContent = '--';
+                redValueEl.className = 'text-gray-300';
+            }
+            const redValueUnitEl = document.getElementById('redValueUnit');
+            if (redValueUnitEl) {
+                redValueUnitEl.className = 'text-gray-300';
             }
 // Show MIL labels for default "0000"
             updateMilLabels();
         }
         } catch (error) {
-            console.error('Error in auto calculation toggle:', error);
-// Ensure toggle state is still updated even if calculation fails
+            // Silently ignore - error is already handled gracefully
             updateToggleLEDs();
             syncArmoredToggles();
         }
     });
 }
 
-// Update ruler on resize (in case layout changes)
-window.addEventListener('resize', function() {
-    const distanceInput = document.getElementById('distance');
-    if (distanceInput) {
-        updateArmoredRuler(parseFloat(distanceInput.value) || 400);
-    }
-});
-
-// Enter key cycling through inputs: Distance -> Height -> Elevation -> (Calculate in manual) -> Distance
-if (distanceInputEl && heightInputEl && redInputEl) {
-    distanceInputEl.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            heightInputEl.focus();
-            heightInputEl.select();
-        }
-    });
-
-    heightInputEl.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            redInputEl.focus();
-            redInputEl.select();
-        }
-    });
-
-    redInputEl.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            if (isAutoCalcEnabled()) {
-// Auto mode: loop back to distance
-                distanceInputEl.focus();
-                distanceInputEl.select();
-            } else {
-// Manual mode: focus calculate button
-                calcButtonEl.focus();
-            }
-        }
-    });
-}
-
-// Custom select functionality
 const selectSelected = document.getElementById('selectSelected');
 const selectItems = document.getElementById('selectItems');
 const hiddenFaction = document.getElementById('faction');
 
-selectSelected.addEventListener('click', function() {
+function toggleDropdown(e) {
+    if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
     selectItems.classList.toggle('select-hide');
-    this.classList.toggle('select-arrow-active');
-});
+    selectSelected.classList.toggle('select-arrow-active');
+}
+
+if (selectSelected) {
+    // Support both click and touch events for mobile
+    selectSelected.addEventListener('click', toggleDropdown);
+    selectSelected.addEventListener('touchstart', toggleDropdown, { passive: false });
+}
+
+// Check again after a delay to see if generateTankDropdown() populates it, then add click handlers
+setTimeout(() => {
+    Array.from(selectItems.children).forEach((child) => {
+        child.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const value = this.getAttribute('data-value');
+            const text = this.innerHTML;
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = text;
+            const img = tempDiv.querySelector('img');
+            const textContent = tempDiv.textContent.trim();
+            selectSelected.innerHTML = img ? `${img.outerHTML} <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0;">${textContent}</span>` : `<span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0;">${textContent}</span>`;
+            hiddenFaction.value = value;
+            selectItems.classList.add('select-hide');
+            selectSelected.classList.remove('select-arrow-active');
+            updateFactionImage();
+            // Set default distance based on tank range (200m for AVRE, 400m for others)
+            const table = tables[value];
+            if (table) {
+                const distances = Object.keys(table).filter(k => !isNaN(parseInt(k))).map(k => parseInt(k)).sort((a, b) => a - b);
+                const maxRange = distances[distances.length - 1] || 600;
+                const defaultDistance = maxRange <= 250 ? 200 : 400;
+                const distanceInput = document.getElementById('distance');
+                if (distanceInput) distanceInput.value = defaultDistance;
+            }
+            if (isAutoCalcEnabled()) calculate();
+            else rollElevationToNumber(0);
+            saveState();
+        });
+    });
+}, 500);
 
 selectItems.addEventListener('click', function(e) {
     if (e.target !== this) {
@@ -3849,22 +4213,32 @@ selectItems.addEventListener('click', function(e) {
         if (selectedDiv) {
             const value = selectedDiv.getAttribute('data-value');
             const text = selectedDiv.innerHTML;
-// Wrap text content in span for truncation
+            // Wrap text content in span for truncation
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = text;
             const img = tempDiv.querySelector('img');
             const textContent = tempDiv.textContent.trim();
             selectSelected.innerHTML = img ? `${img.outerHTML} <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0;">${textContent}</span>` : `<span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0;">${textContent}</span>`;
             hiddenFaction.value = value;
-
             selectItems.classList.add('select-hide');
             selectSelected.classList.remove('select-arrow-active');
-
             updateFactionImage();
+            // Set default distance based on tank range (200m for AVRE, 400m for others)
+            const table = tables[value];
+            if (table) {
+                const distances = Object.keys(table).filter(k => !isNaN(parseInt(k))).map(k => parseInt(k)).sort((a, b) => a - b);
+                const minRange = distances[0] || 200;
+                const maxRange = distances[distances.length - 1] || 600;
+                // Use 200m as default for tanks with max range <= 250m (AVRE), otherwise 400m
+                const defaultDistance = maxRange <= 250 ? 200 : 400;
+                const distanceInput = document.getElementById('distance');
+                if (distanceInput) distanceInput.value = defaultDistance;
+            }
+            
             if (isAutoCalcEnabled()) {
-            calculate();
+                calculate();
             } else {
-// Reset final counter to 0000 when switching tanks and auto calc is off
+                // Reset final counter to 0000 when switching tanks and auto calc is off
                 rollElevationToNumber(0);
             }
             saveState();
@@ -3881,11 +4255,11 @@ document.addEventListener('click', function(e) {
 });
 
 // Tank info modal functionality
-const tankInfoIcon = document.getElementById('tankInfoIcon');
-const tankInfoModal = document.getElementById('tankInfoModal');
-const closeTankInfo = document.getElementById('closeTankInfo');
-const tankInfoTitle = document.getElementById('tankInfoTitle');
-const tankInfoContent = document.getElementById('tankInfoContent');
+let tankInfoIcon;
+let tankInfoModal;
+let closeTankInfo;
+let tankInfoTitle;
+let tankInfoContent;
 
 // Mapping of tank names to screenshot folder names
 const tankScreenshotMap = {
@@ -3905,64 +4279,64 @@ function getTankScreenshots(tankName) {
 // List of screenshot filenames for each tank (using new naming convention)
     const screenshotFiles = {
         'M4A3': [
-            'm4a3_1.png',
-            'm4a3_2.png',
-            'm4a3_3.png',
-            'm4a3_4.png',
-            'm4a3_5.png',
-            'm4a3_6.png',
-            'm4a3_7.png',
-            'm4a3_8.png'
+            'm4a3_1.webp',
+            'm4a3_2.webp',
+            'm4a3_3.webp',
+            'm4a3_4.webp',
+            'm4a3_5.webp',
+            'm4a3_6.webp',
+            'm4a3_7.webp',
+            'm4a3_8.webp'
         ],
         'KV2': [
-            'kv2_1.png',
-            'kv2_2.png',
-            'kv2_3.png',
-            'kv2_4.png',
-            'kv2_5.png',
-            'kv2_6.png',
-            'kv2_7.png',
-            'kv2_8.png'
+            'kv2_1.webp',
+            'kv2_2.webp',
+            'kv2_3.webp',
+            'kv2_4.webp',
+            'kv2_5.webp',
+            'kv2_6.webp',
+            'kv2_7.webp',
+            'kv2_8.webp'
         ],
         'AVRE': [
-            'avre_1.png',
-            'avre_2.png',
-            'avre_3.png',
-            'avre_4.png',
-            'avre_5.png',
-            'avre_6.png',
-            'avre_7.png',
-            'avre_8.png'
+            'avre_1.webp',
+            'avre_2.webp',
+            'avre_3.webp',
+            'avre_4.webp',
+            'avre_5.webp',
+            'avre_6.webp',
+            'avre_7.webp',
+            'avre_8.webp'
         ],
         'BISHOP': [
-            'bishop_1.png',
-            'bishop_2.png',
-            'bishop_3.png',
-            'bishop_4.png',
-            'bishop_5.png',
-            'bishop_6.png',
-            'bishop_7.png',
-            'bishop_8.png'
+            'bishop_1.webp',
+            'bishop_2.webp',
+            'bishop_3.webp',
+            'bishop_4.webp',
+            'bishop_5.webp',
+            'bishop_6.webp',
+            'bishop_7.webp',
+            'bishop_8.webp'
         ],
         'STURMPANZER': [
-            'brummbar_1.png',
-            'brummbar_2.png',
-            'brummbar_3.png',
-            'brummbar_4.png',
-            'brummbar_5.png',
-            'brummbar_6.png',
-            'brummbar_7.png',
-            'brummbar_8.png'
+            'brummbar_1.webp',
+            'brummbar_2.webp',
+            'brummbar_3.webp',
+            'brummbar_4.webp',
+            'brummbar_5.webp',
+            'brummbar_6.webp',
+            'brummbar_7.webp',
+            'brummbar_8.webp'
         ],
         'PANZER III': [
-            'panzer3_1.png',
-            'panzer3_2.png',
-            'panzer3_3.png',
-            'panzer3_4.png',
-            'panzer3_5.png',
-            'panzer3_6.png',
-            'panzer3_7.png',
-            'panzer3_8.png'
+            'panzer3_1.webp',
+            'panzer3_2.webp',
+            'panzer3_3.webp',
+            'panzer3_4.webp',
+            'panzer3_5.webp',
+            'panzer3_6.webp',
+            'panzer3_7.webp',
+            'panzer3_8.webp'
         ]
     };
 
@@ -3977,18 +4351,12 @@ function generateScreenshotGallery(tankName) {
     if (screenshots.length === 0) return '';
 
     const galleryItems = screenshots.map((src, index) => {
-// Escape quotes in the path for onclick attribute
+        // Create WebP paths (both thumbnail and full) - all files are now WebP only
+        const thumbSrc = src.replace(/\.webp$/, '_thumb.webp');
         const escapedSrc = src.replace(/'/g, "\\'");
-// Create WebP paths (both thumbnail and full)
-        const thumbSrcPNG = src.replace(/(\.[^.]+)$/, '_thumb$1');
-        const thumbSrcWebP = thumbSrcPNG.replace(/\.png$/, '.webp');
-        const fullSrcWebP = src.replace(/\.png$/, '.webp');
         return `
-            <div class="screenshot-item" data-src="${escapedSrc}" data-src-webp="${fullSrcWebP.replace(/'/g, "\\'")}">
-                <picture>
-                    <source srcset="${thumbSrcWebP}" type="image/webp">
-                    <img src="${thumbSrcPNG}" alt="Screenshot ${index + 1}" loading="lazy" decoding="async">
-                </picture>
+            <div class="screenshot-item" data-src="${escapedSrc}">
+                <img src="${thumbSrc}" alt="Screenshot ${index + 1}" loading="lazy" decoding="async">
             </div>
         `;
     }).join('');
@@ -4021,54 +4389,39 @@ function getScreenshotLightboxElements() {
 function buildScreenshotGalleryFromDOM() {
     const screenshotItems = document.querySelectorAll('.screenshot-item');
     return Array.from(screenshotItems).map(item => {
-        return {
-            webp: item.getAttribute('data-src-webp') || '',
-            png: item.getAttribute('data-src') || ''
-        };
-    }).filter(item => item.webp || item.png);
+        return item.getAttribute('data-src') || '';
+    }).filter(url => url);
 }
 
 function preloadScreenshotByIndex(index) {
     if (!currentScreenshotGallery || currentScreenshotGallery.length === 0) return;
     if (index < 0 || index >= currentScreenshotGallery.length) return;
-    const item = currentScreenshotGallery[index];
-    const url = item.webp || item.png;
+    const url = currentScreenshotGallery[index];
     if (!url) return;
     const img = new Image();
     img.decoding = 'async';
     img.src = url;
 }
 
-async function resolveScreenshotUrl(item) {
-    const loadAndDecode = async (url) => {
-        if (!url) {
-            throw new Error('Missing image URL');
-        }
-        const tmp = new Image();
-        tmp.decoding = 'async';
-        tmp.src = url;
-        try {
-            await tmp.decode();
-        } catch (e) {
-            await new Promise(resolve => {
-                tmp.onload = resolve;
-                tmp.onerror = resolve;
-            });
-            if (!tmp.complete || tmp.naturalWidth === 0) {
-                throw e;
-            }
-        }
-        return url;
-    };
-
-    if (item.webp && item.png) {
-        try {
-            return await loadAndDecode(item.webp);
-        } catch (e) {
-            return await loadAndDecode(item.png);
+async function loadAndDecodeImage(url) {
+    if (!url) {
+        throw new Error('Missing image URL');
+    }
+    const tmp = new Image();
+    tmp.decoding = 'async';
+    tmp.src = url;
+    try {
+        await tmp.decode();
+    } catch (e) {
+        await new Promise(resolve => {
+            tmp.onload = resolve;
+            tmp.onerror = resolve;
+        });
+        if (!tmp.complete || tmp.naturalWidth === 0) {
+            throw e;
         }
     }
-    return await loadAndDecode(item.webp || item.png);
+    return url;
 }
 
 async function showScreenshotAtIndex(index) {
@@ -4089,7 +4442,7 @@ async function showScreenshotAtIndex(index) {
 
     let url;
     try {
-        url = await resolveScreenshotUrl(item);
+        url = await loadAndDecodeImage(item);
     } catch (e) {
         return;
     }
@@ -4126,7 +4479,7 @@ window.openScreenshotLightbox = function(src) {
 
     const screenshotItems = document.querySelectorAll('.screenshot-item');
     const clickedItem = Array.from(screenshotItems).find(item =>
-        item.getAttribute('data-src') === src || item.getAttribute('data-src-webp') === src
+        item.getAttribute('data-src') === src
     );
 
     if (clickedItem) {
@@ -4224,7 +4577,7 @@ function showTankInfo() {
                             const match = m.match(/(\d+)\s*(HE|SMOKE|AP)/);
                             if (match) {
                                 const type = match[2];
-                                imagePaths.add(`images/UI/Icons/vehicles/${type.toUpperCase()}_invert_28.png`);
+                                imagePaths.add(`images/UI/Icons/vehicles/${type.toUpperCase()}_invert_28.webp`);
                             }
                         });
                     }
@@ -4233,10 +4586,10 @@ function showTankInfo() {
 
 // Collect from coaxial and hull gun (T_HUD_Status_Ammo_invert_28.png)
             if (info.stats.coaxial && !info.stats.coaxial.includes('NO')) {
-                imagePaths.add('images/UI/Icons/vehicles/T_HUD_Status_Ammo_invert_28.png');
+                imagePaths.add('images/UI/Icons/vehicles/T_HUD_Status_Ammo_invert_28.webp');
             }
             if (info.stats.hullGun && !info.stats.hullGun.includes('NO')) {
-                imagePaths.add('images/UI/Icons/vehicles/T_HUD_Status_Ammo_invert_28.png');
+                imagePaths.add('images/UI/Icons/vehicles/T_HUD_Status_Ammo_invert_28.webp');
             }
 
             return Array.from(imagePaths);
@@ -4271,7 +4624,7 @@ function showTankInfo() {
                             const count = match[1];
                             const type = match[2];
 // Construct image path - type is already uppercase from regex
-                            const imagePath = `images/UI/Icons/vehicles/${type.toUpperCase()}_invert_28.png`;
+                            const imagePath = `images/UI/Icons/vehicles/${type.toUpperCase()}_invert_28.webp`;
 // Build each ammo item with explicit image tag (inside single box)
                             ammoItems.push(`<span style="display: inline-flex; align-items: center; gap: 3px; margin-right: 8px;"><img src="${imagePath}" alt="${type}" style="width: 14px; height: 14px; object-fit: contain;" loading="eager" decoding="async"><span class="highlight-number">${count}</span> <span class="highlight-number">${type}</span></span>`);
                         }
@@ -4323,7 +4676,7 @@ function showTankInfo() {
                 if (ammoMatch) {
                     const rounds = ammoMatch[1];
                     const magazines = ammoMatch[2];
-                    const imagePath = 'images/UI/Icons/vehicles/T_HUD_Status_Ammo_invert_28.png';
+                    const imagePath = 'images/UI/Icons/vehicles/T_HUD_Status_Ammo_invert_28.webp';
                     return `<span class="highlight-number" style="margin-right: 14px;">${gunName}</span><span class="ammo-box"><img src="${imagePath}" alt="Ammo" loading="eager" decoding="async"><span class="highlight-number">${rounds}</span> rounds × <span class="highlight-number">${magazines}</span> magazines</span>`;
                 }
             }
@@ -4531,6 +4884,8 @@ function showTankInfo() {
             tankInfoContent.innerHTML = statsContent + screenshotsContent + historyContent;
             tankInfoModal.style.display = 'block';
             tankInfoModal.setAttribute('data-open', 'true');
+            // Lock background scrolling
+            document.body.style.overflow = 'hidden';
 // Keep button extended when modal is open
             if (tankInfoIcon) {
                 tankInfoIcon.classList.add('extended');
@@ -4572,6 +4927,20 @@ function showTankInfo() {
     }
 }
 
+// Toggle tank specifications panel
+function toggleTankSpecs() {
+    const specsPanel = document.getElementById('milRangeText');
+    const toggleBtn = document.getElementById('tankSpecsToggle');
+    
+    if (!specsPanel || !toggleBtn) {
+        return;
+    }
+    
+    const isCollapsed = specsPanel.classList.contains('tank-specs-collapsed');
+    specsPanel.classList.toggle('tank-specs-collapsed');
+    toggleBtn.classList.toggle('collapsed', !isCollapsed);
+}
+
 // Tab switching functionality (using event delegation)
 document.addEventListener('click', function(e) {
     if (e.target.classList.contains('info-modal-tab')) {
@@ -4604,33 +4973,13 @@ function closeTankInfoModal() {
         tankInfoModal.style.display = 'none';
         tankInfoModal.removeAttribute('data-open');
     }
+    // Restore background scrolling
+    document.body.style.overflow = '';
 // Move button back to original position when modal closes
     if (tankInfoIcon) {
         tankInfoIcon.classList.remove('extended');
     }
 }
-
-if (tankInfoIcon) {
-    tankInfoIcon.addEventListener('click', function(e) {
-        e.stopPropagation();
-        e.preventDefault();
-// Close dropdown if open
-        selectItems.classList.add('select-hide');
-        selectSelected.classList.remove('select-arrow-active');
-        showTankInfo();
-    });
-}
-
-if (closeTankInfo) {
-    closeTankInfo.addEventListener('click', closeTankInfoModal);
-}
-
-// Close modal when clicking outside of it
-window.addEventListener('click', function(e) {
-    if (e.target === tankInfoModal) {
-        closeTankInfoModal();
-    }
-});
 
 // Close modal with Escape key - comprehensive handler
 document.addEventListener('keydown', function(e) {
@@ -4654,17 +5003,158 @@ document.addEventListener('keydown', function(e) {
             return false;
         }
     }
+
 }, true); // Use capture phase
 
 // ==========================================
-// EVENT LISTENER WIRING (Add to bottom of main.js)
+// EVENT LISTENER WIRING
 // ==========================================
 
-document.addEventListener('DOMContentLoaded', function() {
+function wireUpEventListeners() {
+    // Generate tank dropdown dynamically
+    generateTankDropdown();
+
+    // Also generate lite mode dropdown if elements exist
+    generateLiteTankDropdown();
+
+    // Assign tank info modal variables after DOM is ready
+    tankInfoIcon = document.getElementById('tankInfoIcon');
+    tankInfoModal = document.getElementById('tankInfoModal');
+    closeTankInfo = document.getElementById('closeTankInfo');
+    tankInfoTitle = document.getElementById('tankInfoTitle');
+    tankInfoContent = document.getElementById('tankInfoContent');
+
+    // More Projects button
+    const moreProjectsBtn = document.getElementById('moreProjectsBtn');
+    const moreProjectsBox = document.getElementById('moreProjectsBox');
+    const closeMoreProjects = document.getElementById('closeMoreProjects');
+
+    if (moreProjectsBtn && moreProjectsBox && closeMoreProjects) {
+        moreProjectsBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            moreProjectsBox.classList.remove('hidden');
+            moreProjectsBox.style.display = 'block';
+            moreProjectsBtn.classList.add('extended');
+            // Lock background scrolling
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeMoreProjects.addEventListener('click', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            moreProjectsBox.classList.add('hidden');
+            moreProjectsBox.style.display = 'none';
+            moreProjectsBtn.classList.remove('extended');
+            // Restore background scrolling
+            document.body.style.overflow = '';
+        });
+
+        document.addEventListener('click', function(e) {
+            if (e.target === moreProjectsBox) {
+                moreProjectsBox.classList.add('hidden');
+                moreProjectsBox.style.display = 'none';
+                moreProjectsBtn.classList.remove('extended');
+                // Restore background scrolling
+                document.body.style.overflow = '';
+            }
+        });
+    }
+
+    // Mobile HLL Tools button (shares the same modal as desktop)
+    const mobileHllToolsBtn = document.getElementById('mobileHllToolsBtn');
+    if (mobileHllToolsBtn && moreProjectsBox && closeMoreProjects) {
+        mobileHllToolsBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            moreProjectsBox.classList.remove('hidden');
+            moreProjectsBox.style.display = 'block';
+            // Lock background scrolling
+            document.body.style.overflow = 'hidden';
+        });
+    }
+
+    // Tank info button event listener
+    if (tankInfoIcon) {
+        tankInfoIcon.addEventListener('click', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            // Close dropdown if open
+            const selectItems = document.getElementById('selectItems');
+            const selectSelected = document.getElementById('selectSelected');
+            if (selectItems) selectItems.classList.add('select-hide');
+            if (selectSelected) selectSelected.classList.remove('select-arrow-active');
+            showTankInfo();
+        });
+    }
+
+    // Close tank info modal
+    if (closeTankInfo) {
+        closeTankInfo.addEventListener('click', closeTankInfoModal);
+    }
+
+    // Close tank info modal when clicking outside
+    window.addEventListener('click', function(e) {
+        if (e.target === tankInfoModal) {
+            closeTankInfoModal();
+        }
+    });
+
+    // Wire up View Toggle
+    const viewToggle = document.getElementById('viewToggle');
+    if (viewToggle) {
+        const togglePills = viewToggle.querySelectorAll('.toggle-pill');
+        togglePills.forEach(pill => {
+            pill.addEventListener('click', function(e) {
+                e.preventDefault();
+                const mode = this.getAttribute('data-mode');
+                switchViewMode(mode);
+                
+                // Update active states
+                togglePills.forEach(p => {
+                    p.classList.remove('active');
+                    p.setAttribute('aria-selected', 'false');
+                });
+                this.classList.add('active');
+                this.setAttribute('aria-selected', 'true');
+                
+                // Update toggle container class
+                viewToggle.classList.remove('full-active', 'lite-active');
+                viewToggle.classList.add(mode === 'full' ? 'full-active' : 'lite-active');
+            });
+        });
+    }
+
     // 1. Wire up the Calculate Button
     const calcBtn = document.getElementById('calculateButton');
     if (calcBtn) {
+        let touchTriggered = false;
+
+        // Handle touch (mobile) - for visual feedback and calculation
+        calcBtn.addEventListener('touchstart', function(e) {
+            touchTriggered = false;
+            calcBtn.classList.add('holding');
+        }, { passive: true });
+
+        calcBtn.addEventListener('touchend', function(e) {
+            calcBtn.classList.remove('holding');
+            touchTriggered = true;
+            // Trigger calculation on mobile touch
+            calculate();
+        });
+
+        calcBtn.addEventListener('touchcancel', function(e) {
+            calcBtn.classList.remove('holding');
+        });
+
         calcBtn.addEventListener('click', function(e) {
+            // If touch already triggered calculation, skip
+            if (touchTriggered) {
+                touchTriggered = false;
+                e.preventDefault();
+                e.stopPropagation();
+                return;
+            }
             e.preventDefault();
             calculate();
         });
@@ -4682,64 +5172,186 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // 3. Wire up the Plus/Minus Buttons for all inputs
-    // We find the inputs by ID, then grab the buttons immediately before (-) and after (+)
-    ['distance', 'heightDiff', 'redNumber'].forEach(id => {
-        const input = document.getElementById(id);
-        if (input) {
-            // The structure is: <button -> [input] <button +>
-            const minusBtn = input.previousElementSibling;
-            const plusBtn = input.nextElementSibling;
+    // Handle duplicate IDs by scoping to visible containers
+    function wireButton(inputId, delta) {
+        // Find all inputs with this ID
+        const allInputs = document.querySelectorAll(`input[id="${inputId}"]`);
+        allInputs.forEach(input => {
+            const btn = delta < 0 ? input.previousElementSibling : input.nextElementSibling;
+            if (btn && btn.tagName === 'BUTTON') {
+                let lastTouchTime = 0;
+                let holdTimer = null;
+                let repeatInterval = null;
+                const HOLD_DELAY = 1500; // 1.5 seconds before auto-repeat starts
+                const REPEAT_RATE = 100; // Repeat every 100ms once started
 
-            // Determine step size (25 for distance in snap mode, 1 for others)
-            // We use a small step here, logic inside adjustValue handles snapping
-            if (minusBtn && minusBtn.tagName === 'BUTTON') {
-                minusBtn.addEventListener('click', () => adjustValue(id, -1));
+                let touchHandled = false;
+
+                function startHolding(e) {
+                    if (e && e.cancelable) e.preventDefault();
+                    lastTouchTime = Date.now();
+
+                    // Add visual feedback
+                    btn.classList.add('holding');
+
+                    // Perform initial adjustment
+                    adjustValue(inputId, delta);
+
+                    // Start hold timer for auto-repeat
+                    holdTimer = setTimeout(() => {
+                        // After 1.5 seconds, start repeating
+                        repeatInterval = setInterval(() => {
+                            adjustValue(inputId, delta);
+                        }, REPEAT_RATE);
+                    }, HOLD_DELAY);
+                }
+
+                function stopHolding() {
+                    // Clear timers
+                    if (holdTimer) {
+                        clearTimeout(holdTimer);
+                        holdTimer = null;
+                    }
+                    if (repeatInterval) {
+                        clearInterval(repeatInterval);
+                        repeatInterval = null;
+                    }
+                    // Remove visual feedback
+                    btn.classList.remove('holding');
+                }
+
+                // Handle touch (mobile)
+                btn.addEventListener('touchstart', function(e) {
+                    touchHandled = true;
+                    startHolding(e);
+                }, { passive: false });
+
+                btn.addEventListener('touchend', function() {
+                    stopHolding();
+                    // Reset touchHandled flag after a delay to allow synthetic mouse events to pass
+                    setTimeout(() => { touchHandled = false; }, 100);
+                });
+
+                btn.addEventListener('touchcancel', function() {
+                    stopHolding();
+                    touchHandled = false;
+                });
+
+                // Handle mouse (desktop) - skip if touch already handled
+                btn.addEventListener('mousedown', function(e) {
+                    if (touchHandled) return; // Skip if touch handled this
+                    if (e.button !== 0) return; // Only left click
+                    startHolding(e);
+                });
+
+                btn.addEventListener('mouseup', function() {
+                    if (touchHandled) return;
+                    stopHolding();
+                });
+
+                btn.addEventListener('mouseleave', function() {
+                    if (touchHandled) return;
+                    stopHolding();
+                });
+
+                // Handle click (desktop) - for non-hold clicks
+                btn.addEventListener('click', function(e) {
+                    const now = Date.now();
+                    // Ignore ghost clicks from touch events
+                    if (now - lastTouchTime < 500 || touchHandled) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        return;
+                    }
+                    e.preventDefault();
+                    // Only adjust if we didn't already handle it via mousedown
+                    if (!holdTimer && !repeatInterval) {
+                        adjustValue(inputId, delta);
+                    }
+                });
             }
-            if (plusBtn && plusBtn.tagName === 'BUTTON') {
-                plusBtn.addEventListener('click', () => adjustValue(id, 1));
-            }
-        }
+        });
+    }
+    
+    // Wire up all buttons
+    ['distance', 'heightDiff', 'redNumber'].forEach(id => {
+        wireButton(id, -1); // minus
+        wireButton(id, 1);  // plus
     });
 
-    // 4. Wire up the Armored Toggles (Snap & Auto Calc)
-    // This connects the switch AND the text labels to the checkbox
+    // 4. Wire up the Armored Toggles (Snap, Auto Calc, & Height Diff)
     const toggleConfig = [
         { 
             checkboxId: 'snapToggle', 
-            triggerIds: ['armoredSnapToggle', 'snapOffLabel', 'snapOnLabel'] 
+            triggerIds: ['armoredSnapToggle'] 
         },
         { 
             checkboxId: 'autoCalcToggle', 
-            triggerIds: ['armoredAutoToggle', 'calcOffLabel', 'calcOnLabel'] 
+            triggerIds: ['armoredAutoToggle'] 
+        },
+        { 
+            checkboxId: 'heightDiffToggle', 
+            triggerIds: ['armoredHeightDiffToggle'] 
         }
     ];
 
     toggleConfig.forEach(config => {
         const checkbox = document.getElementById(config.checkboxId);
-        
         if (checkbox) {
             config.triggerIds.forEach(triggerId => {
                 const element = document.getElementById(triggerId);
                 if (element) {
-                    // Remove old listeners to be safe (cloning trick)
                     const newElement = element.cloneNode(true);
                     element.parentNode.replaceChild(newElement, element);
-                    
-                    // Add fresh listener
-                    newElement.addEventListener('click', function(e) {
-                        e.preventDefault(); // Stop double-firing
+
+                    let touchStartTime = 0;
+                    let touchStartY = 0;
+                    let touchHandled = false;
+
+                    // Handle touch start
+                    newElement.addEventListener('touchstart', function(e) {
+                        touchHandled = false;
+                        touchStartTime = Date.now();
+                        touchStartY = e.touches[0].clientY;
+                    }, { passive: true });
+
+                    // Handle touch end - only toggle if it was a tap (not a scroll)
+                    newElement.addEventListener('touchend', function(e) {
+                        e.preventDefault();
                         e.stopPropagation();
-                        
-                        // Toggle the state
+
+                        const touchEndTime = Date.now();
+                        const touchEndY = e.changedTouches[0].clientY;
+                        const timeDiff = touchEndTime - touchStartTime;
+                        const yDiff = Math.abs(touchEndY - touchStartY);
+
+                        // Only toggle if it was a quick tap (less than 300ms) and minimal movement (less than 10px)
+                        if (timeDiff < 300 && yDiff < 10) {
+                            touchHandled = true;
+                            checkbox.checked = !checkbox.checked;
+                            const event = new Event('change', { bubbles: true });
+                            checkbox.dispatchEvent(event);
+                            setTimeout(() => {
+                                touchHandled = false;
+                            }, 400);
+                        }
+                    }, { passive: false });
+
+                    // Handle click for desktop/mouse users
+                    newElement.addEventListener('click', function(e) {
+                        // Only handle click if it wasn't from a touch event
+                        if (touchHandled) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            return;
+                        }
+                        e.preventDefault();
+                        e.stopPropagation();
                         checkbox.checked = !checkbox.checked;
-                        
-                        // Force the 'change' event so other scripts know it changed
-                        // (This triggers the syncArmoredToggles function you already have)
                         const event = new Event('change', { bubbles: true });
                         checkbox.dispatchEvent(event);
                     });
-                    
-                    // Add visual pointer cursor
+
                     newElement.style.cursor = 'pointer';
                 }
             });
@@ -4788,4 +5400,135 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-});
+
+    // 6. Wire up Warning Icon and Close Button
+    const warningIconBtn = document.getElementById('warningIcon');
+    if (warningIconBtn) {
+        warningIconBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleWarningMessage();
+        });
+    }
+
+    const warningCloseBtn = document.querySelector('.warning-close');
+    if (warningCloseBtn) {
+        warningCloseBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            closeWarningMessage();
+        });
+    }
+
+    // 7. Wire up Tank Specs Toggle Button
+    const tankSpecsToggleBtn = document.getElementById('tankSpecsToggle');
+    const milRangeText = document.getElementById('milRangeText');
+    const tankSpecsToggleIcon = document.getElementById('tankSpecsToggleIcon');
+    
+    if (tankSpecsToggleBtn && milRangeText) {
+        // Collapse by default on mobile
+        const isMobile = window.innerWidth <= 768;
+        if (isMobile && !milRangeText.classList.contains('tank-specs-collapsed')) {
+            milRangeText.classList.add('tank-specs-collapsed');
+        }
+        // Sync toggle button collapsed class with panel state
+        if (milRangeText.classList.contains('tank-specs-collapsed')) {
+            tankSpecsToggleBtn.classList.add('collapsed');
+        }
+        // Clear text content for CSS triangle (HTML has "▼" which would show as text)
+        if (tankSpecsToggleIcon) {
+            tankSpecsToggleIcon.textContent = '';
+        }
+        
+        tankSpecsToggleBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleTankSpecs();
+        });
+    }
+}
+
+// Run immediately if DOM is ready, or wait for DOMContentLoaded
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', wireUpEventListeners);
+} else {
+    wireUpEventListeners();
+}
+
+// ============================================
+// MOBILE LAYOUT - Handle mobile-specific DOM adjustments
+// ============================================
+function handleMobileLayout() {
+    const isMobile = window.innerWidth <= 768;
+    const milRangeText = document.getElementById('milRangeText');
+    const tankInfoBtn = document.getElementById('tankInfoIcon');
+
+    if (!milRangeText || !tankInfoBtn) {
+        return;
+    }
+
+    if (isMobile) {
+        // Force button visible and move into panel
+        tankInfoBtn.classList.remove('hidden');
+        tankInfoBtn.style.display = 'flex';
+        tankInfoBtn.style.visibility = 'visible';
+        tankInfoBtn.style.opacity = '1';
+        // Update text to be two lines
+        const span = tankInfoBtn.querySelector('span');
+        if (span && !span.textContent.includes('\n')) {
+            span.textContent = 'TANK\nINFO';
+        }
+
+        if (!milRangeText.contains(tankInfoBtn)) {
+            milRangeText.appendChild(tankInfoBtn);
+        }
+        
+        // Re-render tank specs to generate compact image for mobile
+        if (typeof updateMilRangeText === 'function') {
+            updateMilRangeText();
+        }
+    } else {
+        // Move button back outside panel on desktop (to original position)
+        const calculatorCard = document.getElementById('calculator-card');
+        if (calculatorCard && milRangeText.contains(tankInfoBtn)) {
+            calculatorCard.parentNode.insertBefore(tankInfoBtn, calculatorCard.nextSibling);
+        }
+
+        // Ensure panel is expanded when switching to desktop
+        milRangeText.classList.remove('tank-specs-collapsed');
+        const tankSpecsToggleBtn = document.getElementById('tankSpecsToggle');
+        if (tankSpecsToggleBtn) {
+            tankSpecsToggleBtn.classList.remove('collapsed');
+        }
+
+        // Re-render tank specs to remove compact image for desktop
+        if (typeof updateMilRangeText === 'function') {
+            updateMilRangeText();
+        }
+    }
+}
+
+// Run mobile layout handler on DOM ready and resize
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', handleMobileLayout);
+} else {
+    handleMobileLayout();
+}
+window.addEventListener('resize', handleMobileLayout);
+
+// ============================================
+// VERSION DISPLAY - Dynamically inject version
+// ============================================
+function injectVersion() {
+    const versionEl = document.getElementById('version-display');
+    if (versionEl && typeof HLL_VERSION !== 'undefined') {
+        versionEl.textContent = `${HLL_VERSION.appVersion} - ${HLL_VERSION.gamePatch} - ${HLL_VERSION.author}`;
+    }
+}
+
+// Inject version on page load
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', injectVersion);
+} else {
+    injectVersion();
+}// Lite toggle handling

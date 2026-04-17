@@ -42,6 +42,16 @@ The source code (HTML, CSS, JavaScript) of this project is licensed under the **
 
 ## Version History
 
+**v1.5.0 - 2026-04-17**
+
+### Recent Updates
+- **Mobile overhaul**: Complete responsive redesign with collapsible tank specs, classified-style tank info button, and optimized touch targets.
+- **Height difference toggle**: New toggle to enable/disable height inputs with dynamic layout adjustment.
+- **Hold-to-repeat buttons**: +/- buttons now auto-increment when held (1.5s delay).
+- **PWA support**: Added manifest.json and app icons for installable web app experience.
+- **Cache-busting**: Versioned assets for reliable GitHub Pages updates.
+- **Bug fixes**: Fixed terrain elevation calculation, reset button, tab navigation, and tank history content.
+
 **v1.0.9 - 2025**
 
 ### Recent Updates
