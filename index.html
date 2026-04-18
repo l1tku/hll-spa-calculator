@@ -15,7 +15,7 @@
     <!-- PWA Manifest and Icons -->
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="images/icon-180.png">
-    <link rel="stylesheet" href="dist/styles.css?v=8">
+    <link rel="stylesheet" href="dist/styles.css?v=9">
     <style>
         @font-face {
             font-family: 'GothamSS';
@@ -353,17 +353,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Compact Warning Icon -->
-                    <div class="warning-compact-wrapper">
-                        <button id="warningIcon" class="warning-icon-btn hidden" aria-label="Show warning message" title="Click to view warning">
-                            <span class="warning-icon">⚠</span>
-                            <span class="warning-pulse"></span>
-                        </button>
-                        <div id="warning" class="warning-container hidden">
-                            <button class="warning-close" aria-label="Close warning">×</button>
-                            <p class="warning-text"></p>
-                        </div>
-                    </div>
                     <!-- Target Distance -->
                     <div class="distance-controls" style="display: flex; flex-direction: column; align-items: center; gap: 5px; margin-top: 5px;">
                         <label for="distance" style="text-align: center;">Target Distance (M)</label>
@@ -372,6 +361,18 @@
                             <input type="text" inputmode="decimal" pattern="[0-9]*" id="distance" value="400" tabindex="1" class="armored-input" aria-label="Target distance in meters">
                             <button class="armored-button" aria-label="Increase distance">+</button>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Compact Warning Icon (visible in both modes) -->
+                <div class="warning-compact-wrapper">
+                    <button id="warningIcon" class="warning-icon-btn hidden" aria-label="Show warning message" title="Click to view warning">
+                        <span class="warning-icon">⚠</span>
+                        <span class="warning-pulse"></span>
+                    </button>
+                    <div id="warning" class="warning-container hidden">
+                        <button class="warning-close" aria-label="Close warning">×</button>
+                        <p class="warning-text"></p>
                     </div>
                 </div>
 
@@ -636,6 +637,6 @@
         </div>
     </div>
 
-    <script src="dist/main.js?v=8"></script>
+    <script src="dist/main.js?v=9"></script>
 </body>
 </html>
