@@ -3,20 +3,25 @@
 
 A web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let Loose.
 
+## Live Demo
+Access the calculator instantly in your browser:  
+**[https://l1tku.github.io/hll-spa-calculator/](https://l1tku.github.io/hll-spa-calculator/)**
+
 ## Features
 
 - **Multi-Vehicle Support:** Accurate formulas for British Bishop, Churchill AVRE, US Sherman M4A3, Soviet KV-2, and German Panzer III/Sturmpanzer IV.
-- **Precision Tools:** Interactive distance ruler with snap-to-grid functionality.
 - **Smart Calculation:** Auto-calculation modes with manual overrides.
+- **Height Difference Toggle:** Enable/disable height inputs for elevation calculations.
+- **Mobile Support:** Responsive design with optimized touch targets and collapsible panels.
 - **Intel Database:** Built-in "Field Manual" with tank specifications and screenshots.
 - **Immersive UI:** Military-themed interface with authentic styling.
-- **Lite Mode:** Lightweight version optimized for low-end devices and slow connections.
+- **Lite Mode:** Lightweight version optimized for low-end devices.
 
 ## How to Use
 
 1. **Select Vehicle:** Choose your tank/SPA from the dropdown.
 2. **Set Distance:** Enter target distance (Range varies by vehicle).
-3. **Adjust Height:** Enter height difference in meters (Negative if target is lower, positive if higher).
+3. **Adjust Height(optional):** Enter height difference in meters (Negative if target is lower, positive if higher).
 4. **Input Terrain Elev:** Enter the current elevation adjustment (The **RED MIL** number visible in your HUD).
 5. **Fire:** Use the calculated Yellow Elevation setting.
 
