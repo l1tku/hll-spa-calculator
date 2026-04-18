@@ -10,7 +10,6 @@ Access the calculator instantly in your browser:
 ## Features
 
 - **Multi-Vehicle Support:** Accurate formulas for British Bishop, Churchill AVRE, US Sherman M4A3, Soviet KV-2, and German Panzer III/Sturmpanzer IV.
-- **Precision Tools:** Interactive distance ruler with snap-to-grid functionality.
 - **Smart Calculation:** Auto-calculation modes with manual overrides.
 - **Intel Database:** Built-in "Field Manual" with tank specifications and screenshots.
 - **Immersive UI:** Military-themed interface with authentic styling.
@@ -20,7 +19,7 @@ Access the calculator instantly in your browser:
 
 1. **Select Vehicle:** Choose your tank/SPA from the dropdown.
 2. **Set Distance:** Enter target distance (Range varies by vehicle).
-3. **Adjust Height:** Enter height difference in meters (Negative if target is lower, positive if higher).
+3. **Adjust Height(optional):** Enter height difference in meters (Negative if target is lower, positive if higher).
 4. **Input Terrain Elev:** Enter the current elevation adjustment (The **RED MIL** number visible in your HUD).
 5. **Fire:** Use the calculated Yellow Elevation setting.
 
