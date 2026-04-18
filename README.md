@@ -3,6 +3,10 @@
 
 A web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let Loose.
 
+## Live Demo
+Access the calculator instantly in your browser:  
+**[https://l1tku.github.io/hll-arty-map-calculator/]([https://l1tku.github.io/hll-arty-map-calculator/](https://l1tku.github.io/hll-spa-calculator/)**
+
 ## Features
 
 - **Multi-Vehicle Support:** Accurate formulas for British Bishop, Churchill AVRE, US Sherman M4A3, Soviet KV-2, and German Panzer III/Sturmpanzer IV.
