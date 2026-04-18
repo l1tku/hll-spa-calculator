@@ -278,19 +278,15 @@ inset 0 1px 2px rgba(0, 0, 0, 0.1),
 .warning-wrapper {
     overflow: visible !important;
 }
-/* Animation: Eject with Perforation Tear - triggers when not hidden */
+/* Warning visibility without animation */
 .warning-container:not(.hidden) {
-    animation: ejectPrintWarning 0.4s ease-out forwards;
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
 }
-/* Reverse animation: Slide back up when hiding */
-.warning-container.hiding {
-    animation: reversePrintWarning 0.4s ease-in forwards;
-    /* Don't hide immediately - let animation play */
-    display: flex !important;
-}
-/* After reverse animation completes, apply hidden */
-.warning-container.hidden.hiding {
-    animation: none;
+.warning-container.hidden {
+    transform: translateX(-50%) translateY(-100%);
+    opacity: 0;
+    display: none;
 }
 @keyframes ejectPrintWarning {
     0% {
@@ -331,10 +327,9 @@ repeating-linear-gradient(
 radial-gradient(circle at 20% 30%, rgba(139, 115, 85, 0.1) 0%, transparent 50%),
 radial-gradient(circle at 80% 70%, rgba(139, 115, 85, 0.08) 0%, transparent 50%),
 linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.02) 50%, transparent 100%);
-    background-size: 100% 3px, 100% 100%, 100% 100%, 100% 100%;
+    display: none;
     background-position: top, 0 0, 0 0, 0 0;
     background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
-    animation: tearLineWarning 0.4s ease-out forwards;
 }
 @keyframes tearLineWarning {
     0% {
@@ -347,20 +342,6 @@ opacity: 0.6;
 opacity: 0;
 background-size: 100% 0px, 100% 100%, 100% 100%, 100% 100%;
     }
-}
-.warning-container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-radial-gradient(circle at 20% 30%, rgba(139, 115, 85, 0.1) 0%, transparent 50%),
-radial-gradient(circle at 80% 70%, rgba(139, 115, 85, 0.08) 0%, transparent 50%),
-linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.02) 50%, transparent 100%);
-    pointer-events: none;
-    z-index: 1;
 }
 /* Perforation tear line overlay - appears during animation */
 .warning-container:not(.hidden)::before {
@@ -375,10 +356,9 @@ repeating-linear-gradient(
 radial-gradient(circle at 20% 30%, rgba(139, 115, 85, 0.1) 0%, transparent 50%),
 radial-gradient(circle at 80% 70%, rgba(139, 115, 85, 0.08) 0%, transparent 50%),
 linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.02) 50%, transparent 100%);
-    background-size: 100% 3px, 100% 100%, 100% 100%, 100% 100%;
+    display: none;
     background-position: top, 0 0, 0 0, 0 0;
     background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
-    animation: tearLineWarning 0.4s ease-out forwards;
 }
 .warning-container::after {
     content: '⚠';
@@ -442,20 +422,14 @@ inset 0 1px 1px rgba(0, 0, 0, 0.1),
     opacity: 0;
     transition: none;
 }
-/* Animation for glass screen version */
+/* Warning visibility without animation for glass screen version */
 .glass-screen-off .warning-container:not(.hidden) {
-    animation: ejectPrintWarning 0.4s ease-out forwards;
-}
-/* Reverse animation for glass screen version */
-.glass-screen-off .warning-container.hiding {
-    animation: reversePrintWarning 0.4s ease-in forwards;
-    /* Don't hide immediately - let animation play */
-    display: flex !important;
-}
-.glass-screen-off .warning-container.hidden.hiding {
-    animation: none;
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
 }
 .glass-screen-off .warning-container.hidden {
+    transform: translateX(-50%) translateY(-100%);
+    opacity: 0;
     display: none !important;
 }
 .glass-screen-off .warning-container::before {
@@ -486,7 +460,6 @@ radial-gradient(circle at 85% 75%, rgba(139, 115, 85, 0.06) 0%, transparent 40%)
     background-size: 100% 2px, 100% 100%, 100% 100%;
     background-position: top, 0 0, 0 0;
     background-repeat: no-repeat, no-repeat, no-repeat;
-    animation: tearLineWarning 0.4s ease-out forwards;
 }
 .glass-screen-off .warning-container::after {
     content: '⚠';
@@ -1087,7 +1060,7 @@ inset 0 2px 8px rgba(0, 0, 0, 0.6),
     overflow: visible;
 }
 .panel-section.mode-full-only {
-    padding-bottom: 16px !important;
+    padding-bottom: 15px !important;
 }
 #heightRedSection {
     padding-bottom: 16px;
@@ -2161,7 +2134,7 @@ inset 0 0 30px rgba(0, 0, 0, 0.5),
 .more-projects-button {
     position: absolute;
     left: calc(50% - 380px - -40px);
-    top: calc(50% - 404px - 70px);
+    top: calc(50% - 404px - 73px);
     transform: translateY(calc(-50% + 10px)) rotate(-90deg);
     transform-origin: center center;
     width: 60px;
@@ -2241,7 +2214,7 @@ inset -2px 0 5px rgba(0, 0, 0, 0.3),
     content: 'HLL TOOLS';
     position: absolute;
     top: 1px;
-    right: 0;
+    right: 1px;
     width: 16px;
     height: 100%;
     display: flex;
@@ -2283,7 +2256,7 @@ radial-gradient(ellipse at 75% 80%, rgba(107, 142, 35, 0.3) 0%, transparent 30%)
 /* Hover state - slides up */
 .more-projects-button:hover {
     left: calc(50% - 380px - -40px);
-    top: calc(50% - 430px - 70px);
+    top: calc(50% - 430px - 75px);
     transform: translateY(calc(-50% + 10px)) rotate(-90deg);
     background:
 url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E"),
@@ -2321,7 +2294,7 @@ inset -2px 0 5px rgba(0, 0, 0, 0.2),
 .more-projects-button:active,
 .more-projects-button:focus {
     left: calc(50% - 380px - -40px);
-    top: calc(50% - 430px - 70px);
+    top: calc(50% - 430px - 75px);
     transform: translateY(calc(-50% + 10px)) rotate(-90deg);
     box-shadow:
 inset -2px 0 5px rgba(0, 0, 0, 0.2),
@@ -2333,7 +2306,7 @@ inset -2px 0 5px rgba(0, 0, 0, 0.2),
 /* Extended state - button stays extended when modal is open */
 .more-projects-button.extended {
     left: calc(50% - 380px - -40px) !important;
-    top: calc(50% - 430px - 70px) !important;
+    top: calc(50% - 430px - 75px) !important;
 }
 
 /* Field Manual Bookmark - Classified Document Page Tab */
@@ -2852,7 +2825,7 @@ repeating-linear-gradient(0deg, transparent, transparent 25px, rgba(139, 105, 20
     letter-spacing: 0.1em;
 }
 .field-manual-subtitle {
-    top: 57px;
+    top: 63px;
     left: 20px;
     font-size: 13px;
     color: #6b7280;
@@ -4328,16 +4301,16 @@ inset 0 6px 16px rgba(0, 0, 0, 0.9),
 }
 [data-mode="full"] .select-info-button {
     left: calc(50% + 380px - 17px - 50px - 30px);
-    top: calc(50% - 404px - 70px);
+    top: calc(50% - 404px - 73px);
 }
 [data-mode="full"] .select-info-button:hover,
 [data-mode="full"] .select-info-button:active,
 [data-mode="full"] .select-info-button:focus {
-    top: calc(50% - 404px - 93px);
+    top: calc(50% - 404px - 95px);
 }
 [data-mode="full"] .select-info-button.extended {
     left: calc(50% + 380px - 17px - 50px - 30px) !important;
-    top: calc(50% - 404px - 93px) !important;
+    top: calc(50% - 404px - 95px) !important;
 }
 [data-mode="full"] .tank-specs-panel {
     width: 100%;
@@ -4450,8 +4423,8 @@ label {
    ============================================ */
 .warning-compact-wrapper {
     position: absolute;
-    top: 10px;
-    right: 50px;
+    top: 50px;
+    right: 40px;
     z-index: 10001;
     display: flex;
     align-items: center;
@@ -4487,10 +4460,11 @@ inset 0 1px 2px rgba(255, 255, 255, 0.4);
     font-size: 1.4rem;
     color: #fff;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    margin-top: -5px;
 }
 .warning-pulse {
     position: absolute;
-    top: 50%;
+    top: calc(50%);
     left: 50%;
     transform: translate(-50%, -50%);
     width: 100%;
@@ -4513,8 +4487,9 @@ opacity: 0;
 /* Compact warning banner when expanded */
 .warning-compact-wrapper .warning-container {
     position: absolute;
-    top: 45px;
-    right: 0;
+    top: 55px;
+    left: 50%;
+    transform: translateX(-50%);
     min-width: 300px;
     max-width: 400px;
     background: 
@@ -4528,19 +4503,18 @@ repeating-linear-gradient(
 linear-gradient(180deg, #f5f1e8 0%, #e8e0d0 50%, #f5f1e8 100%);
     border: 2px solid #8b7355;
     border-radius: 4px;
-    padding: 12px 35px 12px 45px;
+    padding: 10px 35px 10px 20px;
     box-shadow: 
 0 4px 12px rgba(0, 0, 0, 0.4),
 inset 0 1px 2px rgba(0, 0, 0, 0.1);
     z-index: 10002;
     opacity: 0;
-    transform: translateY(-10px);
-    transition: all 0.3s ease;
+    transform: translateX(-50%) translateY(-10px);
     pointer-events: none;
 }
 .warning-compact-wrapper .warning-container:not(.hidden) {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(-50%) translateY(0);
     pointer-events: auto;
 }
 .warning-close {
@@ -4567,13 +4541,30 @@ inset 0 1px 2px rgba(0, 0, 0, 0.1);
 .warning-compact-wrapper .warning-container::before {
     content: '⚠';
     position: absolute;
-    left: 12px;
+    right: 12px;
     top: 50%;
     transform: translateY(-50%);
     font-size: 1.4rem;
     color: #8b4513;
     font-weight: bold;
     z-index: 3;
+}
+.warning-compact-wrapper .warning-container p {
+    padding-left: 35px;
+    text-align: center;
+}
+[data-mode="lite"] #result {
+    position: relative;
+}
+[data-mode="lite"] .warning-compact-wrapper {
+    top: auto;
+    right: auto;
+    left: 50%;
+    bottom: 26px;
+    transform: translateX(-50%);
+}
+[data-mode="lite"] .warning-pulse {
+    left: 50%;
 }
 [data-mode="lite"] .armored-result-value.mode-lite-transform {
     display: flex !important;
@@ -4736,8 +4727,45 @@ inset 0 1px 2px rgba(0, 0, 0, 0.1);
 .faction-image-compact {
     display: none;
 }
+/* Desktop warning icon positioning - inside panel-section */
+@media screen and (min-width: 769px) {
+    .panel-section.mode-full-only {
+        position: relative;
+        display: block;
+        padding: 15px;
+    }
+    .panel-section .warning-compact-wrapper {
+        position: absolute;
+        top: -285px;
+        right: 0px;
+        z-index: 10001;
+    }
+    /* Position Auto Calculation toggle on the right side of panel */
+    .panel-section.mode-full-only .armored-toggle.mode-full-only {
+        position: absolute !important;
+        right: 20px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        padding-top: 85px;
+    }
+    /* Add padding-top to height diff toggle on desktop */
+    .panel-section.mode-full-only #heightDiffToggleContainer {
+        padding-top: 85px;
+    }
+    /* Make heightRedSection and toggle panel same height */
+    #heightRedSection {
+        height: 117px;
+    }
+    .panel-section.mode-full-only {
+        min-height: 117px;
+    }
+}
 @media screen and (max-width: 768px) {
     /* Mobile - Basic layout adjustments */
+    /* Hide more projects button on mobile */
+    .more-projects-button {
+        display: none !important;
+    }
     .py-8 {
 padding-top: 1rem;
 padding-bottom: 1rem;
@@ -5165,16 +5193,16 @@ line-height: 1.15 !important;
 text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
 white-space: pre-line !important;
     }
-    /* Info modal mobile - centered vertically */
+    /* Info modal mobile - positioned from top */
     .info-modal-content {
 width: 90%;
 max-width: 95%;
-margin: 0 auto !important;
+margin: 20px auto !important;
 max-height: 90vh;
 text-align: left !important;
 position: relative;
-top: 35%;
-transform: translateY(-50%);
+top: 0;
+transform: none;
     }
     .info-modal {
 text-align: left !important;
@@ -5189,6 +5217,58 @@ right: 3px;
     }
     #tankInfoTitle {
 top: 110px !important;
+white-space: normal !important;
+max-width: calc(100% - 40px) !important;
+word-wrap: break-word !important;
+overflow-wrap: break-word !important;
+    }
+    .field-manual-subtitle {
+top: 70px !important;
+    }
+    .field-manual-title {
+top: 45px !important;
+    }
+    /* Make panel-section a flex container on mobile */
+    .panel-section.mode-full-only {
+display: flex;
+flex-direction: column;
+    }
+    .panel-section.mode-full-only > div:first-child,
+    .panel-section.mode-full-only > div:nth-child(2),
+    .panel-section.mode-full-only > div:nth-child(3),
+    .panel-section.mode-full-only > div:nth-child(4) {
+order: 0;
+    }
+    /* Toggle row - order 1 */
+    .panel-section.mode-full-only > div:nth-child(5) {
+order: 1;
+    }
+    /* Center warning icon below toggles and above Target Distance on mobile */
+    .panel-section.mode-full-only > .warning-compact-wrapper {
+position: relative !important;
+top: auto !important;
+right: auto !important;
+bottom: auto !important;
+left: auto !important;
+transform: translateY(-20px) !important;
+display: flex !important;
+justify-content: center;
+margin: 0;
+order: 2;
+    }
+    /* Distance controls - order 3 */
+    .panel-section.mode-full-only > .distance-controls {
+order: 3;
+margin-top: 15px;
+    }
+    /* Position warning banner above the icon on mobile */
+    .warning-compact-wrapper .warning-container {
+top: auto;
+bottom: 100%;
+margin-bottom: 10px;
+min-width: 250px;
+max-width: 300px;
+width: auto;
     }
     /* Ensure info modal content is left-aligned on mobile */
     .info-modal-body,

@@ -1,9 +1,16 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+## [1.5.1] - 2026-04-18
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+### Desktop Layout Fixes
+- Positioned warning icon outside panel 
+- Set heightRedSection and toggle panel to 117px height
+- Aligned Height Calculation and Auto Calculation toggles
+- Removed tear line animation from warning container
+- Added mobile-specific flexbox ordering for warning icon
+
+### Image Caching Fix
+- Changed image caching from cache-first to network-first strategy
 
 ## [1.5.0] - 2026-04-17
 
@@ -34,7 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Terrain elevation calculating correctly (was returning 0)
 - Base value showing correct MIL instead of 0
 - Tab/Enter navigation working correctly across modes
-- Tank history content corrections
+- Tank history content corrections (removed game patch notes)
 
 ## [1.0.9] - 2025-12-21
 

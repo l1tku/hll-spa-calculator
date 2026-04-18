@@ -2,7 +2,7 @@
 // VERSION CONFIG - Update this when game patch changes
 // ============================================
 const HLL_VERSION = {
-    appVersion: 'v1.5.0',    // App version
+    appVersion: 'v1.5.1',    // App version
     gamePatch: 'HLL Update 19.1',  // HLL game patch
     author: 'by litku'
 };
@@ -5419,6 +5419,19 @@ function wireUpEventListeners() {
             closeWarningMessage();
         });
     }
+
+    // Close warning when clicking outside of it
+    document.addEventListener('click', function(e) {
+        const warningDiv = document.getElementById('warning');
+        const warningIconBtn = document.getElementById('warningIcon');
+        if (warningDiv && !warningDiv.classList.contains('hidden')) {
+            // Check if click was outside warning banner and outside warning icon
+            if (!warningDiv.contains(e.target) && 
+                (!warningIconBtn || !warningIconBtn.contains(e.target))) {
+                closeWarningMessage();
+            }
+        }
+    });
 
     // 7. Wire up Tank Specs Toggle Button
     const tankSpecsToggleBtn = document.getElementById('tankSpecsToggle');
