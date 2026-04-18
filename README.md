@@ -5,7 +5,7 @@ A web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let 
 
 ## Live Demo
 Access the calculator instantly in your browser:  
-**[https://l1tku.github.io/hll-arty-map-calculator/]([https://l1tku.github.io/hll-arty-map-calculator/](https://l1tku.github.io/hll-spa-calculator/)**
+**[https://l1tku.github.io/hll-spa-calculator/](https://l1tku.github.io/hll-spa-calculator/)**
 
 ## Features
 
