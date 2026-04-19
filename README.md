@@ -48,6 +48,16 @@ The source code (HTML, CSS, JavaScript) of this project is licensed under the **
 
 ## Version History
 
+**1.5.2 - 2026-04-19**
+
+### Recent Updates
+- Fixed reset button triggering keyboard on mobile
+- Added haptic feedback to buttons (Calculate, Copy, Reset, toggles)
+- Fixed mobile scrolling when touching +/- buttons
+- Fixed help-icon stuck highlight on mobile
+- Prevented focus loop on mobile after pressing Enter
+- Fixed input select-all behavior for heightDiff/redNumber
+
 **v1.5.1 - 2026-04-18**
 
 ### Recent Updates
