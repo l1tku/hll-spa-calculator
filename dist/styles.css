@@ -111,7 +111,7 @@ body {
     /* Use will-change to hint browser about background optimization */
     will-change: background-image;
     /* WebP format - massive size reduction */
-    background-image: url('../images/background/background2.webp');
+    background-image: url('../images/background/background.webp');
     background-size: cover;
     background-position: 20% center;
     background-repeat: no-repeat;
@@ -1160,12 +1160,13 @@ inset 0 2px 4px rgba(0, 0, 0, 0.5),
 inset 0 2px 4px rgba(0, 0, 0, 0.4),
 0 6px 12px rgba(0, 0, 0, 0.7);
 }
-.armored-button:active {
+.armored-button:active,
+.armored-button.holding {
     transform: scale(0.92);
     background: linear-gradient(145deg, #fbbf24, #f59e0b);
     border-color: #000;
     color: #000;
-    box-shadow: 
+    box-shadow:
 inset 0 4px 8px rgba(0, 0, 0, 0.4),
 0 0 16px rgba(251, 191, 36, 0.8),
 0 0 24px rgba(251, 191, 36, 0.4);
@@ -4660,10 +4661,18 @@ inset 0 1px 2px rgba(0, 0, 0, 0.1);
     padding: 0;
     line-height: 1;
     margin-top: -12px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 .help-icon:hover {
     background: linear-gradient(145deg, #4a4a4a, #3a3a3a);
     border-color: #c2b280;
+}
+.help-icon:active {
+    background: linear-gradient(145deg, #fbbf24, #f59e0b);
+    border-color: #000;
+    color: #000;
+    transform: scale(0.92);
 }
 /* Lite mode result label */
 [data-mode="lite"] .result-label {
@@ -4739,6 +4748,10 @@ inset 0 1px 2px rgba(0, 0, 0, 0.1);
         top: -285px;
         right: 0px;
         z-index: 10001;
+    }
+    /* Hide mobile warning on desktop */
+    .warning-mobile-position {
+        display: none !important;
     }
     /* Position Auto Calculation toggle on the right side of panel */
     .panel-section.mode-full-only .armored-toggle.mode-full-only {
@@ -5064,10 +5077,18 @@ padding: 0;
 line-height: 1;
 flex-shrink: 0;
 margin-bottom: 0;
+-webkit-tap-highlight-color: transparent;
+touch-action: manipulation;
     }
     .help-icon:hover {
 background: linear-gradient(145deg, #4a4a4a, #3a3a3a);
 border-color: #c2b280;
+    }
+    .help-icon:active {
+background: linear-gradient(145deg, #fbbf24, #f59e0b);
+border-color: #000;
+color: #000;
+transform: scale(0.92);
     }
     /* Hide unit text on mobile */
     .unit-text-desktop {
@@ -5243,32 +5264,41 @@ order: 0;
     .panel-section.mode-full-only > div:nth-child(5) {
 order: 1;
     }
-    /* Center warning icon below toggles and above Target Distance on mobile */
-    .panel-section.mode-full-only > .warning-compact-wrapper {
-position: relative !important;
-top: auto !important;
-right: auto !important;
-bottom: auto !important;
-left: auto !important;
-transform: translateY(-20px) !important;
-display: flex !important;
-justify-content: center;
-margin: 0;
-order: 2;
+    /* Show mobile warning, hide desktop warning */
+    .warning-mobile-position {
+        display: none;
+        position: relative;
+        order: 2;
+        justify-content: center;
+        z-index: 100;
+        width: 100%;
+        left: 0;
+    }
+    /* Move warning icon up on mobile */
+    .warning-mobile-position .warning-icon-btn {
+        transform: translateY(-65px);
+    }
+    /* Show when warning icon is visible */
+    .warning-mobile-position:has(.warning-icon-btn:not(.hidden)) {
+        display: flex !important;
+    }
+    .warning-desktop-position {
+        display: none !important;
     }
     /* Distance controls - order 3 */
-    .panel-section.mode-full-only > .distance-controls {
-order: 3;
-margin-top: 15px;
+    .distance-controls {
+        order: 3;
     }
     /* Position warning banner above the icon on mobile */
-    .warning-compact-wrapper .warning-container {
-top: auto;
-bottom: 100%;
-margin-bottom: 10px;
-min-width: 250px;
-max-width: 300px;
-width: auto;
+    .warning-mobile-position .warning-container {
+        position: absolute;
+        top: -170px;
+        left: 50%;
+        transform: translateX(-50%);
+        min-width: 250px;
+        max-width: 300px;
+        width: auto;
+        z-index: 101;
     }
     /* Ensure info modal content is left-aligned on mobile */
     .info-modal-body,

@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.5.2] - 2026-04-19
+
+### Mobile UX Improvements
+- Fixed reset button triggering keyboard on mobile
+- Added haptic feedback to buttons (Calculate, Copy, Reset, toggles)
+- Fixed mobile scrolling when touching +/- buttons
+- Fixed help-icon stuck highlight on mobile
+- Prevented focus loop on mobile after pressing Enter
+- Fixed input select-all behavior for heightDiff/redNumber
+
+### Performance
+- Added image preloads for flag icons and project hub icons
+
 ## [1.5.1] - 2026-04-18
 
 ### Desktop Layout Fixes

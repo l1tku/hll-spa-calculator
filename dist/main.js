@@ -2,7 +2,7 @@
 // VERSION CONFIG - Update this when game patch changes
 // ============================================
 const HLL_VERSION = {
-    appVersion: 'v1.5.1',    // App version
+    appVersion: 'v1.5.2',    // App version
     gamePatch: 'HLL Update 19.1',  // HLL game patch
     author: 'by litku'
 };
@@ -2584,15 +2584,32 @@ function showWarning(warningDiv, message) {
 
     const warningP = warningDiv.querySelector('p');
     const warningIconBtn = document.getElementById('warningIcon');
+    const warningIconMobile = document.getElementById('warningIconMobile');
     
     if (warningP) {
         const currentMessage = message || warningP.textContent;
         warningP.textContent = currentMessage;
         
-        // Show the warning icon button
+        // Also sync text to mobile warning
+        const warningMobileDiv = document.getElementById('warningMobile');
+        const warningMobileP = warningMobileDiv ? warningMobileDiv.querySelector('p') : null;
+        if (warningMobileP) {
+            warningMobileP.textContent = currentMessage;
+        }
+        
+        // Show the warning icon button (desktop)
         if (warningIconBtn) {
             warningIconBtn.classList.remove('hidden');
         }
+        // Show the warning icon button (mobile)
+        if (warningIconMobile) {
+            warningIconMobile.classList.remove('hidden');
+        }
+        
+        // Add margin class to distance-controls for mobile
+        document.querySelectorAll('.distance-controls').forEach(el => {
+            el.classList.add('warning-margin');
+        });
         
         // Keep warning message hidden by default (user must click icon to see it)
         warningDiv.classList.add('hidden');
@@ -2604,22 +2621,33 @@ function hideWarning(warningDiv) {
     if (!warningDiv) return;
     
     const warningIconBtn = document.getElementById('warningIcon');
+    const warningIconMobile = document.getElementById('warningIconMobile');
     
     // Hide the warning message
     warningDiv.classList.add('hidden');
     
-    // Hide the warning icon button
+    // Hide the warning icon button (desktop)
     if (warningIconBtn) {
         warningIconBtn.classList.add('hidden');
     }
+    // Hide the warning icon button (mobile)
+    if (warningIconMobile) {
+        warningIconMobile.classList.add('hidden');
+    }
+    
+    // Remove margin class from distance-controls
+    document.querySelectorAll('.distance-controls').forEach(el => {
+        el.classList.remove('warning-margin');
+    });
     
     previousWarningType = '';
     previousWarningMessage = '';
 }
 
 // Toggle warning message visibility when icon is clicked
-function toggleWarningMessage() {
-    const warningDiv = document.getElementById('warning');
+function toggleWarningMessage(warningId) {
+    const id = warningId || 'warning';
+    const warningDiv = document.getElementById(id);
     if (warningDiv) {
         warningDiv.classList.toggle('hidden');
     }
@@ -2628,8 +2656,12 @@ function toggleWarningMessage() {
 // Close warning message when X is clicked
 function closeWarningMessage() {
     const warningDiv = document.getElementById('warning');
+    const warningDivMobile = document.getElementById('warningMobile');
     if (warningDiv) {
         warningDiv.classList.add('hidden');
+    }
+    if (warningDivMobile) {
+        warningDivMobile.classList.add('hidden');
     }
 }
 
@@ -2904,7 +2936,9 @@ function calculate() {
 
 // In manual mode, focus distance input after calculation (for Enter key workflow)
 // In auto mode, remove focus from calculate button to clear yellow highlight
-    if (!isAutoCalcEnabled()) {
+// Skip focus on touch devices (mobile) to prevent keyboard from opening
+    const isTouch = (('ontouchstart' in window) || (navigator.maxTouchPoints > 0));
+    if (!isAutoCalcEnabled() && !isTouch) {
         const distanceInputEl = document.getElementById('distance');
         if (distanceInputEl) {
             distanceInputEl.focus();
@@ -3695,8 +3729,9 @@ if (heightDiffToggleCheckbox) {
 
 // Make editing fast and keep fields from being empty
 ['distance', 'heightDiff', 'redNumber'].forEach(id => {
-    const input = document.getElementById(id);
-    if (!input) return;
+    // Get all inputs with this ID (both full and lite modes)
+    const allInputs = document.querySelectorAll(`input#${id}`);
+    if (!allInputs.length) return;
 
 // On focus/click, select the entire value so typing overwrites it
     const selectAllHandler = function() {
@@ -3807,88 +3842,91 @@ if (heightDiffToggleCheckbox) {
         }
     };
 
-// Also prevent paste of non-numeric content
-    input.addEventListener('paste', function(e) {
-        e.preventDefault();
-        const paste = (e.clipboardData || window.clipboardData).getData('text');
+    // Apply event listeners to all instances of this input (full and lite modes)
+    allInputs.forEach(input => {
+        input.addEventListener('focus', selectAllHandler);
+        input.addEventListener('focus', focusCalcHandler);
+        input.addEventListener('click', selectAllHandler);
+        input.addEventListener('blur', ensureNonEmptyHandler);
 
-// Handle negative numbers for redNumber and heightDiff fields
-        const isNegative = paste.trim().startsWith('-');
-// Remove all non-numeric characters except comma, period, and minus sign
-        let cleaned = paste.replace(/[^0-9,.\-]/g, '');
-// Ensure minus sign is only at the start
-        if (cleaned.includes('-')) {
-            cleaned = '-' + cleaned.replace(/-/g, '');
-        } else if (isNegative && !cleaned.startsWith('-')) {
-            cleaned = '-' + cleaned;
-        }
+        // Also prevent paste of non-numeric content - wrap in forEach
+        input.addEventListener('paste', function(e) {
+            e.preventDefault();
+            const paste = (e.clipboardData || window.clipboardData).getData('text');
 
-// Replace comma with period for consistency, or keep first decimal separator
-        if (cleaned.includes(',') && cleaned.includes('.')) {
-// If both exist, keep the first one
-            const firstComma = cleaned.indexOf(',');
-            const firstPeriod = cleaned.indexOf('.');
-            if (firstComma < firstPeriod) {
-                cleaned = cleaned.replace(/\./g, '');
-            } else {
-                cleaned = cleaned.replace(/,/g, '');
+            // Handle negative numbers for redNumber and heightDiff fields
+            const isNegative = paste.trim().startsWith('-');
+            // Remove all non-numeric characters except comma, period, and minus sign
+            let cleaned = paste.replace(/[^0-9,.\-]/g, '');
+            // Ensure minus sign is only at the start
+            if (cleaned.includes('-')) {
+                cleaned = '-' + cleaned.replace(/-/g, '');
+            } else if (isNegative && !cleaned.startsWith('-')) {
+                cleaned = '-' + cleaned;
             }
-        } else if (cleaned.includes(',')) {
-// Replace comma with period
-            cleaned = cleaned.replace(/,/g, '.');
-        }
-// Ensure only one decimal separator
-        const parts = cleaned.split('.');
-        if (parts.length > 2) {
-            cleaned = parts[0] + '.' + parts.slice(1).join('');
-        }
 
-// Apply limits after cleaning
-        if (this.id === 'distance') {
-            const numValue = parseFloat(cleaned);
-            if (!isNaN(numValue)) {
-                if (numValue < 0) cleaned = '0';
-                else if (numValue > 1000) cleaned = '1000';
+            // Replace comma with period for consistency, or keep first decimal separator
+            if (cleaned.includes(',') && cleaned.includes('.')) {
+                // If both exist, keep the first one
+                const firstComma = cleaned.indexOf(',');
+                const firstPeriod = cleaned.indexOf('.');
+                if (firstComma < firstPeriod) {
+                    cleaned = cleaned.replace(/\./g, '');
+                } else {
+                    cleaned = cleaned.replace(/,/g, '');
+                }
+            } else if (cleaned.includes(',')) {
+                // Replace comma with period
+                cleaned = cleaned.replace(/,/g, '.');
             }
-        } else if (this.id === 'redNumber') {
-            const numValue = parseFloat(cleaned);
-            if (!isNaN(numValue)) {
-                if (numValue < -1000) cleaned = '-1000';
-                else if (numValue > 1000) cleaned = '1000';
+            // Ensure only one decimal separator
+            const parts = cleaned.split('.');
+            if (parts.length > 2) {
+                cleaned = parts[0] + '.' + parts.slice(1).join('');
             }
-        } else if (this.id === 'heightDiff') {
-            const numValue = parseFloat(cleaned);
-            if (!isNaN(numValue)) {
-                if (numValue < -5000) cleaned = '-5000';
-                else if (numValue > 5000) cleaned = '5000';
-            }
-        }
 
-        this.value = cleaned;
-
-// After paste, handle calculation or reset base value
-        if (isAutoCalcEnabled()) {
-            if (this.id === 'heightDiff' || this.id === 'redNumber' || this.id === 'distance') {
-// Use setTimeout to ensure value is updated in DOM before calculation
-                setTimeout(() => {
-                    calculate();
-                }, 0);
-            }
-        } else {
-// When auto calc is off, reset base value to "--" when any input changes
-            if (this.id === 'heightDiff' || this.id === 'redNumber' || this.id === 'distance') {
-                const baseValueEl = document.getElementById('baseValue');
-                if (baseValueEl) {
-                    baseValueEl.textContent = '--';
+            // Apply limits after cleaning
+            if (this.id === 'distance') {
+                const numValue = parseFloat(cleaned);
+                if (!isNaN(numValue)) {
+                    if (numValue < 0) cleaned = '0';
+                    else if (numValue > 1000) cleaned = '1000';
+                }
+            } else if (this.id === 'redNumber') {
+                const numValue = parseFloat(cleaned);
+                if (!isNaN(numValue)) {
+                    if (numValue < -1000) cleaned = '-1000';
+                    else if (numValue > 1000) cleaned = '1000';
+                }
+            } else if (this.id === 'heightDiff') {
+                const numValue = parseFloat(cleaned);
+                if (!isNaN(numValue)) {
+                    if (numValue < -5000) cleaned = '-5000';
+                    else if (numValue > 5000) cleaned = '5000';
                 }
             }
-        }
-    });
 
-    input.addEventListener('focus', selectAllHandler);
-    input.addEventListener('focus', focusCalcHandler);
-    input.addEventListener('click', selectAllHandler);
-    input.addEventListener('blur', ensureNonEmptyHandler);
+            this.value = cleaned;
+
+            // After paste, handle calculation or reset base value
+            if (isAutoCalcEnabled()) {
+                if (this.id === 'heightDiff' || this.id === 'redNumber' || this.id === 'distance') {
+                    // Use setTimeout to ensure value is updated in DOM before calculation
+                    setTimeout(() => {
+                        calculate();
+                    }, 0);
+                }
+            } else {
+                // When auto calc is off, reset base value to "--" when any input changes
+                if (this.id === 'heightDiff' || this.id === 'redNumber' || this.id === 'distance') {
+                    const baseValueEl = document.getElementById('baseValue');
+                    if (baseValueEl) {
+                        baseValueEl.textContent = '--';
+                    }
+                }
+            }
+        });
+    });
 });
 
 // Fine-tuning toggle functionality
@@ -4030,9 +4068,22 @@ function navigateFocus(e) {
     const direction = (e.key === 'Tab' && e.shiftKey) ? -1 : 1;
     let nextIndex = currentIndex + direction;
 
-    // Wrap around
-    if (nextIndex < 0) nextIndex = order.length - 1;
-    if (nextIndex >= order.length) nextIndex = 0;
+    // Detect touch/mobile device
+    const isTouchDevice = (('ontouchstart' in window) || (navigator.maxTouchPoints > 0));
+
+    // Wrap around (only on desktop - mobile should not loop)
+    if (!isTouchDevice) {
+        if (nextIndex < 0) nextIndex = order.length - 1;
+        if (nextIndex >= order.length) nextIndex = 0;
+    } else {
+        // On mobile, don't wrap - stay at boundaries
+        if (nextIndex < 0) nextIndex = 0;
+        if (nextIndex >= order.length) {
+            // On mobile, when pressing Enter/Tab at last element, just blur (don't loop)
+            document.activeElement.blur();
+            return;
+        }
+    }
 
     // Calculate before moving focus (only if auto calc is enabled, OR if on calculate button)
     const currentId = document.activeElement.id;
@@ -4071,16 +4122,34 @@ function navigateFocus(e) {
 // Attach to ALL distance inputs (both lite and full modes)
 document.querySelectorAll('input#distance').forEach(input => {
     input.addEventListener('keydown', navigateFocus);
+    // Trigger auto-calculation on blur (click outside)
+    input.addEventListener('blur', function() {
+        if (isAutoCalcEnabled()) {
+            calculate();
+        }
+    });
 });
 
 // Attach to ALL heightDiff inputs (both lite and full modes)
 document.querySelectorAll('input#heightDiff').forEach(input => {
     input.addEventListener('keydown', navigateFocus);
+    // Trigger auto-calculation on blur (click outside)
+    input.addEventListener('blur', function() {
+        if (isAutoCalcEnabled()) {
+            calculate();
+        }
+    });
 });
 
 // Attach to ALL redNumber inputs (both lite and full modes)
 document.querySelectorAll('input#redNumber').forEach(input => {
     input.addEventListener('keydown', navigateFocus);
+    // Trigger auto-calculation on blur (click outside)
+    input.addEventListener('blur', function() {
+        if (isAutoCalcEnabled()) {
+            calculate();
+        }
+    });
 });
 
 if (calcButtonEl) calcButtonEl.addEventListener('keydown', navigateFocus);
@@ -5126,6 +5195,13 @@ function wireUpEventListeners() {
     }
 
     // 1. Wire up the Calculate Button
+    // Helper function to detect touch/mobile devices
+    function isTouchDevice() {
+        return (('ontouchstart' in window) ||
+            (navigator.maxTouchPoints > 0) ||
+            (navigator.msMaxTouchPoints > 0));
+    }
+
     const calcBtn = document.getElementById('calculateButton');
     if (calcBtn) {
         let touchTriggered = false;
@@ -5134,11 +5210,15 @@ function wireUpEventListeners() {
         calcBtn.addEventListener('touchstart', function(e) {
             touchTriggered = false;
             calcBtn.classList.add('holding');
+            // Haptic feedback on mobile
+            if (navigator.vibrate) navigator.vibrate(10);
         }, { passive: true });
 
         calcBtn.addEventListener('touchend', function(e) {
             calcBtn.classList.remove('holding');
             touchTriggered = true;
+            // Haptic feedback on mobile
+            if (navigator.vibrate) navigator.vibrate(15);
             // Trigger calculation on mobile touch
             calculate();
         });
@@ -5163,12 +5243,80 @@ function wireUpEventListeners() {
     // 2. Wire up Copy and Reset Buttons
     const copyBtn = document.querySelector('.copy-result-button');
     if (copyBtn) {
-        copyBtn.addEventListener('click', function() { copyResult(this); });
+        let copyTouchHandled = false;
+        let copyLastTouchTime = 0;
+
+        // Handle touch events with haptic feedback
+        copyBtn.addEventListener('touchstart', function(e) {
+            copyTouchHandled = true;
+            copyLastTouchTime = Date.now();
+            if (navigator.vibrate) navigator.vibrate(10);
+            e.preventDefault();
+            e.stopPropagation();
+            copyResult(this);
+        }, { passive: false });
+
+        copyBtn.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            setTimeout(() => { copyTouchHandled = false; }, 100);
+        }, { passive: false });
+
+        copyBtn.addEventListener('touchcancel', function() {
+            copyTouchHandled = false;
+        });
+
+        // Handle click for desktop (ignore ghost clicks from touch)
+        copyBtn.addEventListener('click', function(e) {
+            const now = Date.now();
+            if (now - copyLastTouchTime < 500 || copyTouchHandled) {
+                e.preventDefault();
+                e.stopPropagation();
+                return;
+            }
+            e.preventDefault();
+            e.stopPropagation();
+            copyResult(this);
+        });
     }
 
     const resetBtn = document.querySelector('.reset-result-button');
     if (resetBtn) {
-        resetBtn.addEventListener('click', function() { resetCalculator(this); });
+        let resetTouchHandled = false;
+        let resetLastTouchTime = 0;
+
+        // Handle touch events to prevent input focus on mobile
+        resetBtn.addEventListener('touchstart', function(e) {
+            resetTouchHandled = true;
+            resetLastTouchTime = Date.now();
+            if (navigator.vibrate) navigator.vibrate(10);
+            e.preventDefault();
+            e.stopPropagation();
+            resetCalculator(this);
+        }, { passive: false });
+
+        resetBtn.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            setTimeout(() => { resetTouchHandled = false; }, 100);
+        }, { passive: false });
+
+        resetBtn.addEventListener('touchcancel', function() {
+            resetTouchHandled = false;
+        });
+
+        // Handle click for desktop (ignore ghost clicks from touch)
+        resetBtn.addEventListener('click', function(e) {
+            const now = Date.now();
+            if (now - resetLastTouchTime < 500 || resetTouchHandled) {
+                e.preventDefault();
+                e.stopPropagation();
+                return;
+            }
+            e.preventDefault();
+            e.stopPropagation();
+            resetCalculator(this);
+        });
     }
 
     // 3. Wire up the Plus/Minus Buttons for all inputs
@@ -5186,9 +5334,11 @@ function wireUpEventListeners() {
                 const REPEAT_RATE = 100; // Repeat every 100ms once started
 
                 let touchHandled = false;
+                let touchStartY = 0;
+                let touchStartX = 0;
+                let isScrolling = false;
 
                 function startHolding(e) {
-                    if (e && e.cancelable) e.preventDefault();
                     lastTouchTime = Date.now();
 
                     // Add visual feedback
@@ -5220,21 +5370,46 @@ function wireUpEventListeners() {
                     btn.classList.remove('holding');
                 }
 
-                // Handle touch (mobile)
+                // Handle touch (mobile) - allow scrolling, trigger only on clean tap
                 btn.addEventListener('touchstart', function(e) {
                     touchHandled = true;
-                    startHolding(e);
+                    isScrolling = false;
+                    touchStartY = e.touches[0].clientY;
+                    touchStartX = e.touches[0].clientX;
+                    // Just visual feedback - don't trigger yet
+                    btn.classList.add('holding');
+                }, { passive: true });
+
+                btn.addEventListener('touchmove', function(e) {
+                    const touchY = e.touches[0].clientY;
+                    const touchX = e.touches[0].clientX;
+                    const yDiff = Math.abs(touchY - touchStartY);
+                    const xDiff = Math.abs(touchX - touchStartX);
+                    // If moved more than 10px, it's a scroll - cancel everything
+                    if (yDiff > 10 || xDiff > 10) {
+                        isScrolling = true;
+                        btn.classList.remove('holding');
+                    }
+                }, { passive: true });
+
+                btn.addEventListener('touchend', function(e) {
+                    btn.classList.remove('holding');
+                    // Only trigger if we didn't scroll
+                    if (!isScrolling && touchHandled) {
+                        lastTouchTime = Date.now();
+                        adjustValue(inputId, delta);
+                    }
+                    // Reset
+                    setTimeout(() => {
+                        touchHandled = false;
+                        isScrolling = false;
+                    }, 100);
                 }, { passive: false });
 
-                btn.addEventListener('touchend', function() {
-                    stopHolding();
-                    // Reset touchHandled flag after a delay to allow synthetic mouse events to pass
-                    setTimeout(() => { touchHandled = false; }, 100);
-                });
-
                 btn.addEventListener('touchcancel', function() {
-                    stopHolding();
+                    btn.classList.remove('holding');
                     touchHandled = false;
+                    isScrolling = false;
                 });
 
                 // Handle mouse (desktop) - skip if touch already handled
@@ -5328,6 +5503,8 @@ function wireUpEventListeners() {
                         // Only toggle if it was a quick tap (less than 300ms) and minimal movement (less than 10px)
                         if (timeDiff < 300 && yDiff < 10) {
                             touchHandled = true;
+                            // Haptic feedback on toggle
+                            if (navigator.vibrate) navigator.vibrate(15);
                             checkbox.checked = !checkbox.checked;
                             const event = new Event('change', { bubbles: true });
                             checkbox.dispatchEvent(event);
@@ -5410,6 +5587,15 @@ function wireUpEventListeners() {
             toggleWarningMessage();
         });
     }
+    // Mobile warning icon
+    const warningIconMobile = document.getElementById('warningIconMobile');
+    if (warningIconMobile) {
+        warningIconMobile.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleWarningMessage('warningMobile');
+        });
+    }
 
     const warningCloseBtn = document.querySelector('.warning-close');
     if (warningCloseBtn) {
@@ -5420,7 +5606,7 @@ function wireUpEventListeners() {
         });
     }
 
-    // Close warning when clicking outside of it
+    // Close warning when clicking outside of it (desktop)
     document.addEventListener('click', function(e) {
         const warningDiv = document.getElementById('warning');
         const warningIconBtn = document.getElementById('warningIcon');
@@ -5428,6 +5614,18 @@ function wireUpEventListeners() {
             // Check if click was outside warning banner and outside warning icon
             if (!warningDiv.contains(e.target) && 
                 (!warningIconBtn || !warningIconBtn.contains(e.target))) {
+                closeWarningMessage();
+            }
+        }
+    });
+    // Close mobile warning when clicking outside of it
+    document.addEventListener('click', function(e) {
+        const warningMobileDiv = document.getElementById('warningMobile');
+        const warningIconMobile = document.getElementById('warningIconMobile');
+        if (warningMobileDiv && !warningMobileDiv.classList.contains('hidden')) {
+            // Check if click was outside warning banner and outside warning icon
+            if (!warningMobileDiv.contains(e.target) && 
+                (!warningIconMobile || !warningIconMobile.contains(e.target))) {
                 closeWarningMessage();
             }
         }
