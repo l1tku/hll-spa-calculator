@@ -9,10 +9,18 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>HLL SPA Artillery Calculator</title>
-    <!-- Preload critical tank image for faster initial render (WebP only - PNG is fallback loaded on demand) -->
+    <!-- Preload all tank images to prevent popping when switching tanks -->
     <link rel="preload" as="image" href="images/tanks/BISHOP_248.webp" type="image/webp" fetchpriority="high">
-    <!-- Preload only the default selected flag (others load on demand) -->
+    <link rel="preload" as="image" href="images/tanks/AVRE_248.webp" type="image/webp" fetchpriority="low">
+    <link rel="preload" as="image" href="images/tanks/M4A3_248.webp" type="image/webp" fetchpriority="low">
+    <link rel="preload" as="image" href="images/tanks/KV2_248.webp" type="image/webp" fetchpriority="low">
+    <link rel="preload" as="image" href="images/tanks/PANZERIII_248.webp" type="image/webp" fetchpriority="low">
+    <link rel="preload" as="image" href="images/tanks/BRUMMBAR_248.webp" type="image/webp" fetchpriority="low">
+    <!-- Preload all flag icons to prevent popping when switching tanks -->
     <link rel="preload" as="image" href="images/UI/Icons/flags/BRITISH_30.webp" type="image/webp" fetchpriority="low">
+    <link rel="preload" as="image" href="images/UI/Icons/flags/US_30.webp" type="image/webp" fetchpriority="low">
+    <link rel="preload" as="image" href="images/UI/Icons/flags/SOVIET_30.webp" type="image/webp" fetchpriority="low">
+    <link rel="preload" as="image" href="images/UI/Icons/flags/GERMANY_30.webp" type="image/webp" fetchpriority="low">
     <!-- Preload project hub icons -->
     <link rel="preload" as="image" href="images/favicon_arty.webp" type="image/webp" fetchpriority="low">
     <link rel="preload" as="image" href="images/favicon_garrison.webp" type="image/webp" fetchpriority="low">
@@ -21,7 +29,7 @@
     <!-- PWA Manifest and Icons -->
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="images/icon-180.png">
-    <link rel="stylesheet" href="dist/styles.css?v=12">
+    <link rel="stylesheet" href="dist/styles.css?v=13">
     <style>
         @font-face {
             font-family: 'GothamSS';
