@@ -3,27 +3,32 @@
 
 A web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let Loose.
 
-## Live Demo
-Access the calculator instantly in your browser:  
-**[https://l1tku.github.io/hll-spa-calculator/](https://l1tku.github.io/hll-spa-calculator/)**
+## Installation & Local Usage
+
+### Option 1: Live Web Access (Recommended)
+No installation required. Simply visit the [Live Demo Link](https://l1tku.github.io/hll-spa-calculator/) from any desktop or mobile browser.
+
+### Option 2: Local Development
+1. **Clone** or download this repository.
+2. Open `index.html` in any modern web browser.
 
 ## Features
 
-- **Multi-Vehicle Support:** Accurate formulas for British Bishop, Churchill AVRE, US Sherman M4A3, Soviet KV-2, and German Panzer III/Sturmpanzer IV.
-- **Smart Calculation:** Auto-calculation modes with manual overrides.
-- **Height Difference Toggle:** Enable/disable height inputs for elevation calculations.
-- **Mobile Support:** Responsive design with optimized touch targets and collapsible panels.
-- **Intel Database:** Built-in "Field Manual" with tank specifications and screenshots.
+- **Multi-Vehicle Support:** Accurate formulas for all SPA vehicles.
+- **Auto-Calculation:** Toggle auto-calculation on or off.
+- **Height Calculation:** Toggle height calculation on or off.
+- **Mobile Support:** Compact mobile design with collapsible panels.
+- **Intel Database:** Built-in "Field Manual" with tank specifications, screenshots, and history.
 - **Immersive UI:** Military-themed interface with authentic styling.
-- **Lite Mode:** Lightweight version optimized for low-end devices.
+- **Lite Mode:** Lightweight version.
 
 ## How to Use
 
 1. **Select Vehicle:** Choose your tank/SPA from the dropdown.
 2. **Set Distance:** Enter target distance (Range varies by vehicle).
-3. **Adjust Height(optional):** Enter height difference in meters (Negative if target is lower, positive if higher).
-4. **Input Terrain Elev:** Enter the current elevation adjustment (The **RED MIL** number visible in your HUD).
-5. **Fire:** Use the calculated Yellow Elevation setting.
+3. **Adjust Height (optional):** Enter height difference in meters.
+4. **Input Terrain Elev:** Type the **RED MIL** number you see in your HUD.
+5. **Calculate:** Use the calculated Yellow Elevation setting.
 
 ## Vehicles Supported
 
@@ -48,20 +53,22 @@ The source code (HTML, CSS, JavaScript) of this project is licensed under the **
 
 ## Version History
 
-**1.5.2 - 2026-04-19**
-- Fixed reset button triggering keyboard on mobile
-- Added haptic feedback to buttons (Calculate, Copy, Reset, toggles)
-- Fixed mobile scrolling when touching +/- buttons
-- Fixed help-icon stuck highlight on mobile
-- Prevented focus loop on mobile after pressing Enter
-- Fixed input select-all behavior for heightDiff/redNumber
+**v1.5.2 - 2026-04-19**
+
+### Recent Updates
+- **Mobile UX Improvements**: Fixed reset button triggering keyboard on mobile, added haptic feedback to buttons (Calculate, Copy, Reset, toggles), fixed mobile scrolling when touching +/- buttons, fixed help-icon stuck highlight on mobile, prevented focus loop on mobile after pressing Enter, and fixed input select-all behavior for heightDiff/redNumber.
+- **Performance**: Added image preloads for flag icons and project hub icons.
 
 **v1.5.1 - 2026-04-18**
+
+### Recent Updates
 - **Desktop layout fixes**: Fixed warning icon positioning and toggle button alignment.
 - **Panel height consistency**: Set uniform 117px height for height/elevation and toggle panels.
 - **Animation cleanup**: Removed tear line animation from warning container.
 
 **v1.5.0 - 2026-04-17**
+
+### Recent Updates
 - **Mobile overhaul**: Complete responsive redesign with collapsible tank specs, classified-style tank info button, and optimized touch targets.
 - **Height difference toggle**: New toggle to enable/disable height inputs with dynamic layout adjustment.
 - **Hold-to-repeat buttons**: +/- buttons now auto-increment when held (1.5s delay).
@@ -70,6 +77,8 @@ The source code (HTML, CSS, JavaScript) of this project is licensed under the **
 - **Bug fixes**: Fixed terrain elevation calculation, reset button, tab navigation, and tank history content.
 
 **v1.0.9 - 2025**
+
+### Recent Updates
 - **Lite mode**: Lightweight HTML/CSS/JS build for faster loads and low-end devices.
 - **Height calculations**: Updated formulas to match in-game red-number compensation and muzzle heights for accurate elevation.
 - **HTML → CSS/JS split**: Styles and scripts moved into built assets for cleaner HTML and quicker rendering.
