@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.5.3] - 2026-04-21
+
+### Desktop UI Refinements
+- More compact desktop layout and improved overall UI consistency.
+
 ## [1.5.2] - 2026-04-19
 
 ### Mobile UX Improvements

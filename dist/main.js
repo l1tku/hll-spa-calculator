@@ -2,7 +2,7 @@
 // VERSION CONFIG - Update this when game patch changes
 // ============================================
 const HLL_VERSION = {
-    appVersion: 'v1.5.2',    // App version
+    appVersion: 'v1.5.3',    // App version
     gamePatch: 'HLL Update 19.1',  // HLL game patch
     author: 'by litku'
 };
@@ -5250,15 +5250,16 @@ function wireUpEventListeners() {
         copyBtn.addEventListener('touchstart', function(e) {
             copyTouchHandled = true;
             copyLastTouchTime = Date.now();
-            if (navigator.vibrate) navigator.vibrate(10);
             e.preventDefault();
             e.stopPropagation();
-            copyResult(this);
         }, { passive: false });
 
         copyBtn.addEventListener('touchend', function(e) {
             e.preventDefault();
             e.stopPropagation();
+            // Haptic feedback on release
+            if (navigator.vibrate) navigator.vibrate(10);
+            copyResult(this);
             setTimeout(() => { copyTouchHandled = false; }, 100);
         }, { passive: false });
 
@@ -5289,15 +5290,16 @@ function wireUpEventListeners() {
         resetBtn.addEventListener('touchstart', function(e) {
             resetTouchHandled = true;
             resetLastTouchTime = Date.now();
-            if (navigator.vibrate) navigator.vibrate(10);
             e.preventDefault();
             e.stopPropagation();
-            resetCalculator(this);
         }, { passive: false });
 
         resetBtn.addEventListener('touchend', function(e) {
             e.preventDefault();
             e.stopPropagation();
+            // Haptic feedback on release
+            if (navigator.vibrate) navigator.vibrate(10);
+            resetCalculator(this);
             setTimeout(() => { resetTouchHandled = false; }, 100);
         }, { passive: false });
 
@@ -5397,6 +5399,8 @@ function wireUpEventListeners() {
                     // Only trigger if we didn't scroll
                     if (!isScrolling && touchHandled) {
                         lastTouchTime = Date.now();
+                        // Haptic feedback on mobile
+                        if (navigator.vibrate) navigator.vibrate(10);
                         adjustValue(inputId, delta);
                     }
                     // Reset

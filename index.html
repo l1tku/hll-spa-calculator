@@ -11,20 +11,17 @@
     <title>HLL SPA Artillery Calculator</title>
     <!-- Preload critical tank image for faster initial render (WebP only - PNG is fallback loaded on demand) -->
     <link rel="preload" as="image" href="images/tanks/BISHOP_248.webp" type="image/webp" fetchpriority="high">
-    <!-- Preload flag icons for dropdown (small files, ensures they display properly on GitHub Pages) -->
-    <link rel="preload" as="image" href="images/UI/Icons/flags/BRITISH_30.webp" type="image/webp">
-    <link rel="preload" as="image" href="images/UI/Icons/flags/US_30.webp" type="image/webp">
-    <link rel="preload" as="image" href="images/UI/Icons/flags/SOVIET_30.webp" type="image/webp">
-    <link rel="preload" as="image" href="images/UI/Icons/flags/GERMANY_30.webp" type="image/webp">
+    <!-- Preload only the default selected flag (others load on demand) -->
+    <link rel="preload" as="image" href="images/UI/Icons/flags/BRITISH_30.webp" type="image/webp" fetchpriority="low">
     <!-- Preload project hub icons -->
-    <link rel="preload" as="image" href="images/favicon_arty.webp" type="image/webp">
-    <link rel="preload" as="image" href="images/favicon_garrison.webp" type="image/webp">
-    <link rel="preload" as="image" href="images/github.webp" type="image/webp">
+    <link rel="preload" as="image" href="images/favicon_arty.webp" type="image/webp" fetchpriority="low">
+    <link rel="preload" as="image" href="images/favicon_garrison.webp" type="image/webp" fetchpriority="low">
+    <link rel="preload" as="image" href="images/github.webp" type="image/webp" fetchpriority="low">
     <link rel="icon" type="image/png" href="images/favicon.png">
     <!-- PWA Manifest and Icons -->
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="images/icon-180.png">
-    <link rel="stylesheet" href="dist/styles.css?v=10">
+    <link rel="stylesheet" href="dist/styles.css?v=12">
     <style>
         @font-face {
             font-family: 'GothamSS';
@@ -252,7 +249,7 @@
             <!-- Title -->
             <div class="text-center mb-8">
                 <h1 class="text-4xl font-bold dog-tags">HLL SPA Artillery Calculator</h1>
-                <p class="text-sm mt-1 text-gray">Self-Propelled Artillery Targeting Calculator for Hell Let Loose</p>
+                <p class="text-sm mt-1 text-gray" style="margin-bottom: 0;">Self-Propelled Artillery Targeting Calculator for Hell Let Loose</p>
             </div>
 
             <!-- More Projects Button -->
@@ -272,11 +269,10 @@
                 <div class="panel-section mode-full-only">
                     <div class="armored-rivet-small armored-rivet-small-top-left"></div>
                     <div class="armored-rivet-small armored-rivet-small-top-right"></div>
-                    <div class="armored-rivet-small armored-rivet-small-bottom-left"></div>
                     <div class="armored-rivet-small armored-rivet-small-bottom-right"></div>
                     <div class="flex items-start justify-between gap-4 relative">
                         <div class="flex-1 relative z-[100] flex-col pr-8 min-w-0" id="tankSelectionSection">
-                            <label for="faction">Tank Selection</label>
+                            <label for="faction" style="margin-bottom: 5px;">Tank Selection</label>
                             <input type="hidden" id="faction" value="British (Bishop SP)">
                             <!-- Tank specs panel at top for mobile -->
                             <div class="custom-select-wrapper">
@@ -336,7 +332,7 @@
                 </div>
 
                 <!-- Input Fields -->
-                <div class="panel-section mode-full-only">
+                <div class="panel-section mode-full-only" style="padding-top: 0;">
                     <div class="armored-rivet-small armored-rivet-small-top-left"></div>
                     <div class="armored-rivet-small armored-rivet-small-top-right"></div>
                     <div class="armored-rivet-small armored-rivet-small-bottom-left"></div>
@@ -460,7 +456,7 @@
                             <div class="distance-box">
                                 <div class="lite-field-label distance-label">
                                     <strong>Terrain Elevation</strong>
-                                    <span class="distance-subtext">(RED MIL)</span>
+                                    <span class="distance-subtext">(MIL)</span>
                                 </div>
                                 <div class="lite-field-controls distance-controls">
                                     <button class="armored-button w-52 h-52" tabindex="-1" data-field="redNumber" data-delta="-1" aria-label="Decrease terrain elevation">-</button>
@@ -490,7 +486,6 @@
                                     <label for="heightDiff">Height Difference <span class="unit-text-desktop">(M)</span></label>
                                     <button class="help-icon mobile-only" onclick="alert('Height Difference (Meters)\n\nEnter the height difference between target and gun\n\n- target lower than gun (negative value)\n+ target higher than gun (positive value)\n\nThis input is optional and can be toggled off.')" aria-label="Height difference help">?</button>
                                 </div>
-                                <p class="input-hint desktop-only">(- target lower, + target higher)</p>
                             </div>
                             <div class="flex-center gap-10 mt-auto">
                                 <button class="armored-button" aria-label="Decrease height difference">-</button>
@@ -505,7 +500,6 @@
                                     <label for="redNumber">Terrain Elevation <span class="unit-text-desktop">(MIL)</span></label>
                                     <button class="help-icon mobile-only" onclick="alert('Terrain Elevation (MIL)\n\nEnter exactly what your RED MIL HUD shows\n\n- downhill/nose-down (negative value)\n+ uphill/nose-up (positive value)')" aria-label="Terrain elevation help">?</button>
                                 </div>
-                                <p class="input-hint desktop-only">(Enter exactly what your RED MIL HUD shows)</p>
                             </div>
                             <div class="flex-center gap-10 mt-auto">
                                 <button class="armored-button" aria-label="Decrease terrain elevation">-</button>
@@ -559,7 +553,7 @@
 
             <!-- Tank Info Button - Outside main container -->
             <button id="tankInfoIcon" class="select-info-button mode-full-only">
-                <span>TANK INFO</span>
+                <span>SPA INFO</span>
             </button>
 
             <!-- Tank Info Modal -->
@@ -657,6 +651,6 @@
         </div>
     </div>
 
-    <script src="dist/main.js?v=10"></script>
+    <script src="dist/main.js?v=12"></script>
 </body>
 </html>
