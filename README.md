@@ -48,16 +48,20 @@ The source code (HTML, CSS, JavaScript) of this project is licensed under the **
 
 ## Version History
 
-**v1.5.1 - 2026-04-18**
+**1.5.2 - 2026-04-19**
+- Fixed reset button triggering keyboard on mobile
+- Added haptic feedback to buttons (Calculate, Copy, Reset, toggles)
+- Fixed mobile scrolling when touching +/- buttons
+- Fixed help-icon stuck highlight on mobile
+- Prevented focus loop on mobile after pressing Enter
+- Fixed input select-all behavior for heightDiff/redNumber
 
-### Recent Updates
+**v1.5.1 - 2026-04-18**
 - **Desktop layout fixes**: Fixed warning icon positioning and toggle button alignment.
 - **Panel height consistency**: Set uniform 117px height for height/elevation and toggle panels.
 - **Animation cleanup**: Removed tear line animation from warning container.
 
 **v1.5.0 - 2026-04-17**
-
-### Recent Updates
 - **Mobile overhaul**: Complete responsive redesign with collapsible tank specs, classified-style tank info button, and optimized touch targets.
 - **Height difference toggle**: New toggle to enable/disable height inputs with dynamic layout adjustment.
 - **Hold-to-repeat buttons**: +/- buttons now auto-increment when held (1.5s delay).
@@ -66,8 +70,6 @@ The source code (HTML, CSS, JavaScript) of this project is licensed under the **
 - **Bug fixes**: Fixed terrain elevation calculation, reset button, tab navigation, and tank history content.
 
 **v1.0.9 - 2025**
-
-### Recent Updates
 - **Lite mode**: Lightweight HTML/CSS/JS build for faster loads and low-end devices.
 - **Height calculations**: Updated formulas to match in-game red-number compensation and muzzle heights for accurate elevation.
 - **HTML → CSS/JS split**: Styles and scripts moved into built assets for cleaner HTML and quicker rendering.
