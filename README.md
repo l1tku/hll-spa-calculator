@@ -12,6 +12,14 @@ No installation required. Simply visit the [Live Demo Link](https://l1tku.github
 1. **Clone** or download this repository.
 2. Open `index.html` in any modern web browser.
 
+## How to Use
+
+1. **Select Vehicle:** Choose your tank/SPA from the dropdown.
+2. **Set Distance:** Enter target distance (Range varies by vehicle).
+3. **Adjust Height (optional):** Enter height difference in meters.
+4. **Input Terrain Elev:** Type the **RED MIL** number you see in your HUD.
+5. **Calculate:** Use the calculated Yellow Elevation setting.
+
 ## Features
 
 - **Multi-Vehicle Support:** Accurate formulas for all SPA vehicles.
@@ -21,14 +29,6 @@ No installation required. Simply visit the [Live Demo Link](https://l1tku.github
 - **Intel Database:** Built-in "Field Manual" with tank specifications, screenshots, and history.
 - **Immersive UI:** Military-themed interface with authentic styling.
 - **Lite Mode:** Lightweight version.
-
-## How to Use
-
-1. **Select Vehicle:** Choose your tank/SPA from the dropdown.
-2. **Set Distance:** Enter target distance (Range varies by vehicle).
-3. **Adjust Height (optional):** Enter height difference in meters.
-4. **Input Terrain Elev:** Type the **RED MIL** number you see in your HUD.
-5. **Calculate:** Use the calculated Yellow Elevation setting.
 
 ## Vehicles Supported
 
