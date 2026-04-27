@@ -16,8 +16,8 @@ No installation required. Simply visit the [Live Demo Link](https://l1tku.github
 
 1. **Select Vehicle:** Choose your tank/SPA from the dropdown.
 2. **Set Distance:** Enter target distance (Range varies by vehicle).
-3. **Adjust Height (optional):** Enter height difference in meters.
-4. **Input Terrain Elev:** Type the **RED MIL** number you see in your ingame HUD.
+3. **Set Height Difference (optional):** Enter height difference in meters.
+4. **Set Terrain Elevation:** Type the **RED MIL** number you see in your ingame HUD.
 5. **Calculate:** Use the calculated Yellow Elevation setting.
 
 ## Features
