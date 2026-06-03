@@ -6,9 +6,9 @@
 
 const HLL_VERSION = {
 
-    appVersion: 'v1.5.3',    // App version
+    appVersion: 'v1.5.4',    // App version
 
-    gamePatch: 'HLL Update 19.1',  // HLL game patch
+    gamePatch: 'HLL Update 20',  // HLL game patch
 
     author: 'by litku'
 
@@ -768,7 +768,7 @@ const tankInfo = {
 
             maxClipsSmoke: '45',
 
-            apDamage: '950',
+            apDamage: '1025',
 
             apDirectArmor: 'Very High',
 
@@ -862,7 +862,7 @@ const tankInfo = {
 
             maxClipsSmoke: '45',
 
-            apDamage: '950',
+            apDamage: '1025',
 
             apDirectArmor: 'Very High',
 
@@ -1052,7 +1052,7 @@ const tankInfo = {
 
             maxClipsSmoke: '45',
 
-            apDamage: '950',
+            apDamage: '1025',
 
             apDirectArmor: 'Very High',
 
@@ -1146,7 +1146,7 @@ const tankInfo = {
 
             maxClipsSmoke: '45',
 
-            apDamage: '950',
+            apDamage: '1025',
 
             apDirectArmor: 'Very High',
 
@@ -1242,7 +1242,7 @@ const tankInfo = {
 
             maxClipsSmoke: '45',
 
-            apDamage: '610',
+            apDamage: '690',
 
             apDirectArmor: 'Medium',
 
@@ -11495,4 +11495,3 @@ if (document.readyState === 'loading') {
     injectVersion();
 
 }// Lite toggle handling
-

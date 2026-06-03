@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.4] - 2026-06-03
+
+### Hell Let Loose Update 20
+- Updated SPA armor-damage stats to match HLL Update 20.
+- Panzer III Ausf. N `apDamage` updated from `610` to `690`.
+- All other SPA `apDamage` values updated from `950` to `1025` where applicable.
+
 ## [1.5.3] - 2026-04-21
 
 ### Desktop UI Refinements
@@ -188,5 +195,3 @@
 - Auto-calculation mode or manual calculation
 - Tank information with specifications and screenshots
 - Military-themed UI with authentic styling
-
-
