@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.5.5] - 2026-06-04
+
+### Mobile Background Fix
+- Fixed a mobile-only scrolling bug where the background image lost its dark overlay while scrolling back up from the bottom of the page.
+- Moved the mobile background darkening from a fixed overlay layer into the mobile body background to avoid compositor repaint issues on touch devices.
+
 ## [1.5.4] - 2026-06-03
 
 ### Hell Let Loose Update 20

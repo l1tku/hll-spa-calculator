@@ -6,7 +6,7 @@
 
 const HLL_VERSION = {
 
-    appVersion: 'v1.5.4',    // App version
+    appVersion: 'v1.5.5',    // App version
 
     gamePatch: 'HLL Update 20',  // HLL game patch
 

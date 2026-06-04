@@ -4806,6 +4806,20 @@ inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 @media screen and (max-width: 768px) {
     /* Mobile - Basic layout adjustments */
+    body {
+background-color: #101012;
+background-image:
+radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.8) 100%),
+linear-gradient(rgba(16, 16, 18, 0.75), rgba(16, 16, 18, 0.75)),
+url('../images/background/background.webp');
+background-size: cover, cover, cover;
+background-position: center center, center center, 20% center;
+background-repeat: no-repeat, no-repeat, no-repeat;
+background-attachment: scroll;
+    }
+    body::before {
+display: none;
+    }
     /* Hide more projects button on mobile */
     .more-projects-button {
         display: none !important;
