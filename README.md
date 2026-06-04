@@ -1,5 +1,5 @@
 # HLL SPA Artillery Calculator
-**v1.5.5 — Updated for Hell Let Loose Update 20**
+**v1.5.6 - Updated for Hell Let Loose Update 20**
 
 A web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let Loose.
 
@@ -36,7 +36,7 @@ No installation required. Simply visit the [Live Demo Link](https://l1tku.github
 - **US:** Sherman M4A3 (105)
 - **Soviet Union:** KV-2
 - **DAK:** Panzer III Ausf.N
-- **Germany:** Sturmpanzer IV (Brummbär)
+- **Germany:** Sturmpanzer IV (Brummbar)
 
 ## Disclaimer & Copyright
 
@@ -52,6 +52,12 @@ The source code (HTML, CSS, JavaScript) of this project is licensed under the **
 > **Note:** The game assets (vehicle images in `/images/tanks`) are **excluded** from this license and remain the intellectual property of their respective owners.
 
 ## Version History
+
+**v1.5.6 - 2026-06-04**
+
+### Recent Updates
+- **SPA sight calibration fix**: Rebuilt the yellow sight ladders from live in-game screenshots for all SPA vehicles and removed the broken MIL conversion that was causing incorrect outputs.
+- **Close-range support**: Added tested low-range anchors, physical minimum range displays, and warnings for sub-table SPA shots.
 
 **v1.5.5 - 2026-06-04**
 
@@ -96,7 +102,7 @@ The source code (HTML, CSS, JavaScript) of this project is licensed under the **
 ### Recent Updates
 - **Lite mode**: Lightweight HTML/CSS/JS build for faster loads and low-end devices.
 - **Height calculations**: Updated formulas to match in-game red-number compensation and muzzle heights for accurate elevation.
-- **HTML → CSS/JS split**: Styles and scripts moved into built assets for cleaner HTML and quicker rendering.
+- **HTML to CSS/JS split**: Styles and scripts moved into built assets for cleaner HTML and quicker rendering.
 
 ### Previous Updates
 - **Production-ready CSS**: Switched from Tailwind CDN to built CSS file for better performance and production readiness.

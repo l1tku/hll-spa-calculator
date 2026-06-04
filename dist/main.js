@@ -6,7 +6,7 @@
 
 const HLL_VERSION = {
 
-    appVersion: 'v1.5.5',    // App version
+    appVersion: 'v1.5.6',    // App version
 
     gamePatch: 'HLL Update 20',  // HLL game patch
 
@@ -22,13 +22,11 @@ const tables = {
 
     'British (Bishop SP)': {
 
-        800: 67, 773: 76, 747: 85, 720: 94, 693: 103, 667: 112,
+        800: 167, 760: 159, 720: 151, 680: 144, 640: 136, 600: 128,
 
-        640: 121, 613: 130, 600: 133, 573: 142, 547: 151, 520: 160, 493: 169, 467: 178,
+        560: 120, 520: 112, 480: 105, 440: 97, 400: 89, 360: 81,
 
-        440: 187, 413: 196, 387: 204, 360: 213, 333: 222, 307: 231,
-
-        280: 240, 253: 249, 227: 258, 200: 267,
+        320: 73, 280: 65, 240: 58, 200: 50,
 
         minMil: -89, maxMil: 267
 
@@ -36,7 +34,11 @@ const tables = {
 
     'British (Churchill AVRE)': {
 
-        250: 133, 233: 142, 216: 151, 200: 160,
+        250: 256, 240: 246, 230: 235, 220: 225, 210: 215, 200: 204,
+
+        190: 194, 180: 183, 170: 173, 160: 162, 150: 152, 140: 141,
+
+        130: 131, 120: 120, 110: 110, 100: 100,
 
         minMil: -89, maxMil: 356
 
@@ -44,11 +46,11 @@ const tables = {
 
     'DAK (Panzer III Ausf.N)': {
 
-        500: 267, 480: 284, 460: 302, 440: 320, 420: 338, 400: 356,
+        500: 366, 480: 348, 460: 331, 440: 313, 420: 295, 400: 277,
 
-        380: 373, 360: 391, 340: 409, 320: 427, 300: 444, 280: 462,
+        380: 260, 360: 242, 340: 224, 320: 206, 300: 188, 280: 171,
 
-        260: 480, 240: 498, 220: 516, 200: 533,
+        260: 153, 240: 135, 220: 117, 200: 100,
 
         minMil: -89, maxMil: 533
 
@@ -68,11 +70,11 @@ const tables = {
 
     'Soviet Union (KV-2)': {
 
-        600: 267, 573: 284, 547: 302, 520: 320, 493: 338, 467: 356,
+        600: 366, 575: 350, 550: 333, 525: 316, 500: 300, 475: 283,
 
-        440: 373, 413: 391, 387: 409, 360: 427, 333: 444, 307: 462,
+        450: 266, 425: 250, 400: 233, 375: 216, 350: 200, 325: 183,
 
-        280: 480, 253: 498, 227: 516, 200: 533,
+        300: 166, 275: 150, 250: 133, 225: 116, 200: 100,
 
         minMil: -89, maxMil: 533
 
@@ -80,16 +82,62 @@ const tables = {
 
     'US (Sherman M4A3 105)': {
 
-        600: 267, 573: 284, 547: 302, 520: 320, 493: 338, 467: 356,
+        600: 366, 575: 350, 550: 333, 525: 316, 500: 300, 475: 283,
 
-        440: 373, 413: 391, 387: 409, 360: 427, 333: 444, 307: 462,
+        450: 266, 425: 250, 400: 233, 375: 216, 350: 200, 325: 183,
 
-        280: 480, 253: 498, 227: 516, 200: 533,
+        300: 166, 275: 150, 250: 133, 225: 116, 200: 100,
 
         minMil: -89, maxMil: 533
 
     }
 
+};
+
+// Confirmed in-game HUD ladders captured from live sight screenshots.
+tables['British (Bishop SP)'] = {
+    800: 167, 760: 159, 720: 151, 680: 144, 640: 136, 600: 128,
+    560: 120, 520: 112, 480: 105, 440: 97, 400: 89, 360: 81,
+    320: 73, 280: 65, 240: 58, 200: 50,
+    minMil: -89, maxMil: 267
+};
+
+tables['British (Churchill AVRE)'] = {
+    250: 256, 240: 246, 230: 235, 220: 225, 210: 215, 200: 204,
+    190: 194, 180: 183, 170: 173, 160: 162, 150: 152, 140: 141,
+    130: 131, 120: 120, 110: 110, 100: 100,
+    minMil: -89, maxMil: 356
+};
+
+tables['DAK (Panzer III Ausf.N)'] = {
+    500: 366, 480: 348, 460: 331, 440: 313, 420: 295, 400: 277,
+    380: 260, 360: 242, 340: 224, 320: 206, 300: 188, 280: 171,
+    260: 153, 240: 135, 220: 117, 200: 100,
+    minMil: -89, maxMil: 533
+};
+
+const sturmpanzerKey = Object.keys(tables).find((key) => key.includes('Sturmpanzer'));
+if (sturmpanzerKey) {
+    tables[sturmpanzerKey] = {
+        500: 366, 480: 348, 460: 331, 440: 313, 420: 295, 400: 277,
+        380: 260, 360: 242, 340: 224, 320: 206, 300: 188, 280: 171,
+        260: 153, 240: 135, 220: 117, 200: 100,
+        minMil: -89, maxMil: 533
+    };
+}
+
+tables['Soviet Union (KV-2)'] = {
+    600: 366, 575: 350, 550: 333, 525: 316, 500: 300, 475: 283,
+    450: 266, 425: 250, 400: 233, 375: 216, 350: 200, 325: 183,
+    300: 166, 275: 150, 250: 133, 225: 116, 200: 100,
+    minMil: -89, maxMil: 533
+};
+
+tables['US (Sherman M4A3 105)'] = {
+    600: 366, 575: 350, 550: 333, 525: 316, 500: 300, 475: 283,
+    450: 266, 425: 250, 400: 233, 375: 216, 350: 200, 325: 183,
+    300: 166, 275: 150, 250: 133, 225: 116, 200: 100,
+    minMil: -89, maxMil: 533
 };
 
 
@@ -346,11 +394,13 @@ function handleTankSelection(value, selectSelected, selectItems, factionInput, i
 
             .sort((a, b) => a - b);
 
+        const minRange = distances[0] || 200;
+
         const maxRange = distances[distances.length - 1] || 600;
 
-        // Use 200m for tanks with max range <= 250m (AVRE), otherwise 400m
+        // Use the actual table minimum for short-range SPAs (AVRE), otherwise 400m.
 
-        defaultDistance = maxRange <= 250 ? 200 : 400;
+        defaultDistance = maxRange <= 250 ? minRange : 400;
 
     }
 
@@ -920,7 +970,7 @@ const tankInfo = {
 
             hullGun: '7.92 BESA - 200 rounds × 6 magazines',
 
-            mainGun: '230MM PETARD "FLYING DUSTBIN" - 50 HE rounds, 35 SMOKE rounds, 20 HEAT rounds',
+            mainGun: '230MM PETARD "FLYING DUSTBIN" - 28 FLYING DUSTBIN rounds, 35 SMOKE rounds',
 
             turretRotation: '360°',
 
@@ -1296,6 +1346,56 @@ const tankInfo = {
 
 // Helper function to interpolate values
 
+const lowRangeAnchors = new Map([
+    [tables['US (Sherman M4A3 105)'], {
+        minDistance: 25,
+        anchors: [
+            { distance: 25, mil: -89 },
+            { distance: 50, mil: -31 },
+            { distance: 96, mil: 22 }
+        ]
+    }],
+    [tables['DAK (Panzer III Ausf.N)'], {
+        minDistance: 24,
+        anchors: [
+            { distance: 24, mil: -89 },
+            { distance: 48, mil: -15 }
+        ]
+    }],
+    [sturmpanzerKey ? tables[sturmpanzerKey] : null, {
+        minDistance: 24,
+        anchors: [
+            { distance: 24, mil: -89 },
+            { distance: 48, mil: -15 }
+        ]
+    }],
+    [tables['Soviet Union (KV-2)'], {
+        minDistance: 25,
+        anchors: [
+            { distance: 25, mil: -89 },
+            { distance: 45, mil: -24 },
+            { distance: 88, mil: 11 }
+        ]
+    }],
+    [tables['British (Churchill AVRE)'], {
+        minDistance: 22,
+        anchors: [
+            { distance: 22, mil: -89 },
+            { distance: 48, mil: -2 },
+            { distance: 80, mil: 45 }
+        ]
+    }],
+    [tables['British (Bishop SP)'], {
+        minDistance: 20,
+        anchors: [
+            { distance: 20, mil: -89 },
+            { distance: 49, mil: -14 },
+            { distance: 98, mil: 7 },
+            { distance: 147, mil: 23 }
+        ]
+    }]
+].filter(([table]) => !!table));
+
 function interpolate(table, meters) {
 
     // Filter out minMil and maxMil properties, only use distance keys
@@ -1338,13 +1438,44 @@ function interpolate(table, meters) {
 
 
 
-// Extrapolate for distances < minDist (200m)
+// Use confirmed physical low-end anchors when available instead of extending the sight table linearly.
 
     if (meters < minDist) {
 
-        const d1 = distances[distances.length - 1];  // 200m
+        const lowRangeAnchor = lowRangeAnchors.get(table);
 
-        const d2 = distances[distances.length - 2];  // 227m
+        if (lowRangeAnchor) {
+
+            const anchors = [...lowRangeAnchor.anchors, { distance: minDist, mil: table[minDist] }]
+                .sort((a, b) => a.distance - b.distance);
+
+            if (meters <= anchors[0].distance) {
+
+                return anchors[0].mil;
+
+            }
+
+            for (let i = 0; i < anchors.length - 1; i++) {
+
+                const a1 = anchors[i];
+
+                const a2 = anchors[i + 1];
+
+                if (meters <= a2.distance) {
+
+                    const ratio = (meters - a1.distance) / (a2.distance - a1.distance);
+
+                    return a1.mil + ratio * (a2.mil - a1.mil);
+
+                }
+
+            }
+
+        }
+
+        const d1 = distances[distances.length - 1];
+
+        const d2 = distances[distances.length - 2];
 
         const m1 = table[d1];
 
@@ -1426,7 +1557,24 @@ function updateMilRangeText() {
 
         const rangeMax = distances[distances.length - 1] || 0;
 
-        const rangeDisplay = `${rangeMin}m - ${rangeMax}m`;
+        const physicalRangeOverrides = {
+            'US (Sherman M4A3 105)': `~25m - ${rangeMax}m`,
+            'DAK (Panzer III Ausf.N)': `~24m - ${rangeMax}m`
+        };
+
+        if (sturmpanzerKey) {
+
+            physicalRangeOverrides[sturmpanzerKey] = `~24m - ${rangeMax}m`;
+
+        }
+
+        physicalRangeOverrides['British (Bishop SP)'] = `~20m - ${rangeMax}m`;
+
+        physicalRangeOverrides['British (Churchill AVRE)'] = `~22m - ${rangeMax}m`;
+
+        physicalRangeOverrides['Soviet Union (KV-2)'] = `~25m - ${rangeMax}m`;
+
+        const rangeDisplay = physicalRangeOverrides[faction] || (rangeMin > 100 ? `<${rangeMin}m - ${rangeMax}m` : `${rangeMin}m - ${rangeMax}m`);
 
 
 
@@ -1440,15 +1588,15 @@ function updateMilRangeText() {
 
         if (mainGunParts[1]) {
 
-// Extract ammo counts: "50 HE rounds, 35 SMOKE rounds, 20 AP rounds"
+// Extract ammo counts: "50 HE rounds, 35 SMOKE rounds, 20 HEAT rounds"
 
-            const ammoMatches = mainGunParts[1].match(/(\d+)\s*(HE|SMOKE|AP)\s*rounds/g);
+            const ammoMatches = mainGunParts[1].match(/(\d+)\s*(HEAT|HE|SMOKE|AP|FLYING DUSTBIN)\s*rounds/g);
 
             if (ammoMatches) {
 
                 const ammoList = ammoMatches.map((m, index) => {
 
-                    const match = m.match(/(\d+)\s*(HE|SMOKE|AP)/);
+                    const match = m.match(/(\d+)\s*(HEAT|HE|SMOKE|AP|FLYING DUSTBIN)/);
 
                     if (match) {
 
@@ -2118,7 +2266,7 @@ const SPA_G_MPS2 = 9.8;
 
 const USE_PHYSICS_HEIGHT_CORRECTION = true;
 
-const USE_PERFECT_SPA_MECHANIC = true;
+const USE_PERFECT_SPA_MECHANIC = false;
 
 
 
@@ -2151,6 +2299,14 @@ function roundToIntUnreal(x) {
 function hudQuantizeMil(mils) {
 
     return (roundToIntUnreal(mils * 2.0 + 0.5) >> 1);
+
+}
+
+function spaHudMilFromRaw(table, mils) {
+
+    if (!Number.isFinite(mils)) return mils;
+
+    return hudQuantizeMil(mils);
 
 }
 
@@ -4466,7 +4622,7 @@ function updateDisplayValues() {
 
                 if (!isNaN(base)) {
 
-                    baseEl.textContent = String(hudQuantizeMil(base));
+                    baseEl.textContent = String(spaHudMilFromRaw(tables[faction], base));
 
                 }
 
@@ -5606,23 +5762,23 @@ function calculate() {
 
 
 
-// Check distance range first (prioritize over MIL limits)
+// Warn for confirmed physical minimums first, then for distances above the table maximum.
 
-    if (distance < minDist || distance > maxDist) {
+    const lowRangeAnchor = lowRangeAnchors.get(table);
 
-// Keep distance warning if no MIL limit issue
+    if (lowRangeAnchor && distance < lowRangeAnchor.minDistance) {
 
         if (warningDiv) {
 
-            if (distance > maxDist) {
+            showWarning(warningDiv, `Warning: ${distance}m is below this vehicle's tested physical minimum (~${lowRangeAnchor.minDistance}m).`);
 
-                showWarning(warningDiv, `Warning: ${distance}m is above supported range (${maxDist}m max).`);
+        }
 
-            } else {
+    } else if (distance > maxDist) {
 
-                showWarning(warningDiv, `Warning: ${distance}m is below supported range (${minDist}m min).`);
+        if (warningDiv) {
 
-            }
+            showWarning(warningDiv, `Warning: ${distance}m is above supported range (${maxDist}m max).`);
 
         }
 
@@ -5662,7 +5818,7 @@ function calculate() {
 
 // Update elevation using mechanical counter
 
-    rollElevationToNumber(Math.round(final));
+    rollElevationToNumber(Math.round(spaHudMilFromRaw(table, final)));
 
 
 
@@ -5712,7 +5868,7 @@ function calculate() {
 
         if (typeof base === 'number' && !isNaN(base)) {
 
-            const baseText = String(hudQuantizeMil(base));
+            const baseText = String(spaHudMilFromRaw(table, base));
 
             baseValueEl.textContent = baseText;
 
@@ -5790,7 +5946,7 @@ function calculate() {
 
             if (baseEl.textContent === '--' || baseEl.textContent === '0' || baseEl.textContent.trim() === '') {
 
-                baseEl.textContent = String(hudQuantizeMil(base));
+                baseEl.textContent = String(spaHudMilFromRaw(tables[faction], base));
 
             }
 
@@ -6214,11 +6370,13 @@ function resetCalculator(buttonElement) {
 
             .sort((a, b) => a - b);
 
+        const minRange = distances[0] || 200;
+
         const maxRange = distances[distances.length - 1] || 600;
 
-        // Use 200m for tanks with max range <= 250m (AVRE), otherwise 400m
+        // Use the actual table minimum for short-range SPAs (AVRE), otherwise 400m.
 
-        defaultDistance = maxRange <= 250 ? 200 : 400;
+        defaultDistance = maxRange <= 250 ? minRange : 400;
 
     }
 
@@ -8530,9 +8688,11 @@ setTimeout(() => {
 
                 const distances = Object.keys(table).filter(k => !isNaN(parseInt(k))).map(k => parseInt(k)).sort((a, b) => a - b);
 
+                const minRange = distances[0] || 200;
+
                 const maxRange = distances[distances.length - 1] || 600;
 
-                const defaultDistance = maxRange <= 250 ? 200 : 400;
+                const defaultDistance = maxRange <= 250 ? minRange : 400;
 
                 const distanceInput = document.getElementById('distance');
 
@@ -8598,9 +8758,9 @@ selectItems.addEventListener('click', function(e) {
 
                 const maxRange = distances[distances.length - 1] || 600;
 
-                // Use 200m as default for tanks with max range <= 250m (AVRE), otherwise 400m
+                // Use the actual table minimum for short-range SPAs (AVRE), otherwise 400m.
 
-                const defaultDistance = maxRange <= 250 ? 200 : 400;
+                const defaultDistance = maxRange <= 250 ? minRange : 400;
 
                 const distanceInput = document.getElementById('distance');
 
@@ -9282,19 +9442,26 @@ function showTankInfo() {
 
                     const ammoText = parts[1];
 
-                    const ammoMatches = ammoText.match(/(\d+)\s*(HE|SMOKE|AP)\s*rounds/g);
+                    const ammoMatches = ammoText.match(/(\d+)\s*(HEAT|HE|SMOKE|AP|FLYING DUSTBIN)\s*rounds/g);
 
                     if (ammoMatches) {
 
                         ammoMatches.forEach(m => {
 
-                            const match = m.match(/(\d+)\s*(HE|SMOKE|AP)/);
+                            const match = m.match(/(\d+)\s*(HEAT|HE|SMOKE|AP|FLYING DUSTBIN)/);
 
                             if (match) {
 
                                 const type = match[2];
+                                const ammoIconMap = {
+                                    HE: 'HE_invert_28.webp',
+                                    SMOKE: 'SMOKE_invert_28.webp',
+                                    AP: 'AP_invert_28.webp',
+                                    HEAT: 'AP_invert_28.webp',
+                                    'FLYING DUSTBIN': 'HE_invert_28.webp'
+                                };
 
-                                imagePaths.add(`images/UI/Icons/vehicles/${type.toUpperCase()}_invert_28.webp`);
+                                imagePaths.add(`images/UI/Icons/vehicles/${ammoIconMap[type] || 'T_HUD_Status_Ammo_invert_28.webp'}`);
 
                             }
 
@@ -9372,13 +9539,13 @@ function showTankInfo() {
 
                 const ammoItems = [];
 
-                const ammoMatches = ammoText.match(/(\d+)\s*(HE|SMOKE|AP)\s*rounds/g);
+                const ammoMatches = ammoText.match(/(\d+)\s*(HEAT|HE|SMOKE|AP|FLYING DUSTBIN)\s*rounds/g);
 
                 if (ammoMatches) {
 
                     ammoMatches.forEach(m => {
 
-                        const match = m.match(/(\d+)\s*(HE|SMOKE|AP)/);
+                        const match = m.match(/(\d+)\s*(HEAT|HE|SMOKE|AP|FLYING DUSTBIN)/);
 
                         if (match) {
 
@@ -9386,13 +9553,20 @@ function showTankInfo() {
 
                             const type = match[2];
 
-// Construct image path - type is already uppercase from regex
+// Use the dedicated shell icons when they exist, otherwise fall back to a generic ammo icon.
 
-                            const imagePath = `images/UI/Icons/vehicles/${type.toUpperCase()}_invert_28.webp`;
+                            const ammoIconMap = {
+                                HE: 'HE_invert_28.webp',
+                                SMOKE: 'SMOKE_invert_28.webp',
+                                AP: 'AP_invert_28.webp',
+                                HEAT: 'AP_invert_28.webp',
+                                'FLYING DUSTBIN': 'HE_invert_28.webp'
+                            };
+                            const imagePath = `images/UI/Icons/vehicles/${ammoIconMap[type] || 'T_HUD_Status_Ammo_invert_28.webp'}`;
 
 // Build each ammo item with explicit image tag (inside single box)
 
-                            ammoItems.push(`<span style="display: inline-flex; align-items: center; gap: 3px; margin-right: 8px;"><img src="${imagePath}" alt="${type}" style="width: 14px; height: 14px; object-fit: contain;" loading="eager" decoding="async"><span class="highlight-number">${count}</span> <span class="highlight-number">${type}</span></span>`);
+                            ammoItems.push(`<span style="display: inline-flex; align-items: center; gap: 3px; margin-right: 8px;"><img src="${imagePath}" alt="${type}" style="width: 16px; height: 16px; object-fit: contain;" loading="eager" decoding="async"><span class="highlight-number">${count}</span> <span class="highlight-number">${type}</span></span>`);
 
                         }
 
@@ -9494,7 +9668,7 @@ function showTankInfo() {
 
                     const imagePath = 'images/UI/Icons/vehicles/T_HUD_Status_Ammo_invert_28.webp';
 
-                    return `<span class="highlight-number" style="margin-right: 14px;">${gunName}</span><span class="ammo-box"><img src="${imagePath}" alt="Ammo" loading="eager" decoding="async"><span class="highlight-number">${rounds}</span> rounds × <span class="highlight-number">${magazines}</span> magazines</span>`;
+                    return `<span class="highlight-number" style="margin-right: 14px;">${gunName}</span><span class="ammo-box"><img src="${imagePath}" alt="Ammo" style="width: 16px; height: 16px; object-fit: contain;" loading="eager" decoding="async"><span class="highlight-number">${rounds}</span> rounds × <span class="highlight-number">${magazines}</span> magazines</span>`;
 
                 }
 

@@ -1,6 +1,20 @@
 # Changelog
 
+## [1.5.6] - 2026-06-04
+
+### SPA Sight Calibration Fix
+- Rebuilt SPA yellow-sight range tables from in-game screenshots for Sherman M4A3 105, KV-2, Panzer III Ausf. N, Sturmpanzer IV, Churchill AVRE, and Bishop SP.
+- Fixed broken SPA HUD MIL conversion that previously caused vehicles like the M4A3 to display incorrect sight values across the range table.
+- Added tested low-range vehicle anchors and warnings for sub-table shots so close-range fire no longer relies on the old broken linear extrapolation.
+- Updated vehicle range displays to reflect tested physical minimums instead of falsely implying a hard `200m` minimum.
+
 ## [1.5.5] - 2026-06-04
+
+### Field Manual Ammo Fix
+- Corrected field manual primary armament ammo displays for Sherman M4A3 105, Sturmpanzer IV, KV-2, Churchill AVRE, Panzer III Ausf. N, and Bishop SP.
+- Added support for `HEAT` and `FLYING DUSTBIN` ammo labels in the field manual renderer so those rounds no longer disappear from the ammo box.
+- Updated ammo icon mapping so `HEAT` uses the AP icon and `FLYING DUSTBIN` uses the HE icon.
+- Increased primary armament, coaxial, and hull machine-gun ammo icon size slightly for better readability.
 
 ### Mobile Background Fix
 - Fixed a mobile-only scrolling bug where the background image lost its dark overlay while scrolling back up from the bottom of the page.
