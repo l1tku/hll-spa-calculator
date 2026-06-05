@@ -1,5 +1,5 @@
 # HLL SPA Artillery Calculator
-**v1.5.6 - Updated for Hell Let Loose Update 20**
+**v1.5.7 - Updated for Hell Let Loose Update 20**
 
 A web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let Loose.
 
@@ -52,6 +52,12 @@ The source code (HTML, CSS, JavaScript) of this project is licensed under the **
 > **Note:** The game assets (vehicle images in `/images/tanks`) are **excluded** from this license and remain the intellectual property of their respective owners.
 
 ## Version History
+
+**v1.5.7 - 2026-06-05**
+
+### Recent Updates
+- **SPA low-range anchor refinement**: Re-tuned the full under-`200m` SPA anchor set with fresh in-game checks for M4A3, Sturmpanzer, KV-2, AVRE, Panzer III, and Bishop.
+- **Closer recovery accuracy**: Updated tested physical minimums and replaced older placeholder low-range points so sub-`200m` distance recovery is more reliable.
 
 **v1.5.6 - 2026-06-04**
 

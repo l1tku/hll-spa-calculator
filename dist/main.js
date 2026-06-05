@@ -6,7 +6,7 @@
 
 const HLL_VERSION = {
 
-    appVersion: 'v1.5.6',    // App version
+    appVersion: 'v1.5.7',    // App version
 
     gamePatch: 'HLL Update 20',  // HLL game patch
 
@@ -1351,22 +1351,25 @@ const lowRangeAnchors = new Map([
         minDistance: 25,
         anchors: [
             { distance: 25, mil: -89 },
-            { distance: 50, mil: -31 },
+            { distance: 47, mil: -30 },
             { distance: 96, mil: 22 }
         ]
     }],
     [tables['DAK (Panzer III Ausf.N)'], {
-        minDistance: 24,
+        minDistance: 20,
         anchors: [
-            { distance: 24, mil: -89 },
-            { distance: 48, mil: -15 }
+            { distance: 20, mil: -89 },
+            { distance: 48, mil: -10 },
+            { distance: 98, mil: 30 }
         ]
     }],
     [sturmpanzerKey ? tables[sturmpanzerKey] : null, {
         minDistance: 24,
         anchors: [
             { distance: 24, mil: -89 },
-            { distance: 48, mil: -15 }
+            { distance: 47, mil: -15 },
+            { distance: 98, mil: 30 },
+            { distance: 156, mil: 69 }
         ]
     }],
     [tables['Soviet Union (KV-2)'], {
@@ -1374,22 +1377,23 @@ const lowRangeAnchors = new Map([
         anchors: [
             { distance: 25, mil: -89 },
             { distance: 45, mil: -24 },
-            { distance: 88, mil: 11 }
+            { distance: 96, mil: 19 }
         ]
     }],
     [tables['British (Churchill AVRE)'], {
         minDistance: 22,
         anchors: [
             { distance: 22, mil: -89 },
-            { distance: 48, mil: -2 },
-            { distance: 80, mil: 45 }
+            { distance: 48, mil: 10 },
+            { distance: 98, mil: 82 },
+            { distance: 150, mil: 150 }
         ]
     }],
     [tables['British (Bishop SP)'], {
-        minDistance: 20,
+        minDistance: 23,
         anchors: [
-            { distance: 20, mil: -89 },
-            { distance: 49, mil: -14 },
+            { distance: 23, mil: -89 },
+            { distance: 47, mil: -27 },
             { distance: 98, mil: 7 },
             { distance: 147, mil: 23 }
         ]
