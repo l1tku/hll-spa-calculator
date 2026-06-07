@@ -1,33 +1,40 @@
-// Minimal Service Worker for HLL SPA Artillery Calculator
-// This prevents 404 errors and enables basic offline caching
+// Minimal Service Worker for HLL SPA Calculator
+// Uses relative URLs so it works correctly on GitHub Pages project paths.
 
-const CACHE_NAME = 'hll-spa-calc-v19';
-const CACHE_VERSION = 'v19'; // Bump this on every deployment
+const CACHE_NAME = 'hll-spa-calc-v20';
+const CACHE_VERSION = 'v20'; // Bump this on every deployment
 
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  `/dist/styles.css?${CACHE_VERSION}`,
-  `/dist/main.js?${CACHE_VERSION}`,
-  '/images/background/background.webp',
-  '/images/icon-192.png',
-  '/images/icon-512.png'
+  './',
+  './index.html',
+  './manifest.json',
+  './dist/styles.css',
+  './dist/main.js',
+  './images/background/background.webp',
+  './images/favicon.png',
+  './images/icon-180.png',
+  './images/icon-192.png',
+  './images/icon-512.png'
 ];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => cache.addAll(urlsToCache))
+      .then(() => self.skipWaiting())
   );
 });
 
 self.addEventListener('fetch', (event) => {
+  if (event.request.method !== 'GET') {
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request)
       .then((response) => {
-        // For HTML, JS, and CSS files - fetch fresh version first, then cache
-        const isAppFile = event.request.url.match(/\.(html|js|css)(\?.*)?$/);
+        // For app shell files, prefer network to keep deploys fresh.
+        const isAppFile = event.request.url.match(/\.(html|js|css|json)(\?.*)?$/);
         // For images - also fetch fresh version first to allow GitHub Pages updates
         const isImage = event.request.url.match(/\.(webp|png|jpg|jpeg|gif|svg|ico)(\?.*)?$/);
         
@@ -64,6 +71,6 @@ self.addEventListener('activate', (event) => {
           }
         })
       );
-    })
+    }).then(() => self.clients.claim())
   );
 });
