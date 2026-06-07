@@ -1,8 +1,8 @@
 // Minimal Service Worker for HLL SPA Artillery Calculator
 // This prevents 404 errors and enables basic offline caching
 
-const CACHE_NAME = 'hll-spa-calc-v18';
-const CACHE_VERSION = 'v18'; // Bump this on every deployment
+const CACHE_NAME = 'hll-spa-calc-v19';
+const CACHE_VERSION = 'v19'; // Bump this on every deployment
 
 const urlsToCache = [
   '/',
