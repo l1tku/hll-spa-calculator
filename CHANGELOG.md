@@ -1,11 +1,20 @@
 # Changelog
 
+## [1.5.8] - 2026-06-14
+
+### Added
+- Added Ko-fi support button on desktop and mobile.
+
+### Changed
+- Made version text clickable: app version links to GitHub, game version links to the HLL Update 20 changelog, and author links to the GitHub profile.
+
 ## [1.5.7] - 2026-06-05
 
 ### SPA Low-Range Anchor Refinement
 - Re-tuned sub-`200m` anchor sets for Sherman M4A3 105, Sturmpanzer IV, KV-2, Churchill AVRE, Panzer III Ausf. N, and Bishop using fresh in-game distance checks.
 - Updated tested physical minimums where needed so close-range interpolation starts from the latest confirmed floor for each SPA vehicle.
 - Improved under-`200m` distance recovery accuracy by replacing older placeholder anchors with measured points across the full SPA roster.
+- Renamed Other Projects links
 
 ## [1.5.6] - 2026-06-04
 

@@ -2143,7 +2143,7 @@ inset 0 0 30px rgba(0, 0, 0, 0.5),
 [data-mode="full"] .more-projects-button {
     position: absolute;
     left: calc(50% - 310px);
-    top: calc(50% - 398px);
+    top: calc(50% - 430px);
     transform: translateY(calc(-50% + 10px)) rotate(-90deg);
     transform-origin: center center;
     width: 60px;
@@ -2265,7 +2265,7 @@ radial-gradient(ellipse at 75% 80%, rgba(107, 142, 35, 0.3) 0%, transparent 30%)
 [data-mode="full"] .more-projects-button:hover,
 [data-mode="full"] .more-projects-button:active,
 [data-mode="full"] .more-projects-button:focus {
-    top: calc(50% - 425px);
+    top: calc(50% - 455px);
     background:
 url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E"),
 repeating-linear-gradient(
@@ -2300,14 +2300,14 @@ inset -2px 0 5px rgba(0, 0, 0, 0.2),
 
 [data-mode="full"] .more-projects-button.extended {
     left: calc(50% - 310px) !important;
-    top: calc(50% - 425px) !important;
+    top: calc(50% - 455px) !important;
 }
 
 /* Field Manual Bookmark - Classified Document Page Tab */
 .select-info-button {
     position: absolute;
     left: calc(50% + 340px - 17px);
-    top: calc(50% - 404px);
+    top: calc(50% - 450px);
     transform: translateY(calc(-50% + 10px)) rotate(-90deg);
     transform-origin: center center;
     width: 60px;
@@ -2431,7 +2431,7 @@ radial-gradient(ellipse at 75% 80%, rgba(184, 167, 146, 0.3) 0%, transparent 30%
 /* Hover state - slides up */
 .select-info-button:hover {
     left: calc(50% + 380px - 17px);
-    top: calc(50% - 414px);
+    top: calc(50% - 455);
     transform: translateY(calc(-50% + 10px)) rotate(-90deg);
     background: 
 url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.1'/%3E%3C/svg%3E"),
@@ -2469,7 +2469,7 @@ inset -2px 0 5px rgba(0, 0, 0, 0.12),
 .select-info-button:active,
 .select-info-button:focus {
     left: calc(50% + 380px - 17px);
-    top: calc(50% - 414px);
+    top: calc(50% - 455);
     transform: translateY(calc(-50% + 10px)) rotate(-90deg);
     box-shadow: 
 inset -2px 0 5px rgba(0, 0, 0, 0.12),
@@ -2480,7 +2480,7 @@ inset -2px 0 5px rgba(0, 0, 0, 0.12),
 /* Extended state - button stays extended when modal is open */
 .select-info-button.extended {
     left: calc(50% + 380px - 17px) !important;
-    top: calc(50% - 414px) !important;
+    top: calc(50% - 475px) !important;
 }
 /* Rivets on dropdown */
 .select-selected::after {
@@ -4303,16 +4303,16 @@ inset 0 6px 16px rgba(0, 0, 0, 0.9),
 }
 [data-mode="full"] .select-info-button {
     left: calc(50% + 250px);
-    top: calc(50% - 398px);
+    top: calc(50% - 430px);
 }
 [data-mode="full"] .select-info-button:hover,
 [data-mode="full"] .select-info-button:active,
 [data-mode="full"] .select-info-button:focus {
-    top: calc(50% - 425px);
+    top: calc(50% - 455px);
 }
 [data-mode="full"] .select-info-button.extended {
     left: calc(50% + 250px) !important;
-    top: calc(50% - 425px) !important;
+    top: calc(50% - 455px) !important;
 }
 [data-mode="full"] .tank-specs-panel {
     width: 100%;
@@ -4643,6 +4643,86 @@ inset 0 1px 2px rgba(0, 0, 0, 0.1);
 .mobile-only {
     display: none;
 }
+
+/* Version Footer */
+.version-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.version-links {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.version-links a {
+    text-decoration: none;
+    color: inherit;
+    pointer-events: auto;
+    transition: opacity 0.2s ease;
+}
+
+.version-links a:hover {
+    opacity: 0.7;
+}
+
+.version-separator {
+    opacity: 0.5;
+    user-select: none;
+}
+
+/* Desktop Ko-fi Button */
+.desktop-kofi-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    gap: 8px;
+    height: 36px;
+    padding: 0 14px;
+    margin: 12px auto 16px;
+    background: #7baafa;
+    border: none;
+    border-radius: 18px;
+    text-decoration: none;
+    color: #000000;
+    font-family: 'Nunito', 'Segoe UI', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    will-change: transform;
+}
+
+.desktop-kofi-button:hover,
+.desktop-kofi-button:active {
+    background: #6a9af0;
+    transform: translateY(-2px);
+}
+
+.desktop-kofi-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    flex-shrink: 0;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: auto;
+    animation: kofi-idle 3s ease-in-out 2s infinite;
+}
+
+@keyframes kofi-idle {
+    0%, 80%, 100% { transform: rotate(0deg); }
+    85% { transform: rotate(-10deg); }
+    90% { transform: rotate(8deg); }
+    95% { transform: rotate(-4deg); }
+}
+
 /* Help icon button styling */
 .help-icon {
     width: 16px;
@@ -5820,6 +5900,45 @@ box-shadow:
 transition: all 0.2s ease;
 position: relative;
 overflow: hidden;
+    }
+
+    /* Mobile Ko-fi Button (under version) */
+    .mobile-kofi-button {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        vertical-align: middle;
+        gap: 8px;
+        height: 40px;
+        padding: 0 16px;
+        margin: 12px auto 16px;
+        background: #7baafa;
+        border: none;
+        border-radius: 20px;
+        text-decoration: none;
+        color: #000000;
+        font-family: 'Nunito', 'Segoe UI', sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: transform 0.2s ease, background 0.2s ease;
+        will-change: transform;
+    }
+
+    .mobile-kofi-button:hover,
+    .mobile-kofi-button:active {
+        background: #6a9af0;
+        transform: translateY(-2px);
+    }
+
+    .mobile-kofi-icon {
+        width: 26px;
+        height: 26px;
+        object-fit: contain;
+        flex-shrink: 0;
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: auto;
+        animation: kofi-idle 3s ease-in-out 2s infinite;
     }
     .mobile-hll-tools-button::before {
 content: '';

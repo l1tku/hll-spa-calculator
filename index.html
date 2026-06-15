@@ -33,7 +33,10 @@
     <!-- PWA Manifest and Icons -->
     <link rel="manifest" href="manifest.json?v=21">
     <link rel="apple-touch-icon" href="images/icon-180.png">
-    <link rel="stylesheet" href="dist/styles.css?v=14">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dist/styles.css?v=16">
     <style>
         @font-face {
             font-family: 'GothamSS';
@@ -612,9 +615,60 @@
             </div>
 
             <!-- Version Info -->
-            <div class="text-xs text-gray-500 text-center mt-4">
-                <p id="version-display"></p>
+            <div class="text-xs text-gray-500 text-center mt-4 version-footer">
+                <div class="version-links">
+                    <a
+                        href="https://github.com/l1tku/hll-spa-calculator"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        id="appVersion"
+                    ></a>
+                    <span class="version-separator">•</span>
+                    <a
+                        href="https://www.hellletloose.com/blog/update-20-changelog"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        id="gameVersion"
+                    ></a>
+                    <span class="version-separator">•</span>
+                    <a
+                        href="https://github.com/l1tku"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        id="authorProfile"
+                    >by litku</a>
+                </div>
+                <a
+                    href="https://ko-fi.com/litku"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="mobile-kofi-button mobile-only"
+                    aria-label="Buy me a coffee"
+                >
+                    <img
+                        src="images/kofi_symbol.png"
+                        class="mobile-kofi-icon"
+                        alt="Ko-fi"
+                    />
+                    <span>Buy me a coffee</span>
+                </a>
+                <a
+                    href="https://ko-fi.com/litku"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="desktop-kofi-button desktop-only"
+                    aria-label="Buy me a coffee"
+                >
+                    <img
+                        src="images/kofi_symbol.png"
+                        class="desktop-kofi-icon"
+                        alt="Ko-fi"
+                    />
+                    <span>Buy me a coffee</span>
+                </a>
             </div>
+
+
         </div>
     </main>
 
@@ -632,8 +686,8 @@
             <div class="info-modal-body">
                 <div class="info-modal-section">
                     <a href="https://l1tku.github.io/hll-arty-map-calculator/" target="_blank" class="more-projects-link">
-                        <img src="images/favicon_arty.webp" alt="Artillery Map Calculator" class="project-icon">
-                        <span>Artillery Map Calculator</span>
+                        <img src="images/favicon_arty.webp" alt="HLL Arty Map Calculator" class="project-icon">
+                        <span>HLL Arty Map Calculator</span>
                         <svg class="external-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                             <polyline points="15 3 21 3 21 9"></polyline>
@@ -641,8 +695,8 @@
                         </svg>
                     </a>
                     <a href="https://l1tku.github.io/hll-default-garrisons/" target="_blank" class="more-projects-link">
-                        <img src="images/favicon_garrison.webp" alt="Garrisons Map" class="project-icon">
-                        <span>Default Garrisons Map</span>
+                        <img src="images/favicon_garrison.webp" alt="HLL Default Garrisons" class="project-icon">
+                        <span>HLL Default Garrisons</span>
                         <svg class="external-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                             <polyline points="15 3 21 3 21 9"></polyline>
@@ -665,7 +719,7 @@
 
     <script>
         if ('serviceWorker' in navigator) {
-            const SERVICE_WORKER_VERSION = 'v21';
+            const SERVICE_WORKER_VERSION = 'v23';
             const isLocalhost =
                 location.hostname === 'localhost' ||
                 location.hostname === '127.0.0.1' ||
@@ -681,6 +735,6 @@
             }
         }
     </script>
-    <script src="dist/main.js?v=14"></script>
+    <script src="dist/main.js?v=16"></script>
 </body>
 </html>

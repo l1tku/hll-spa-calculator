@@ -6,7 +6,7 @@
 
 const HLL_VERSION = {
 
-    appVersion: 'v1.5.7',    // App version
+    appVersion: 'v1.5.8',    // App version
 
     gamePatch: 'HLL Update 20',  // HLL game patch
 
@@ -11650,13 +11650,13 @@ window.addEventListener('resize', handleMobileLayout);
 
 function injectVersion() {
 
-    const versionEl = document.getElementById('version-display');
+    if (typeof HLL_VERSION === 'undefined') return;
 
-    if (versionEl && typeof HLL_VERSION !== 'undefined') {
+    const appVersionEl = document.getElementById('appVersion');
+    if (appVersionEl) appVersionEl.textContent = HLL_VERSION.appVersion;
 
-        versionEl.textContent = `${HLL_VERSION.appVersion} - ${HLL_VERSION.gamePatch} - ${HLL_VERSION.author}`;
-
-    }
+    const gameVersionEl = document.getElementById('gameVersion');
+    if (gameVersionEl) gameVersionEl.textContent = HLL_VERSION.gamePatch;
 
 }
 
