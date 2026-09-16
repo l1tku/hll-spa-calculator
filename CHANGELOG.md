@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.9] - 2026-09-16
+
+### Fixed & Improved
+- Added explicit Open Graph preview image (`og:image`) and Twitter Card tags pointing to the SPA icon so search engines and social shares display the correct preview image.
+- Added Schema.org `WebSite` JSON-LD structured data and `og:site_name` to ensure search engines display the proper site name.
+- Updated favicon definitions with explicit dimensions and URLs for search crawlers.
+- Bumped Service Worker cache version to `v24`.
+
 ## [1.5.8] - 2026-06-14
 
 ### Added

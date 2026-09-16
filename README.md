@@ -1,5 +1,5 @@
 # HLL SPA Artillery Calculator
-**v1.5.8 - Updated for Hell Let Loose Update 20**
+**v1.5.9 - Updated for Hell Let Loose Update 20**
 
 A web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let Loose.
 
@@ -52,6 +52,11 @@ The source code (HTML, CSS, JavaScript) of this project is licensed under the **
 > **Note:** The game assets (vehicle images in `/images/tanks`) are **excluded** from this license and remain the intellectual property of their respective owners.
 
 ## Version History
+
+**v1.5.9 - 2026-09-16**
+
+### Recent Updates
+- **SEO & Search Metadata**: Added Open Graph preview image, Google WebSite structured data, and enhanced favicon definitions to fix search engine snippets and site names.
 
 **v1.5.8 - 2026-06-14**
 
