@@ -1,4 +1,4 @@
-# HLL SPA Artillery Calculator
+# HLL SPA Calculator
 **v1.6.0 - Updated for Hell Let Loose Update 21**
 
 A web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let Loose.
