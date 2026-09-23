@@ -6,9 +6,9 @@
 
 const HLL_VERSION = {
 
-    appVersion: 'v1.5.9',    // App version
+    appVersion: 'v1.6.0',    // App version
 
-    gamePatch: 'HLL Update 20',  // HLL game patch
+    gamePatch: 'HLL Update 21',  // HLL game patch
 
     author: 'by litku'
 

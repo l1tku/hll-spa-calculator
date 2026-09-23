@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0] - 2026-09-23
+
+### Hell Let Loose Update 21
+- Updated the displayed game patch from `HLL Update 20` to `HLL Update 21`.
+- Game version link now points to the [HLL Update 21 changelog](https://hellletloose.com/blog/hll-u21-changelog).
+- Bumped Service Worker cache version to `v25`.
+
 ## [1.5.9] - 2026-09-16
 
 ### Fixed & Improved
