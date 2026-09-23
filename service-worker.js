@@ -1,8 +1,8 @@
 // Minimal Service Worker for HLL SPA Calculator
 // Uses relative URLs so it works correctly on GitHub Pages project paths.
 
-const CACHE_NAME = 'hll-spa-calc-v26';
-const CACHE_VERSION = 'v26'; // Bump this on every deployment
+const CACHE_NAME = 'hll-spa-calc-v27';
+const CACHE_VERSION = 'v27'; // Bump this on every deployment
 
 const urlsToCache = [
   './',

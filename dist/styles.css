@@ -3722,9 +3722,13 @@ inset 0 0 25px rgba(139, 105, 20, 0.08),
     grid-area: 1 / 1;
     opacity: 0;
     transition: opacity 0.18s ease;
+    pointer-events: none;
+    z-index: 1;
 }
 .screenshot-lightbox-stage .screenshot-lightbox-img.is-visible {
     opacity: 1;
+    pointer-events: auto;
+    z-index: 2;
 }
 .screenshot-lightbox img {
     max-width: 100%;
@@ -3896,7 +3900,7 @@ inset 0 0 30px rgba(139, 105, 20, 0.1);
     font-size: 0.85rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #e5e7eb;
+    color: #6b7280;
     background: transparent;
     border: 1px solid transparent;
     border-radius: 999px;
@@ -3907,11 +3911,12 @@ inset 0 0 30px rgba(139, 105, 20, 0.1);
     z-index: 1;
 }
 .toggle-pill:hover {
-    color: #fff;
+    color: #9ca3af;
 }
-.toggle-pill.active {
+.toggle-pill.active,
+.toggle-pill.active:hover {
     background: rgba(194, 178, 128, 0.25);
-    color: #1a1a1a;
+    color: #ffffff;
     border-color: rgba(194, 178, 128, 0.9);
     box-shadow: 0 0 12px rgba(194, 178, 128, 0.35);
     cursor: default;

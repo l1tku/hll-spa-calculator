@@ -6,7 +6,7 @@
 
 const HLL_VERSION = {
 
-    appVersion: 'v1.6.0',    // App version
+    appVersion: 'v1.6.1',    // App version
 
     gamePatch: 'HLL Update 21',  // HLL game patch
 
@@ -8942,21 +8942,21 @@ function getTankScreenshots(tankName) {
 
         'STURMPANZER': [
 
-            'brummbar_1.webp',
+            'sturmpanzer_1.webp',
 
-            'brummbar_2.webp',
+            'sturmpanzer_2.webp',
 
-            'brummbar_3.webp',
+            'sturmpanzer_3.webp',
 
-            'brummbar_4.webp',
+            'sturmpanzer_4.webp',
 
-            'brummbar_5.webp',
+            'sturmpanzer_5.webp',
 
-            'brummbar_6.webp',
+            'sturmpanzer_6.webp',
 
-            'brummbar_7.webp',
+            'sturmpanzer_7.webp',
 
-            'brummbar_8.webp'
+            'sturmpanzer_8.webp'
 
         ],
 
@@ -9698,7 +9698,7 @@ function showTankInfo() {
 
                         <div class="spec-title">VEHICLE STATS</div>
 
-                        <div class="spec-subtitle">Performance Data</div>
+                        <div class="spec-subtitle">Operational Data</div>
 
                     </div>
 

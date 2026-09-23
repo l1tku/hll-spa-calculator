@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.1] - 2026-09-23
+
+### Fixed
+- Unselected Full/Lite toggle button now stays grey.
+- Updated Sturmpanzer screenshots to use new `sturmpanzer_*.webp` images.
+- Fixed image viewer so right-clicking "Open image in new tab" opens the current image instead of the previous one.
+- Updated Field Manual subtitle texts.
+
 ## [1.6.0] - 2026-09-23
 
 ### Hell Let Loose Update 21
