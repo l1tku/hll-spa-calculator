@@ -3,6 +3,16 @@
 
 A web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let Loose.
 
+## Features
+
+- **Multi-Vehicle Support:** Accurate formulas for all SPA vehicles.
+- **Auto-Calculation:** Toggle auto-calculation on or off.
+- **Height Calculation:** Toggle height calculation on or off.
+- **Mobile Support:** Compact mobile design with collapsible panels.
+- **Intel Database:** Built-in "Field Manual" with tank specifications, screenshots, and authentic WWII history.
+- **Immersive UI:** Military-themed interface with authentic styling.
+- **Lite Mode:** Lightweight version.
+
 ## Installation & Local Usage
 
 ### Option 1: Live Web Access (Recommended)
@@ -20,19 +30,10 @@ No installation required. Simply visit the [Live Demo Link](https://l1tku.github
 4. **Set Terrain Elevation:** Type the **RED MIL** number you see in your ingame HUD.
 5. **Calculate:** Use the calculated Yellow Elevation setting.
 
-## Features
-
-- **Multi-Vehicle Support:** Accurate formulas for all SPA vehicles.
-- **Auto-Calculation:** Toggle auto-calculation on or off.
-- **Height Calculation:** Toggle height calculation on or off.
-- **Mobile Support:** Compact mobile design with collapsible panels.
-- **Intel Database:** Built-in "Field Manual" with tank specifications, screenshots, and history.
-- **Immersive UI:** Military-themed interface with authentic styling.
-- **Lite Mode:** Lightweight version.
-
 ## Vehicles Supported
 
 - **British:** Bishop SP, Churchill AVRE
+- **Canada:** Churchill AVRE
 - **US:** Sherman M4A3 (105)
 - **Soviet Union:** KV-2
 - **DAK:** Panzer III Ausf.N
@@ -52,6 +53,10 @@ The source code (HTML, CSS, JavaScript) of this project is licensed under the **
 > **Note:** The game assets (vehicle images in `/images/tanks`) are **excluded** from this license and remain the intellectual property of their respective owners.
 
 ## Version History
+
+**v1.6.2 - 2026-09-24**
+### Removed
+- Cleaned up redundant comments across `index.html`, `service-worker.js` `dist/styles.css` and `dist/main.js`
 
 **v1.6.1 - 2026-09-23**
 
