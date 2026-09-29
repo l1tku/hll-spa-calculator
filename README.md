@@ -54,10 +54,6 @@ The source code (HTML, CSS, JavaScript) of this project is licensed under the **
 
 ## Version History
 
-**v1.6.2 - 2026-09-24**
-### Removed
-- Cleaned up redundant comments across `index.html`, `service-worker.js` `dist/styles.css` and `dist/main.js`
-
 **v1.6.1 - 2026-09-23**
 
 ### Recent Updates
