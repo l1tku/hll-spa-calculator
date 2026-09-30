@@ -15,7 +15,7 @@
 - The word "(Yellow)" from the result label.
 
 ### Changed
-- Version strings all track this changelog (footer `v1.6.3`, service worker `1.6.3-1`).
+- Version strings all track this changelog (footer `v1.6.3`, service worker `1.6.3-2`).
 
 ## [1.6.2] - 2026-09-24
 

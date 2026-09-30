@@ -8907,9 +8907,7 @@ function wireUpEventListeners() {
 
 
 
-    const warningCloseBtn = document.querySelector('.warning-close');
-
-    if (warningCloseBtn) {
+    document.querySelectorAll('.warning-close').forEach(function(warningCloseBtn) {
 
         warningCloseBtn.addEventListener('click', function(e) {
 
@@ -8921,7 +8919,7 @@ function wireUpEventListeners() {
 
         });
 
-    }
+    });
 
 
 
