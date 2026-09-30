@@ -16,7 +16,7 @@ A web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let 
 ## Installation & Local Usage
 
 ### Option 1: Live Web Access (Recommended)
-No installation required. Simply visit the [Live Demo Link](https://l1tku.github.io/hll-spa-calculator/) from any desktop or mobile browser.
+No installation required. Open [HLL SPA Calculator](https://l1tku.github.io/hll-spa-calculator/) in any browser.
 
 ### Option 2: Local Development
 1. **Clone** or download this repository.
