@@ -1,14 +1,12 @@
 // ============================================
-
-// VERSION CONFIG - Update this when game patch changes
-
+// VERSION CONFIG
 // ============================================
 
 const HLL_VERSION = {
 
-    appVersion: 'v1.6.1',    // App version
+    appVersion: 'v1.6.3',
 
-    gamePatch: 'HLL Update 21',  // HLL game patch
+    gamePatch: 'HLL Update 21',
 
     author: 'by litku'
 
@@ -16,85 +14,12 @@ const HLL_VERSION = {
 
 
 
-// Artillery data tables
+// ============================================
+// ARTILLERY DATA TABLES
+// ============================================
 
-const tables = {
+const tables = {};
 
-    'British (Bishop SP)': {
-
-        800: 167, 760: 159, 720: 151, 680: 144, 640: 136, 600: 128,
-
-        560: 120, 520: 112, 480: 105, 440: 97, 400: 89, 360: 81,
-
-        320: 73, 280: 65, 240: 58, 200: 50,
-
-        minMil: -89, maxMil: 267
-
-    },
-
-    'British (Churchill AVRE)': {
-
-        250: 256, 240: 246, 230: 235, 220: 225, 210: 215, 200: 204,
-
-        190: 194, 180: 183, 170: 173, 160: 162, 150: 152, 140: 141,
-
-        130: 131, 120: 120, 110: 110, 100: 100,
-
-        minMil: -89, maxMil: 356
-
-    },
-
-    'DAK (Panzer III Ausf.N)': {
-
-        500: 366, 480: 348, 460: 331, 440: 313, 420: 295, 400: 277,
-
-        380: 260, 360: 242, 340: 224, 320: 206, 300: 188, 280: 171,
-
-        260: 153, 240: 135, 220: 117, 200: 100,
-
-        minMil: -89, maxMil: 533
-
-    },
-
-    'Germany (Sturmpanzer IV Brummbär)': {
-
-        500: 267, 480: 284, 460: 302, 440: 320, 420: 338, 400: 356,
-
-        380: 373, 360: 391, 340: 409, 320: 427, 300: 444, 280: 462,
-
-        260: 480, 240: 498, 220: 516, 200: 533,
-
-        minMil: -89, maxMil: 533
-
-    },
-
-    'Soviet Union (KV-2)': {
-
-        600: 366, 575: 350, 550: 333, 525: 316, 500: 300, 475: 283,
-
-        450: 266, 425: 250, 400: 233, 375: 216, 350: 200, 325: 183,
-
-        300: 166, 275: 150, 250: 133, 225: 116, 200: 100,
-
-        minMil: -89, maxMil: 533
-
-    },
-
-    'US (Sherman M4A3 105)': {
-
-        600: 366, 575: 350, 550: 333, 525: 316, 500: 300, 475: 283,
-
-        450: 266, 425: 250, 400: 233, 375: 216, 350: 200, 325: 183,
-
-        300: 166, 275: 150, 250: 133, 225: 116, 200: 100,
-
-        minMil: -89, maxMil: 533
-
-    }
-
-};
-
-// Confirmed in-game HUD ladders captured from live sight screenshots.
 tables['British (Bishop SP)'] = {
     800: 167, 760: 159, 720: 151, 680: 144, 640: 136, 600: 128,
     560: 120, 520: 112, 480: 105, 440: 97, 400: 89, 360: 81,
@@ -113,39 +38,35 @@ tables['DAK (Panzer III Ausf.N)'] = {
     500: 366, 480: 348, 460: 331, 440: 313, 420: 295, 400: 277,
     380: 260, 360: 242, 340: 224, 320: 206, 300: 188, 280: 171,
     260: 153, 240: 135, 220: 117, 200: 100,
-    minMil: -89, maxMil: 533
+    minMil: -89, maxMil: 466
 };
 
+tables['Germany (Sturmpanzer IV Brummbär)'] = {
+    500: 366, 480: 348, 460: 331, 440: 313, 420: 295, 400: 277,
+    380: 260, 360: 242, 340: 224, 320: 206, 300: 188, 280: 171,
+    260: 153, 240: 135, 220: 117, 200: 100,
+    minMil: -89, maxMil: 466
+};
 const sturmpanzerKey = Object.keys(tables).find((key) => key.includes('Sturmpanzer'));
-if (sturmpanzerKey) {
-    tables[sturmpanzerKey] = {
-        500: 366, 480: 348, 460: 331, 440: 313, 420: 295, 400: 277,
-        380: 260, 360: 242, 340: 224, 320: 206, 300: 188, 280: 171,
-        260: 153, 240: 135, 220: 117, 200: 100,
-        minMil: -89, maxMil: 533
-    };
-}
 
 tables['Soviet Union (KV-2)'] = {
     600: 366, 575: 350, 550: 333, 525: 316, 500: 300, 475: 283,
     450: 266, 425: 250, 400: 233, 375: 216, 350: 200, 325: 183,
     300: 166, 275: 150, 250: 133, 225: 116, 200: 100,
-    minMil: -89, maxMil: 533
+    minMil: -89, maxMil: 466
 };
 
 tables['US (Sherman M4A3 105)'] = {
     600: 366, 575: 350, 550: 333, 525: 316, 500: 300, 475: 283,
     450: 266, 425: 250, 400: 233, 375: 216, 350: 200, 325: 183,
     300: 166, 275: 150, 250: 133, 225: 116, 200: 100,
-    minMil: -89, maxMil: 533
+    minMil: -89, maxMil: 466
 };
 
 
 
 // ============================================
-
-// TANK DATA ARRAY - For dynamic dropdown generation
-
+// TANK DATA ARRAY
 // ============================================
 
 const tankData = [
@@ -161,8 +82,6 @@ const tankData = [
         image: "images/tanks/BISHOP_248.webp",
 
         imageBase: "BISHOP_248",
-
-        elevation: "-89 MIL to 267 MIL",
 
         shortName: "Bishop SP",
 
@@ -190,8 +109,6 @@ const tankData = [
 
         imageBase: "AVRE_248",
 
-        elevation: "-89 MIL to 356 MIL",
-
         shortName: "Churchill AVRE",
 
         classifiedRef: {
@@ -217,8 +134,6 @@ const tankData = [
         image: "images/tanks/M4A3_248.webp",
 
         imageBase: "M4A3_248",
-
-        elevation: "-89 MIL to 533 MIL",
 
         shortName: "Sherman M4A3",
 
@@ -246,8 +161,6 @@ const tankData = [
 
         imageBase: "KV2_248",
 
-        elevation: "-89 MIL to 533 MIL",
-
         shortName: "KV-2",
 
         classifiedRef: {
@@ -274,8 +187,6 @@ const tankData = [
 
         imageBase: "PANZERIII_248",
 
-        elevation: "-89 MIL to 533 MIL",
-
         shortName: "Panzer III Ausf.N",
 
         classifiedRef: {
@@ -301,8 +212,6 @@ const tankData = [
         image: "images/tanks/BRUMMBAR_248.webp",
 
         imageBase: "BRUMMBAR_248",
-
-        elevation: "-89 MIL to 533 MIL",
 
         shortName: "Sturmpanzer IV",
 
@@ -408,7 +317,7 @@ function handleTankSelection(value, selectSelected, selectItems, factionInput, i
 
     // Update all distance inputs to the default value for this tank
 
-    const distanceInputs = document.querySelectorAll('input#distance');
+    const distanceInputs = document.querySelectorAll('input#distance, input#distanceLite');
 
     distanceInputs.forEach(input => {
 
@@ -429,6 +338,12 @@ function handleTankSelection(value, selectSelected, selectItems, factionInput, i
     if (isAutoCalcEnabled()) {
 
         calculate();
+
+    } else if (!isLite) {
+
+        // Reset final counter to 0000 when switching tanks and auto calc is off
+
+        rollElevationToNumber(0);
 
     }
 
@@ -718,58 +633,6 @@ function generateLiteTankDropdown() {
 
 
 
-let muzzleHeightByFaction = {};
-
-const DEFAULT_MUZZLE_HEIGHTS_M = {
-
-    'British (Bishop SP)': 2.08,
-
-    'British (Churchill AVRE)': 1.95,
-
-    'US (Sherman M4A3 105)': 2.52,
-
-    'Soviet Union (KV-2)': 2.48,
-
-    'DAK (Panzer III Ausf.N)': 1.90,
-
-    'Germany (Sturmpanzer IV Brummbär)': 1.93
-
-};
-
-
-
-const TURRET_PITCH_LIMITS_DEG = {
-
-    'US (Sherman M4A3 105)': { min: -5.7, max: 29.8 }
-
-};
-
-
-
-function getDefaultMuzzleHeightM(faction) {
-
-    const v = DEFAULT_MUZZLE_HEIGHTS_M[faction];
-
-    return (typeof v === 'number' && isFinite(v)) ? v : 2.5;
-
-}
-
-
-
-function getMuzzleHeightMForFaction(faction) {
-
-    const v = muzzleHeightByFaction && Object.prototype.hasOwnProperty.call(muzzleHeightByFaction, faction)
-
-        ? muzzleHeightByFaction[faction]
-
-        : undefined;
-
-    return (typeof v === 'number' && isFinite(v)) ? v : getDefaultMuzzleHeightM(faction);
-
-}
-
-
-
 // Tank information data (in-game statistics, history, and real life)
 
 const tankInfo = {
@@ -780,7 +643,7 @@ const tankInfo = {
 
         stats: {
 
-            elevation: '-89 MIL to 533 MIL',
+            elevation: '-89 MIL to 466 MIL',
 
             hullGun: 'M1919 .30 cal - 200 rounds × 6 magazines',
 
@@ -874,7 +737,7 @@ const tankInfo = {
 
         stats: {
 
-            elevation: '-89 MIL to 533 MIL',
+            elevation: '-89 MIL to 466 MIL',
 
             hullGun: 'DT .30 cal - 200 rounds × 6 magazines',
 
@@ -1158,7 +1021,7 @@ const tankInfo = {
 
         stats: {
 
-            elevation: '-89 MIL to 533 MIL',
+            elevation: '-89 MIL to 466 MIL',
 
             hullGun: 'NO MG DRIVER',
 
@@ -1254,7 +1117,7 @@ const tankInfo = {
 
         stats: {
 
-            elevation: '-89 MIL to 533 MIL',
+            elevation: '-89 MIL to 466 MIL',
 
             hullGun: 'MG34 7.92mm - 200 rounds × 6 magazines',
 
@@ -2084,18 +1947,6 @@ function updateFactionImage() {
 
 
 
-    const muzzleHeightInput = document.getElementById('muzzleHeight');
-
-    if (muzzleHeightInput) {
-
-        const v = getMuzzleHeightMForFaction(faction);
-
-        muzzleHeightInput.value = String(v);
-
-    }
-
-
-
     updateMilRangeText();
 
 }
@@ -2108,7 +1959,7 @@ function adjustValue(fieldId, delta) {
 
     // Find all inputs with this ID (handles duplicate IDs for lite/full modes)
 
-    const allInputs = document.querySelectorAll(`input[id="${fieldId}"]`);
+    const allInputs = document.querySelectorAll(`input[id="${fieldId}"], input[id="${fieldId}Lite"]`);
 
     if (allInputs.length === 0) return;
 
@@ -2122,11 +1973,7 @@ function adjustValue(fieldId, delta) {
 
     const currentValue = parseFloat(inputValue.replace('+', '')) || 0;
 
-    let newValue = (fieldId === 'muzzleHeight')
-
-        ? (Math.round((currentValue + delta) * 10) / 10)
-
-        : Math.round(currentValue + delta);
+    let newValue = Math.round(currentValue + delta);
 
 
 
@@ -2144,10 +1991,6 @@ function adjustValue(fieldId, delta) {
 
         newValue = Math.max(-5000, Math.min(5000, newValue));
 
-    } else if (fieldId === 'muzzleHeight') {
-
-        newValue = Math.max(0, Math.min(50, newValue));
-
     }
 
 
@@ -2159,40 +2002,6 @@ function adjustValue(fieldId, delta) {
         inp.value = newValue;
 
     });
-
-
-
-    // Update ruler if distance field changed
-
-    if (fieldId === 'distance') {
-
-        const snapToggle = document.getElementById('snapToggle');
-
-
-
-        // Turn off snap mode when using +/- buttons if value is not a 25m increment
-
-// Turn off snap mode when using +/- buttons if value is not a 25m increment
-
-        if (snapToggle && snapToggle.checked) {
-
-            const isMultipleOf25 = Math.abs(newValue % 25) < 0.001; // Check if value is a multiple of 25
-
-            if (!isMultipleOf25) {
-
-                snapToggle.checked = false;
-
-                updateToggleLEDs();
-
-                syncArmoredToggles();
-
-                saveState(); // Save state when snap mode is toggled off
-
-            }
-
-        }
-
-    }
 
 
 
@@ -2226,7 +2035,7 @@ function adjustValue(fieldId, delta) {
 
 // Reset final value to 0000 when auto calc is off
 
-        if (fieldId === 'distance' || fieldId === 'heightDiff' || fieldId === 'muzzleHeight' || fieldId === 'redNumber') {
+        if (fieldId === 'distance' || fieldId === 'heightDiff' || fieldId === 'redNumber') {
 
             rollElevationToNumber(0);
 
@@ -2258,8 +2067,6 @@ function adjustValue(fieldId, delta) {
 
 // Constants
 
-const SLIDER_THUMB_WIDTH = 18;
-
 const MILS_PER_RAD_APPROX = -80;
 
 const MILS_PER_DEG = 17.777779;
@@ -2269,18 +2076,6 @@ const SPA_V0_MPS = 112.5;
 const SPA_G_MPS2 = 9.8;
 
 const USE_PHYSICS_HEIGHT_CORRECTION = true;
-
-const USE_PERFECT_SPA_MECHANIC = false;
-
-
-
-function unwindDegrees(deg) {
-
-    deg = ((deg + 180) % 360 + 360) % 360 - 180;
-
-    return deg;
-
-}
 
 
 
@@ -2319,62 +2114,6 @@ function spaHudMilFromRaw(table, mils) {
 function milToDegrees(mil) {
 
     return mil / MILS_PER_DEG;
-
-}
-
-
-
-function computePerfectSpaBaseMil(table, distanceMeters) {
-
-    if (!table || !(distanceMeters > 0) || !isFinite(distanceMeters)) {
-
-        return NaN;
-
-    }
-
-
-
-    const distances = Object.keys(table)
-
-        .filter(k => k !== 'minMil' && k !== 'maxMil')
-
-        .map(Number)
-
-        .filter(Number.isFinite)
-
-        .sort((a, b) => a - b);
-
-
-
-    if (distances.length < 2) {
-
-        return NaN;
-
-    }
-
-
-
-    const minRange = distances[0];
-
-    const maxRange = distances[distances.length - 1];
-
-
-
-    const maxPitchMil = Number(table[minRange]);
-
-    const minPitchMil = Number(table[maxRange]);
-
-    if (!Number.isFinite(maxPitchMil) || !Number.isFinite(minPitchMil) || !(maxRange > minRange)) {
-
-        return NaN;
-
-    }
-
-
-
-    const t = (distanceMeters - minRange) / (maxRange - minRange);
-
-    return maxPitchMil + (minPitchMil - maxPitchMil) * t;
 
 }
 
@@ -2844,1554 +2583,6 @@ function simulateSpaImpactDistanceMeters(table, mil, terrainSlope) {
 
 
 
-function simulateSpaZAtDistanceMeters(table, mil, distanceMeters, terrainSlope, muzzleHeightMeters) {
-
-    const targetX = distanceMeters;
-
-    if (!(targetX > 0) || !isFinite(targetX) || !isFinite(terrainSlope) || !isFinite(muzzleHeightMeters)) {
-
-        return NaN;
-
-    }
-
-
-
-    const aimedPitchDeg = milToDegrees(mil);
-
-    const maxPitchDeg = milToDegrees(table.maxMil);
-
-    const apexPoint = 0.6;
-
-    const descentCurve = 1.7;
-
-    const apexSpeedMultiplier = 0.6;
-
-    const dispersedTravelDelay = 1.2;
-
-
-
-    const pitchFactor = clamp01((aimedPitchDeg - -90.0) / ((maxPitchDeg - -90.0) || 1));
-
-    const scaledApexPoint = (apexPoint - 0.01) * pitchFactor + 0.01;
-
-
-
-    const targetZ = (-muzzleHeightMeters) + terrainSlope * targetX;
-
-
-
-    const rad = aimedPitchDeg * (Math.PI / 180.0);
-
-    const initialNX = Math.cos(rad);
-
-    const initialNZ = Math.sin(rad);
-
-    const invLen0 = 1.0 / Math.max(1e-9, Math.sqrt(initialNX * initialNX + initialNZ * initialNZ));
-
-
-
-    let initX = initialNX * invLen0;
-
-    let initZ = initialNZ * invLen0;
-
-
-
-    let newX = initX;
-
-    let newZ = initZ;
-
-
-
-    const baseSpeed = SPA_V0_MPS;
-
-    const apexSpeed = baseSpeed * apexSpeedMultiplier;
-
-
-
-    let posX = 0;
-
-    let posZ = 0;
-
-
-
-    let velX = baseSpeed * initX;
-
-    let velZ = baseSpeed * initZ;
-
-    let prevVelZ = velZ;
-
-
-
-    let velZCap = Number.POSITIVE_INFINITY;
-
-    let passedApex = false;
-
-    let guidanceOff = false;
-
-
-
-    const dt = 1.0 / 60.0;
-
-    const maxSteps = 2000;
-
-
-
-    for (let i = 0; i < maxSteps; i++) {
-
-        const prevX = posX;
-
-        const prevZ = posZ;
-
-
-
-        if (!guidanceOff) {
-
-            const xyDist = Math.abs(posX);
-
-            const travelAlpha = clamp01(xyDist / targetX);
-
-
-
-            if (!passedApex && scaledApexPoint <= travelAlpha) {
-
-                passedApex = true;
-
-            }
-
-
-
-            if (travelAlpha >= 0.9999 || (passedApex && posZ < targetZ)) {
-
-                guidanceOff = true;
-
-            } else {
-
-                const toX = targetX - posX;
-
-                const toZ = targetZ - posZ;
-
-                const invToLen = 1.0 / Math.max(1e-9, Math.sqrt(toX * toX + toZ * toZ));
-
-                const dirX = toX * invToLen;
-
-                const dirZ = toZ * invToLen;
-
-
-
-                if (passedApex && travelAlpha > 0 && (1.0 - scaledApexPoint) > 1e-6) {
-
-                    let t = ((travelAlpha + 0.05) - scaledApexPoint) / (1.0 - scaledApexPoint);
-
-                    t = clamp01(t);
-
-                    t = Math.pow(t, descentCurve);
-
-                    newZ = lerp(initZ, dirZ, t);
-
-                }
-
-
-
-                const disperse = Math.pow(travelAlpha + 0.05, dispersedTravelDelay);
-
-                newX = lerp(initX, dirX, disperse);
-
-
-
-                const invNewLen = 1.0 / Math.max(1e-9, Math.sqrt(newX * newX + newZ * newZ));
-
-                newX *= invNewLen;
-
-                newZ *= invNewLen;
-
-
-
-                if (newZ > velZCap) {
-
-                    newZ = velZCap;
-
-                }
-
-                velZCap = newZ;
-
-
-
-                const apexPointClamped = Math.min(0.95, Math.max(0.05, scaledApexPoint));
-
-                let speed;
-
-                if (apexPointClamped < travelAlpha) {
-
-                    let u = (travelAlpha - apexPointClamped) / (1.0 - apexPointClamped);
-
-                    u = clamp01(u);
-
-                    speed = (u * u) * (baseSpeed - apexSpeed) + apexSpeed;
-
-                } else {
-
-                    let u = 1.0 - (travelAlpha / apexPointClamped);
-
-                    u = clamp01(u);
-
-                    speed = (1.0 - u * u) * (apexSpeed - baseSpeed) + baseSpeed;
-
-                }
-
-
-
-                velX = speed * newX;
-
-                const wantVelZ = speed * newZ;
-
-                velZ = Math.min(prevVelZ, wantVelZ);
-
-            }
-
-        } else {
-
-            velZ -= SPA_G_MPS2 * dt;
-
-        }
-
-
-
-        posX += velX * dt;
-
-        posZ += velZ * dt;
-
-        prevVelZ = velZ;
-
-
-
-        const groundPrev = (-muzzleHeightMeters) + terrainSlope * prevX;
-
-        const groundNow = (-muzzleHeightMeters) + terrainSlope * posX;
-
-        if (posZ <= groundNow) {
-
-            return NaN;
-
-        }
-
-
-
-        if (prevX <= targetX && posX >= targetX) {
-
-            const t = Math.abs(posX - prevX) < 1e-9 ? 0 : clamp01((targetX - prevX) / (posX - prevX));
-
-            return prevZ + (posZ - prevZ) * t;
-
-        }
-
-    }
-
-
-
-    return NaN;
-
-}
-
-
-
-let isTrajectoryWindowVisible = false;
-
-let lastTrajectoryPreviewArgs = null;
-
-let lastTrajectorySim = null;
-
-let lastTrajectorySimKey = '';
-
-let trajectoryStaticCanvas = null;
-
-let trajectoryStaticKey = '';
-
-let trajectoryStaticMeta = null;
-
-let trajectoryMarkerTimeSec = 0;
-
-let trajectoryAnimPlaying = false;
-
-let trajectoryAnimStartMs = 0;
-
-let trajectoryAnimStartTimeSec = 0;
-
-let trajectoryAnimRafId = 0;
-
-let trajectoryImpactEffectStartMs = 0;
-
-let trajectoryImpactEffectX = 0;
-
-let trajectoryImpactEffectZ = 0;
-
-
-
-function trajectorySimKey(args) {
-
-    if (!args || !args.table) return '';
-
-    const maxMil = Number(args.table.maxMil);
-
-    const minMil = Number(args.table.minMil);
-
-    return [
-
-        String(args.faction || ''),
-
-        Number(args.mil).toFixed(4),
-
-        Number(args.distanceMeters).toFixed(4),
-
-        Number(args.terrainSlope).toFixed(6),
-
-        Number(args.muzzleHeightMeters).toFixed(4),
-
-        Number.isFinite(minMil) ? minMil.toFixed(4) : 'NaN',
-
-        Number.isFinite(maxMil) ? maxMil.toFixed(4) : 'NaN'
-
-    ].join('|');
-
-}
-
-
-
-function invalidateTrajectoryStaticCache() {
-
-    trajectoryStaticCanvas = null;
-
-    trajectoryStaticKey = '';
-
-    trajectoryStaticMeta = null;
-
-}
-
-
-
-function cancelTrajectoryAnimFrame() {
-
-    if (trajectoryAnimRafId) {
-
-        cancelAnimationFrame(trajectoryAnimRafId);
-
-        trajectoryAnimRafId = 0;
-
-    }
-
-}
-
-
-
-function setTrajectoryAnimationPlaying(nextPlaying) {
-
-    trajectoryAnimPlaying = !!nextPlaying;
-
-    const playBtn = document.getElementById('trajectoryPlayButton');
-
-    if (playBtn) {
-
-        playBtn.textContent = trajectoryAnimPlaying ? '⏸' : '▶';
-
-    }
-
-    if (!trajectoryAnimPlaying) {
-
-        cancelTrajectoryAnimFrame();
-
-    }
-
-}
-
-
-
-function trajectoryAnimFrame(nowMs) {
-
-    if (!trajectoryAnimPlaying || !isTrajectoryWindowVisible || !lastTrajectorySim || !lastTrajectorySim.points) {
-
-        setTrajectoryAnimationPlaying(false);
-
-        return;
-
-    }
-
-
-
-    const impactTime = Number(lastTrajectorySim.impactTimeSec);
-
-    if (!Number.isFinite(impactTime) || impactTime <= 0) {
-
-        setTrajectoryAnimationPlaying(false);
-
-        return;
-
-    }
-
-
-
-    const elapsedSec = (nowMs - trajectoryAnimStartMs) / 1000;
-
-    trajectoryMarkerTimeSec = trajectoryAnimStartTimeSec + elapsedSec;
-
-
-
-    if (trajectoryMarkerTimeSec >= impactTime) {
-
-        trajectoryMarkerTimeSec = impactTime;
-
-        const impactSample = sampleTrajectoryAtTime(lastTrajectorySim.points, impactTime);
-
-        if (impactSample) {
-
-            trajectoryImpactEffectStartMs = performance.now();
-
-            trajectoryImpactEffectX = impactSample.x;
-
-            trajectoryImpactEffectZ = impactSample.z;
-
-        }
-
-        setTrajectoryAnimationPlaying(false);
-
-    }
-
-
-
-    renderTrajectoryPreview(lastTrajectoryPreviewArgs);
-
-
-
-    if (trajectoryAnimPlaying) {
-
-        trajectoryAnimRafId = requestAnimationFrame(trajectoryAnimFrame);
-
-    }
-
-}
-
-
-
-function sampleTrajectoryAtTime(points, tSec) {
-
-    if (!points || points.length < 2 || !Number.isFinite(tSec)) return null;
-
-    const last = points[points.length - 1];
-
-    if (!last || !Number.isFinite(last.t)) return null;
-
-    const t = Math.max(0, Math.min(last.t, tSec));
-
-
-
-    let lo = 0;
-
-    let hi = points.length - 1;
-
-    while (lo + 1 < hi) {
-
-        const mid = (lo + hi) >> 1;
-
-        const tm = points[mid].t;
-
-        if (tm <= t) lo = mid;
-
-        else hi = mid;
-
-    }
-
-
-
-    const a = points[lo];
-
-    const b = points[hi];
-
-    const denom = (b.t - a.t);
-
-    const u = Math.abs(denom) < 1e-9 ? 0 : clamp01((t - a.t) / denom);
-
-    return {
-
-        x: a.x + (b.x - a.x) * u,
-
-        z: a.z + (b.z - a.z) * u,
-
-        t
-
-    };
-
-}
-
-
-
-function niceStep(maxValue, targetTicks) {
-
-    const maxV = Math.max(0, Number(maxValue));
-
-    const t = Math.max(2, Number(targetTicks) || 5);
-
-    if (!(maxV > 0) || !Number.isFinite(maxV)) return 1;
-
-
-
-    const raw = maxV / t;
-
-    const exp = Math.floor(Math.log10(raw));
-
-    const base = Math.pow(10, exp);
-
-    const frac = raw / base;
-
-    let niceFrac;
-
-    if (frac <= 1) niceFrac = 1;
-
-    else if (frac <= 2) niceFrac = 2;
-
-    else if (frac <= 5) niceFrac = 5;
-
-    else niceFrac = 10;
-
-    return niceFrac * base;
-
-}
-
-
-
-function simulateSpaTrajectoryPoints(table, mil, distanceMeters, terrainSlope, muzzleHeightMeters) {
-
-    const targetX = distanceMeters;
-
-    if (!(targetX > 0) || !isFinite(mil) || !isFinite(targetX) || !isFinite(terrainSlope) || !isFinite(muzzleHeightMeters) || !table) {
-
-        return null;
-
-    }
-
-
-
-    const aimedPitchDeg = milToDegrees(mil);
-
-    const maxPitchDeg = milToDegrees(table.maxMil);
-
-    const apexPoint = 0.6;
-
-    const descentCurve = 1.7;
-
-    const apexSpeedMultiplier = 0.6;
-
-    const dispersedTravelDelay = 1.2;
-
-
-
-    const pitchFactor = clamp01((aimedPitchDeg - -90.0) / ((maxPitchDeg - -90.0) || 1));
-
-    const scaledApexPoint = (apexPoint - 0.01) * pitchFactor + 0.01;
-
-
-
-    const targetZ = (-muzzleHeightMeters) + terrainSlope * targetX;
-
-
-
-    const rad = aimedPitchDeg * (Math.PI / 180.0);
-
-    let initX = Math.cos(rad);
-
-    let initZ = Math.sin(rad);
-
-    const invLen0 = 1.0 / Math.max(1e-9, Math.sqrt(initX * initX + initZ * initZ));
-
-    initX *= invLen0;
-
-    initZ *= invLen0;
-
-
-
-    let newX = initX;
-
-    let newZ = initZ;
-
-
-
-    const baseSpeed = SPA_V0_MPS;
-
-    const apexSpeed = baseSpeed * apexSpeedMultiplier;
-
-
-
-    let posX = 0;
-
-    let posZ = 0;
-
-
-
-    let velX = baseSpeed * initX;
-
-    let velZ = baseSpeed * initZ;
-
-    let prevVelZ = velZ;
-
-
-
-    let velZCap = Number.POSITIVE_INFINITY;
-
-    let passedApex = false;
-
-    let guidanceOff = false;
-
-
-
-    const dt = 1.0 / 60.0;
-
-    const maxSteps = 2000;
-
-
-
-    let timeSec = 0;
-
-    const points = [{ x: 0, z: 0, t: 0 }];
-
-
-
-    for (let i = 0; i < maxSteps; i++) {
-
-        const prevX = posX;
-
-        const prevZ = posZ;
-
-        const prevT = timeSec;
-
-
-
-        if (!guidanceOff) {
-
-            const xyDist = Math.abs(posX);
-
-            const travelAlpha = clamp01(xyDist / targetX);
-
-
-
-            if (!passedApex && scaledApexPoint <= travelAlpha) {
-
-                passedApex = true;
-
-            }
-
-
-
-            if (travelAlpha >= 0.9999 || (passedApex && posZ < targetZ)) {
-
-                guidanceOff = true;
-
-            } else {
-
-                const toX = targetX - posX;
-
-                const toZ = targetZ - posZ;
-
-                const invToLen = 1.0 / Math.max(1e-9, Math.sqrt(toX * toX + toZ * toZ));
-
-                const dirX = toX * invToLen;
-
-                const dirZ = toZ * invToLen;
-
-
-
-                if (passedApex && travelAlpha > 0 && (1.0 - scaledApexPoint) > 1e-6) {
-
-                    let t = ((travelAlpha + 0.05) - scaledApexPoint) / (1.0 - scaledApexPoint);
-
-                    t = clamp01(t);
-
-                    t = Math.pow(t, descentCurve);
-
-                    newZ = lerp(initZ, dirZ, t);
-
-                }
-
-
-
-                const disperse = Math.pow(travelAlpha + 0.05, dispersedTravelDelay);
-
-                newX = lerp(initX, dirX, disperse);
-
-
-
-                const invNewLen = 1.0 / Math.max(1e-9, Math.sqrt(newX * newX + newZ * newZ));
-
-                newX *= invNewLen;
-
-                newZ *= invNewLen;
-
-
-
-                if (newZ > velZCap) {
-
-                    newZ = velZCap;
-
-                }
-
-                velZCap = newZ;
-
-
-
-                const apexPointClamped = Math.min(0.95, Math.max(0.05, scaledApexPoint));
-
-                let speed;
-
-                if (apexPointClamped < travelAlpha) {
-
-                    let u = (travelAlpha - apexPointClamped) / (1.0 - apexPointClamped);
-
-                    u = clamp01(u);
-
-                    speed = (u * u) * (baseSpeed - apexSpeed) + apexSpeed;
-
-                } else {
-
-                    let u = 1.0 - (travelAlpha / apexPointClamped);
-
-                    u = clamp01(u);
-
-                    speed = (1.0 - u * u) * (apexSpeed - baseSpeed) + baseSpeed;
-
-                }
-
-
-
-                velX = speed * newX;
-
-                const wantVelZ = speed * newZ;
-
-                velZ = Math.min(prevVelZ, wantVelZ);
-
-            }
-
-        } else {
-
-            velZ -= SPA_G_MPS2 * dt;
-
-        }
-
-
-
-        posX += velX * dt;
-
-        posZ += velZ * dt;
-
-        prevVelZ = velZ;
-
-
-
-        timeSec = prevT + dt;
-
-
-
-        points.push({ x: posX, z: posZ, t: timeSec });
-
-
-
-        const groundPrev = (-muzzleHeightMeters) + terrainSlope * prevX;
-
-        const groundNow = (-muzzleHeightMeters) + terrainSlope * posX;
-
-        if (posZ <= groundNow) {
-
-            const denom = (posZ - prevZ) - (groundNow - groundPrev);
-
-            const tHit = Math.abs(denom) < 1e-9 ? 0 : clamp01((groundPrev - prevZ) / denom);
-
-            const hitX = prevX + (posX - prevX) * tHit;
-
-            const hitZ = prevZ + (posZ - prevZ) * tHit;
-
-            const hitT = prevT + (timeSec - prevT) * tHit;
-
-            points.push({ x: hitX, z: hitZ, t: hitT });
-
-            return {
-
-                points,
-
-                targetX,
-
-                targetZ,
-
-                impactX: hitX,
-
-                impactTimeSec: hitT,
-
-                terrainSlope,
-
-                muzzleHeightMeters
-
-            };
-
-        }
-
-
-
-        if (posX > targetX * 2.0) {
-
-            return {
-
-                points,
-
-                targetX,
-
-                targetZ,
-
-                impactX: posX,
-
-                impactTimeSec: timeSec,
-
-                terrainSlope,
-
-                muzzleHeightMeters
-
-            };
-
-        }
-
-    }
-
-
-
-    return {
-
-        points,
-
-        targetX,
-
-        targetZ,
-
-        impactX: targetX,
-
-        impactTimeSec: timeSec,
-
-        terrainSlope,
-
-        muzzleHeightMeters
-
-    };
-
-}
-
-
-
-function clearTrajectoryPreview() {
-
-    const canvas = document.getElementById('trajectoryCanvas');
-
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-
-    if (!ctx) return;
-
-    const rect = canvas.getBoundingClientRect();
-
-    const dpr = window.devicePixelRatio || 1;
-
-    canvas.width = Math.max(1, Math.floor(rect.width * dpr));
-
-    canvas.height = Math.max(1, Math.floor(rect.height * dpr));
-
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-    ctx.clearRect(0, 0, rect.width, rect.height);
-
-}
-
-
-
-function renderTrajectoryPreview(args) {
-
-    const windowEl = document.getElementById('trajectoryWindow');
-
-    const canvas = document.getElementById('trajectoryCanvas');
-
-    if (!windowEl || !canvas) return;
-
-
-
-    const rect = canvas.getBoundingClientRect();
-
-    const cssW = Math.max(1, rect.width);
-
-    const cssH = Math.max(1, rect.height);
-
-    const dpr = window.devicePixelRatio || 1;
-
-    canvas.width = Math.max(1, Math.floor(cssW * dpr));
-
-    canvas.height = Math.max(1, Math.floor(cssH * dpr));
-
-
-
-    const ctx = canvas.getContext('2d');
-
-    if (!ctx) return;
-
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-    ctx.clearRect(0, 0, cssW, cssH);
-
-
-
-    if (!args || !args.table) {
-
-        return;
-
-    }
-
-
-
-    const key = trajectorySimKey(args);
-
-    if (!lastTrajectorySim || key !== lastTrajectorySimKey) {
-
-        lastTrajectorySim = simulateSpaTrajectoryPoints(args.table, args.mil, args.distanceMeters, args.terrainSlope, args.muzzleHeightMeters);
-
-        lastTrajectorySimKey = key;
-
-        trajectoryMarkerTimeSec = 0;
-
-        setTrajectoryAnimationPlaying(false);
-
-        invalidateTrajectoryStaticCache();
-
-    }
-
-
-
-    const sim = lastTrajectorySim;
-
-    if (!sim || !sim.points || sim.points.length < 2) {
-
-        return;
-
-    }
-
-
-
-    const staticKey = `${key}|${canvas.width}x${canvas.height}`;
-
-
-
-    if (!trajectoryStaticCanvas || trajectoryStaticKey !== staticKey) {
-
-        const off = document.createElement('canvas');
-
-        off.width = canvas.width;
-
-        off.height = canvas.height;
-
-        const sctx = off.getContext('2d');
-
-        if (!sctx) return;
-
-
-
-        sctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-        sctx.clearRect(0, 0, cssW, cssH);
-
-
-
-        const groundAt = (x) => (-args.muzzleHeightMeters) + args.terrainSlope * x;
-
-        const pts = sim.points.map(p => ({ x: p.x, z: p.z - groundAt(p.x) }));
-
-
-
-        const maxX = Math.max(args.distanceMeters, sim.impactX || args.distanceMeters, 1);
-
-        let maxZ = 0;
-
-        for (const p of pts) {
-
-            if (Number.isFinite(p.z) && p.z > maxZ) maxZ = p.z;
-
-        }
-
-        maxZ = Math.max(5, maxZ);
-
-
-
-        const padL = 44;
-
-        const padR = 12;
-
-        const padT = 12;
-
-        const padB = 12;
-
-        const plotW = Math.max(1, cssW - padL - padR);
-
-        const plotH = Math.max(1, cssH - padT - padB);
-
-
-
-        const xToPx = (x) => padL + (x / maxX) * plotW;
-
-        const zToPx = (z) => padT + plotH - (z / maxZ) * plotH;
-
-
-
-        sctx.strokeStyle = 'rgba(42, 42, 42, 0.25)';
-
-        sctx.lineWidth = 1;
-
-        sctx.strokeRect(padL + 0.5, padT + 0.5, plotW - 1, plotH - 1);
-
-
-
-        const stepX = niceStep(maxX, 6);
-
-        const stepZ = niceStep(maxZ, 5);
-
-
-
-        sctx.font = "11px 'Courier New', monospace";
-
-        sctx.fillStyle = 'rgba(42, 42, 42, 0.78)';
-
-        sctx.strokeStyle = 'rgba(42, 42, 42, 0.12)';
-
-        sctx.lineWidth = 1;
-
-
-
-        for (let x = 0; x <= maxX + 1e-6; x += stepX) {
-
-            const px = xToPx(x);
-
-            sctx.beginPath();
-
-            sctx.moveTo(px, padT);
-
-            sctx.lineTo(px, padT + plotH);
-
-            sctx.stroke();
-
-            const label = `${Math.round(x)}m`;
-
-            sctx.fillText(label, Math.min(cssW - padR - 40, px + 3), padT + plotH - 4);
-
-        }
-
-
-
-        for (let z = 0; z <= maxZ + 1e-6; z += stepZ) {
-
-            const py = zToPx(z);
-
-            sctx.beginPath();
-
-            sctx.moveTo(padL, py);
-
-            sctx.lineTo(padL + plotW, py);
-
-            sctx.stroke();
-
-            const label = `${Math.round(z)}m`;
-
-            sctx.fillText(label, padL + 3, Math.max(padT + 11, py - 3));
-
-        }
-
-
-
-        sctx.strokeStyle = 'rgba(42, 42, 42, 0.55)';
-
-        sctx.beginPath();
-
-        sctx.moveTo(xToPx(0), zToPx(0));
-
-        sctx.lineTo(xToPx(maxX), zToPx(0));
-
-        sctx.stroke();
-
-
-
-        sctx.strokeStyle = 'rgba(139, 105, 20, 0.45)';
-
-        sctx.setLineDash([4, 4]);
-
-        sctx.beginPath();
-
-        sctx.moveTo(xToPx(args.distanceMeters), padT);
-
-        sctx.lineTo(xToPx(args.distanceMeters), padT + plotH);
-
-        sctx.stroke();
-
-        sctx.setLineDash([]);
-
-
-
-        sctx.strokeStyle = 'rgba(139, 105, 20, 0.95)';
-
-        sctx.lineWidth = 2;
-
-        sctx.beginPath();
-
-        for (let i = 0; i < pts.length; i++) {
-
-            const p = pts[i];
-
-            const px = xToPx(p.x);
-
-            const py = zToPx(p.z);
-
-            if (i === 0) sctx.moveTo(px, py);
-
-            else sctx.lineTo(px, py);
-
-        }
-
-        sctx.stroke();
-
-
-
-        const muzzleZ = args.muzzleHeightMeters;
-
-        sctx.fillStyle = 'rgba(139, 105, 20, 0.95)';
-
-        sctx.beginPath();
-
-        sctx.arc(xToPx(0), zToPx(muzzleZ), 3, 0, Math.PI * 2);
-
-        sctx.fill();
-
-
-
-// Tank + turret pitch visual (field manual ink style)
-
-// Anchor the muzzle to the trajectory origin (x=0, z=muzzleHeight).
-
-        let pitchDeg = milToDegrees(args.mil);
-
-        const pitchLimits = (args.faction && TURRET_PITCH_LIMITS_DEG[args.faction]) ? TURRET_PITCH_LIMITS_DEG[args.faction] : null;
-
-        if (pitchLimits && Number.isFinite(pitchLimits.min) && Number.isFinite(pitchLimits.max)) {
-
-            pitchDeg = Math.max(pitchLimits.min, Math.min(pitchLimits.max, pitchDeg));
-
-        }
-
-        const pitchRad = (Number.isFinite(pitchDeg) ? pitchDeg : 0) * (Math.PI / 180.0);
-
-// Convert to screen-space direction (account for axis scaling)
-
-        const sx = plotW / maxX;
-
-        const sy = plotH / maxZ;
-
-        let dx = Math.cos(pitchRad) * sx;
-
-        let dy = -Math.sin(pitchRad) * sy;
-
-        const invLen = 1.0 / Math.max(1e-9, Math.sqrt(dx * dx + dy * dy));
-
-        dx *= invLen;
-
-        dy *= invLen;
-
-
-
-        const turretR = 6;
-
-        const muzzlePx = xToPx(0);
-
-        const muzzlePy = zToPx(args.muzzleHeightMeters);
-
-
-
-// Place turret center so the barrel starts at the muzzle point.
-
-        const turretCX = muzzlePx - dx * turretR;
-
-        const turretCY = muzzlePy - dy * turretR;
-
-
-
-// Hull/tracks are drawn relative to the turret center.
-
-        const hullW = 36;
-
-        const hullH = 10;
-
-        const tracksW = 48;
-
-        const tracksH = 8;
-
-        const hullX = turretCX - 16;
-
-        const hullY = turretCY + 4;
-
-        const tracksX = hullX - 6;
-
-        const tracksY = hullY + hullH;
-
-
-
-// Tracks
-
-        sctx.fillStyle = 'rgba(42, 42, 42, 0.55)';
-
-        sctx.fillRect(tracksX, tracksY, tracksW, tracksH);
-
-// Hull
-
-        sctx.fillStyle = 'rgba(42, 42, 42, 0.35)';
-
-        sctx.fillRect(hullX, hullY, hullW, hullH);
-
-// Turret
-
-        sctx.fillStyle = 'rgba(42, 42, 42, 0.45)';
-
-        sctx.beginPath();
-
-        sctx.arc(turretCX, turretCY, turretR, 0, Math.PI * 2);
-
-        sctx.fill();
-
-// Barrel
-
-        const bx0 = muzzlePx;
-
-        const by0 = muzzlePy;
-
-        const bx1 = bx0 + dx * 28;
-
-        const by1 = by0 + dy * 28;
-
-        sctx.strokeStyle = 'rgba(139, 105, 20, 0.9)';
-
-        sctx.lineWidth = 2;
-
-        sctx.beginPath();
-
-        sctx.moveTo(bx0, by0);
-
-        sctx.lineTo(bx1, by1);
-
-        sctx.stroke();
-
-
-
-        trajectoryStaticCanvas = off;
-
-        trajectoryStaticKey = staticKey;
-
-        trajectoryStaticMeta = {
-
-            dpr,
-
-            cssW,
-
-            cssH,
-
-            padL,
-
-            padT,
-
-            plotW,
-
-            plotH,
-
-            maxX,
-
-            maxZ,
-
-            terrainSlope: args.terrainSlope,
-
-            muzzleHeightMeters: args.muzzleHeightMeters,
-
-            distanceMeters: args.distanceMeters
-
-        };
-
-    }
-
-
-
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    if (trajectoryStaticCanvas) {
-
-        ctx.drawImage(trajectoryStaticCanvas, 0, 0);
-
-    }
-
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-
-
-    const marker = sampleTrajectoryAtTime(sim.points, trajectoryMarkerTimeSec);
-
-    if (marker) {
-
-        const meta = trajectoryStaticMeta;
-
-        const groundAt = (x) => (-meta.muzzleHeightMeters) + meta.terrainSlope * x;
-
-        const markerRelZ = marker.z - groundAt(marker.x);
-
-        const xToPx = (x) => meta.padL + (x / meta.maxX) * meta.plotW;
-
-        const zToPx = (z) => meta.padT + meta.plotH - (z / meta.maxZ) * meta.plotH;
-
-        ctx.fillStyle = 'rgba(127, 29, 29, 0.92)';
-
-        ctx.beginPath();
-
-        ctx.arc(xToPx(marker.x), zToPx(markerRelZ), 3.5, 0, Math.PI * 2);
-
-        ctx.fill();
-
-    }
-
-
-
-// Impact effect (brief expanding ring)
-
-    if (trajectoryImpactEffectStartMs && trajectoryStaticMeta) {
-
-        const meta = trajectoryStaticMeta;
-
-        const t = (performance.now() - trajectoryImpactEffectStartMs) / 1000.0;
-
-        if (t > 0.6) {
-
-            trajectoryImpactEffectStartMs = 0;
-
-        } else {
-
-            const groundAt = (x) => (-meta.muzzleHeightMeters) + meta.terrainSlope * x;
-
-            const relZ = trajectoryImpactEffectZ - groundAt(trajectoryImpactEffectX);
-
-            const xToPx = (x) => meta.padL + (x / meta.maxX) * meta.plotW;
-
-            const zToPx = (z) => meta.padT + meta.plotH - (z / meta.maxZ) * meta.plotH;
-
-            const px = xToPx(trajectoryImpactEffectX);
-
-            const py = zToPx(relZ);
-
-
-
-            const r = 6 + t * 42;
-
-            const a = 1.0 - (t / 0.6);
-
-            ctx.save();
-
-            ctx.globalAlpha = Math.max(0, Math.min(1, a));
-
-            ctx.strokeStyle = 'rgba(127, 29, 29, 0.85)';
-
-            ctx.lineWidth = 2;
-
-            ctx.beginPath();
-
-            ctx.arc(px, py, r, 0, Math.PI * 2);
-
-            ctx.stroke();
-
-            ctx.strokeStyle = 'rgba(139, 105, 20, 0.6)';
-
-            ctx.lineWidth = 1;
-
-            ctx.beginPath();
-
-            ctx.arc(px, py, r * 0.65, 0, Math.PI * 2);
-
-            ctx.stroke();
-
-            ctx.restore();
-
-        }
-
-    }
-
-
-
-    const hud = document.getElementById('trajectoryHud');
-
-    if (hud) {
-
-        const impactTime = Number(sim.impactTimeSec);
-
-        const tof = Number.isFinite(impactTime) ? impactTime : NaN;
-
-        let maxRelZ = 0;
-
-        const meta = trajectoryStaticMeta;
-
-        if (meta && Number.isFinite(meta.maxZ)) {
-
-            maxRelZ = meta.maxZ;
-
-        }
-
-        const cur = Math.max(0, Math.min(tof || 0, trajectoryMarkerTimeSec));
-
-        const tStr = Number.isFinite(tof) ? `${cur.toFixed(2)}/${tof.toFixed(2)}s` : '--';
-
-        const pitchDeg = milToDegrees(args.mil);
-
-        const pitchStr = Number.isFinite(pitchDeg) ? `${pitchDeg.toFixed(1)}°` : '--';
-
-        hud.textContent = `TOF ${tStr} | Pitch ${pitchStr} | Range ${Math.round(args.distanceMeters)}m | Hmax ${Math.round(maxRelZ)}m | ${Math.round(args.mil)} MIL`;
-
-    }
-
-}
-
-
-
-function setTrajectoryWindowVisible(nextVisible) {
-
-    const windowEl = document.getElementById('trajectoryWindow');
-
-    if (!windowEl) return;
-
-    isTrajectoryWindowVisible = !!nextVisible;
-
-    windowEl.style.display = isTrajectoryWindowVisible ? 'block' : 'none';
-
-    if (isTrajectoryWindowVisible) {
-
-        renderTrajectoryPreview(lastTrajectoryPreviewArgs);
-
-    } else {
-
-        setTrajectoryAnimationPlaying(false);
-
-        invalidateTrajectoryStaticCache();
-
-    }
-
-}
-
-
-
-function toggleTrajectoryWindow() {
-
-    setTrajectoryWindowVisible(!isTrajectoryWindowVisible);
-
-}
-
-
-
-function computeObjectTopHeightDiffMils(baseMil, distanceMeters, targetHeightAboveGroundMeters, muzzleHeightMeters, groundSlope, table) {
-
-    const x = distanceMeters;
-
-    if (!(x > 0) || !isFinite(baseMil) || !isFinite(x) || !isFinite(targetHeightAboveGroundMeters) || !isFinite(muzzleHeightMeters) || !isFinite(groundSlope) || !table) {
-
-        return 0;
-
-    }
-
-
-
-    const desiredZ = (-muzzleHeightMeters) + (groundSlope * x) + targetHeightAboveGroundMeters;
-
-
-
-    const lo0 = Number(table.minMil);
-
-    const hi0 = Number(table.maxMil);
-
-    if (!Number.isFinite(lo0) || !Number.isFinite(hi0) || !(hi0 > lo0)) {
-
-        return computeBallisticHeightDiffMils(baseMil, x, desiredZ);
-
-    }
-
-
-
-    let lo = lo0;
-
-    let hi = hi0;
-
-    let fLo = simulateSpaZAtDistanceMeters(table, lo, x, groundSlope, muzzleHeightMeters) - desiredZ;
-
-    let fHi = simulateSpaZAtDistanceMeters(table, hi, x, groundSlope, muzzleHeightMeters) - desiredZ;
-
-
-
-    if (!Number.isFinite(fLo) || !Number.isFinite(fHi)) {
-
-        return computeBallisticHeightDiffMils(baseMil, x, desiredZ);
-
-    }
-
-
-
-    if (fLo === 0) return lo - baseMil;
-
-    if (fHi === 0) return hi - baseMil;
-
-    if (fLo * fHi > 0) {
-
-        return computeBallisticHeightDiffMils(baseMil, x, desiredZ);
-
-    }
-
-
-
-    for (let i = 0; i < 26; i++) {
-
-        const mid = (lo + hi) * 0.5;
-
-        const zMid = simulateSpaZAtDistanceMeters(table, mid, x, groundSlope, muzzleHeightMeters);
-
-        if (!Number.isFinite(zMid)) {
-
-            return computeBallisticHeightDiffMils(baseMil, x, desiredZ);
-
-        }
-
-        const fMid = zMid - desiredZ;
-
-        if (Math.abs(fMid) < 0.05) {
-
-            return mid - baseMil;
-
-        }
-
-        if (fLo * fMid <= 0) {
-
-            hi = mid;
-
-            fHi = fMid;
-
-        } else {
-
-            lo = mid;
-
-            fLo = fMid;
-
-        }
-
-    }
-
-
-
-    return ((lo + hi) * 0.5) - baseMil;
-
-}
-
-
-
 function computeHeightDiffMils(baseMil, distanceMeters, heightDiffMeters, table) {
 
     const x = distanceMeters;
@@ -4542,7 +2733,7 @@ function isAutoCalcEnabled() {
 
     const toggle = document.getElementById('autoCalcToggle');
 
-    return toggle ? toggle.checked : true; // Default to auto
+    return toggle ? toggle.checked : true;
 
 }
 
@@ -4563,150 +2754,6 @@ function setAllValues(inputs, value) {
         input.dispatchEvent(event);
 
     });
-
-}
-
-
-
-// Function to update display values from input fields ONLY when not calculated
-
-// This should NOT overwrite calculated values from calculate() function
-
-function updateDisplayValues() {
-
-    // Find the visible heightDiff input (there are duplicates in lite/full modes)
-
-    const allHeightInputs = document.querySelectorAll('input#heightDiff');
-
-    let heightInput = null;
-
-    for (const input of allHeightInputs) {
-
-        if (input.offsetParent !== null) {
-
-            heightInput = input;
-
-            break;
-
-        }
-
-    }
-
-    const muzzleHeightInput = document.getElementById('muzzleHeight');
-
-    const redInput = document.getElementById('redNumber');
-
-    const distanceInput = document.getElementById('distance');
-
-    const factionInput = document.getElementById('faction');
-
-    const heightEl = document.getElementById('heightValue');
-
-    const redEl = document.getElementById('redValue');
-
-    const baseEl = document.getElementById('baseValue');
-
-    const heightSymbolEl = document.getElementById('heightSymbol');
-
-
-
-// Only update base if it's "--" or empty (error state)
-
-    if (baseEl && distanceInput && factionInput) {
-
-        if (baseEl.textContent === '--' || baseEl.textContent.trim() === '') {
-
-            const distance = parseFloat(distanceInput.value);
-
-            const faction = factionInput.value;
-
-            if (distance && !isNaN(distance) && tables[faction]) {
-
-                const base = interpolate(tables[faction], distance);
-
-                if (!isNaN(base)) {
-
-                    baseEl.textContent = String(spaHudMilFromRaw(tables[faction], base));
-
-                }
-
-            }
-
-        }
-
-    }
-
-
-
-// Only update height if it's "--" or empty (error state)
-
-    if (heightEl && heightInput) {
-
-        if (heightEl.textContent === '--' || heightEl.textContent.trim() === '') {
-
-            const faction = factionInput ? factionInput.value : '';
-
-            const enteredHeight = parseFloat(heightInput.value) || 0;
-
-            const muzzleHeight = getMuzzleHeightMForFaction(faction);
-
-            if (muzzleHeightInput) {
-
-                muzzleHeightInput.value = String(muzzleHeight);
-
-            }
-
-
-
-            const hText = (enteredHeight >= 0 ? '+' : '') + enteredHeight + 'm';
-
-            heightEl.textContent = hText;
-
-            heightEl.className = enteredHeight > 0 ? 'text-green-400' : (enteredHeight < 0 ? 'text-red-400' : 'text-gray-300');
-
-            if (heightSymbolEl) {
-
-                heightSymbolEl.textContent = (enteredHeight >= 0) ? '▲' : '▼';
-
-                heightSymbolEl.className = 'text-gray-300';
-
-            }
-
-        }
-
-    }
-
-
-
-// Only update elevation if it's "--" or empty (error state)
-
-    if (redEl && redInput) {
-
-        if (redEl.textContent === '--' || redEl.textContent.trim() === '') {
-
-            const rVal = parseFloat(redInput.value) || 0;
-
-            const displayRVal = hudQuantizeMil(rVal);
-
-            const rText = (displayRVal >= 1 ? '+' : '') + displayRVal;
-
-            redEl.textContent = rText;
-
-            const colorClass = displayRVal > 0 ? 'text-green-400' : (displayRVal < 0 ? 'text-red-400' : 'text-gray-300');
-
-            redEl.className = colorClass;
-
-            const redUnitEl = document.getElementById('redValueUnit');
-
-            if (redUnitEl) {
-
-                redUnitEl.className = colorClass;
-
-            }
-
-        }
-
-    }
 
 }
 
@@ -4770,7 +2817,7 @@ function updateCalculateButton() {
 
             if (buttonHeight === 0) {
 
-                buttonHeight = 54; // Default height from CSS
+                buttonHeight = 54;
 
             }
 
@@ -5050,7 +3097,7 @@ function setupElevationCounter(targetNumber) {
 
                 strip.style.transition = 'none';
 
-                strip.style.transform = `translateY(-${1 * CELL_HEIGHT}px)`; // Position 1 is minus sign
+                strip.style.transform = `translateY(-${1 * CELL_HEIGHT}px)`;
 
             } else {
 
@@ -5254,7 +3301,7 @@ function rollElevationToNumber(targetNumber) {
 
                 strip.style.transform = `translateY(${finalPosition}px)`;
 
-            }, (index - 1) * 35); // Stagger each digit by 35ms
+            }, (index - 1) * 35);
 
         });
 
@@ -5267,52 +3314,6 @@ function rollElevationToNumber(targetNumber) {
     currentElevationDigits = [isNeg ? '-' : 0, targetDigits[0], targetDigits[1], targetDigits[2]];
 
     isElevationNegative = isNeg;
-
-}
-
-
-
-// Track previous warning message type to avoid repeating animation
-
-let previousWarningType = '';
-
-let previousWarningMessage = '';
-
-let isWarningAnimating = false;
-
-let warningAnimationTimeout = null;
-
-
-
-// Normalize warning message to extract just the warning type (ignore changing values)
-
-function normalizeWarningMessage(message) {
-
-    if (!message) return '';
-
-// Remove dynamic values and keep only the warning type
-
-// Replace numeric values with placeholders to compare warning types
-
-    let normalized = message
-
-        .replace(/\(-?\d+\s*MIL\)/g, '(X MIL)')            // Replace "(267 MIL)" with "(X MIL)"
-
-        .replace(/\d+\s*MIL/g, 'X MIL')                    // Replace "267 MIL" with "X MIL"
-
-        .replace(/\(\d+m\)/g, '(Xm)')                      // Replace "(189m)" with "(Xm)"
-
-        .replace(/\d+m/g, 'Xm')                            // Replace "189m" with "Xm"
-
-        .replace(/\(-?\d+\)/g, '(X)')                      // Replace "(267)" with "(X)"
-
-        .replace(/:\s*\d+/g, ': X')                        // Replace ": 189" with ": X"
-
-        .replace(/\d+-\d+/g, 'X-X')                        // Replace ranges like "200-600" with "X-X"
-
-        .trim();
-
-    return normalized;
 
 }
 
@@ -5440,12 +3441,6 @@ function hideWarning(warningDiv) {
 
     });
 
-    
-
-    previousWarningType = '';
-
-    previousWarningMessage = '';
-
 }
 
 
@@ -5492,28 +3487,6 @@ function closeWarningMessage() {
 
 
 
-// Reset warning animation to replay it (kept for backwards compatibility)
-
-function resetWarningAnimation(warningDiv) {
-
-    if (!warningDiv) return;
-
-    warningDiv.style.animation = 'none';
-
-    requestAnimationFrame(() => {
-
-        requestAnimationFrame(() => {
-
-            warningDiv.style.animation = '';
-
-        });
-
-    });
-
-}
-
-
-
 // Calculate function
 
 function calculate() {
@@ -5538,13 +3511,13 @@ function calculate() {
 
     // Find the visible heightDiff input (there are duplicates in lite/full modes)
 
-    const allHeightInputs = document.querySelectorAll('input#heightDiff');
+    const allHeightInputs = document.querySelectorAll('input#heightDiff, input#heightDiffLite');
 
     let heightDiffInput = null;
 
     for (const input of allHeightInputs) {
 
-        if (input.offsetParent !== null) { // Visible check
+        if (input.offsetParent !== null) {
 
             heightDiffInput = input;
 
@@ -5578,18 +3551,6 @@ function calculate() {
 
 
 
-    const muzzleHeightInput = document.getElementById('muzzleHeight');
-
-    let muzzleHeight = getMuzzleHeightMForFaction(faction);
-
-    if (muzzleHeightInput) {
-
-        muzzleHeightInput.value = String(muzzleHeight);
-
-    }
-
-
-
     const heightDiff = enteredHeight;
 
 
@@ -5598,13 +3559,13 @@ function calculate() {
 
     // Find the visible redNumber input (there are duplicates in lite/full modes)
 
-    const allRedInputs = document.querySelectorAll('input#redNumber');
+    const allRedInputs = document.querySelectorAll('input#redNumber, input#redNumberLite');
 
     let redNumberInput = null;
 
     for (const input of allRedInputs) {
 
-        if (input.offsetParent !== null) { // Visible check
+        if (input.offsetParent !== null) {
 
             redNumberInput = input;
 
@@ -5637,8 +3598,6 @@ function calculate() {
 
 
     const warningDiv = document.getElementById('warning');
-
-    const resultDiv = document.getElementById('result');
 
 
 
@@ -5720,13 +3679,7 @@ function calculate() {
 
 
 
-    const perfectBase = computePerfectSpaBaseMil(table, distance);
-
-    let base = (USE_PERFECT_SPA_MECHANIC && Number.isFinite(perfectBase))
-
-        ? perfectBase
-
-        : interpolate(table, distance);
+    let base = interpolate(table, distance);
 
     // Ensure base is always a valid number - fallback to interpolate if still NaN
 
@@ -5766,11 +3719,19 @@ function calculate() {
 
 
 
-// Warn for confirmed physical minimums first, then for distances above the table maximum.
+// Turret max elevation outranks distance warnings — the dial value is the hard limit.
 
     const lowRangeAnchor = lowRangeAnchors.get(table);
 
-    if (lowRangeAnchor && distance < lowRangeAnchor.minDistance) {
+    if (final > maxMil) {
+
+        if (warningDiv) {
+
+            showWarning(warningDiv, `WARNING: Calculated elevation (${final} MIL) exceeds this turret's maximum elevation (${maxMil} MIL).`);
+
+        }
+
+    } else if (lowRangeAnchor && distance < lowRangeAnchor.minDistance) {
 
         if (warningDiv) {
 
@@ -5786,25 +3747,11 @@ function calculate() {
 
         }
 
-    } else if (final < minMil || final > maxMil) {
-
-// Check if final elevation is outside turret's MIL limits
-
-        let limitWarning = '';
-
-        if (final < minMil) {
-
-            limitWarning = `WARNING: Calculated elevation (${final} MIL) is below this turret's minimum elevation (${minMil} MIL).`;
-
-        } else if (final > maxMil) {
-
-            limitWarning = `WARNING: Calculated elevation (${final} MIL) exceeds this turret's maximum elevation (${maxMil} MIL).`;
-
-        }
+    } else if (final < minMil) {
 
         if (warningDiv) {
 
-            showWarning(warningDiv, limitWarning);
+            showWarning(warningDiv, `WARNING: Calculated elevation (${final} MIL) is below this turret's minimum elevation (${minMil} MIL).`);
 
         }
 
@@ -6002,43 +3949,15 @@ function calculate() {
 
 
 
-    lastTrajectoryPreviewArgs = {
-
-        table,
-
-        mil: final,
-
-        faction,
-
-        distanceMeters: distance,
-
-        terrainSlope: (distance > 0 ? (heightDiff / distance) : 0),
-
-        muzzleHeightMeters: muzzleHeight
-
-    };
-
-    trajectoryMarkerTimeSec = 0;
-
-    setTrajectoryAnimationPlaying(false);
-
-    if (isTrajectoryWindowVisible) {
-
-        renderTrajectoryPreview(lastTrajectoryPreviewArgs);
-
-    }
-
-
-
 // In manual mode, focus distance input after calculation (for Enter key workflow)
 
 // In auto mode, remove focus from calculate button to clear yellow highlight
 
-// Skip focus on touch devices (mobile) to prevent keyboard from opening
+// Skip focus on touch-primary devices (phones/tablets) to prevent keyboard from opening
 
-    const isTouch = (('ontouchstart' in window) || (navigator.maxTouchPoints > 0));
+    const isCoarsePointer = !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
 
-    if (!isAutoCalcEnabled() && !isTouch) {
+    if (!isAutoCalcEnabled() && !isCoarsePointer) {
 
         const distanceInputEl = document.getElementById('distance');
 
@@ -6050,7 +3969,7 @@ function calculate() {
 
         }
 
-    } else if (document.activeElement && document.activeElement.id === 'calculateButton') {
+    } else if (document.activeElement && (document.activeElement.id === 'calculateButton' || document.activeElement.id === 'calculateButtonLite')) {
 
         document.activeElement.blur();
 
@@ -6346,13 +4265,11 @@ function resetCalculator(buttonElement) {
 
 // Reset input fields
 
-    const distanceInputs = document.querySelectorAll('input#distance');
+    const distanceInputs = document.querySelectorAll('input#distance, input#distanceLite');
 
-    const heightDiffInputs = document.querySelectorAll('input#heightDiff');
+    const heightDiffInputs = document.querySelectorAll('input#heightDiff, input#heightDiffLite');
 
-    const muzzleHeightInputs = document.querySelectorAll('input#muzzleHeight');
-
-    const redNumberInputs = document.querySelectorAll('input#redNumber');
+    const redNumberInputs = document.querySelectorAll('input#redNumber, input#redNumberLite');
 
 
 
@@ -6398,39 +4315,9 @@ function resetCalculator(buttonElement) {
 
     }
 
-    if (muzzleHeightInputs.length > 0) {
-
-        setAllValues(muzzleHeightInputs, String(getMuzzleHeightMForFaction(faction)));
-
-    }
-
     if (redNumberInputs.length > 0) {
 
         setAllValues(redNumberInputs, '0');
-
-    }
-
-
-
-// Sync snap toggle state if snap is enabled
-
-    const snapToggle = document.getElementById('snapToggle');
-
-    if (snapToggle && snapToggle.checked) {
-
-        if (typeof syncArmoredToggles === 'function') {
-
-            syncArmoredToggles();
-
-        }
-
-        const snappedValue = Math.round(defaultDistance / 25) * 25;
-
-        if (distanceInputs.length > 0) {
-
-            setAllValues(distanceInputs, String(snappedValue));
-
-        }
 
     }
 
@@ -6496,8 +4383,6 @@ function resetCalculator(buttonElement) {
 
 
 
-// Ensure snap toggle is synced after reset
-
         if (typeof syncArmoredToggles === 'function') {
 
             syncArmoredToggles();
@@ -6550,23 +4435,9 @@ function saveState() {
 
         const faction = document.getElementById('faction').value;
 
-        const muzzleHeightInput = document.getElementById('muzzleHeight');
-
-        if (muzzleHeightInput) {
-
-            const parsed = parseFloat(String(muzzleHeightInput.value || '').trim().replace(/\+/g, ''));
-
-            if (Number.isFinite(parsed)) {
-
-                muzzleHeightByFaction[faction] = Math.max(0, Math.min(50, parsed));
-
-            }
-
-        }
-
         // Find the visible heightDiff input to save its value
 
-        const allHeightInputs = document.querySelectorAll('input#heightDiff');
+        const allHeightInputs = document.querySelectorAll('input#heightDiff, input#heightDiffLite');
 
         let visibleHeightInput = null;
 
@@ -6592,11 +4463,7 @@ function saveState() {
 
             heightDiff: visibleHeightInput ? visibleHeightInput.value : document.getElementById('heightDiff').value,
 
-            muzzleHeightByFaction,
-
             redNumber: document.getElementById('redNumber').value,
-
-            fineTune: document.getElementById('snapToggle') ? document.getElementById('snapToggle').checked : false,
 
             autoCalc: document.getElementById('autoCalcToggle') ? document.getElementById('autoCalcToggle').checked : true,
 
@@ -6627,14 +4494,6 @@ function loadState() {
         if (!raw) return;
 
         const state = JSON.parse(raw);
-
-
-
-        if (state.muzzleHeightByFaction && typeof state.muzzleHeightByFaction === 'object') {
-
-            muzzleHeightByFaction = state.muzzleHeightByFaction;
-
-        }
 
 
 
@@ -6684,21 +4543,11 @@ function loadState() {
 
 
 
-        const muzzleHeightInput = document.getElementById('muzzleHeight');
-
-        if (muzzleHeightInput && state.faction) {
-
-            muzzleHeightInput.value = String(getMuzzleHeightMForFaction(state.faction));
-
-        }
-
-
-
-        const distanceInput = document.getElementById('distance');
+        const distanceInputs = document.querySelectorAll('input#distance, input#distanceLite');
 
         if (state.distance !== undefined && state.distance !== null && state.distance !== '') {
 
-            distanceInput.value = state.distance;
+            setAllValues(distanceInputs, state.distance);
 
         }
 
@@ -6712,7 +4561,7 @@ function loadState() {
 
             if (rawHeightDiff === '' || rawHeightDiff === '-' || rawHeightDiff === '+') {
 
-                setAllValues(document.querySelectorAll('input#heightDiff'), '0');
+                setAllValues(document.querySelectorAll('input#heightDiff, input#heightDiffLite'), '0');
 
             } else {
 
@@ -6720,7 +4569,7 @@ function loadState() {
 
                 const heightValue = Number.isFinite(parsedHeightDiff) ? rawHeightDiff : '0';
 
-                setAllValues(document.querySelectorAll('input#heightDiff'), heightValue);
+                setAllValues(document.querySelectorAll('input#heightDiff, input#heightDiffLite'), heightValue);
 
             }
 
@@ -6728,7 +4577,7 @@ function loadState() {
 
 
 
-        const redNumberInput = document.getElementById('redNumber');
+        const redNumberInputs = document.querySelectorAll('input#redNumber, input#redNumberLite');
 
         if (state.redNumber !== undefined && state.redNumber !== null && state.redNumber !== '') {
 
@@ -6736,27 +4585,15 @@ function loadState() {
 
             if (rawRedNumber === '' || rawRedNumber === '-' || rawRedNumber === '+') {
 
-                redNumberInput.value = '0';
+                setAllValues(redNumberInputs, '0');
 
             } else {
 
                 const parsedRedNumber = parseFloat(rawRedNumber.replace(/\+/g, ''));
 
-                redNumberInput.value = Number.isFinite(parsedRedNumber) ? rawRedNumber : '0';
+                setAllValues(redNumberInputs, Number.isFinite(parsedRedNumber) ? rawRedNumber : '0');
 
             }
-
-        }
-
-
-
-        const snapToggle = document.getElementById('snapToggle');
-
-        if (snapToggle && typeof state.fineTune === 'boolean') {
-
-            snapToggle.checked = state.fineTune;
-
-            updateSnapModeLabel();
 
         }
 
@@ -6767,8 +4604,6 @@ function loadState() {
         if (autoCalcToggle && typeof state.autoCalc === 'boolean') {
 
             autoCalcToggle.checked = state.autoCalc;
-
-            updateCalcModeLabel();
 
         }
 
@@ -6804,28 +4639,6 @@ function loadState() {
 
 
 
-// Function to update calculation mode label (no longer needed - labels are static)
-
-function updateCalcModeLabel() {
-
-// Labels are now static, no update needed
-
-}
-
-
-
-// Function to update snap mode label (no longer needed - labels are static)
-
-function updateSnapModeLabel() {
-
-// Labels are now static, no update needed
-
-}
-
-
-
-// Toggle function for armored panel switches
-
 function toggleArmoredSwitch(checkboxId, element) {
 
     try {
@@ -6860,13 +4673,7 @@ function toggleArmoredSwitch(checkboxId, element) {
 
 // Trigger the existing event handlers
 
-        if (checkboxId === 'snapToggle') {
-
-            const event = new Event('change', { bubbles: true });
-
-            checkbox.dispatchEvent(event);
-
-        } else if (checkboxId === 'autoCalcToggle') {
+        if (checkboxId === 'autoCalcToggle') {
 
             const event = new Event('change', { bubbles: true });
 
@@ -6908,33 +4715,13 @@ window.toggleArmoredSwitch = toggleArmoredSwitch;
 
 function syncArmoredToggles() {
 
-    const snapToggle = document.getElementById('snapToggle');
-
     const autoToggle = document.getElementById('autoCalcToggle');
 
     const heightDiffToggle = document.getElementById('heightDiffToggle');
 
-    const armoredSnap = document.getElementById('armoredSnapToggle');
-
     const armoredAuto = document.getElementById('armoredAutoToggle');
 
     const armoredHeightDiffToggle = document.getElementById('armoredHeightDiffToggle');
-
-
-
-    if (snapToggle && armoredSnap) {
-
-        if (snapToggle.checked) {
-
-            armoredSnap.classList.add('active');
-
-        } else {
-
-            armoredSnap.classList.remove('active');
-
-        }
-
-    }
 
 
 
@@ -6984,47 +4771,11 @@ function syncArmoredToggles() {
 
 function updateToggleLEDs() {
 
-    const snapToggle = document.getElementById('snapToggle');
-
-    const snapOnLabel = document.getElementById('snapOnLabel');
-
-    const snapOffLabel = document.getElementById('snapOffLabel');
-
     const autoCalcToggle = document.getElementById('autoCalcToggle');
 
     const calcOnLabel = document.getElementById('calcOnLabel');
 
     const calcOffLabel = document.getElementById('calcOffLabel');
-
-
-
-// Update Ruler Snap toggle labels
-
-    if (snapToggle && snapOnLabel && snapOffLabel) {
-
-        if (snapToggle.checked) {
-
-// ON state: light up ON label with green LED, turn OFF label off
-
-            snapOnLabel.classList.add('led-on-green');
-
-            snapOnLabel.classList.remove('led-off');
-
-            snapOffLabel.classList.remove('led-on-green', 'led-off');
-
-        } else {
-
-// OFF state: light up OFF label with red LED, turn ON label off
-
-            snapOffLabel.classList.add('led-off');
-
-            snapOffLabel.classList.remove('led-on-green');
-
-            snapOnLabel.classList.remove('led-on-green', 'led-off');
-
-        }
-
-    }
 
 
 
@@ -7170,7 +4921,7 @@ function updateHeightDiffToggleUI() {
 
             // Reset height diff value to 0 when disabled (all inputs)
 
-            setAllValues(document.querySelectorAll('input#heightDiff'), '0');
+            setAllValues(document.querySelectorAll('input#heightDiff, input#heightDiffLite'), '0');
 
         }
 
@@ -7298,17 +5049,9 @@ syncArmoredToggles();
 
 // Sync armored toggles when checkboxes change
 
-const snapToggleCheckbox = document.getElementById('snapToggle');
-
 const autoToggleCheckbox = document.getElementById('autoCalcToggle');
 
 const heightDiffToggleCheckbox = document.getElementById('heightDiffToggle');
-
-if (snapToggleCheckbox) {
-
-    snapToggleCheckbox.addEventListener('change', syncArmoredToggles);
-
-}
 
 if (autoToggleCheckbox) {
 
@@ -7624,7 +5367,7 @@ if (heightDiffToggleCheckbox) {
 
     // Get all inputs with this ID (both full and lite modes)
 
-    const allInputs = document.querySelectorAll(`input#${id}`);
+    const allInputs = document.querySelectorAll(`input#${id}, input#${id}Lite`);
 
     if (!allInputs.length) return;
 
@@ -7656,29 +5399,13 @@ if (heightDiffToggleCheckbox) {
 
 
 
-    const focusCalcHandler = function() {
-
-    };
-
-
-
 // On blur, if left empty, force it back to 0
 
     const ensureNonEmptyHandler = function() {
 
         if (this.value.trim() === '') {
 
-            if (this.id === 'muzzleHeight') {
-
-                const faction = document.getElementById('faction').value;
-
-                this.value = String(getMuzzleHeightMForFaction(faction));
-
-            } else {
-
-                this.value = '0';
-
-            }
+            this.value = '0';
 
             try {
 
@@ -7712,7 +5439,7 @@ if (heightDiffToggleCheckbox) {
 
 // Enforce min/max limits for distance field
 
-            if (this.id === 'distance') {
+            if (this.id === 'distance' || this.id === 'distanceLite') {
 
                 const numValue = parseFloat(this.value);
 
@@ -7734,18 +5461,6 @@ if (heightDiffToggleCheckbox) {
 
 
 
-// If snap mode is enabled, snap to nearest 25m
-
-                    const snapToggle = document.getElementById('snapToggle');
-
-                    if (snapToggle && snapToggle.checked) {
-
-                        finalValue = Math.round(finalValue / 25) * 25;
-
-                    }
-
-
-
                     if (finalValue !== numValue) {
 
                         this.value = finalValue;
@@ -7754,7 +5469,7 @@ if (heightDiffToggleCheckbox) {
 
 
 
-// If value was snapped, trigger calculation and save state
+// If value was clamped, trigger calculation and save state
 
                     if (finalValue !== numValue) {
 
@@ -7776,7 +5491,7 @@ if (heightDiffToggleCheckbox) {
 
 // Enforce min/max limits for redNumber field (tank body angle)
 
-            if (this.id === 'redNumber') {
+            if (this.id === 'redNumber' || this.id === 'redNumberLite') {
 
                 const numValue = parseFloat(this.value);
 
@@ -7800,7 +5515,7 @@ if (heightDiffToggleCheckbox) {
 
 // Enforce min/max limits for heightDiff field
 
-            if (this.id === 'heightDiff') {
+            if (this.id === 'heightDiff' || this.id === 'heightDiffLite') {
 
                 const numValue = parseFloat(this.value);
 
@@ -7828,7 +5543,7 @@ if (heightDiffToggleCheckbox) {
 
             if (isAutoCalcEnabled()) {
 
-                if (this.id === 'heightDiff' || this.id === 'redNumber' || this.id === 'distance') {
+                if (this.id === 'heightDiff' || this.id === 'heightDiffLite' || this.id === 'redNumber' || this.id === 'redNumberLite' || this.id === 'distance' || this.id === 'distanceLite') {
 
 // Use setTimeout to ensure value is updated in DOM before calculation
 
@@ -7853,8 +5568,6 @@ if (heightDiffToggleCheckbox) {
     allInputs.forEach(input => {
 
         input.addEventListener('focus', selectAllHandler);
-
-        input.addEventListener('focus', focusCalcHandler);
 
         input.addEventListener('click', selectAllHandler);
 
@@ -7936,7 +5649,7 @@ if (heightDiffToggleCheckbox) {
 
             // Apply limits after cleaning
 
-            if (this.id === 'distance') {
+            if (this.id === 'distance' || this.id === 'distanceLite') {
 
                 const numValue = parseFloat(cleaned);
 
@@ -7948,7 +5661,7 @@ if (heightDiffToggleCheckbox) {
 
                 }
 
-            } else if (this.id === 'redNumber') {
+            } else if (this.id === 'redNumber' || this.id === 'redNumberLite') {
 
                 const numValue = parseFloat(cleaned);
 
@@ -7960,7 +5673,7 @@ if (heightDiffToggleCheckbox) {
 
                 }
 
-            } else if (this.id === 'heightDiff') {
+            } else if (this.id === 'heightDiff' || this.id === 'heightDiffLite') {
 
                 const numValue = parseFloat(cleaned);
 
@@ -7984,7 +5697,7 @@ if (heightDiffToggleCheckbox) {
 
             if (isAutoCalcEnabled()) {
 
-                if (this.id === 'heightDiff' || this.id === 'redNumber' || this.id === 'distance') {
+                if (this.id === 'heightDiff' || this.id === 'heightDiffLite' || this.id === 'redNumber' || this.id === 'redNumberLite' || this.id === 'distance' || this.id === 'distanceLite') {
 
                     // Use setTimeout to ensure value is updated in DOM before calculation
 
@@ -8000,7 +5713,7 @@ if (heightDiffToggleCheckbox) {
 
                 // When auto calc is off, reset base value to "--" when any input changes
 
-                if (this.id === 'heightDiff' || this.id === 'redNumber' || this.id === 'distance') {
+                if (this.id === 'heightDiff' || this.id === 'heightDiffLite' || this.id === 'redNumber' || this.id === 'redNumberLite' || this.id === 'distance' || this.id === 'distanceLite') {
 
                     const baseValueEl = document.getElementById('baseValue');
 
@@ -8019,68 +5732,6 @@ if (heightDiffToggleCheckbox) {
     });
 
 });
-
-
-
-// Fine-tuning toggle functionality
-
-const snapToggleEl = document.getElementById('snapToggle');
-
-
-
-// If no saved state set it, default to fine-tune mode
-
-if (!localStorage.getItem('hllSpaState')) {
-
-    if (snapToggleEl) {
-
-        snapToggleEl.checked = false;
-
-    }
-
-    updateSnapModeLabel();
-
-}
-
-
-
-if (snapToggleEl) {
-
-    snapToggleEl.addEventListener('change', function() {
-
-        syncArmoredToggles();
-
-        if (this.checked) {
-
-// Snap mode: 25m increments
-
-// Snap current value to nearest 25m
-
-            const distanceInput = document.getElementById('distance');
-
-            const currentValue = parseFloat(distanceInput.value) || 400;
-
-            const snappedValue = Math.round(currentValue / 25) * 25;
-
-            distanceInput.value = snappedValue;
-
-// Trigger calculation if auto mode is enabled
-
-            if (isAutoCalcEnabled()) {
-
-                calculate();
-
-            }
-
-        }
-
-        updateSnapModeLabel();
-
-        saveState();
-
-    });
-
-}
 
 
 
@@ -8158,7 +5809,7 @@ function getFocusOrder() {
 
     // Find the visible distance input (there are duplicates in lite and full modes)
 
-    const allDistInputs = document.querySelectorAll('input#distance');
+    const allDistInputs = document.querySelectorAll('input#distance, input#distanceLite');
 
     let distInput = null;
 
@@ -8178,7 +5829,7 @@ function getFocusOrder() {
 
     // Find the visible heightDiff input (there are duplicates in lite and full modes)
 
-    const allHeightInputs = document.querySelectorAll('input#heightDiff');
+    const allHeightInputs = document.querySelectorAll('input#heightDiff, input#heightDiffLite');
 
     let heightInput = null;
 
@@ -8198,7 +5849,7 @@ function getFocusOrder() {
 
     // Find the visible redNumber input (there are duplicates in lite and full modes)
 
-    const allRedInputs = document.querySelectorAll('input#redNumber');
+    const allRedInputs = document.querySelectorAll('input#redNumber, input#redNumberLite');
 
     let redInput = null;
 
@@ -8300,15 +5951,17 @@ function navigateFocus(e) {
 
 
 
-    // Detect touch/mobile device
+    // Detect touch-primary device (phones/tablets): they stop at the last field
 
-    const isTouchDevice = (('ontouchstart' in window) || (navigator.maxTouchPoints > 0));
+    // instead of looping; fine-pointer devices (mouse/trackpad) always loop.
+
+    const isCoarsePointer = !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
 
 
 
-    // Wrap around (only on desktop - mobile should not loop)
+    // Wrap around (only on fine-pointer devices - touch-primary should not loop)
 
-    if (!isTouchDevice) {
+    if (!isCoarsePointer) {
 
         if (nextIndex < 0) nextIndex = order.length - 1;
 
@@ -8316,13 +5969,13 @@ function navigateFocus(e) {
 
     } else {
 
-        // On mobile, don't wrap - stay at boundaries
+        // Touch-primary device: don't wrap - stay at boundaries
 
         if (nextIndex < 0) nextIndex = 0;
 
         if (nextIndex >= order.length) {
 
-            // On mobile, when pressing Enter/Tab at last element, just blur (don't loop)
+            // At the last element, just blur (don't loop)
 
             document.activeElement.blur();
 
@@ -8346,7 +5999,7 @@ function navigateFocus(e) {
 
         saveState();
 
-    } else if ((currentId === 'distance' || currentId === 'heightDiff' || currentId === 'redNumber') && isAutoCalcEnabled()) {
+    } else if ((currentId === 'distance' || currentId === 'distanceLite' || currentId === 'heightDiff' || currentId === 'heightDiffLite' || currentId === 'redNumber' || currentId === 'redNumberLite') && isAutoCalcEnabled()) {
 
         // Input field with auto calc on - calculate automatically
 
@@ -8354,7 +6007,7 @@ function navigateFocus(e) {
 
         saveState();
 
-    } else if ((currentId === 'distance' || currentId === 'heightDiff' || currentId === 'redNumber') && !isAutoCalcEnabled()) {
+    } else if ((currentId === 'distance' || currentId === 'distanceLite' || currentId === 'heightDiff' || currentId === 'heightDiffLite' || currentId === 'redNumber' || currentId === 'redNumberLite') && !isAutoCalcEnabled()) {
 
         // Input field with auto calc off - reset final counter to 0000
 
@@ -8404,7 +6057,7 @@ function navigateFocus(e) {
 
 // Attach to ALL distance inputs (both lite and full modes)
 
-document.querySelectorAll('input#distance').forEach(input => {
+document.querySelectorAll('input#distance, input#distanceLite').forEach(input => {
 
     input.addEventListener('keydown', navigateFocus);
 
@@ -8426,7 +6079,7 @@ document.querySelectorAll('input#distance').forEach(input => {
 
 // Attach to ALL heightDiff inputs (both lite and full modes)
 
-document.querySelectorAll('input#heightDiff').forEach(input => {
+document.querySelectorAll('input#heightDiff, input#heightDiffLite').forEach(input => {
 
     input.addEventListener('keydown', navigateFocus);
 
@@ -8448,7 +6101,7 @@ document.querySelectorAll('input#heightDiff').forEach(input => {
 
 // Attach to ALL redNumber inputs (both lite and full modes)
 
-document.querySelectorAll('input#redNumber').forEach(input => {
+document.querySelectorAll('input#redNumber, input#redNumberLite').forEach(input => {
 
     input.addEventListener('keydown', navigateFocus);
 
@@ -8486,7 +6139,7 @@ function syncInputValue(sourceInput, targetIds) {
 
     targetIds.forEach(id => {
 
-        document.querySelectorAll('input#' + id).forEach(target => {
+        document.querySelectorAll('input#' + id + ', input#' + id + 'Lite').forEach(target => {
 
             if (target !== sourceInput && target.value !== sourceInput.value) {
 
@@ -8506,7 +6159,7 @@ function syncInputValue(sourceInput, targetIds) {
 
 ['distance', 'heightDiff', 'redNumber'].forEach(id => {
 
-    document.querySelectorAll('input#' + id).forEach(input => {
+    document.querySelectorAll('input#' + id + ', input#' + id + 'Lite').forEach(input => {
 
         input.addEventListener('input', function() {
 
@@ -8522,10 +6175,6 @@ function syncInputValue(sourceInput, targetIds) {
 
 // Set initial label text
 
-updateCalcModeLabel();
-
-updateSnapModeLabel();
-
 updateToggleLEDs();
 
 
@@ -8535,8 +6184,6 @@ if (autoCalcToggle) {
     autoCalcToggle.addEventListener('change', function() {
 
         try {
-
-            updateCalcModeLabel();
 
             updateToggleLEDs();
 
@@ -8618,8 +6265,6 @@ const selectSelected = document.getElementById('selectSelected');
 
 const selectItems = document.getElementById('selectItems');
 
-const hiddenFaction = document.getElementById('faction');
-
 
 
 function toggleDropdown(e) {
@@ -8649,150 +6294,6 @@ if (selectSelected) {
     selectSelected.addEventListener('touchstart', toggleDropdown, { passive: false });
 
 }
-
-
-
-// Check again after a delay to see if generateTankDropdown() populates it, then add click handlers
-
-setTimeout(() => {
-
-    Array.from(selectItems.children).forEach((child) => {
-
-        child.addEventListener('click', function(e) {
-
-            e.stopPropagation();
-
-            const value = this.getAttribute('data-value');
-
-            const text = this.innerHTML;
-
-            const tempDiv = document.createElement('div');
-
-            tempDiv.innerHTML = text;
-
-            const img = tempDiv.querySelector('img');
-
-            const textContent = tempDiv.textContent.trim();
-
-            selectSelected.innerHTML = img ? `${img.outerHTML} <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0;">${textContent}</span>` : `<span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0;">${textContent}</span>`;
-
-            hiddenFaction.value = value;
-
-            selectItems.classList.add('select-hide');
-
-            selectSelected.classList.remove('select-arrow-active');
-
-            updateFactionImage();
-
-            // Set default distance based on tank range (200m for AVRE, 400m for others)
-
-            const table = tables[value];
-
-            if (table) {
-
-                const distances = Object.keys(table).filter(k => !isNaN(parseInt(k))).map(k => parseInt(k)).sort((a, b) => a - b);
-
-                const minRange = distances[0] || 200;
-
-                const maxRange = distances[distances.length - 1] || 600;
-
-                const defaultDistance = maxRange <= 250 ? minRange : 400;
-
-                const distanceInput = document.getElementById('distance');
-
-                if (distanceInput) distanceInput.value = defaultDistance;
-
-            }
-
-            if (isAutoCalcEnabled()) calculate();
-
-            else rollElevationToNumber(0);
-
-            saveState();
-
-        });
-
-    });
-
-}, 500);
-
-
-
-selectItems.addEventListener('click', function(e) {
-
-    if (e.target !== this) {
-
-        const selectedDiv = e.target.closest('div');
-
-        if (selectedDiv) {
-
-            const value = selectedDiv.getAttribute('data-value');
-
-            const text = selectedDiv.innerHTML;
-
-            // Wrap text content in span for truncation
-
-            const tempDiv = document.createElement('div');
-
-            tempDiv.innerHTML = text;
-
-            const img = tempDiv.querySelector('img');
-
-            const textContent = tempDiv.textContent.trim();
-
-            selectSelected.innerHTML = img ? `${img.outerHTML} <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0;">${textContent}</span>` : `<span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0;">${textContent}</span>`;
-
-            hiddenFaction.value = value;
-
-            selectItems.classList.add('select-hide');
-
-            selectSelected.classList.remove('select-arrow-active');
-
-            updateFactionImage();
-
-            // Set default distance based on tank range (200m for AVRE, 400m for others)
-
-            const table = tables[value];
-
-            if (table) {
-
-                const distances = Object.keys(table).filter(k => !isNaN(parseInt(k))).map(k => parseInt(k)).sort((a, b) => a - b);
-
-                const minRange = distances[0] || 200;
-
-                const maxRange = distances[distances.length - 1] || 600;
-
-                // Use the actual table minimum for short-range SPAs (AVRE), otherwise 400m.
-
-                const defaultDistance = maxRange <= 250 ? minRange : 400;
-
-                const distanceInput = document.getElementById('distance');
-
-                if (distanceInput) distanceInput.value = defaultDistance;
-
-            }
-
-            
-
-            if (isAutoCalcEnabled()) {
-
-                calculate();
-
-            } else {
-
-                // Reset final counter to 0000 when switching tanks and auto calc is off
-
-                rollElevationToNumber(0);
-
-            }
-
-            saveState();
-
-        }
-
-    }
-
-});
 
 
 
@@ -9513,7 +7014,7 @@ function showTankInfo() {
 
                     img.onload = resolve;
 
-                    img.onerror = resolve; // Resolve even on error to not block
+                    img.onerror = resolve;
 
                     img.src = path;
 
@@ -10326,7 +7827,7 @@ document.addEventListener('keydown', function(e) {
 
 
 
-}, true); // Use capture phase
+}, true);
 
 
 
@@ -10563,6 +8064,38 @@ function wireUpEventListeners() {
             });
 
         });
+
+        // Restore saved view mode on load (F5 keeps Lite/Full selection)
+
+        try {
+
+            const savedMode = localStorage.getItem('hll-calculator-mode');
+
+            if ((savedMode === 'lite' || savedMode === 'full') && document.body.getAttribute('data-mode') !== savedMode) {
+
+                switchViewMode(savedMode);
+
+                togglePills.forEach(p => {
+
+                    const active = p.getAttribute('data-mode') === savedMode;
+
+                    p.classList.toggle('active', active);
+
+                    p.setAttribute('aria-selected', active ? 'true' : 'false');
+
+                });
+
+                viewToggle.classList.remove('full-active', 'lite-active');
+
+                viewToggle.classList.add(savedMode === 'full' ? 'full-active' : 'lite-active');
+
+            }
+
+        } catch (e) {
+
+            // Ignore localStorage errors
+
+        }
 
     }
 
@@ -10830,7 +8363,7 @@ function wireUpEventListeners() {
 
         // Find all inputs with this ID
 
-        const allInputs = document.querySelectorAll(`input[id="${inputId}"]`);
+        const allInputs = document.querySelectorAll(`input[id="${inputId}"], input[id="${inputId}Lite"]`);
 
         allInputs.forEach(input => {
 
@@ -10844,9 +8377,9 @@ function wireUpEventListeners() {
 
                 let repeatInterval = null;
 
-                const HOLD_DELAY = 1500; // 1.5 seconds before auto-repeat starts
+                const HOLD_DELAY = 1500;
 
-                const REPEAT_RATE = 100; // Repeat every 100ms once started
+                const REPEAT_RATE = 100;
 
 
 
@@ -11016,9 +8549,9 @@ function wireUpEventListeners() {
 
                 btn.addEventListener('mousedown', function(e) {
 
-                    if (touchHandled) return; // Skip if touch handled this
+                    if (touchHandled) return;
 
-                    if (e.button !== 0) return; // Only left click
+                    if (e.button !== 0) return;
 
                     startHolding(e);
 
@@ -11088,25 +8621,17 @@ function wireUpEventListeners() {
 
     ['distance', 'heightDiff', 'redNumber'].forEach(id => {
 
-        wireButton(id, -1); // minus
+        wireButton(id, -1);
 
-        wireButton(id, 1);  // plus
+        wireButton(id, 1);
 
     });
 
 
 
-    // 4. Wire up the Armored Toggles (Snap, Auto Calc, & Height Diff)
+    // 4. Wire up the Armored Toggles (Auto Calc & Height Diff)
 
     const toggleConfig = [
-
-        { 
-
-            checkboxId: 'snapToggle', 
-
-            triggerIds: ['armoredSnapToggle'] 
-
-        },
 
         { 
 
@@ -11280,7 +8805,7 @@ function wireUpEventListeners() {
 
                 e.preventDefault();
 
-                e.stopPropagation(); // Stop click from hitting the background
+                e.stopPropagation();
 
                 navigateScreenshot(-1);
 
@@ -11672,4 +9197,4 @@ if (document.readyState === 'loading') {
 
     injectVersion();
 
-}// Lite toggle handling
+}

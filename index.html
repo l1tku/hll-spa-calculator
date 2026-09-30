@@ -26,31 +26,26 @@
       "url": "https://l1tku.github.io/hll-spa-calculator/"
     }
     </script>
-    <!-- Cache control for GitHub Pages -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>HLL SPA Calculator</title>
-    <!-- Preload all tank images to prevent popping when switching tanks -->
     <link rel="preload" as="image" href="images/tanks/BISHOP_248.webp" type="image/webp" fetchpriority="high">
     <link rel="preload" as="image" href="images/tanks/AVRE_248.webp" type="image/webp" fetchpriority="low">
     <link rel="preload" as="image" href="images/tanks/M4A3_248.webp" type="image/webp" fetchpriority="low">
     <link rel="preload" as="image" href="images/tanks/KV2_248.webp" type="image/webp" fetchpriority="low">
     <link rel="preload" as="image" href="images/tanks/PANZERIII_248.webp" type="image/webp" fetchpriority="low">
     <link rel="preload" as="image" href="images/tanks/BRUMMBAR_248.webp" type="image/webp" fetchpriority="low">
-    <!-- Preload all flag icons to prevent popping when switching tanks -->
     <link rel="preload" as="image" href="images/UI/Icons/flags/BRITISH_30.webp" type="image/webp" fetchpriority="low">
     <link rel="preload" as="image" href="images/UI/Icons/flags/US_30.webp" type="image/webp" fetchpriority="low">
     <link rel="preload" as="image" href="images/UI/Icons/flags/SOVIET_30.webp" type="image/webp" fetchpriority="low">
     <link rel="preload" as="image" href="images/UI/Icons/flags/GERMANY_30.webp" type="image/webp" fetchpriority="low">
-    <!-- Preload project hub icons -->
     <link rel="preload" as="image" href="images/favicon_arty.webp" type="image/webp" fetchpriority="low">
     <link rel="preload" as="image" href="images/favicon_garrison.webp" type="image/webp" fetchpriority="low">
     <link rel="preload" as="image" href="images/github.webp" type="image/webp" fetchpriority="low">
     <link rel="icon" type="image/png" sizes="192x192" href="https://l1tku.github.io/hll-spa-calculator/images/icon-192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="https://l1tku.github.io/hll-spa-calculator/images/icon-512.png">
     <link rel="shortcut icon" href="https://l1tku.github.io/hll-spa-calculator/images/favicon.png">
-    <!-- PWA Manifest and Icons -->
     <link rel="manifest" href="manifest.json?v=21">
     <link rel="apple-touch-icon" href="images/icon-180.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -212,7 +207,6 @@
             margin-left: auto !important;
             opacity: 0.6 !important;
         }
-        /* Screws for modal - resized smaller */
         #moreProjectsBox .screw-pan-head {
             width: 14px !important;
             height: 14px !important;
@@ -273,7 +267,6 @@
 <body class="min-h-screen" data-mode="full">
     <main class="container mx-auto px-4 py-8">
         <div class="max-w-3xl mx-auto relative">
-            <!-- View Toggle -->
             <div class="fixed-top-right flex-center-end">
                 <div class="view-toggle full-active" id="viewToggle" role="tablist" aria-label="View mode toggle">
                     <button class="toggle-pill active" data-mode="full" role="tab" aria-selected="true" aria-controls="calculator-card">FULL</button>
@@ -281,26 +274,21 @@
                 </div>
             </div>
 
-            <!-- Title -->
             <div class="text-center mb-8">
                 <h1 class="text-4xl font-bold dog-tags">HLL SPA Calculator</h1>
                 <p class="text-sm mt-1 text-gray" style="margin-bottom: 0;">Self-Propelled Artillery Calculator <span style="white-space: nowrap;">for Hell Let Loose</span></p>
             </div>
 
-            <!-- More Projects Button -->
             <button id="moreProjectsBtn" class="more-projects-button mode-full-only" aria-label="View HLL Tools">
                 <span>PROJECT HUB</span>
             </button>
 
-            <!-- Main Card -->
             <div class="armored-panel-container text-center relative z-20" id="calculator-card">
-                <!-- Big rivets for main card -->
                 <div class="armored-rivet armored-rivet-top-left"></div>
                 <div class="armored-rivet armored-rivet-top-right"></div>
                 <div class="armored-rivet armored-rivet-bottom-left"></div>
                 <div class="armored-rivet armored-rivet-bottom-right"></div>
 
-                <!-- Faction Selection -->
                 <div class="panel-section mode-full-only">
                     <div class="armored-rivet-small armored-rivet-small-top-left"></div>
                     <div class="armored-rivet-small armored-rivet-small-top-right"></div>
@@ -309,14 +297,11 @@
                         <div class="flex-1 relative z-[100] flex-col pr-8 min-w-0" id="tankSelectionSection">
                             <label for="faction" style="margin-bottom: 5px;">Tank Selection</label>
                             <input type="hidden" id="faction" value="British (Bishop SP)">
-                            <!-- Tank specs panel at top for mobile -->
                             <div class="custom-select-wrapper">
                                 <div class="custom-select">
                                     <div class="select-selected" id="selectSelected" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-controls="selectItems" aria-label="Select tank">
-                                        <!-- Generated dynamically by JS -->
                                     </div>
                                     <div class="select-items select-hide" id="selectItems" role="listbox" aria-label="Tank options">
-                                        <!-- Generated dynamically by JS -->
                                     </div>
                                 </div>
                             </div>
@@ -325,7 +310,6 @@
                                 <span id="tankSpecsToggleIcon">▼</span>
                             </button>
                             <div id="milRangeText" class="tank-specs-panel">
-                                <!-- Generated dynamically by JS -->
                             </div>
                         </div>
                         <div class="w-64 h-64 overflow-hidden faction-image flex items-center justify-center flex-shrink-0 mt-5 mr-25 ml-25">
@@ -335,7 +319,6 @@
                                 <img id="factionImage" src="images/tanks/BISHOP_248.webp" alt="Selected tank" class="max-w-full max-h-full object-contain" fetchpriority="high" decoding="async">
                             </picture>
                         </div>
-                        <!-- Compact tank image for mobile -->
                         <div class="faction-image-compact overflow-hidden hidden flex items-center justify-center flex-shrink-0">
                             <picture>
                                 <source srcset="images/tanks/BISHOP_248.webp" type="image/webp">
@@ -345,16 +328,12 @@
                     </div>
                 </div>
 
-                <!-- Lite Mode Tank Selection (simplified) -->
                 <div class="mode-lite-only mb-4">
-                    <input type="hidden" id="faction" value="British (Bishop SP)">
                     <div class="custom-select-wrapper">
                         <div class="custom-select">
                             <div class="select-selected" id="selectSelectedLite" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-controls="selectItemsLite" aria-label="Select tank">
-                                <!-- Generated dynamically by JS -->
                             </div>
                             <div class="select-items select-hide" id="selectItemsLite" role="listbox" aria-label="Tank options">
-                                <!-- Generated dynamically by JS -->
                             </div>
                         </div>
                     </div>
@@ -366,13 +345,11 @@
                     </div>
                 </div>
 
-                <!-- Input Fields -->
                 <div class="panel-section mode-full-only" style="padding-top: 0;">
                     <div class="armored-rivet-small armored-rivet-small-top-left"></div>
                     <div class="armored-rivet-small armored-rivet-small-top-right"></div>
                     <div class="armored-rivet-small armored-rivet-small-bottom-left"></div>
                     <div class="armored-rivet-small armored-rivet-small-bottom-right"></div>
-                    <!-- Toggle Row -->
                     <div style="display: flex; justify-content: space-between; align-items: center; position: relative; margin: 10px 0;">
                         <div class="armored-toggle height-diff-toggle-left" id="heightDiffToggleContainer">
                             <span class="armored-toggle-label">Height Calculation</span>
@@ -393,7 +370,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Compact Warning Icon (visible in both modes) -->
                     <div class="warning-compact-wrapper warning-mobile-position">
                         <button id="warningIconMobile" class="warning-icon-btn hidden" aria-label="Show warning message" title="Click to view warning">
                             <span class="warning-icon">⚠</span>
@@ -404,7 +380,6 @@
                             <p class="warning-text"></p>
                         </div>
                     </div>
-                    <!-- Target Distance -->
                     <div class="distance-controls" style="display: flex; flex-direction: column; align-items: center; gap: 5px; margin-top: 5px;">
                         <label for="distance" style="text-align: center;">Target Distance (M)</label>
                         <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
@@ -415,7 +390,6 @@
                     </div>
                 </div>
 
-                <!-- Compact Warning Icon (desktop only) -->
                 <div class="warning-compact-wrapper warning-desktop-position">
                     <button id="warningIcon" class="warning-icon-btn hidden" aria-label="Show warning message" title="Click to view warning">
                         <span class="warning-icon">⚠</span>
@@ -427,9 +401,7 @@
                     </div>
                 </div>
 
-                <!-- Lite Mode Input Fields -->
                 <div class="mode-lite-only flex-col-stretch gap-10">
-                    <!-- Lite Mode Minimalistic Toggles -->
                     <div class="lite-toggles-row">
                         <div class="lite-toggle" id="heightDiffToggleContainerLite">
                             <span class="lite-toggle-label">Height Calculation</span>
@@ -460,16 +432,13 @@
                                 </div>
                                 <div class="lite-field-controls distance-controls">
                                     <button class="armored-button w-52 h-52" tabindex="-1" data-field="distance" data-delta="-1" aria-label="Decrease distance">-</button>
-                                    <input type="text" id="distance" value="400" class="armored-input w-90 h-52" inputmode="numeric" pattern="[0-9]*" tabindex="1" aria-label="Target distance in meters">
+                                    <input type="text" id="distanceLite" value="400" class="armored-input w-90 h-52" inputmode="numeric" pattern="[0-9]*" tabindex="1" aria-label="Target distance in meters">
                                     <button class="armored-button w-52 h-52" tabindex="-1" data-field="distance" data-delta="1" aria-label="Increase distance">+</button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <input type="hidden" id="muzzleHeight" value="2.5">
-
-                    <!-- Lite Mode Height Difference Input (shown when height toggle is ON) -->
                     <div class="lite-field-row lite-height-diff-row hidden" id="liteHeightDiffRow">
                         <div class="lite-field-panel distance-panel">
                             <div class="distance-box">
@@ -479,7 +448,7 @@
                                 </div>
                                 <div class="lite-field-controls distance-controls">
                                     <button class="armored-button w-52 h-52" tabindex="-1" data-field="heightDiff" data-delta="-1" aria-label="Decrease height difference">-</button>
-                                    <input type="text" id="heightDiff" value="0" class="armored-input w-90 h-52" inputmode="numeric" pattern="[0-9]*" tabindex="2" aria-label="Height difference in meters">
+                                    <input type="text" id="heightDiffLite" value="0" class="armored-input w-90 h-52" inputmode="numeric" pattern="[0-9]*" tabindex="2" aria-label="Height difference in meters">
                                     <button class="armored-button w-52 h-52" tabindex="-1" data-field="heightDiff" data-delta="1" aria-label="Increase height difference">+</button>
                                 </div>
                             </div>
@@ -495,20 +464,18 @@
                                 </div>
                                 <div class="lite-field-controls distance-controls">
                                     <button class="armored-button w-52 h-52" tabindex="-1" data-field="redNumber" data-delta="-1" aria-label="Decrease terrain elevation">-</button>
-                                    <input type="text" id="redNumber" value="0" class="armored-input w-90 h-52" inputmode="numeric" pattern="[0-9]*" tabindex="3" aria-label="Terrain elevation in MIL">
+                                    <input type="text" id="redNumberLite" value="0" class="armored-input w-90 h-52" inputmode="numeric" pattern="[0-9]*" tabindex="3" aria-label="Terrain elevation in MIL">
                                     <button class="armored-button w-52 h-52" tabindex="-1" data-field="redNumber" data-delta="1" aria-label="Increase terrain elevation">+</button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Lite Mode Calculate Button (shown when auto is OFF) -->
                     <div class="lite-calc-button-row hidden" id="liteCalcButtonRow">
                         <button id="calculateButtonLite" class="armored-button lite-calc-button" type="button" tabindex="4">CALCULATE</button>
                     </div>
                 </div>
 
-                <!-- Full Mode Height/Red Inputs -->
                 <div class="panel-section mb-0 mode-full-only" id="heightRedSection">
                     <div class="armored-rivet-small armored-rivet-small-top-left"></div>
                     <div class="armored-rivet-small armored-rivet-small-top-right"></div>
@@ -527,7 +494,6 @@
                                 <input type="text" inputmode="decimal" pattern="[0-9]*" id="heightDiff" value="0" tabindex="2" class="armored-input" max="5000" aria-label="Height difference in meters">
                                 <button class="armored-button" aria-label="Increase height difference">+</button>
                             </div>
-                            <input type="hidden" id="muzzleHeight" value="2.5">
                         </div>
                         <div class="flex-col terrain-elevation-column" id="terrainElevationColumn">
                             <div class="flex-shrink-0 mb-5">
@@ -545,7 +511,6 @@
                     </div>
                 </div>
 
-                <!-- Calculate Button / Metal Panel -->
                 <div class="relative mt-0 mb-5 mode-full-only">
                     <button id="calculateButton" tabindex="4" class="armored-calculate">
                         Calculate
@@ -556,19 +521,14 @@
                     </div>
                 </div>
 
-                <!-- Lite Mode Calculate Button Placeholder -->
-                <button id="calculateButton" class="hidden mode-lite-only" aria-hidden="true">Calculate</button>
 
-                <!-- Result -->
                 <div id="result" class="armored-result">
-                    <label class="result-label desktop-only">Set Elevation (Yellow) To:</label>
+                    <label class="result-label desktop-only">Set Elevation To:</label>
                     <label class="result-label mobile-only">Set Elevation To:</label>
                     <div class="armored-result-value mode-lite-transform">
                         <div class="mechanical-counter" id="elevationCounter">
-                            <!-- Digit wheels will be generated here -->
                         </div>
                         <div class="mil-static-counter" id="elevationMilCounter">
-                            <!-- MIL wheels will be generated here -->
                         </div>
                     </div>
                     <div class="result-info-row">
@@ -580,18 +540,15 @@
                     </div>
                 </div>
 
-                <!-- Mobile HLL Tools Button -->
                 <button id="mobileHllToolsBtn" class="mobile-hll-tools-button mobile-only" aria-label="View more HLL Tools">
                     <span>More HLL Tools</span>
                 </button>
             </div>
 
-            <!-- Tank Info Button - Outside main container -->
             <button id="tankInfoIcon" class="select-info-button mode-full-only">
                 <span>SPA INFO</span>
             </button>
 
-            <!-- Tank Info Modal -->
             <div id="tankInfoModal" class="info-modal mode-full-only" role="dialog" aria-modal="true" aria-labelledby="tankInfoTitle">
                 <div class="info-modal-content">
                     <div class="info-modal-header">
@@ -617,7 +574,6 @@
                 </div>
             </div>
 
-            <!-- Screenshot Lightbox -->
             <div id="screenshotLightbox" class="screenshot-lightbox mode-full-only" role="dialog" aria-modal="true" aria-label="Screenshot viewer">
                 <div class="nav-zone-left" aria-label="Previous screenshot">
                     <span class="nav-arrow">◀</span>
@@ -634,7 +590,6 @@
                 </div>
             </div>
 
-            <!-- Version Info -->
             <div class="text-xs text-gray-500 text-center mt-4 version-footer">
                 <div class="version-links">
                     <a
@@ -692,10 +647,8 @@
         </div>
     </main>
 
-    <!-- More Projects Box -->
     <div id="moreProjectsBox" class="info-modal hidden" role="dialog" aria-modal="true" aria-labelledby="moreProjectsTitle">
         <div class="info-modal-content">
-            <!-- Screws for armored panel look -->
             <div class="screw-pan-head screw-top-left"></div>
             <div class="screw-pan-head screw-bottom-left"></div>
             <div class="screw-pan-head screw-bottom-right"></div>
@@ -739,13 +692,15 @@
 
     <script>
         if ('serviceWorker' in navigator) {
-            const SERVICE_WORKER_VERSION = 'v27';
+            const SERVICE_WORKER_VERSION = '1.6.3-1';
             const isLocalhost =
                 location.hostname === 'localhost' ||
                 location.hostname === '127.0.0.1' ||
                 location.hostname.startsWith('192.168.');
+            const isHttp =
+                location.protocol === 'http:' || location.protocol === 'https:';
 
-            if (window.isSecureContext && !isLocalhost) {
+            if (isHttp && window.isSecureContext && !isLocalhost) {
                 window.addEventListener('load', () => {
                     navigator.serviceWorker.register(
                         `./service-worker.js?${SERVICE_WORKER_VERSION}`,

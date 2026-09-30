@@ -3,16 +3,15 @@
     src: url('../fonts/SpecialElite.ttf') format('truetype');
 }
 :root {
-    --paper: #0f0f10;        /* base paper black */
-    --panel: #18181b;        /* panel background */
-    --ink: #d7d5cc;          /* primary text */
-    --muted: #9a968a;        /* muted text */
-    --accent: #c2b280;       /* brass accent */
-    --accent-strong: #b2a06f;/* darker brass */
-    --line: #3f3f46;         /* border line */
+    --paper: #0f0f10;
+    --panel: #18181b;
+    --ink: #d7d5cc;
+    --muted: #9a968a;
+    --accent: #c2b280;
+    --accent-strong: #b2a06f;
+    --line: #3f3f46;
     --shadow: rgba(0, 0, 0, 0.35);
 }
-/* Tailwind-like Utility Classes */
 .min-h-screen { min-height: 100vh; }
 .container { width: 100%; max-width: 1200px; margin-left: auto; margin-right: auto; }
 .mx-auto { margin-left: auto; margin-right: auto; }
@@ -47,7 +46,6 @@
 .ml-25 { margin-left: 6.25rem; }
 .max-w-full { max-width: 100%; }
 .max-h-full { max-height: 100%; }
-/* Version display styling */
 #version-display {
     padding-top: 12px;
 }
@@ -107,20 +105,16 @@ input[type="number"] {
     -moz-appearance: textfield;
     appearance: textfield;
 }
-/* Custom background image - optimized loading with WebP support */
 body {
-    /* Use will-change to hint browser about background optimization */
     will-change: background-image;
-    /* WebP format - massive size reduction */
     background-image: url('../images/background/background.webp');
     background-size: cover;
     background-position: 20% center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    /* Use contain/cover optimization */
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
-    color: #d1d5db; /* Default text color: light gray */
+    color: #d1d5db;
 }
 body::before {
     content: '';
@@ -130,9 +124,7 @@ body::before {
     right: 0;
     bottom: 0;
     background: 
-/* Lighter vignette to let the photo breathe */
 radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.8) 100%),
-/* Subtle noise texture for paper feel */
 url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E"),
 rgba(16, 16, 18, 0.75);
     pointer-events: none;
@@ -143,7 +135,6 @@ rgba(16, 16, 18, 0.75);
     z-index: 2;
     overflow: visible;
 }
-/* Hide slider thumb completely */
 .slider::-webkit-slider-thumb {
     appearance: none;
     width: 0;
@@ -159,7 +150,6 @@ rgba(16, 16, 18, 0.75);
     border: none;
     cursor: pointer;
 }
-/* Military-style font for inputs and buttons */
 .military-input {
     font-family: 'Courier New', monospace;
     font-weight: 600;
@@ -271,15 +261,12 @@ inset 0 1px 2px rgba(0, 0, 0, 0.1),
     transition: none;
     margin: 0;
 }
-/* Ensure parent container allows overflow for warning */
 #calculator-card {
     overflow: visible !important;
 }
-/* Ensure the wrapper allows the warning to be visible */
 .warning-wrapper {
     overflow: visible !important;
 }
-/* Warning visibility without animation */
 .warning-container:not(.hidden) {
     transform: translateX(-50%) translateY(0);
     opacity: 1;
@@ -315,7 +302,6 @@ transform: translateX(-50%) translateY(-100%);
 opacity: 0;
     }
 }
-/* Perforation tear line overlay - appears during animation */
 .warning-container:not(.hidden)::before {
     background: 
 repeating-linear-gradient(
@@ -344,7 +330,6 @@ opacity: 0;
 background-size: 100% 0px, 100% 100%, 100% 100%, 100% 100%;
     }
 }
-/* Perforation tear line overlay - appears during animation */
 .warning-container:not(.hidden)::before {
     background: 
 repeating-linear-gradient(
@@ -390,7 +375,6 @@ linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.02) 50%, transparent 100%
     line-height: 1.4;
     word-wrap: break-word;
 }
-/* Warning inside glass screen - resized to fit */
 .glass-screen-off .warning-container {
     position: absolute;
     top: 5px;
@@ -423,7 +407,6 @@ inset 0 1px 1px rgba(0, 0, 0, 0.1),
     opacity: 0;
     transition: none;
 }
-/* Warning visibility without animation for glass screen version */
 .glass-screen-off .warning-container:not(.hidden) {
     transform: translateX(-50%) translateY(0);
     opacity: 1;
@@ -446,7 +429,6 @@ radial-gradient(circle at 85% 75%, rgba(139, 115, 85, 0.06) 0%, transparent 40%)
     pointer-events: none;
     z-index: 1;
 }
-/* Perforation tear line overlay for glass screen version */
 .glass-screen-off .warning-container:not(.hidden)::before {
     background: 
 repeating-linear-gradient(
@@ -507,7 +489,6 @@ radial-gradient(circle at 85% 75%, rgba(139, 115, 85, 0.06) 0%, transparent 40%)
     right: 0;
     bottom: 0;
     background: 
-/* Base dark metal - matching existing scheme */
 linear-gradient(145deg, 
     #111827 0%,
     #1f2937 25%,
@@ -515,11 +496,9 @@ linear-gradient(145deg,
     #1f2937 75%,
     #111827 100%
 ),
-/* Subtle wear patterns */
 radial-gradient(ellipse at 20% 30%, rgba(31, 41, 55, 0.4) 0%, transparent 40%),
 radial-gradient(ellipse at 80% 70%, rgba(15, 23, 42, 0.3) 0%, transparent 40%),
 radial-gradient(ellipse at 50% 50%, rgba(17, 24, 39, 0.25) 0%, transparent 60%),
-/* Metal grain texture */
 repeating-linear-gradient(0deg, 
     transparent 0px,
     rgba(0, 0, 0, 0.1) 1px,
@@ -529,27 +508,21 @@ repeating-linear-gradient(0deg,
     border-radius: 4px;
     border: 3px solid;
     border-color: 
-#0f172a /* outer shadow */
-#374151 /* top-left highlight */
-#0f172a /* bottom-right shadow */
-#1f2937; /* sides */
+#0f172a
+#374151
+#0f172a
+#1f2937;
     box-shadow: 
-/* Outer shadow */
 0 6px 20px rgba(0, 0, 0, 0.8),
 0 3px 8px rgba(0, 0, 0, 0.6),
-/* Inner depth */
 inset 0 2px 4px rgba(0, 0, 0, 0.5),
 inset 0 -2px 4px rgba(0, 0, 0, 0.7),
-/* Metal highlights */
 inset -1px -1px 2px rgba(75, 85, 99, 0.2),
 inset 1px 1px 2px rgba(0, 0, 0, 0.4),
-/* Top edge highlight */
 inset 0 1px 0 rgba(107, 114, 128, 0.15),
-/* Bottom edge shadow */
 inset 0 -1px 0 rgba(0, 0, 0, 0.6);
     z-index: 1;
 }
-/* Rivets/bolts decoration */
 .nuke-button::after {
     content: '';
     position: absolute;
@@ -558,15 +531,12 @@ inset 0 -1px 0 rgba(0, 0, 0, 0.6);
     right: 0;
     bottom: 0;
     background-image: 
-/* Top row rivets */
 radial-gradient(circle at 15% 12%, rgba(55, 65, 81, 0.8) 2px, transparent 2px),
 radial-gradient(circle at 50% 12%, rgba(55, 65, 81, 0.8) 2px, transparent 2px),
 radial-gradient(circle at 85% 12%, rgba(55, 65, 81, 0.8) 2px, transparent 2px),
-/* Bottom row rivets */
 radial-gradient(circle at 15% 88%, rgba(55, 65, 81, 0.8) 2px, transparent 2px),
 radial-gradient(circle at 50% 88%, rgba(55, 65, 81, 0.8) 2px, transparent 2px),
 radial-gradient(circle at 85% 88%, rgba(55, 65, 81, 0.8) 2px, transparent 2px),
-/* Rivet highlights */
 radial-gradient(circle at 15% 12%, rgba(107, 114, 128, 0.4) 1px, transparent 1px),
 radial-gradient(circle at 50% 12%, rgba(107, 114, 128, 0.4) 1px, transparent 1px),
 radial-gradient(circle at 85% 12%, rgba(107, 114, 128, 0.4) 1px, transparent 1px),
@@ -584,12 +554,9 @@ radial-gradient(circle at 85% 88%, rgba(107, 114, 128, 0.4) 1px, transparent 1px
     padding: 20px 50px;
     color: var(--ink);
     text-shadow: 
-/* Main text shadow */
 2px 2px 4px rgba(0, 0, 0, 0.9),
 1px 1px 2px rgba(0, 0, 0, 0.8),
-/* Subtle inner glow */
 0 0 8px rgba(215, 213, 204, 0.2),
-/* Stencil effect */
 -1px -1px 0 rgba(0, 0, 0, 0.5),
 1px -1px 0 rgba(0, 0, 0, 0.5),
 -1px 1px 0 rgba(0, 0, 0, 0.5),
@@ -599,7 +566,6 @@ radial-gradient(circle at 85% 88%, rgba(107, 114, 128, 0.4) 1px, transparent 1px
     transition: all 0.3s ease;
     width: 100%;
 }
-/* Warning stripes on sides - keeping the cool yellow/orange danger marks */
 .nuke-button-warning {
     position: absolute;
     left: 0;
@@ -640,7 +606,6 @@ inset -1px -1px 2px rgba(75, 85, 99, 0.3),
 inset 1px 1px 2px rgba(0, 0, 0, 0.4),
 inset 0 1px 0 rgba(107, 114, 128, 0.2),
 inset 0 -1px 0 rgba(0, 0, 0, 0.6),
-/* Hover glow */
 0 0 20px rgba(251, 191, 36, 0.15);
     border-color: 
 #0f172a
@@ -683,7 +648,6 @@ inset 0 -1px 0 rgba(75, 85, 99, 0.15);
     color: #d1d5db;
     transform: translateY(1px);
 }
-/* Strong focus highlight for keyboard navigation */
 .military-input:focus {
     background: rgba(15, 15, 16, 0.6) !important;
     border: 2px solid rgba(156, 163, 175, 0.5) !important;
@@ -695,7 +659,6 @@ inset 0 1px 0 rgba(255, 255, 255, 0.15),
 0 0 15px rgba(156, 163, 175, 0.2) !important;
     color: #ffffff !important;
 }
-/* Hover highlight for inputs */
 .military-input:hover {
     background: rgba(15, 15, 16, 0.5) !important;
     border: 2px solid rgba(156, 163, 175, 0.4) !important;
@@ -705,7 +668,6 @@ inset 0 1px 0 rgba(255, 255, 255, 0.12),
 0 2px 8px rgba(0, 0, 0, 0.45),
 0 0 0 1px rgba(156, 163, 175, 0.15) !important;
 }
-/* Hover highlight for elevation value */
 #elevationValue:hover {
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
@@ -716,7 +678,6 @@ inset 0 1px 0 rgba(255, 255, 255, 0.12),
     outline: 3px solid rgba(139, 115, 85, 0.6);
     outline-offset: 4px;
 }
-/* Center distance input controls in the calculator box */
 .distance-controls {
     display: flex;
     justify-content: center;
@@ -727,51 +688,40 @@ inset 0 1px 0 rgba(255, 255, 255, 0.12),
     margin-left: auto;
     margin-right: auto;
 }
-/* Military toggle button animation */
-#snapToggle ~ div > span,
 #autoCalcToggle ~ div > span {
     transition: transform 200ms ease-out;
-}
-#snapToggle:checked ~ div > span {
-    transform: translateX(29px) !important;
 }
 #autoCalcToggle:checked ~ div > span {
     transform: translateX(29px) !important;
 }
-/* LED light styles for toggle labels */
 .toggle-label-off,
 .toggle-label-on {
     font-family: 'Courier New', monospace;
     font-weight: 600;
     transition: all 0.3s ease;
     text-shadow: none;
-    color: #6b7280; /* Dim gray when off */
+    color: #6b7280;
 }
-/* LED OFF state - Red glow for inactive state */
 .led-off {
-    color: #ef4444 !important; /* Red */
+    color: #ef4444 !important;
     text-shadow: 
 0 0 8px rgba(239, 68, 68, 0.8),
 0 0 12px rgba(239, 68, 68, 0.6),
 0 0 16px rgba(239, 68, 68, 0.4);
     font-weight: 700;
 }
-/* LED ON state - Green glow for active state */
 .led-on-green {
-    color: #22c55e !important; /* Green */
+    color: #22c55e !important;
     text-shadow: 
 0 0 8px rgba(34, 197, 94, 0.8),
 0 0 12px rgba(34, 197, 94, 0.6),
 0 0 16px rgba(34, 197, 94, 0.4);
     font-weight: 700;
 }
-/* WWII Military Design Enhancements - Dark classified theme */
 .military-grid {
-    background-color: #111827; /* Dark gray/black base */
+    background-color: #111827;
     background-image:
-/* Subtle noise */
 url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E"),
-/* Grid lines */
 linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
 linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
     background-size: 200px 200px, 20px 20px, 20px 20px;
@@ -780,11 +730,10 @@ linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
     position: relative;
 }
 /* ============================================
-   ARMORED PANEL DESIGN
+   ARMORED PANEL
    ============================================ */
 .armored-panel-container {
     background: 
-/* Base metal gradient with depth - TONED DARKNESS */
 linear-gradient(145deg, 
     #1a1a1a 0%,
     #0f0f0f 25%,
@@ -792,7 +741,6 @@ linear-gradient(145deg,
     #0f0f0f 75%,
     #1a1a1a 100%
 ),
-/* Metal grain texture */
 repeating-linear-gradient(0deg, 
     transparent 0px,
     rgba(0, 0, 0, 0.25) 1px,
@@ -800,17 +748,14 @@ repeating-linear-gradient(0deg,
     rgba(50, 50, 50, 0.03) 3px,
     transparent 4px
 ),
-/* Vertical wear patterns */
 repeating-linear-gradient(90deg,
     transparent 0px,
     rgba(0, 0, 0, 0.15) 1px,
     transparent 2px
 ),
-/* Rust and wear spots - darker */
 radial-gradient(ellipse at 20% 30%, rgba(30, 20, 10, 0.12) 0%, transparent 30%),
 radial-gradient(ellipse at 80% 70%, rgba(25, 15, 8, 0.1) 0%, transparent 35%),
 radial-gradient(ellipse at 50% 10%, rgba(20, 12, 5, 0.08) 0%, transparent 25%),
-/* Scratches and scuffs */
 repeating-linear-gradient(45deg,
     transparent 0px,
     transparent 40px,
@@ -819,38 +764,30 @@ repeating-linear-gradient(45deg,
     transparent 41px,
     transparent 80px
 );
-    /* BEVELED EDGES - Strong top-left highlight, dark bottom-right shadow */
     border: 6px solid;
     border-color: 
-#1a1a1a /* top - lighter */
-#1a1a1a /* right - lighter */
-#000000 /* bottom - darkest */
-#000000; /* left - darkest */
+#1a1a1a
+#1a1a1a
+#000000
+#000000;
     border-top-color: #2a2a2a;
     border-left-color: #2a2a2a;
     border-bottom-color: #000000;
     border-right-color: #000000;
     box-shadow: 
-/* Outer 3D depth */
 0 12px 30px rgba(0, 0, 0, 0.4),
 0 6px 15px rgba(0, 0, 0, 0.3),
 0 3px 8px rgba(0, 0, 0, 0.25),
-/* BEVELED EDGE EFFECTS - Top-left highlight */
 inset -6px -6px 12px rgba(0, 0, 0, 0.9),
 inset 6px 6px 12px rgba(0, 0, 0, 0.9),
-/* Top edge bright highlight */
 inset 0 6px 0 rgba(60, 60, 60, 0.3),
 inset 0 4px 0 rgba(40, 40, 40, 0.2),
-/* Left edge highlight */
 inset 6px 0 0 rgba(60, 60, 60, 0.3),
 inset 4px 0 0 rgba(40, 40, 40, 0.2),
-/* Bottom edge deep shadow */
 inset 0 -6px 0 rgba(0, 0, 0, 0.95),
 inset 0 -4px 0 rgba(0, 0, 0, 0.9),
-/* Right edge deep shadow */
 inset -6px 0 0 rgba(0, 0, 0, 0.95),
 inset -4px 0 0 rgba(0, 0, 0, 0.9),
-/* Inner depth */
 inset 0 0 20px rgba(0, 0, 0, 0.8);
     position: relative;
     padding: 25px;
@@ -899,25 +836,21 @@ repeating-linear-gradient(0deg,
     right: 0;
     bottom: 0;
     background: 
-/* Top bevel highlight */
 linear-gradient(180deg, 
     rgba(80, 80, 80, 0.4) 0%,
     rgba(80, 80, 80, 0.2) 2%,
     transparent 4%
 ),
-/* Left bevel highlight */
 linear-gradient(90deg, 
     rgba(80, 80, 80, 0.4) 0%,
     rgba(80, 80, 80, 0.2) 2%,
     transparent 4%
 ),
-/* Bottom bevel shadow */
 linear-gradient(0deg, 
     rgba(0, 0, 0, 0.8) 0%,
     rgba(0, 0, 0, 0.4) 2%,
     transparent 4%
 ),
-/* Right bevel shadow */
 linear-gradient(270deg, 
     rgba(0, 0, 0, 0.8) 0%,
     rgba(0, 0, 0, 0.4) 2%,
@@ -927,7 +860,6 @@ linear-gradient(270deg,
     z-index: 1;
     border-radius: 2px;
 }
-/* 3D Rivets - Main box only */
 .armored-rivet {
     position: absolute;
     width: 10px;
@@ -951,21 +883,15 @@ rgba(150, 150, 150, 0.5)
 rgba(120, 120, 120, 0.4);
     border-radius: 50%;
     box-shadow: 
-/* 3D raised effect - more prominent */
 0 6px 12px rgba(0, 0, 0, 0.95),
 0 3px 6px rgba(0, 0, 0, 0.9),
 0 1px 3px rgba(0, 0, 0, 0.8),
-/* Inner depth */
 inset 0 3px 6px rgba(0, 0, 0, 0.8),
 inset 0 -2px 3px rgba(150, 150, 150, 0.3),
-/* Top highlight - brighter */
 inset 0 2px 0 rgba(200, 200, 200, 0.5),
 inset 0 1px 0 rgba(180, 180, 180, 0.4),
-/* Bottom shadow */
 inset 0 -3px 0 rgba(0, 0, 0, 0.9),
-/* Center depression */
 inset 0 0 10px rgba(0, 0, 0, 0.6),
-/* Outer glow for visibility */
 0 0 4px rgba(100, 100, 100, 0.3);
     z-index: 10;
 }
@@ -975,7 +901,6 @@ inset 0 0 10px rgba(0, 0, 0, 0.6),
 .armored-rivet-top-right { top: 8px; right: 8px; display: none; }
 .armored-rivet-bottom-left { bottom: 8px; left: 8px; display: none; }
 .armored-rivet-bottom-right { bottom: 8px; right: 8px; display: none; }
-/* Smaller rivets for secondary panels */
 .armored-rivet-small {
     position: absolute;
     width: 14px;
@@ -1003,7 +928,6 @@ inset 0 1px 0 rgba(120, 120, 120, 0.4),
 .armored-rivet-small-top-right { top: 8px; right: 8px; }
 .armored-rivet-small-bottom-left { bottom: 8px; left: 8px; }
 .armored-rivet-small-bottom-right { bottom: 8px; right: 8px; }
-/* Pan head screw style for metal panel */
 .screw-pan-head {
     width: 25px;
     height: 25px;
@@ -1206,7 +1130,6 @@ inset 0 4px 12px rgba(0, 0, 0, 0.8),
     z-index: 50;
     pointer-events: auto;
 }
-/* Force toggles to be clickable and above other elements */
 .armored-toggle {
     position: absolute;
     z-index: 100 !important;
@@ -1249,7 +1172,6 @@ inset 0 4px 12px rgba(0, 0, 0, 0.8),
     left: 32px;
     background: linear-gradient(145deg, #c2b280, #8b6914);
 }
-/* Height Difference Toggle - Left positioned on distance panel */
 .height-diff-toggle-left {
     position: absolute !important;
     left: 20px !important;
@@ -1262,7 +1184,6 @@ inset 0 4px 12px rgba(0, 0, 0, 0.8),
     align-items: center;
     gap: 8px;
 }
-/* Auto Calculation Toggle - Right positioned on distance panel */
 .armored-toggle.mode-full-only {
     position: absolute !important;
     right: 20px !important;
@@ -1295,7 +1216,6 @@ inset 0 4px 12px rgba(0, 0, 0, 0.8),
 #targetHeightSection.hidden {
     display: none !important;
 }
-/* Mobile adjustments for height toggle */
 @media (max-width: 768px) {
     .height-grid.grid-cols-1 .terrain-elevation-column {
 max-width: 100%;
@@ -1356,12 +1276,10 @@ inset 0 6px 12px rgba(0, 0, 0, 0.4),
 0 0 32px rgba(251, 191, 36, 0.4);
     transition: all 0.1s ease;
 }
-/* Metal panel to replace calculate button when auto calc is on */
 .armored-metal-panel {
     width: 100%;
     padding: 12px;
     background: 
-/* Base metal gradient with depth */
 linear-gradient(145deg, 
     #1a1a1a 0%,
     #0f0f0f 25%,
@@ -1369,7 +1287,6 @@ linear-gradient(145deg,
     #0f0f0f 75%,
     #1a1a1a 100%
 ),
-/* Metal grain texture */
 repeating-linear-gradient(0deg, 
     transparent 0px,
     rgba(0, 0, 0, 0.25) 1px,
@@ -1377,17 +1294,14 @@ repeating-linear-gradient(0deg,
     rgba(50, 50, 50, 0.03) 3px,
     transparent 4px
 ),
-/* Vertical wear patterns */
 repeating-linear-gradient(90deg,
     transparent 0px,
     rgba(0, 0, 0, 0.15) 1px,
     transparent 2px
 ),
-/* Rust and wear spots */
 radial-gradient(ellipse at 20% 30%, rgba(30, 20, 10, 0.12) 0%, transparent 30%),
 radial-gradient(ellipse at 80% 70%, rgba(25, 15, 8, 0.1) 0%, transparent 35%),
 radial-gradient(ellipse at 50% 10%, rgba(20, 12, 5, 0.08) 0%, transparent 25%),
-/* Scratches and scuffs */
 repeating-linear-gradient(45deg,
     transparent 0px,
     transparent 40px,
@@ -1398,10 +1312,10 @@ repeating-linear-gradient(45deg,
 );
     border: 3px solid;
     border-color: 
-#2a2a2a /* top - lighter */
-#1a1a1a /* right */
-#000000 /* bottom - darkest */
-#1a1a1a; /* left */
+#2a2a2a
+#1a1a1a
+#000000
+#1a1a1a;
     box-shadow: 
 inset 0 4px 12px rgba(0, 0, 0, 0.7),
 0 6px 20px rgba(0, 0, 0, 0.8);
@@ -1508,243 +1422,6 @@ inset 0 2px 6px rgba(0, 0, 0, 0.4),
     border-color: rgba(34, 197, 94, 0.6);
     color: #4ade80;
 }
-.trajectory-toggle-button {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    transform: none;
-    background: rgba(252, 211, 77, 0.2);
-    border: 1px solid rgba(252, 211, 77, 0.4);
-    color: #fcd34d;
-    padding: 0;
-    padding-top: 5px;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    border-radius: 2px;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    line-height: 1;
-    text-align: center;
-}
-.trajectory-toggle-button:hover {
-    background: rgba(252, 211, 77, 0.3);
-    border-color: rgba(252, 211, 77, 0.6);
-}
-.trajectory-toggle-button:active {
-    background: rgba(252, 211, 77, 0.4);
-}
-.trajectory-window {
-    position: fixed;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-    width: 644px;
-    height: 414px;
-    z-index: 10050;
-    background: 
-linear-gradient(180deg, #f5f0e8 0%, #e8e0d0 100%),
-url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h100v100H0z' fill='%23f5f0e8'/%3E%3Cpath d='M0 0l100 100M100 0L0 100' stroke='%23d0c8b8' stroke-width='0.5' opacity='0.3'/%3E%3C/svg%3E");
-    border: 2px solid #8b6914;
-    box-shadow:
-0 18px 40px rgba(0, 0, 0, 0.45),
-0 8px 18px rgba(0, 0, 0, 0.25);
-    border-radius: 4px;
-    overflow: hidden;
-    box-sizing: border-box;
-}
-.trajectory-window::before {
-    content: 'CLASSIFIED';
-    position: absolute;
-    top: 52%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(-25deg);
-    font-family: 'SpecialElite', monospace;
-    font-size: 60px;
-    color: rgba(139, 105, 20, 0.12);
-    letter-spacing: 0.15em;
-    z-index: 0;
-    pointer-events: none;
-}
-.trajectory-window::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-repeating-linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.05) 0px,
-    rgba(0, 0, 0, 0.05) 1px,
-    transparent 1px,
-    transparent 28px
-);
-    pointer-events: none;
-    z-index: 1;
-    opacity: 0.35;
-}
-.trajectory-close-button {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 30px;
-    height: 30px;
-    background: transparent;
-    border: none;
-    color: #8b6914;
-    font-size: 24px;
-    line-height: 1;
-    cursor: pointer;
-    z-index: 20;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    transition: color 0.2s;
-    font-family: 'Courier New', monospace;
-    font-weight: bold;
-}
-.trajectory-close-button:hover {
-    color: #5a4a2a;
-    text-shadow: 0 0 2px rgba(139, 105, 20, 0.3);
-}
-.trajectory-screen {
-    position: absolute;
-    top: 14px;
-    left: 14px;
-    right: 14px;
-    bottom: 14px;
-    z-index: 2;
-    background: rgba(255, 255, 255, 0.55);
-    border: 2px solid #8b6914;
-    border-left: 4px solid #8b6914;
-    box-shadow:
-inset 0 0 0 1px rgba(208, 200, 184, 0.9),
-inset 0 12px 22px rgba(0, 0, 0, 0.08);
-    border-radius: 3px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-}
-.trajectory-plot {
-    position: relative;
-    flex: 1;
-    min-height: 0;
-}
-.trajectory-controls {
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    border-top: 1px solid #d0c8b8;
-    background: rgba(255, 255, 255, 0.65);
-    position: relative;
-    z-index: 3;
-}
-.trajectory-header {
-    height: 34px;
-    display: flex;
-    align-items: center;
-    padding: 0 10px;
-    border-bottom: 1px solid #d0c8b8;
-    background: rgba(255, 255, 255, 0.65);
-    position: relative;
-    z-index: 3;
-}
-.trajectory-screen::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    pointer-events: none;
-    background:
-linear-gradient(180deg,
-    rgba(0, 0, 0, 0.08) 0%,
-    transparent 18%
-);
-    opacity: 0.35;
-}
-@media (max-width: 1400px) {
-    .trajectory-window {
-width: 598px;
-height: 368px;
-    }
-}
-@media (max-width: 900px) {
-    .trajectory-window {
-width: 414px;
-height: 276px;
-    }
-}
-#trajectoryCanvas {
-    width: 100%;
-    height: 100%;
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 0;
-}
-.trajectory-play-button {
-    position: relative;
-    left: auto;
-    bottom: auto;
-    transform: none;
-    z-index: 3;
-    background:
-linear-gradient(180deg, rgba(255, 255, 255, 0.65) 0%, rgba(232, 224, 208, 0.85) 100%);
-    border: 2px solid #8b6914;
-    color: #2a2a2a;
-    width: 46px;
-    height: 30px;
-    border-radius: 3px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    line-height: 1;
-    padding: 0;
-    box-shadow:
-0 6px 14px rgba(0, 0, 0, 0.25),
-inset 0 1px 0 rgba(255, 255, 255, 0.35);
-}
-.trajectory-play-button:hover {
-    background:
-linear-gradient(180deg, rgba(255, 255, 255, 0.78) 0%, rgba(232, 224, 208, 0.92) 100%);
-    border-color: #6b5010;
-}
-.trajectory-play-button:active {
-    background:
-linear-gradient(180deg, rgba(232, 224, 208, 0.95) 0%, rgba(255, 255, 255, 0.75) 100%);
-}
-.trajectory-hud {
-    position: relative;
-    top: auto;
-    left: auto;
-    right: auto;
-    z-index: 3;
-    pointer-events: none;
-    font-family: 'Courier New', monospace;
-    font-size: 12px;
-    color: #2a2a2a;
-    text-shadow: none;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 100%;
-}
 .armored-result-value {
     font-family: 'Courier New', 'Courier', monospace;
     font-size: 3rem;
@@ -1766,7 +1443,6 @@ linear-gradient(180deg, rgba(232, 224, 208, 0.95) 0%, rgba(255, 255, 255, 0.75) 
     width: auto;
     min-width: 380px;
 }
-/* Decorative military-style vertical lines on sides */
 .armored-result-value::before,
 .armored-result-value::after {
     content: '';
@@ -1844,7 +1520,6 @@ linear-gradient(
     padding-top: 0;
     transform: translateY(0px);
 }
-/* MIL label only for main display - large size */
 .armored-result-value .mil-label {
     display: inline-block;
     margin-left: 0;
@@ -1860,7 +1535,6 @@ linear-gradient(
     padding-left: 4px;
     padding-right: 4px;
 }
-/* MIL label digits (letters) should have same styling as number digits */
 .armored-result-value .mil-label .digit {
     display: inline-block;
     position: relative;
@@ -1868,7 +1542,6 @@ linear-gradient(
     transform: translateY(0px);
     margin-right: 2px;
 }
-/* Small MIL labels for base value and other text - normal size */
 .mil-label {
     display: inline;
     font-size: inherit;
@@ -1898,7 +1571,6 @@ linear-gradient(
     font-weight: 700;
     text-align: center;
 }
-/* Make the first letter (M) counter box wider */
 .mil-static-counter .mil-wheel:first-child {
     width: calc(0.9em - 1px);
 }
@@ -1930,8 +1602,6 @@ linear-gradient(
     text-align: center;
     transform: translateY(0px);
 }
-/* Vertical separator lines between all elements for odometer look - matching demo style */
-/* Add separator after each digit in elevationValue, but not after the last one */
 #elevationValue .digit:not(:last-child)::after {
     content: '';
     position: absolute;
@@ -1953,7 +1623,6 @@ transparent 100%
     box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
     z-index: 1;
 }
-/* Add separator before first digit (for minus sign or first number) */
 .armored-result-value .digit:first-child::before {
     content: '';
     position: absolute;
@@ -1975,7 +1644,6 @@ transparent 100%
     box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
     z-index: 1;
 }
-/* Add separator before MIL label (before first letter) */
 .armored-result-value .mil-label .digit:first-child::before {
     content: '';
     position: absolute;
@@ -1997,7 +1665,6 @@ transparent 100%
     box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
     z-index: 1;
 }
-/* Add separator after each MIL letter (including the last one to complete odometer) */
 .armored-result-value .mil-label .digit::after {
     content: '';
     position: absolute;
@@ -2019,18 +1686,13 @@ transparent 100%
     box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
     z-index: 1;
 }
-/* Add spacing between digits for better separation */
 .armored-result-value .digit {
     margin-right: 2px;
     position: relative;
 }
-/* Ensure MIL label has relative positioning for separator */
 .armored-result-value .mil-label {
     position: relative;
 }
-/* All animations removed - no animations on final value */
-/* Old animation styles removed - no longer used */
-/* Armored slider styling */
 .armored-slider {
     background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%) !important;
     border: 2px solid #4a4a4a !important;
@@ -2038,12 +1700,10 @@ transparent 100%
 inset 0 4px 12px rgba(0, 0, 0, 0.8),
 0 2px 4px rgba(0, 0, 0, 0.4) !important;
 }
-/* Fix calculator card width so grid lines hit both left and right edges cleanly */
 .calculator-card {
     width: 765px;
     margin: 0 auto;
     padding-bottom: 30px;
-    /* Paper texture background */
     background: var(--panel); 
     border: 1px solid var(--line);
     box-shadow: 
@@ -2051,12 +1711,10 @@ inset 0 4px 12px rgba(0, 0, 0, 0.8),
 0 0 0 1px rgba(0,0,0,1);
     position: relative;
 }
-/* Remove TOP SECRET watermark overlay */
 .calculator-card::before {
     content: '';
     display: none;
 }
-/* Inner classified stamp effect - simple border */
 .calculator-card::after {
     content: '';
     position: absolute;
@@ -2079,7 +1737,6 @@ h1.dog-tags {
 .map-marker {
     position: relative;
 }
-/* Custom select styles - Armored panel aesthetic */
 .custom-select {
     position: relative;
     width: 100%;
@@ -2125,7 +1782,6 @@ inset 0 0 30px rgba(0, 0, 0, 0.5),
 .select-selected > img {
     flex-shrink: 0;
 }
-/* Allow text span to shrink and truncate */
 .select-selected > span {
     flex-shrink: 1;
     min-width: 0;
@@ -2136,9 +1792,8 @@ inset 0 0 30px rgba(0, 0, 0, 0.5),
     transform: translateY(3px);
     text-align: left;
 }
-/* More Projects Button - Military Metal Theme */
 /* ============================================
-   MORE PROJECTS BUTTON - POSITION STATES
+   MORE PROJECTS BUTTON
    ============================================ */
 [data-mode="full"] .more-projects-button {
     position: absolute;
@@ -2153,9 +1808,7 @@ inset 0 0 30px rgba(0, 0, 0, 0.5),
     align-items: center;
     justify-content: center;
     background:
-/* Metal texture noise */
 url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.12'/%3E%3C/svg%3E"),
-/* Metal lines */
 repeating-linear-gradient(
     90deg,
     transparent 0px,
@@ -2164,14 +1817,12 @@ repeating-linear-gradient(
     rgba(85, 107, 47, 0.2) 41px,
     transparent 42px
 ),
-/* Green accent strip - right edge */
 linear-gradient(90deg,
     transparent 0%,
     transparent calc(100% - 16px),
     #4a5d23 calc(100% - 16px),
     #3a4a1c 100%
 ),
-/* Dark metal gradient */
 linear-gradient(180deg,
     #2d3a1f 0%,
     #3d4f2a 15%,
@@ -2203,7 +1854,6 @@ inset -2px 0 5px rgba(0, 0, 0, 0.3),
 -3px 0 8px rgba(0, 0, 0, 0.4),
 -1px 0 4px rgba(0, 0, 0, 0.3);
 }
-
 .more-projects-button span {
     display: block;
     position: relative;
@@ -2217,8 +1867,6 @@ inset -2px 0 5px rgba(0, 0, 0, 0.3),
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-
-/* PROJECTS text overlay on green strip */
 .more-projects-button::before {
     content: 'HLL TOOLS';
     position: absolute;
@@ -2241,27 +1889,20 @@ inset -2px 0 5px rgba(0, 0, 0, 0.3),
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-
-/* Worn edges and metal aging overlay */
 .more-projects-button::after {
     content: '';
     position: absolute;
     inset: 0;
     background:
-/* Worn top edge */
 linear-gradient(180deg, rgba(85, 107, 47, 0.25) 0%, transparent 10%),
-/* Worn bottom edge */
 linear-gradient(0deg, rgba(85, 107, 47, 0.25) 0%, transparent 10%),
-/* Right edge shadow */
 linear-gradient(90deg, rgba(0, 0, 0, 0.2) 0%, transparent 20%),
-/* Metal aging spots */
 radial-gradient(ellipse at 25% 20%, rgba(107, 142, 35, 0.35) 0%, transparent 35%),
 radial-gradient(ellipse at 75% 80%, rgba(107, 142, 35, 0.3) 0%, transparent 30%);
     pointer-events: none;
     border-radius: 0 8px 8px 0;
     z-index: 2;
 }
-
 [data-mode="full"] .more-projects-button:hover,
 [data-mode="full"] .more-projects-button:active,
 [data-mode="full"] .more-projects-button:focus {
@@ -2297,13 +1938,10 @@ inset -2px 0 5px rgba(0, 0, 0, 0.2),
 -5px 0 9px rgba(0, 0, 0, 0.3),
 -2px 0 4px rgba(0, 0, 0, 0.25);
 }
-
 [data-mode="full"] .more-projects-button.extended {
     left: calc(50% - 310px) !important;
     top: calc(50% - 455px) !important;
 }
-
-/* Field Manual Bookmark - Classified Document Page Tab */
 .select-info-button {
     position: absolute;
     left: calc(50% + 340px - 17px);
@@ -2317,9 +1955,7 @@ inset -2px 0 5px rgba(0, 0, 0, 0.2),
     align-items: center;
     justify-content: center;
     background: 
-/* Paper texture noise */
 url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E"),
-/* Paper lines */
 repeating-linear-gradient(
     90deg,
     transparent 0px,
@@ -2328,14 +1964,12 @@ repeating-linear-gradient(
     rgba(160, 147, 122, 0.15) 41px,
     transparent 42px
 ),
-/* CLASSIFIED red bookmark strip - right edge (solid, no bevel) */
 linear-gradient(90deg, 
     transparent 0%,
     transparent calc(100% - 16px),
     #8b1a1a calc(100% - 16px),
     #8b1a1a 100%
 ),
-/* Aged paper gradient */
 linear-gradient(180deg, 
     #f5f1e8 0%,
     #e8e0d0 15%,
@@ -2382,7 +2016,6 @@ inset -2px 0 4px rgba(0, 0, 0, 0.1),
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-/* CLASSIFIED text overlay on red bookmark strip */
 .select-info-button::before {
     content: 'CLASSIFIED';
     position: absolute;
@@ -2409,26 +2042,20 @@ inset -2px 0 4px rgba(0, 0, 0, 0.1),
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-/* Worn edges and paper aging overlay */
 .select-info-button::after {
     content: '';
     position: absolute;
     inset: 0;
     background: 
-/* Worn top edge */
 linear-gradient(180deg, rgba(169, 157, 139, 0.25) 0%, transparent 10%),
-/* Worn bottom edge */
 linear-gradient(0deg, rgba(169, 157, 139, 0.25) 0%, transparent 10%),
-/* Right edge shadow (book binding) */
 linear-gradient(90deg, rgba(0, 0, 0, 0.15) 0%, transparent 20%),
-/* Paper aging spots */
 radial-gradient(ellipse at 25% 20%, rgba(184, 167, 146, 0.35) 0%, transparent 35%),
 radial-gradient(ellipse at 75% 80%, rgba(184, 167, 146, 0.3) 0%, transparent 30%);
     pointer-events: none;
     border-radius: 0 8px 8px 0;
     z-index: 2;
 }
-/* Hover state - slides up */
 .select-info-button:hover {
     left: calc(50% + 380px - 17px);
     top: calc(50% - 455);
@@ -2443,7 +2070,6 @@ repeating-linear-gradient(
     rgba(160, 147, 122, 0.2) 41px,
     transparent 42px
 ),
-/* CLASSIFIED red bookmark strip - right edge (preserved in hover) */
 linear-gradient(90deg, 
     transparent 0%,
     transparent calc(100% - 16px),
@@ -2465,7 +2091,6 @@ inset -2px 0 5px rgba(0, 0, 0, 0.12),
 -5px 0 9px rgba(0, 0, 0, 0.25),
 -2px 0 4px rgba(0, 0, 0, 0.2);
 }
-/* Active state - stays at hover position when clicked */
 .select-info-button:active,
 .select-info-button:focus {
     left: calc(50% + 380px - 17px);
@@ -2477,12 +2102,10 @@ inset -2px 0 5px rgba(0, 0, 0, 0.12),
 -5px 0 9px rgba(0, 0, 0, 0.25),
 -2px 0 4px rgba(0, 0, 0, 0.2);
 }
-/* Extended state - button stays extended when modal is open */
 .select-info-button.extended {
     left: calc(50% + 380px - 17px) !important;
     top: calc(50% - 475px) !important;
 }
-/* Rivets on dropdown */
 .select-selected::after {
     content: '';
     position: absolute;
@@ -2581,7 +2204,6 @@ repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(100, 100, 100
     background-color: #1a1a1a;
     background-image: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
 }
-/* Tank specifications panel - Armored style */
 .tank-specs-panel {
     position: relative;
     background:
@@ -2660,7 +2282,6 @@ repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(100, 100, 100
     transform: translateY(1px);
     margin-right: 4px;
 }
-/* Info icon and modal styles - Classified theme */
 .info-icon {
     display: inline-flex;
     align-items: center;
@@ -2717,7 +2338,6 @@ inset 0 0 100px rgba(139, 105, 20, 0.1);
     display: flex;
     flex-direction: column;
 }
-/* Field Manual Watermark */
 .info-modal-content::before {
     content: 'CLASSIFIED';
     position: absolute;
@@ -2733,7 +2353,6 @@ inset 0 0 100px rgba(139, 105, 20, 0.1);
     pointer-events: none;
     white-space: nowrap;
 }
-/* Paper texture lines */
 .info-modal-content::after {
     content: '';
     position: absolute;
@@ -2746,7 +2365,6 @@ repeating-linear-gradient(0deg, transparent, transparent 25px, rgba(139, 105, 20
     pointer-events: none;
     z-index: 1;
 }
-/* Document header bar with classification */
 .info-modal-header::before {
     content: 'CLASSIFIED';
     position: absolute;
@@ -2770,7 +2388,6 @@ repeating-linear-gradient(0deg, transparent, transparent 25px, rgba(139, 105, 20
     pointer-events: none;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
-/* Document number stamp - moved to bottom of header */
 .info-modal-header::after {
     content: 'DOC-1944-███';
     position: absolute;
@@ -2799,7 +2416,6 @@ repeating-linear-gradient(0deg, transparent, transparent 25px, rgba(139, 105, 20
     position: relative;
     z-index: 2;
 }
-/* Field Manual Text Elements */
 .field-manual-text {
     position: absolute;
     font-family: 'Courier New', monospace;
@@ -2980,7 +2596,6 @@ repeating-linear-gradient(0deg, transparent, transparent 25px, rgba(139, 105, 20
     margin-bottom: 6px;
     line-height: 1.6;
 }
-/* Typewriter note styles - looks like typed annotation */
 .typewriter-note {
     position: relative;
     padding: 12px 16px;
@@ -3075,7 +2690,6 @@ repeating-linear-gradient(0deg, transparent, transparent 25px, rgba(139, 105, 20
     gap: 12px;
     color: #e5e7eb;
 }
-/* Field Manual Specifications Style */
 .field-manual-specs {
     background: rgba(255, 255, 255, 0.5);
     border: 2px solid #8b6914;
@@ -3239,22 +2853,17 @@ inset -1px 1px 0 0 #78716c;
 }
 .faction-image {
     position: relative;
-    /* Fixed dimensions to prevent movement when changing tank types */
     width: 256px;
     height: 256px;
     min-width: 256px;
     min-height: 256px;
     max-width: 256px;
     max-height: 256px;
-    /* Classified military document/note style - aged paper texture */
     background: 
-/* Subtle noise texture for paper feel */
 url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E"),
-/* Aged paper stains/spots effect - weathered document */
 radial-gradient(ellipse at 15% 75%, rgba(30, 25, 20, 0.5) 0%, transparent 45%),
 radial-gradient(ellipse at 85% 25%, rgba(25, 20, 15, 0.4) 0%, transparent 40%),
 radial-gradient(ellipse at 50% 50%, rgba(20, 15, 10, 0.3) 0%, transparent 60%),
-/* Subtle document texture lines */
 repeating-linear-gradient(
     0deg,
     transparent,
@@ -3262,24 +2871,19 @@ repeating-linear-gradient(
     rgba(0, 0, 0, 0.15) 20px,
     rgba(0, 0, 0, 0.15) 21px
 ),
-/* Base aged paper texture - darker document colors */
 linear-gradient(145deg, #1a1815 0%, #151310 30%, #0f0e0c 70%, #1a1815 100%);
     padding: 8px;
-    /* Slight rotation for casual document placement */
     transform: rotate(-1.5deg);
-    /* Shadow for document on surface */
     box-shadow: 
 0 0 0 1px rgba(60, 50, 40, 0.5),
 3px 5px 12px rgba(0, 0, 0, 0.8),
 inset 0 0 20px rgba(0, 0, 0, 0.3);
-    /* Document-style border - uniform thickness */
     border: 2px solid #2a2520;
     border-radius: 0;
     isolation: isolate;
     z-index: 30;
     position: relative;
 }
-/* Red CLASSIFIED stamp - top right corner */
 .faction-image .postcard-stamp {
     position: absolute;
     top: 12px;
@@ -3300,10 +2904,8 @@ inset 0 0 20px rgba(0, 0, 0, 0.3);
     box-shadow: 
 1px 1px 3px rgba(0, 0, 0, 0.6),
 inset 0 0 2px rgba(0, 0, 0, 0.2);
-    /* Distressed/worn stamp effect */
     filter: contrast(1.15) brightness(0.95);
 }
-/* Document text overlay - bottom of note */
 .faction-image .postcard-coords {
     position: absolute;
     bottom: 8px;
@@ -3321,7 +2923,6 @@ inset 0 0 2px rgba(0, 0, 0, 0.2);
     border-radius: 0;
     text-align: left;
 }
-/* Document text overlay - bottom right */
 .faction-image::after {
     content: "";
     white-space: pre;
@@ -3340,19 +2941,14 @@ inset 0 0 2px rgba(0, 0, 0, 0.2);
 .faction-image img#factionImage {
     position: relative;
     z-index: 1;
-    /* Vintage document photo effect - blend with aged paper */
     filter: sepia(0.15) contrast(1.1) brightness(0.95);
-    /* Transparent background so document texture shows through */
     background: transparent;
-    /* Make it look like a photo embedded in the document */
     mix-blend-mode: normal;
-    /* Ensure consistent sizing - fixed dimensions to prevent movement */
     width: 100%;
     height: 100%;
     object-fit: contain;
     object-position: center;
 }
-/* Info icon next to faction selector */
 .stat-badge {
     position: absolute;
     background: #27272a;
@@ -3414,18 +3010,14 @@ inset 0 0 2px rgba(0, 0, 0, 0.2);
     object-fit: contain;
     flex-shrink: 0;
 }
-/* Invert vehicle icons in field manual info panel */
-/* Note: _invert_28 images are already inverted, so don't apply filter to them */
 .field-manual-specs .ammo-box img:not([src*="_invert_28"]) {
     filter: invert(1);
 }
-/* Fat marker pen strikethrough for "NO" text */
 .no-weapon-marked {
     position: relative;
     color: #9ca3af;
     display: inline-block;
 }
-/* Long marker stroke across value area only */
 .spec-row.no-weapon-row {
     position: relative;
 }
@@ -3605,7 +3197,6 @@ inset 0 0 20px rgba(139, 105, 20, 0.05),
 0 0 0 1px rgba(139, 105, 20, 0.1);
     padding: 3px;
 }
-/* Vintage paper texture with WWII film grain */
 .screenshot-item::before {
     content: '';
     position: absolute;
@@ -3614,9 +3205,7 @@ inset 0 0 20px rgba(139, 105, 20, 0.05),
     right: 0;
     bottom: 0;
     background: 
-/* WWII film grain overlay */
 url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)' opacity='0.4'/%3E%3C/svg%3E"),
-/* Paper texture lines */
 repeating-linear-gradient(
     0deg,
     transparent,
@@ -3636,7 +3225,6 @@ repeating-linear-gradient(
     opacity: 0.7;
     mix-blend-mode: overlay;
 }
-/* Aged corner effect */
 .screenshot-item::after {
     content: '';
     position: absolute;
@@ -3667,7 +3255,6 @@ inset 0 0 25px rgba(139, 105, 20, 0.08),
     filter: grayscale(100%) contrast(1.1);
     transition: filter 0.3s ease;
 }
-/* Vintage WWII film grain overlay for thumbnails */
 .screenshot-item img::after {
     content: '';
     position: absolute;
@@ -3752,7 +3339,6 @@ inset 0 0 30px rgba(139, 105, 20, 0.1);
     visibility: hidden !important;
     display: none !important;
 }
-/* Hide image by default - only show when explicitly ready */
 .screenshot-lightbox picture img {
     opacity: 0;
     transition: opacity 0.2s ease;
@@ -3760,11 +3346,9 @@ inset 0 0 30px rgba(139, 105, 20, 0.1);
 .screenshot-lightbox picture img.ready {
     opacity: 1;
 }
-/* Ensure picture element is hidden when switching */
 .screenshot-lightbox picture.switching {
     display: none !important;
 }
-/* Vintage photo frame effect */
 .screenshot-lightbox img::before {
     content: '';
     position: absolute;
@@ -3776,7 +3360,6 @@ inset 0 0 30px rgba(139, 105, 20, 0.1);
     pointer-events: none;
     z-index: 1;
 }
-/* Vintage WWII film grain overlay for lightbox images */
 .screenshot-lightbox img::after {
     content: '';
     position: absolute;
@@ -3814,11 +3397,11 @@ inset 0 0 30px rgba(139, 105, 20, 0.1);
     stroke-width: 2.5;
 }
 .screenshot-lightbox-close:hover {
-    background-color: rgba(185, 28, 28, 0.8); /* Muted red warning */
+    background-color: rgba(185, 28, 28, 0.8);
     border-color: rgba(220, 38, 38, 0.5);
     color: white;
     box-shadow: 0 0 15px rgba(220, 38, 38, 0.4);
-    transform: scale(1.1); /* Subtle grow instead of rotate */
+    transform: scale(1.1);
 }
 .nav-zone-left,
 .nav-zone-right {
@@ -3832,7 +3415,6 @@ inset 0 0 30px rgba(139, 105, 20, 0.1);
     align-items: center;
     justify-content: center;
     transition: background-color 0.2s;
-    /* Prevent image selection when clicking zones */
     user-select: none;
 }
 .nav-zone-left {
@@ -3846,11 +3428,11 @@ inset 0 0 30px rgba(139, 105, 20, 0.1);
     background-color: rgba(255, 255, 255, 0.03);
 }
 .nav-arrow {
-    color: rgba(255, 255, 255, 0.75); /* Much brighter */
-    font-size: 48px; /* Larger */
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 48px;
     opacity: 1; 
     transition: all 0.2s;
-    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.6); /* Stronger shadow */
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
 }
 .nav-zone-left:hover .nav-arrow,
 .nav-zone-right:hover .nav-arrow {
@@ -3858,7 +3440,7 @@ inset 0 0 30px rgba(139, 105, 20, 0.1);
     transform: scale(1.2);
 }
 /* ============================================
-   VIEW TOGGLE COMPONENT - Unified Full/Lite Switch
+   VIEW TOGGLE COMPONENT -  Full/Lite Switch
    ============================================ */
 .view-toggle {
     display: inline-flex;
@@ -3922,7 +3504,7 @@ inset 0 0 30px rgba(139, 105, 20, 0.1);
     cursor: default;
 }
 /* ============================================
-   LAYOUT UTILITIES - Replacing inline styles
+   LAYOUT UTILITIES
    ============================================ */
 .fixed-top-right {
     position: fixed;
@@ -4030,7 +3612,7 @@ inset 0 0 30px rgba(139, 105, 20, 0.1);
     min-width: 52px;
 }
 /* ============================================
-   MODE-SPECIFIC STYLES (data-mode on body)
+   MODE-SPECIFIC STYLES
    ============================================ */
 [data-mode="lite"] .mode-full-only {
     display: none !important;
@@ -4042,11 +3624,9 @@ inset 0 0 30px rgba(139, 105, 20, 0.1);
 [data-mode="mobile"] .mode-lite-only {
     display: none !important;
 }
-/* Lite mode specific styles */
 [data-mode="lite"] .container {
     max-width: 765px;
 }
-/* Lite mode minimalistic toggles */
 .lite-toggles-row {
     display: flex;
     justify-content: center;
@@ -4111,7 +3691,6 @@ inset 0 0 30px rgba(139, 105, 20, 0.1);
     background: #7a9a7a;
     transform: translateX(16px);
 }
-/* Lite mode field row spacing for consistent vertical alignment */
 [data-mode="lite"] .distance-box {
     display: flex;
     flex-direction: column;
@@ -4125,7 +3704,6 @@ inset 0 0 30px rgba(139, 105, 20, 0.1);
     margin-bottom: 0;
     line-height: 1.2;
 }
-/* Simple box layout for lite mode input elements */
 [data-mode="lite"] .lite-field-panel {
     background: linear-gradient(180deg, #252525 0%, #1a1a1a 100%);
     border: 2px solid #3a3a3a;
@@ -4147,7 +3725,6 @@ inset 0 0 30px rgba(139, 105, 20, 0.1);
 [data-mode="lite"] .lite-field-label strong {
     font-weight: normal;
 }
-/* Lite mode height diff row and calc button */
 .lite-height-diff-row,
 .lite-calc-button-row {
     transition: all 0.3s ease;
@@ -4378,7 +3955,7 @@ inset 0 6px 16px rgba(0, 0, 0, 0.9),
     object-fit: contain;
 }
 /* ============================================
-   ACCESSIBILITY IMPROVEMENTS
+   ACCESSIBILITY
    ============================================ */
 main {
     display: block;
@@ -4425,7 +4002,7 @@ label {
     font-family: 'Courier New', monospace;
 }
 /* ============================================
-   COMPACT WARNING ICON (New Design)
+   WARNING ICON
    ============================================ */
 .warning-compact-wrapper {
     position: absolute;
@@ -4490,7 +4067,6 @@ transform: translate(-50%, -50%) scale(1.5);
 opacity: 0;
     }
 }
-/* Compact warning banner when expanded */
 .warning-compact-wrapper .warning-container {
     position: absolute;
     top: 55px;
@@ -4586,7 +4162,6 @@ inset 0 1px 2px rgba(0, 0, 0, 0.1);
     transform-origin: center center !important;
     box-sizing: border-box !important;
 }
-/* Inner counters must also be centered as a group */
 [data-mode="lite"] .mechanical-counter,
 [data-mode="lite"] .mil-static-counter {
     margin: 0 !important;
@@ -4610,7 +4185,6 @@ inset 0 1px 2px rgba(0, 0, 0, 0.1);
 [data-mode="lite"] .mt-4 {
     margin-top: 0 !important;
 }
-/* Result info row - used in both full and lite modes */
 .result-info-row {
     display: flex;
     flex-direction: row;
@@ -4631,32 +4205,26 @@ inset 0 1px 2px rgba(0, 0, 0, 0.1);
     margin: 0;
     white-space: nowrap;
 }
-/* Keep result lines inline on desktop */
 .result-info-text p .result-line {
     display: inline;
 }
-/* Result label - default full mode styling */
 .result-label {
     font-size: 0.9rem;
     color: #c2b280;
     display: block;
 }
-/* Desktop shows desktop-only, hides mobile-only */
 .desktop-only {
     display: block;
 }
 .mobile-only {
     display: none;
 }
-
-/* Version Footer */
 .version-footer {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 8px;
 }
-
 .version-links {
     display: inline-flex;
     align-items: center;
@@ -4664,24 +4232,19 @@ inset 0 1px 2px rgba(0, 0, 0, 0.1);
     gap: 6px;
     flex-wrap: wrap;
 }
-
 .version-links a {
     text-decoration: none;
     color: inherit;
     pointer-events: auto;
     transition: opacity 0.2s ease;
 }
-
 .version-links a:hover {
     opacity: 0.7;
 }
-
 .version-separator {
     opacity: 0.5;
     user-select: none;
 }
-
-/* Desktop Ko-fi Button */
 .desktop-kofi-button {
     display: inline-flex;
     align-items: center;
@@ -4704,13 +4267,11 @@ inset 0 1px 2px rgba(0, 0, 0, 0.1);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
     will-change: transform;
 }
-
 .desktop-kofi-button:hover,
 .desktop-kofi-button:active {
     background: #6a9af0;
     transform: translateY(-2px);
 }
-
 .desktop-kofi-icon {
     width: 24px;
     height: 24px;
@@ -4720,15 +4281,12 @@ inset 0 1px 2px rgba(0, 0, 0, 0.1);
     image-rendering: auto;
     animation: kofi-idle 3s ease-in-out 2s infinite;
 }
-
 @keyframes kofi-idle {
     0%, 80%, 100% { transform: rotate(0deg); }
     85% { transform: rotate(-10deg); }
     90% { transform: rotate(8deg); }
     95% { transform: rotate(-4deg); }
 }
-
-/* Help icon button styling */
 .help-icon {
     width: 16px;
     height: 16px;
@@ -4758,14 +4316,12 @@ inset 0 1px 2px rgba(0, 0, 0, 0.1);
     color: #000;
     transform: scale(0.92);
 }
-/* Lite mode result label */
 [data-mode="lite"] .result-label {
     font-size: 0.75rem;
     color: #c2b280;
     margin-bottom: 4px;
     margin-top: 4px;
 }
-/* Lite mode adjustments */
 [data-mode="lite"] .result-info-row {
     flex-direction: row;
     flex-wrap: wrap;
@@ -4816,46 +4372,37 @@ inset 0 1px 2px rgba(0, 0, 0, 0.1);
     margin-bottom: 15px;
     display: block;
 }
-/* Hide compact tank image on desktop (shown on mobile only) */
 .faction-image-compact {
     display: none;
 }
-/* Desktop warning icon positioning - inside panel-section */
 @media screen and (min-width: 769px) {
     .panel-section.mode-full-only {
         position: relative;
         display: block;
         padding: 10px;
     }
-    /* Reduce outer padding on desktop */
     main.container.mx-auto.px-4.py-8 {
         padding-top: 1rem;
         padding-bottom: 0.5rem;
     }
-    /* Reduce title margin */
     .text-center.mb-8 {
         margin-bottom: 0.5rem;
     }
-    /* Reduce version display top margin */
     .text-xs.text-gray-500.text-center.mt-4 {
         margin-top: 0.25rem;
         margin-bottom: 0;
     }
-    /* Remove min-height to allow content to fit */
     .min-h-screen {
         min-height: auto !important;
     }
-    /* Pull version text closer to panel */
     #version-display {
         margin-top: -5px;
         margin-bottom: 0;
     }
-    /* Remove margin from version container */
     .text-xs.text-gray-500.text-center.mt-4 {
         margin-top: 0 !important;
         margin-bottom: 0 !important;
     }
-    /* Toggle panel (first panel) - remove top padding */
     .panel-section.mode-full-only:has(#heightDiffToggleContainer) {
         padding-top: 0 !important;
     }
@@ -4865,11 +4412,9 @@ inset 0 1px 2px rgba(0, 0, 0, 0.1);
         right: 0px;
         z-index: 10001;
     }
-    /* Hide mobile warning on desktop */
     .warning-mobile-position {
         display: none !important;
     }
-    /* Position Auto Calculation toggle on the right side of panel */
     .panel-section.mode-full-only .armored-toggle.mode-full-only {
         position: absolute !important;
         right: 20px !important;
@@ -4877,11 +4422,9 @@ inset 0 1px 2px rgba(0, 0, 0, 0.1);
         transform: translateY(-50%) !important;
         padding-top: 94px;
     }
-    /* Add padding-top to height diff toggle on desktop */
     .panel-section.mode-full-only #heightDiffToggleContainer {
         padding-top: 94px;
     }
-    /* Make heightRedSection and toggle panel same height */
     #heightRedSection {
         height: 100px;
     }
@@ -4890,7 +4433,6 @@ inset 0 1px 2px rgba(0, 0, 0, 0.1);
     }
 }
 @media screen and (max-width: 768px) {
-    /* Mobile - Basic layout adjustments */
     body {
 background-color: #101012;
 background-image:
@@ -4905,7 +4447,6 @@ background-attachment: scroll;
     body::before {
 display: none;
     }
-    /* Hide more projects button on mobile */
     .more-projects-button {
         display: none !important;
     }
@@ -4913,12 +4454,10 @@ display: none;
 padding-top: 0.5rem;
 padding-bottom: 0.5rem;
     }
-    /* Title adjustments */
     h1.text-4xl {
 font-size: 1.1rem;
 line-height: 1.5rem;
     }
-    /* Center the main container */
     main.container.mx-auto.px-4.py-8 {
 width: 100% !important;
 max-width: 100% !important;
@@ -4928,7 +4467,6 @@ padding-left: 16px !important;
 padding-right: 16px !important;
 box-sizing: border-box !important;
     }
-    /* Main card adjustments */
     #calculator-card {
 max-width: 100% !important;
 width: 100% !important;
@@ -4937,7 +4475,6 @@ margin-left: auto !important;
 margin-right: auto !important;
 box-sizing: border-box !important;
     }
-    /* Panel section mobile - make flex container for reordering */
     .panel-section,
     .panel-section.mode-full-only {
 overflow: visible;
@@ -4946,7 +4483,6 @@ display: flex;
 flex-direction: column;
 align-items: center;
     }
-    /* Toggles row container - centered closer together */
     .panel-section > div[style*="display: flex"] {
 order: 2;
 display: flex !important;
@@ -4957,7 +4493,6 @@ flex-wrap: wrap;
 gap: 0;
 min-height: auto !important;
     }
-    /* Auto calc toggle mobile - side by side */
     .panel-section .armored-toggle.mode-full-only {
 position: static;
 order: 0;
@@ -4966,7 +4501,6 @@ width: auto;
 display: flex;
 justify-content: center;
     }
-    /* Height diff toggle mobile - side by side */
     .panel-section .armored-toggle.height-diff-toggle-left {
 position: static !important;
 left: auto !important;
@@ -4977,46 +4511,37 @@ width: auto;
 display: flex;
 justify-content: center;
     }
-    /* Auto calc toggle - remove inline positioning */
     .panel-section .armored-toggle.mode-full-only {
 position: static !important;
 right: auto !important;
 top: auto !important;
 margin: 15px 10px 0 10px;
     }
-    /* Smaller toggle labels for mobile */
     .panel-section .armored-toggle .armored-toggle-label {
 font-size: 0.65rem;
     }
-    /* Distance controls with label inside - single unit */
     .distance-controls {
 order: 2;
 margin-top: 2px !important;
 width: 100%;
     }
-    /* Height red section mobile */
     #heightRedSection {
 padding: 12px 10px 12px 10px !important;
 margin-bottom: 0;
     }
-    /* Tank selection label mobile */
     #tankSelectionSection label {
 margin-bottom: 0;
     }
-    /* Tank specs panel mobile */
     #milRangeText {
 margin-bottom: 0;
     }
-    /* Faction selection mobile - stack vertically */
     .flex.items-start.justify-between.gap-4 {
 flex-direction: column;
     }
-    /* Override inline max-width with multiple selector attempts */
     .max-width-calc,
     div.max-width {
 max-width: none !important;
     }
-    /* Force parent containers to allow full width */
     #tankSelectionSection {
 max-width: none !important;
 width: 100% !important;
@@ -5046,17 +4571,14 @@ min-width: 40px;
 min-height: 40px;
 font-size: 1.2rem;
     }
-    /* Distance controls mobile */
     .distance-controls {
 flex-wrap: wrap;
 gap: 4px;
 margin-bottom: 0;
     }
-    /* Terrain elevation controls row margin */
     .flex-center.gap-10.mt-auto {
 margin-bottom: 10px;
     }
-    /* Toggle switch mobile - smaller */
     .armored-toggle-switch {
 width: 44px;
 height: 22px;
@@ -5076,7 +4598,6 @@ left: 26px;
 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
 border: 1px solid #2a2a2a;
     }
-    /* Mobile button holding state with yellow/black */
     .armored-button.holding {
 transform: scale(0.92);
 background: linear-gradient(145deg, #fbbf24, #f59e0b);
@@ -5087,7 +4608,6 @@ box-shadow:
     0 0 16px rgba(251, 191, 36, 0.8),
     0 0 24px rgba(251, 191, 36, 0.4);
     }
-    /* Mobile calculate button yellow/black press effect - must override hover */
     .armored-calculate.holding,
     .armored-calculate.holding:hover {
 transform: scale(0.92) !important;
@@ -5099,13 +4619,11 @@ box-shadow:
     0 0 20px rgba(251, 191, 36, 0.8),
     0 0 32px rgba(251, 191, 36, 0.4) !important;
     }
-    /* Smaller toggle text labels */
     .panel-section .armored-toggle .toggle-label-off,
     .panel-section .armored-toggle .toggle-label-on {
 font-size: 0.7rem;
 transition: all 0.3s ease;
     }
-    /* Reduce gap between toggle elements */
     .panel-section .armored-toggle > div[style*="gap: 8px"] {
 gap: 4px !important;
     }
@@ -5116,11 +4634,9 @@ padding: 0 20px;
 margin-top: 10px;
 margin-bottom: 10px;
     }
-    /* Calculate button mobile */
     .armored-calculate {
 margin-top: 10px;
     }
-    /* Disable hover effects on mobile */
     .armored-calculate:hover,
     .armored-calculate:hover::before {
 background: linear-gradient(145deg, #4a3f2a, #2f2618);
@@ -5132,7 +4648,6 @@ box-shadow:
     .armored-calculate:hover::before {
 left: -100%;
     }
-    /* Copy/reset buttons mobile - positioned at corners of result div */
     .copy-result-button,
     .reset-result-button {
 width: 32px;
@@ -5147,7 +4662,6 @@ left: 8px;
     .copy-result-button {
 right: 8px;
     }
-    /* Mobile press animations for copy/reset buttons */
     .copy-result-button:active,
     .reset-result-button:active {
 transform: scale(0.92);
@@ -5159,13 +4673,11 @@ box-shadow:
     0 0 12px rgba(251, 191, 36, 0.8),
     0 0 16px rgba(251, 191, 36, 0.4);
     }
-    /* Result section needs relative positioning for absolute buttons */
     .armored-result {
 position: relative;
 padding-top: 15px;
 padding-bottom: 50px;
     }
-    /* Result info row mobile - text only, no buttons in flow */
     .result-info-row {
 display: flex;
 flex-direction: column;
@@ -5182,14 +4694,12 @@ width: 100%;
     .result-label {
 margin-bottom: 0;
     }
-    /* Show/hide desktop/mobile labels */
     .desktop-only {
 display: none;
     }
     .mobile-only {
 display: block;
     }
-    /* Help icon button styling mobile */
     .help-icon {
 width: 18px;
 height: 18px;
@@ -5220,15 +4730,12 @@ border-color: #000;
 color: #000;
 transform: scale(0.92);
     }
-    /* Hide unit text on mobile */
     .unit-text-desktop {
 display: none;
     }
-    /* Hide metal panel on mobile */
     .armored-metal-panel {
 display: none !important;
     }
-    /* Hide rivets on mobile */
     .armored-rivet-small {
 display: none !important;
     }
@@ -5244,16 +4751,13 @@ flex-direction: column;
 gap: 2px;
 line-height: 1.3;
     }
-    /* Stack result lines on mobile */
     .result-info-text p .result-line {
 display: block;
 white-space: nowrap;
     }
-    /* Hide pipe separators on mobile */
     .result-info-text p .pipe-separator {
 display: none;
     }
-    /* Tank info button mobile - Classified document file style */
     .select-info-button {
 position: relative;
 width: 84px;
@@ -5289,7 +4793,6 @@ font-family: 'SpecialElite', 'Courier New', monospace;
 overflow: hidden;
 margin: 0;
     }
-    /* CONFIDENTIAL header bar */
     .select-info-button::before {
 content: 'CONFIDENTIAL';
 position: absolute;
@@ -5311,7 +4814,6 @@ font-weight: bold;
 z-index: 2;
 box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     }
-    /* Document number stamp */
     .select-info-button::after {
 content: 'DOC-███';
 position: absolute;
@@ -5344,7 +4846,6 @@ line-height: 1.15 !important;
 text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
 white-space: pre-line !important;
     }
-    /* Info modal mobile - positioned from top */
     .info-modal-content {
 width: 90%;
 max-width: 95%;
@@ -5379,7 +4880,6 @@ top: 70px !important;
     .field-manual-title {
 top: 45px !important;
     }
-    /* Make panel-section a flex container on mobile */
     .panel-section.mode-full-only {
 display: flex;
 flex-direction: column;
@@ -5390,11 +4890,9 @@ flex-direction: column;
     .panel-section.mode-full-only > div:nth-child(4) {
 order: 0;
     }
-    /* Toggle row - order 1 */
     .panel-section.mode-full-only > div:nth-child(5) {
 order: 1;
     }
-    /* Show mobile warning, hide desktop warning */
     .warning-mobile-position {
         display: none;
         position: relative;
@@ -5404,22 +4902,18 @@ order: 1;
         width: 100%;
         left: 0;
     }
-    /* Move warning icon up on mobile */
     .warning-mobile-position .warning-icon-btn {
         transform: translateY(-65px);
     }
-    /* Show when warning icon is visible */
     .warning-mobile-position:has(.warning-icon-btn:not(.hidden)) {
         display: flex !important;
     }
     .warning-desktop-position {
         display: none !important;
     }
-    /* Distance controls - order 3 */
     .distance-controls {
         order: 3;
     }
-    /* Position warning banner above the icon on mobile */
     .warning-mobile-position .warning-container {
         position: absolute;
         top: -170px;
@@ -5430,12 +4924,10 @@ order: 1;
         width: auto;
         z-index: 101;
     }
-    /* Ensure info modal content is left-aligned on mobile */
     .info-modal-body,
     .info-modal-section {
 text-align: left !important;
     }
-    /* Ensure field-manual-specs content stays inside on mobile */
     .field-manual-specs {
 overflow: hidden;
 overflow-wrap: break-word;
@@ -5532,32 +5024,27 @@ text-align: left !important;
 font-size: 11px !important;
 text-align: left !important;
     }
-    /* Make spec-row borders more visible on mobile */
     .field-manual-specs .spec-row {
 border-bottom: 1px solid #8b6914 !important;
     }
     .field-manual-specs .spec-row:last-of-type {
 border-bottom: 2px solid #8b6914 !important;
     }
-    /* Center typewriter-note divs on mobile */
     .typewriter-note {
 margin-left: auto !important;
 margin-right: auto !important;
     }
-    /* Set margin-top: 0 on info-modal-section on mobile */
     .info-modal-section {
 margin-top: 0 !important;
     }
     .info-modal-section h4 {
 margin-top: 0 !important;
     }
-    /* Lightbox mobile */
     .screenshot-lightbox-img {
 max-width: 85%;
 max-height: 70vh;
 align-self: center !important;
     }
-    /* Mobile tank selection dropdown - responsive and left-aligned */
     #selectSelected,
     .select-selected {
 text-align: left;
@@ -5565,12 +5052,10 @@ justify-content: flex-start;
 width: 100%;
 max-width: 100%;
     }
-    /* Ensure dropdown text truncates properly */
     #selectSelected > span,
     .select-selected > span {
 max-width: 100%;
     }
-    /* Tank selection section on mobile - left aligned */
     #tankSelectionSection,
     .tank-selection-section {
 align-items: stretch;
@@ -5582,29 +5067,23 @@ padding-right: 0;
     .tank-specs-panel .spec-item {
 justify-content: flex-start !important;
     }
-    /* Hide large armored rivets on mobile, keep small rivets */
     .armored-rivet {
 display: none !important;
     }
-    /* Hide view toggle on mobile */
     #viewToggle {
 display: none !important;
     }
-    /* Hide faction image on mobile */
     .faction-image {
 display: none !important;
     }
-    /* Show compact tank image on mobile */
     .faction-image-compact {
 display: flex;
     }
-    /* Only show compact image when inside panel */
     #milRangeText .faction-image-compact,
     .tank-specs-panel .faction-image-compact {
 display: flex !important;
 box-sizing: border-box !important;
     }
-    /* Mobile dropdown - full width with proper positioning */
     .custom-select-wrapper .select-items {
 width: 100%;
 max-width: 100%;
@@ -5613,7 +5092,6 @@ right: 0;
 position: absolute;
 box-sizing: border-box;
     }
-    /* Show tank specs toggle button on mobile */
     #tankSpecsToggle.tank-specs-toggle,
     .tank-specs-toggle {
 display: flex;
@@ -5656,36 +5134,25 @@ border-left: 6px solid transparent;
 border-right: 6px solid transparent;
 border-top: 6px solid #c2b280;
     }
-
-/* More Projects Box - Using exact info-modal structure for correct z-index */
 #moreProjectsBox.info-modal {
     display: none;
 }
-
 #moreProjectsBox.info-modal:not(.hidden) {
     display: block !important;
 }
-
-/* Hide CLASSIFIED watermark text for more projects modal */
 #moreProjectsBox .info-modal-content::before {
     display: none !important;
     content: none !important;
 }
-
-/* Hide paper texture lines for more projects modal */
 #moreProjectsBox .info-modal-content::after {
     display: none !important;
     content: none !important;
 }
-
-/* Hide header pseudo-elements for more projects modal */
 #moreProjectsBox .info-modal-header::before,
 #moreProjectsBox .info-modal-header::after {
     display: none !important;
     content: none !important;
 }
-
-/* Remove red classified header styling for more projects modal */
 #moreProjectsBox .info-modal-header {
     background: transparent !important;
     border: none !important;
@@ -5693,19 +5160,14 @@ border-top: 6px solid #c2b280;
     padding: 20px !important;
     min-height: auto !important;
 }
-
-/* Add rounded corners to modal content */
 #moreProjectsBox .info-modal-content {
     border-radius: 12px !important;
     background-color: #15171e !important;
     background-image: none !important;
 }
-
-/* Arrow points UP when panel is collapsed (closed), indicating click to expand */
     .tank-specs-toggle.collapsed #tankSpecsToggleIcon {
 transform: translateY(-40%) rotate(0deg) !important;
     }
-    /* Connect panel to toggle button - unified styling */
     #milRangeText.tank-specs-panel,
     #milRangeText,
     .tank-specs-panel {
@@ -5723,22 +5185,18 @@ max-width: 100% !important;
 box-sizing: border-box !important;
 min-width: 0 !important;
     }
-    /* Remove panel ::before pseudo-element on mobile */
     #milRangeText.tank-specs-panel::before,
     .tank-specs-panel::before {
 display: none !important;
     }
-    /* When panel is collapsed, add bottom border to toggle button */
     .tank-specs-collapsed + .tank-specs-toggle,
     .tank-specs-toggle:has(+ .tank-specs-collapsed) {
 border-bottom: 2px solid #3a3a3a !important;
     }
-    /* When panel is collapsed, show bottom border on hover */
     .tank-specs-collapsed + .tank-specs-toggle:hover,
     .tank-specs-toggle:has(+ .tank-specs-collapsed):hover {
 border-bottom-color: #4a4a4a !important;
     }
-    /* Collapsed state for tank specs panel on mobile */
     .tank-specs-collapsed {
 max-height: 0 !important;
 padding-top: 0 !important;
@@ -5754,7 +5212,6 @@ align-self: center !important;
 box-sizing: border-box !important;
 min-width: 0 !important;
     }
-    /* Position compact tank image at bottom right - dark box style */
     #milRangeText.tank-specs-panel .faction-image-compact,
     #compactImageContainer.faction-image-compact {
 position: absolute !important;
@@ -5773,27 +5230,23 @@ box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
 padding: 4px !important;
 box-sizing: border-box !important;
     }
-    /* Tank image inside the box */
     #milRangeText.tank-specs-panel .faction-image-compact img,
     #compactImageContainer.faction-image-compact img {
 max-width: 100% !important;
 max-height: 100% !important;
 object-fit: contain !important;
     }
-    /* Add bottom padding to panel for positioned elements */
     #milRangeText.tank-specs-panel,
     #milRangeText {
 position: relative !important;
 padding-bottom: 100px !important;
 min-height: 200px !important;
     }
-    /* Remove padding and min-height when panel is collapsed */
     #milRangeText.tank-specs-collapsed,
     #milRangeText.tank-specs-panel.tank-specs-collapsed {
 padding-bottom: 0 !important;
 min-height: 0 !important;
     }
-    /* Position tank info button at bottom left - reset desktop positioning */
     #tankInfoIcon.select-info-button {
 position: absolute !important;
 bottom: 8px !important;
@@ -5822,11 +5275,9 @@ rgba(0, 0, 0, 0.1) 21px
     ),
     linear-gradient(145deg, #f5f0e8 0%, #e8e0d0 30%, #ddd4c5 70%, #f5f0e8 100%) !important;
     }
-    /* Ensure button is visible on mobile - override ALL data-mode hiding */
     body #tankInfoIcon.select-info-button.mode-full-only {
 display: flex !important;
     }
-    /* Mobile override for button ::before - reset desktop classified strip */
     body #tankInfoIcon.select-info-button::before,
     #milRangeText #tankInfoIcon.select-info-button::before {
 content: 'CLASSIFIED' !important;
@@ -5858,7 +5309,6 @@ transform-origin: center !important;
 writing-mode: horizontal-tb !important;
 text-align: center !important;
     }
-    /* Mobile override for button ::after - reset desktop styles */
     body #tankInfoIcon.select-info-button::after,
     #milRangeText #tankInfoIcon.select-info-button::after {
 content: 'DOC-███' !important;
@@ -5878,7 +5328,6 @@ letter-spacing: 0.1em !important;
 z-index: 2 !important;
 opacity: 0.7 !important;
     }
-    /* Mobile HLL Tools Button */
     .mobile-hll-tools-button {
 display: flex !important;
 width: calc(100% - 32px);
@@ -5906,8 +5355,6 @@ transition: all 0.2s ease;
 position: relative;
 overflow: hidden;
     }
-
-    /* Mobile Ko-fi Button (under version) */
     .mobile-kofi-button {
         display: inline-flex !important;
         align-items: center;
@@ -5929,13 +5376,11 @@ overflow: hidden;
         transition: transform 0.2s ease, background 0.2s ease;
         will-change: transform;
     }
-
     .mobile-kofi-button:hover,
     .mobile-kofi-button:active {
         background: #6a9af0;
         transform: translateY(-2px);
     }
-
     .mobile-kofi-icon {
         width: 26px;
         height: 26px;
@@ -5978,7 +5423,6 @@ box-shadow:
 border-color: #6b5110;
     }
 }
-/* Tank specs toggle button - hidden on desktop */
 .tank-specs-toggle {
     display: none;
 }

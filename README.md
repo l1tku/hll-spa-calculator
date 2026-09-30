@@ -1,5 +1,5 @@
 # HLL SPA Calculator
-**v1.6.1 - Updated for Hell Let Loose Update 21**
+**v1.6.3 - Updated for Hell Let Loose Update 21**
 
 A web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let Loose.
 
@@ -16,7 +16,7 @@ A web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let 
 ## Installation & Local Usage
 
 ### Option 1: Live Web Access (Recommended)
-No installation required. Open [HLL Spa Calculator](https://l1tku.github.io/hll-spa-calculator/) in any browser.
+No installation required. Simply visit the [Live Demo Link](https://l1tku.github.io/hll-spa-calculator/) from any desktop or mobile browser.
 
 ### Option 2: Local Development
 1. **Clone** or download this repository.
@@ -28,7 +28,7 @@ No installation required. Open [HLL Spa Calculator](https://l1tku.github.io/hll-
 2. **Set Distance:** Enter target distance (Range varies by vehicle).
 3. **Set Height Difference (optional):** Enter height difference in meters.
 4. **Set Terrain Elevation:** Type the **RED MIL** number you see in your ingame HUD.
-5. **Calculate:** Use the calculated Yellow Elevation setting.
+5. **Calculate:** Use the calculated Elevation setting.
 
 ## Vehicles Supported
 
@@ -53,6 +53,26 @@ The source code (HTML, CSS, JavaScript) of this project is licensed under the **
 > **Note:** The game assets (vehicle images in `/images/tanks`) are **excluded** from this license and remain the intellectual property of their respective owners.
 
 ## Version History
+
+**v1.6.3 - 2026-09-30**
+### Fixed
+- Turret max elevation updated to 466 MIL for Sturmpanzer IV, Sherman M4A3 105, KV-2 and Panzer III Ausf. N. Not in the patch notes — thanks, devs.
+- Enter focus loop now wraps on touchscreen laptops.
+- Tank selection no longer calculates twice in auto mode.
+- F5 reload keeps Lite mode and restores values to both panels.
+- Turret max warning now takes priority over the range warning.
+
+### Removed
+- ~2,856 lines of dead code (main.js 11,672 → 9,062).
+- Lite panel's duplicate faction dropdown and legacy Calculate button.
+- The word "(Yellow)" from the result label.
+
+### Changed
+- Version strings all track this changelog (footer `v1.6.3`, service worker `1.6.3-1`).
+
+**v1.6.2 - 2026-09-24**
+### Removed
+- Cleaned up redundant comments across `index.html`, `service-worker.js` and `dist/styles.css`
 
 **v1.6.1 - 2026-09-23**
 

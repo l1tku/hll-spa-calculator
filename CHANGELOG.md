@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.6.3] - 2026-09-30
+
+### Fixed
+- Turret max elevation updated to 466 MIL for Sturmpanzer IV, Sherman M4A3 105, KV-2 and Panzer III Ausf. N. Not in the patch notes — thanks, devs.
+- Enter focus loop now wraps on touchscreen laptops.
+- Tank selection no longer calculates twice in auto mode.
+- F5 reload keeps Lite mode and restores values to both panels.
+- Turret max warning now takes priority over the range warning.
+
+### Removed
+- ~2,856 lines of dead code (main.js 11,672 → 9,062).
+- Lite panel's duplicate faction dropdown and legacy Calculate button.
+- The word "(Yellow)" from the result label.
+
+### Changed
+- Version strings all track this changelog (footer `v1.6.3`, service worker `1.6.3-1`).
+
+## [1.6.2] - 2026-09-24
+
+### Removed
+- Cleaned up redundant comments across `index.html`, `service-worker.js` and `dist/styles.css`
+
 ## [1.6.1] - 2026-09-23
 
 ### Fixed
