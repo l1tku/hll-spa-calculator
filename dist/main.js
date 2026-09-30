@@ -4,9 +4,11 @@
 
 const HLL_VERSION = {
 
-    appVersion: 'v1.6.3',
+    appVersion: 'v1.6.4',
 
     gamePatch: 'HLL Update 21',
+
+    statsUpdated: '2026-09-30',
 
     author: 'by litku'
 
@@ -657,11 +659,11 @@ const tankInfo = {
 
             yawRate: '7°/s',
 
-            pitchRate: '1°/s',
+            pitchRate: '1.5°/s (27 MIL/s)',
 
-            pitchAngleMin: '-5°',
+            pitchAngleMin: '-5° (-89 MIL)',
 
-            pitchAngleMax: '30°',
+            pitchAngleMax: '26.2° (466 MIL)',
 
             hullHealth: '900',
 
@@ -669,7 +671,7 @@ const tankInfo = {
 
             mobilityHealth: '710',
 
-            engineBlockHealth: '420',
+            engineBlockHealth: '520',
 
             gearSwitchTime: '0.8s',
 
@@ -679,7 +681,7 @@ const tankInfo = {
 
             maxClipsHE: '50',
 
-            maxClipsSmoke: '45',
+            maxClipsSmoke: '35',
 
             apDamage: '1025',
 
@@ -751,11 +753,11 @@ const tankInfo = {
 
             yawRate: '6°/s',
 
-            pitchRate: '1°/s',
+            pitchRate: '1.5°/s (27 MIL/s)',
 
-            pitchAngleMin: '-5°',
+            pitchAngleMin: '-5° (-89 MIL)',
 
-            pitchAngleMax: '30°',
+            pitchAngleMax: '26.2° (466 MIL)',
 
             hullHealth: '890',
 
@@ -763,7 +765,7 @@ const tankInfo = {
 
             mobilityHealth: '700',
 
-            engineBlockHealth: '420',
+            engineBlockHealth: '520',
 
             gearSwitchTime: '1.1s',
 
@@ -773,7 +775,7 @@ const tankInfo = {
 
             maxClipsHE: '50',
 
-            maxClipsSmoke: '45',
+            maxClipsSmoke: '35',
 
             apDamage: '1025',
 
@@ -843,29 +845,27 @@ const tankInfo = {
 
             yawRate: '7°/s',
 
-            pitchRate: '1°/s',
+            pitchRate: '1.5°/s (27 MIL/s)',
 
-            pitchAngleMin: '-5°',
+            pitchAngleMin: '-5° (-89 MIL)',
 
-            pitchAngleMax: '30°',
+            pitchAngleMax: '20° (356 MIL)',
 
-            hullHealth: '910',
+            hullHealth: '1230',
 
-            turretHealth: '830',
+            turretHealth: '1080',
 
-            mobilityHealth: '710',
+            mobilityHealth: '960',
 
-            engineBlockHealth: '430',
+            engineBlockHealth: '630',
 
             gearSwitchTime: '0.8s',
 
             reloadSpeed: '16s',
 
-            maxClipsAP: '20',
+            maxClipsHE: '28',
 
-            maxClipsHE: '50',
-
-            maxClipsSmoke: '45',
+            maxClipsSmoke: '35',
 
             apDamage: '1300',
 
@@ -941,15 +941,15 @@ const tankInfo = {
 
             yawRate: '4°/s',
 
-            pitchRate: '1°/s',
+            pitchRate: '1.5°/s (27 MIL/s)',
 
-            pitchAngleMin: '-5°',
+            pitchAngleMin: '-5° (-89 MIL)',
 
-            pitchAngleMax: '30°',
+            pitchAngleMax: '15° (267 MIL)',
 
-            hullHealth: '910',
+            hullHealth: '880',
 
-            turretHealth: '830',
+            turretHealth: '850',
 
             mobilityHealth: '710',
 
@@ -963,7 +963,7 @@ const tankInfo = {
 
             maxClipsHE: '50',
 
-            maxClipsSmoke: '45',
+            maxClipsSmoke: '35',
 
             apDamage: '1025',
 
@@ -977,7 +977,7 @@ const tankInfo = {
 
             heDamageRadius: '30m',
 
-            munitionsCost: '280',
+            munitionsCost: '240',
 
             maxRange: '800m (can exceed on slopes)'
 
@@ -1025,7 +1025,7 @@ const tankInfo = {
 
             hullGun: 'NO MG DRIVER',
 
-            mainGun: 'StuH 45 L/12 - 50 HE rounds, 35 SMOKE rounds, 20 HEAT rounds',
+            mainGun: 'StuH 43 L/12 - 50 HE rounds, 35 SMOKE rounds, 20 HEAT rounds',
 
             turretRotation: '30° total (15° left and 15° right)',
 
@@ -1035,11 +1035,11 @@ const tankInfo = {
 
             yawRate: '8°/s',
 
-            pitchRate: '1°/s',
+            pitchRate: '1.5°/s (27 MIL/s)',
 
-            pitchAngleMin: '-5°',
+            pitchAngleMin: '-5° (-89 MIL)',
 
-            pitchAngleMax: '30°',
+            pitchAngleMax: '26.2° (466 MIL)',
 
             hullHealth: '910',
 
@@ -1047,7 +1047,7 @@ const tankInfo = {
 
             mobilityHealth: '710',
 
-            engineBlockHealth: '430',
+            engineBlockHealth: '530',
 
             gearSwitchTime: '0.8s',
 
@@ -1057,7 +1057,7 @@ const tankInfo = {
 
             maxClipsHE: '50',
 
-            maxClipsSmoke: '45',
+            maxClipsSmoke: '35',
 
             apDamage: '1025',
 
@@ -1131,11 +1131,11 @@ const tankInfo = {
 
             yawRate: '9°/s',
 
-            pitchRate: '1°/s',
+            pitchRate: '1.5°/s (27 MIL/s)',
 
-            pitchAngleMin: '-5°',
+            pitchAngleMin: '-5° (-89 MIL)',
 
-            pitchAngleMax: '30°',
+            pitchAngleMax: '26.2° (466 MIL)',
 
             hullHealth: '910',
 
@@ -1143,7 +1143,7 @@ const tankInfo = {
 
             mobilityHealth: '710',
 
-            engineBlockHealth: '430',
+            engineBlockHealth: '530',
 
             gearSwitchTime: '0.8s',
 
@@ -1153,9 +1153,9 @@ const tankInfo = {
 
             maxClipsHE: '50',
 
-            maxClipsSmoke: '45',
+            maxClipsSmoke: '35',
 
-            apDamage: '690',
+            apDamage: '640',
 
             apDirectArmor: 'Medium',
 
@@ -7131,6 +7131,15 @@ function showTankInfo() {
 
 // Function to format numeric values with units
 
+// Pitch angle display: degrees stay highlighted, trailing "(xxx MIL)" is muted
+function formatPitchAngle(value) {
+    if (!value) return '';
+    const m = /^(.*?)\s*(\([^)]*\))$/.exec(value);
+    if (!m) return `<span class="highlight-number">${value}</span>`;
+    return `<span class="highlight-number">${m[1]}</span> <span style="color: #000000;">${m[2]}</span>`;
+}
+
+
         function formatNumericValue(value) {
 
             if (!value) return '';
@@ -7199,7 +7208,7 @@ function showTankInfo() {
 
                         <div class="spec-title">VEHICLE STATS</div>
 
-                        <div class="spec-subtitle">Operational Data</div>
+                        <div class="spec-subtitle">Operational Data · Updated ${HLL_VERSION.statsUpdated}</div>
 
                     </div>
 
@@ -7273,7 +7282,7 @@ function showTankInfo() {
 
                             <div class="spec-label">PITCH RATE:</div>
 
-                            <div class="spec-value">${formatNumericValue(info.stats.pitchRate)}</div>
+                            <div class="spec-value">${formatPitchAngle(info.stats.pitchRate)}</div>
 
                         </div>
 
@@ -7285,7 +7294,7 @@ function showTankInfo() {
 
                             <div class="spec-label">PITCH ANGLE RANGE:</div>
 
-                            <div class="spec-value">${formatNumericValue(info.stats.pitchAngleMin)} <span style="color: #000000;">to</span> ${formatNumericValue(info.stats.pitchAngleMax)}</div>
+                            <div class="spec-value">${formatPitchAngle(info.stats.pitchAngleMin)} <span style="color: #000000;">to</span> ${formatPitchAngle(info.stats.pitchAngleMax)}</div>
 
                         </div>
 

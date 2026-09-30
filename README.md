@@ -1,5 +1,5 @@
 # HLL SPA Calculator
-**v1.6.3 - Updated for Hell Let Loose Update 21**
+**v1.6.4 - Updated for Hell Let Loose Update 21**
 
 A web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let Loose.
 
@@ -53,6 +53,13 @@ The source code (HTML, CSS, JavaScript) of this project is licensed under the **
 > **Note:** The game assets (vehicle images in `/images/tanks`) are **excluded** from this license and remain the intellectual property of their respective owners.
 
 ## Version History
+
+**v1.6.4 - 2026-09-30**
+### Fixed
+- Field Manual munitions cost for Bishop SP corrected from 280 to 240
+- Field Manual stats corrected from the game files (datamine, not in any patch notes), all six SPAs: pitch rate 1°/s → 1.5°/s, smoke 45 → 35, elevation field 30° → 26.2°/15°/20°
+- Engine/hull healths raised to current values (Bishop 910/830 → 880/850, AVRE → 1230/1080/960/630), Dustbin clips 50 → 28, Panzer III AT 690 → 640
+- Pitch fields now also show MIL (e.g. `-5° (-89 MIL)`, `1.5°/s (27 MIL/s)`)
 
 **v1.6.3 - 2026-09-30**
 ### Fixed
