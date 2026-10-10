@@ -42,8 +42,11 @@ No installation required. Open [HLL SPA Calculator](https://l1tku.github.io/hll-
 
 ## Credits
 
-Early SPA research: the Reddit author of the "HLL SPA true calculator" (GitHub:
-Balmontogustangodungagloboguntu). Current engine: our own research + measurements.
+Early SPA research: u/Extension_Lake6664 — Reddit post
+["HLL SPA true max range (2000m+ shots) and general data"](https://www.reddit.com/r/HellLetLoose/comments/1tiqksn/hll_spa_true_max_range_2000m_shots_and_general/)
+and the ["HLL-SPA-true-calculator"](https://github.com/Balmontogustangodungagloboguntu/HLL-SPA-true-calculator)
+([GitHub: Balmontogustangodungagloboguntu](https://github.com/Balmontogustangodungagloboguntu)).
+Current engine: our own research + measurements.
 
 ## Disclaimer & Copyright
 
