@@ -43,13 +43,7 @@ No installation required. Open [HLL SPA Calculator](https://l1tku.github.io/hll-
 ## Credits
 
 Early SPA research: the Reddit author of the "HLL SPA true calculator" (GitHub:
-Balmontogustangodungagloboguntu) - including the hull-tilt pitch insight. The current
-engine grew out of deep research into the game's ballistics internals (solver, flight,
-tail law) plus hundreds of in-game measurement shots. His tables have since been
-re-measured: the past-cap tail is curved, not linear (905 m, not 1039, at 800 MIL),
-Bishop's linear fits overestimate on flat ground (~2463 m; his ~2930 fits a deep downhill
-shot), and his height rule only fits one impact angle. This calculator runs on the
-research + measurements.
+Balmontogustangodungagloboguntu). Current engine: our own research + measurements.
 
 ## Disclaimer & Copyright
 
