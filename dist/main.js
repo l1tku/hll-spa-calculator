@@ -17,7 +17,7 @@ const HLL_VERSION = {
 
 
 // ============================================
-// OLD INGAME ARTILLERY DATA TABLES
+// INGAME ARTILLERY DATA TABLES
 // ============================================
 
 const tables = {};
