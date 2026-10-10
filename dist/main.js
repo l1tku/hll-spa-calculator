@@ -68,10 +68,10 @@ tables['US (Sherman M4A3 105)'] = {
 
 
 // ============================================
-// SPA SOLVE ENGINE (validated 2026-10-10)
-// Measured rows + physical tail law + exact target-height term.
-// The `tables` maps above are the game's own HUD display rows, kept as reference;
-// the SOLVE uses the measured sets below (our in-game measurements, world-keyed).
+// SPA SOLVE ENGINE
+// measured rows + tail law + height term.
+// the tables above are just reference, the solve uses the rows below.
+
 // ============================================
 
 const SPA_SOLVE = {};
@@ -122,8 +122,8 @@ SPA_SOLVE['British (Bishop SP)'] = {
 const SPA_G = 9.8;
 const SPA_MIL_DEG = 0.05625;
 
-// Forward solve: mil -> metres. Piecewise-linear between measured rows;
-// past the last row the physical tail law (zero fitted parameters):
+// forward: mil -> metres
+// rows + tail law past the last row
 //   I(t) = 5*cos(t) + C*sin(2t),  C = (maxM - 5*cos(cap)) / (1.005 * sin(2*cap))
 function spaForwardMeters(key, mil) {
     const d = SPA_SOLVE[key];
@@ -147,8 +147,8 @@ function spaForwardMeters(key, mil) {
     return last[1] + I(th) - I(thTop);
 }
 
-// Exact target-height term (heightM = target above gun level, metres).
-// Difference form keeps the row-baked muzzle height consistent.
+// height correction: heightM = target height above gun (m)
+
 function spaHeightDeltaMeters(key, mil, heightM) {
     if (!heightM) return 0;
     const d = SPA_SOLVE[key];
@@ -170,7 +170,7 @@ function spaHeightDeltaMeters(key, mil, heightM) {
     return land(heightM) - land(0);
 }
 
-// Inverse solve: target distance (+ optional height) -> world mil.
+// inverse: distance (+ height) -> world mil
 function spaInverseMils(key, meters, heightM) {
     const height = heightM || 0;
     const f = (mil) => spaForwardMeters(key, mil) + spaHeightDeltaMeters(key, mil, height) - meters;
@@ -1391,7 +1391,7 @@ const lowRangeAnchors = new Map([
 
 function interpolate(table, meters) {
 
-    // Validated solve (2026-10-10): measured rows + tail law, inverse for distance -> mil.
+    // measured engine
     const solveKey = Object.keys(tables).find((k) => tables[k] === table);
     if (solveKey && SPA_SOLVE[solveKey]) {
         const mil = spaInverseMils(solveKey, meters, 0);
@@ -2715,7 +2715,7 @@ function simulateSpaImpactDistanceMeters(table, mil, terrainSlope) {
 
 function computeHeightDiffMils(baseMil, distanceMeters, heightDiffMeters, table) {
 
-    // Validated solve (2026-10-10): exact landing equation via the measured engine.
+    // measured engine
     const solveKey = Object.keys(tables).find((k) => tables[k] === table);
     if (solveKey && SPA_SOLVE[solveKey]) {
         const world = spaInverseMils(solveKey, distanceMeters, heightDiffMeters);
@@ -5657,7 +5657,7 @@ if (heightDiffToggleCheckbox) {
 
                 if (!isNaN(numValue)) {
 
-                    /* terrain elevation input is unbounded - the engine clamps at the shell's apex */
+                    /* no cap on height */
 
                 }
 
@@ -5806,7 +5806,7 @@ if (heightDiffToggleCheckbox) {
 
                 if (!isNaN(numValue)) {
 
-                    /* unbounded - apex clamp in the engine */
+                    /* no cap on height */
 
                 }
 
@@ -6328,7 +6328,7 @@ function syncInputValue(sourceInput, targetIds) {
 
 
 
-// Enter key loop: terrain elevation -> height (if shown) -> target distance -> calculate -> loop
+// Enter: terrain -> height -> distance -> calculate -> loop
 (function setupEnterLoop() {
     function visibleEl(id) {
         for (const key of [id, id + 'Lite']) {
@@ -6351,7 +6351,7 @@ function syncInputValue(sourceInput, targetIds) {
                 const next = visibleEl('redNumber');
                 if (next) next.focus();
             } else {
-                // auto calc OFF: step onto the CALCULATE button (Enter presses it)
+                // auto calc off: go to the CALCULATE button
                 const btn = document.getElementById('calculateButton');
                 const liteBtn = document.getElementById('calculateButtonLite');
                 const target = (liteBtn && liteBtn.offsetParent !== null) ? liteBtn
@@ -6370,7 +6370,7 @@ function syncInputValue(sourceInput, targetIds) {
         });
     });
 
-    // Enter (or Space) on the CALCULATE button runs it, then loops back to terrain elevation
+    // Enter on CALCULATE runs it, then back to terrain elevation
     ['calculateButton', 'calculateButtonLite'].forEach(id => {
         const btn = document.getElementById(id);
         if (btn) btn.addEventListener('keydown', function(e) {
