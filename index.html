@@ -59,6 +59,61 @@
             font-weight: normal;
             font-style: normal;
         }
+        /* version stamp - centered with the title, zero layout height */
+        .title-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        .version-stamp {
+            flex: none;
+            position: relative;
+            margin: -12px 0;
+            width: 54px;
+            height: 54px;
+            border: 3px solid #E56B4A;
+            border-radius: 50%;
+            box-shadow: inset 0 0 0 2px rgba(229, 107, 74, 0.22);
+            transform: rotate(-11deg);
+            opacity: 0.92;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            color: #E56B4A;
+        }
+        .version-stamp::before {
+            content: "";
+            position: absolute;
+            inset: 5px;
+            border: 1px dashed rgba(229, 107, 74, 0.7);
+            border-radius: 50%;
+        }
+        @media (max-width: 560px) {
+            .title-wrap {
+                gap: 8px;
+            }
+            .title-wrap h1 {
+                font-size: clamp(17px, 6.4vw, 28px);
+                white-space: nowrap;
+                letter-spacing: normal;
+            }
+            .version-stamp {
+                width: 38px;
+                height: 38px;
+                margin: -6px 0;
+                border-width: 2px;
+                font-size: 13px;
+                letter-spacing: 0;
+            }
+            .version-stamp::before {
+                inset: 3px;
+            }
+        }
         #moreProjectsBox .info-modal-header::before,
         #moreProjectsBox .info-modal-header::after {
             display: none !important;
@@ -275,12 +330,15 @@
             </div>
 
             <div class="text-center mb-8">
-                <h1 class="text-4xl font-bold dog-tags">HLL SPA Calculator</h1>
-                <p class="text-sm mt-1 text-gray" style="margin-bottom: 0;">Self-Propelled Artillery Calculator <span style="white-space: nowrap;">for Hell Let Loose</span></p>
+                <div class="title-wrap">
+                    <h1 class="text-4xl font-bold dog-tags">HLL SPA Calculator</h1>
+                    <div class="version-stamp" aria-label="Version 2.0">2.0</div>
+                </div>
+                <p class="text-sm mt-1 text-gray" style="margin-bottom: 0;">Accurate Self-Propelled Artillery Calculator <span style="white-space: nowrap;">for Hell Let Loose</span></p>
             </div>
 
             <button id="moreProjectsBtn" class="more-projects-button mode-full-only" aria-label="View HLL Tools">
-                <span>PROJECT HUB</span>
+                <span>CLICK ME!</span>
             </button>
 
             <div class="armored-panel-container text-center relative z-20" id="calculator-card">
@@ -381,11 +439,14 @@
                         </div>
                     </div>
                     <div class="distance-controls" style="display: flex; flex-direction: column; align-items: center; gap: 5px; margin-top: 5px;">
-                        <label for="distance" style="text-align: center;">Target Distance (M)</label>
+                        <div style="display: flex; align-items: center; gap: 4px;">
+                            <label for="redNumber" style="text-align: center;">Terrain Elevation (MIL)</label>
+                            <button class="help-icon mobile-only" onclick="alert('Terrain Elevation (MIL)\n\nEnter exactly what your RED MIL HUD shows\n\n- downhill/nose-down (negative value)\n+ uphill/nose-up (positive value)\n\nLIMIT: -356 to +356 MIL. This is the game\'s 20-degree hull-tilt firing gate - past it the game refuses to fire, so a real shot can never show more.')" aria-label="Terrain elevation help">?</button>
+                        </div>
                         <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
-                            <button class="armored-button" aria-label="Decrease distance">-</button>
-                            <input type="text" inputmode="decimal" pattern="[0-9]*" id="distance" value="400" tabindex="1" class="armored-input" aria-label="Target distance in meters">
-                            <button class="armored-button" aria-label="Increase distance">+</button>
+                            <button class="armored-button" aria-label="Decrease terrain elevation">-</button>
+                            <input type="text" inputmode="decimal" pattern="[0-9]*" id="redNumber" value="0" tabindex="1" class="armored-input" aria-label="Terrain elevation in MIL">
+                            <button class="armored-button" aria-label="Increase terrain elevation">+</button>
                         </div>
                     </div>
                 </div>
@@ -427,13 +488,13 @@
                         <div class="lite-field-panel distance-panel">
                             <div class="distance-box">
                                 <div class="lite-field-label distance-label">
-                                    <strong>Target Distance</strong>
-                                    <span>(M)</span>
+                                    <strong>Terrain Elevation</strong>
+                                    <span class="distance-subtext">(MIL)</span>
                                 </div>
                                 <div class="lite-field-controls distance-controls">
-                                    <button class="armored-button w-52 h-52" tabindex="-1" data-field="distance" data-delta="-1" aria-label="Decrease distance">-</button>
-                                    <input type="text" id="distanceLite" value="400" class="armored-input w-90 h-52" inputmode="numeric" pattern="[0-9]*" tabindex="1" aria-label="Target distance in meters">
-                                    <button class="armored-button w-52 h-52" tabindex="-1" data-field="distance" data-delta="1" aria-label="Increase distance">+</button>
+                                    <button class="armored-button w-52 h-52" tabindex="-1" data-field="redNumber" data-delta="-1" aria-label="Decrease terrain elevation">-</button>
+                                    <input type="text" id="redNumberLite" value="0" class="armored-input w-90 h-52" inputmode="numeric" pattern="[0-9]*" tabindex="1" aria-label="Terrain elevation in MIL">
+                                    <button class="armored-button w-52 h-52" tabindex="-1" data-field="redNumber" data-delta="1" aria-label="Increase terrain elevation">+</button>
                                 </div>
                             </div>
                         </div>
@@ -459,13 +520,13 @@
                         <div class="lite-field-panel distance-panel">
                             <div class="distance-box">
                                 <div class="lite-field-label distance-label">
-                                    <strong>Terrain Elevation</strong>
-                                    <span class="distance-subtext">(MIL)</span>
+                                    <strong>Target Distance</strong>
+                                    <span>(M)</span>
                                 </div>
                                 <div class="lite-field-controls distance-controls">
-                                    <button class="armored-button w-52 h-52" tabindex="-1" data-field="redNumber" data-delta="-1" aria-label="Decrease terrain elevation">-</button>
-                                    <input type="text" id="redNumberLite" value="0" class="armored-input w-90 h-52" inputmode="numeric" pattern="[0-9]*" tabindex="3" aria-label="Terrain elevation in MIL">
-                                    <button class="armored-button w-52 h-52" tabindex="-1" data-field="redNumber" data-delta="1" aria-label="Increase terrain elevation">+</button>
+                                    <button class="armored-button w-52 h-52" tabindex="-1" data-field="distance" data-delta="-1" aria-label="Decrease distance">-</button>
+                                    <input type="text" id="distanceLite" value="400" class="armored-input w-90 h-52" inputmode="numeric" pattern="[0-9]*" tabindex="3" aria-label="Target distance in meters">
+                                    <button class="armored-button w-52 h-52" tabindex="-1" data-field="distance" data-delta="1" aria-label="Increase distance">+</button>
                                 </div>
                             </div>
                         </div>
@@ -486,7 +547,7 @@
                             <div class="flex-shrink-0 mb-5">
                                 <div style="display: flex; align-items: center; gap: 4px; justify-content: center; margin-top: 10px;">
                                     <label for="heightDiff">Height Difference <span class="unit-text-desktop">(M)</span></label>
-                                    <button class="help-icon mobile-only" onclick="alert('Height Difference (Meters)\n\nEnter the height difference between target and gun\n\n- target lower than gun (negative value)\n+ target higher than gun (positive value)\n\nThis input is optional and can be toggled off.')" aria-label="Height difference help">?</button>
+                                    <button class="help-icon mobile-only" onclick="alert('HEIGHT DIFFERENCE\n\nTell the calculator how high or low the target is, and it corrects the aim so the shell lands on it.\n\n+ number = target is HIGHER than you\n- number = target is LOWER than you\n\nLeave it at 0 for flat ground.')" aria-label="Height difference help">?</button>
                                 </div>
                             </div>
                             <div class="flex-center gap-10 mt-auto">
@@ -495,17 +556,16 @@
                                 <button class="armored-button" aria-label="Increase height difference">+</button>
                             </div>
                         </div>
-                        <div class="flex-col terrain-elevation-column" id="terrainElevationColumn">
+                        <div class="flex-col terrain-elevation-column" id="distanceColumn">
                             <div class="flex-shrink-0 mb-5">
                                 <div style="display: flex; align-items: center; gap: 4px; justify-content: center; margin-top: 10px;">
-                                    <label for="redNumber">Terrain Elevation <span class="unit-text-desktop">(MIL)</span></label>
-                                    <button class="help-icon mobile-only" onclick="alert('Terrain Elevation (MIL)\n\nEnter exactly what your RED MIL HUD shows\n\n- downhill/nose-down (negative value)\n+ uphill/nose-up (positive value)')" aria-label="Terrain elevation help">?</button>
+                                    <label for="distance">Target Distance <span class="unit-text-desktop">(M)</span></label>
                                 </div>
                             </div>
                             <div class="flex-center gap-10 mt-auto">
-                                <button class="armored-button" aria-label="Decrease terrain elevation">-</button>
-                                <input type="text" inputmode="decimal" pattern="[0-9]*" id="redNumber" value="0" tabindex="3" class="armored-input" aria-label="Terrain elevation in MIL">
-                                <button class="armored-button" aria-label="Increase terrain elevation">+</button>
+                                <button class="armored-button" aria-label="Decrease distance">-</button>
+                                <input type="text" inputmode="decimal" pattern="[0-9]*" id="distance" value="400" tabindex="3" class="armored-input" aria-label="Target distance in meters">
+                                <button class="armored-button" aria-label="Increase distance">+</button>
                             </div>
                         </div>
                     </div>
@@ -541,7 +601,7 @@
                 </div>
 
                 <button id="mobileHllToolsBtn" class="mobile-hll-tools-button mobile-only" aria-label="View more HLL Tools">
-                    <span>More HLL Tools</span>
+                    <span>MORE HLL TOOLS</span>
                 </button>
             </div>
 
@@ -653,7 +713,7 @@
             <div class="screw-pan-head screw-bottom-left"></div>
             <div class="screw-pan-head screw-bottom-right"></div>
             <div class="info-modal-header" style="background: transparent !important; border: none !important;">
-                <h3 id="moreProjectsTitle">OTHER PROJECTS</h3>
+                <h3 id="moreProjectsTitle">HLL TOOLS</h3>
                 <button class="info-modal-close" id="closeMoreProjects" aria-label="Close">&times;</button>
             </div>
             <div class="info-modal-body">
@@ -692,7 +752,7 @@
 
     <script>
         if ('serviceWorker' in navigator) {
-            const SERVICE_WORKER_VERSION = '1.6.4';
+            const SERVICE_WORKER_VERSION = '1.6.5';
             const isLocalhost =
                 location.hostname === 'localhost' ||
                 location.hostname === '127.0.0.1' ||

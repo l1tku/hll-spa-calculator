@@ -4,11 +4,11 @@
 
 const HLL_VERSION = {
 
-    appVersion: 'v1.6.4',
+    appVersion: 'v2.0.0',
 
     gamePatch: 'HLL Update 21',
 
-    statsUpdated: '2026-09-30',
+    statsUpdated: '2026-10-10',
 
     author: 'by litku'
 
@@ -66,6 +66,132 @@ tables['US (Sherman M4A3 105)'] = {
 };
 
 
+
+// ============================================
+// SPA SOLVE ENGINE (validated 2026-10-10)
+// Measured rows + physical tail law + exact target-height term.
+// The `tables` maps above are the game's own HUD display rows, kept as reference;
+// the SOLVE uses the measured sets below (our in-game measurements, world-keyed).
+// ============================================
+
+const SPA_SOLVE = {};
+
+SPA_SOLVE['US (Sherman M4A3 105)'] = {
+    rows: [[-89,23],[-50,35],[-16,55],[5,75],[25,101],[40,122],[55,145],[70,168],[85,194],
+           [100,221],[116,241],[166,311],[233,406],[300,507],[366,598],
+           [400,644],[424,676],[448,702],[466,719]],
+    tail: { maxM: 600, capDeg: 20.6 }, hmM: 1.46, turretMil: [-89, 466]
+};
+
+SPA_SOLVE['Soviet Union (KV-2)'] = {
+    rows: [[-89,22],[-50,35],[-16,55],[5,75],[25,99],[40,122],[55,143],[70,168],[85,191],
+           [99,217],[116,241],[166,311],[233,406],[300,507],[367,601],
+           [403,648],[426,676],[451,703],[466,720]],
+    tail: { maxM: 600, capDeg: 20.6 }, hmM: 1.34, turretMil: [-89, 466]
+};
+
+SPA_SOLVE[sturmpanzerKey] = {
+    rows: [[-89,18],[-50,29],[-16,48],[5,67],[25,92],[40,115],[55,139],[70,164],[85,190],
+           [100,218],[117,237],[188,311],[260,387],[331,466],[364,500],[366,508],
+           [398,535],[422,557],[446,585],[464,600]],
+    tail: { maxM: 500, capDeg: 20.6 }, hmM: 1.52, turretMil: [-89, 466]
+};
+
+SPA_SOLVE['DAK (Panzer III Ausf.N)'] = {
+    rows: [[-87,18],[-49,28],[-14,48],[7,68],[25,92],[41,114],[51,131],[58,142],[66,153],
+           [74,168],[82,181],[90,196],[98,211],[106,222],[113,228],[120,237],[129,242],
+           [137,251],[146,264],[153,272],[163,282],[170,289],[203,324],[252,377],
+           [302,430],[353,486],[403,539],[453,591],[469,605]],
+    tail: { maxM: 500, capDeg: 20.6 }, hmM: 1.04, turretMil: [-89, 466]
+};
+
+SPA_SOLVE['British (Churchill AVRE)'] = {
+    rows: [[-89,17],[-20,35],[10,48],[82,98],[100,114],[110,124],[120,132],[131,142],
+           [141,150],[152,161],[162,171],[173,179],[183,189],[194,197],[204,206],[215,217],
+           [225,225],[235,234],[246,245],[256,255],[281,274],[301,293],[330,315],[345,326],[356,334]],
+    tail: { maxM: 250, capDeg: 14.42 }, hmM: 0.94, turretMil: [-89, 356]
+};
+
+SPA_SOLVE['British (Bishop SP)'] = {
+    rows: [[-89,19],[-50,32],[-16,61],[5,100],[25,148],[40,194],[50,232],[58,278],[65,304],
+           [73,338],[81,381],[89,424],[97,459],[105,500],[112,535],[120,573],[128,611],
+           [136,655],[144,695],[151,730],[159,769],[167,810],[200,955],[267,1238]],
+    tail: { maxM: 800, capDeg: 9.4 }, hmM: 1.64, turretMil: [-89, 267]
+};
+
+const SPA_G = 9.8;
+const SPA_MIL_DEG = 0.05625;
+
+// Forward solve: mil -> metres. Piecewise-linear between measured rows;
+// past the last row the physical tail law (zero fitted parameters):
+//   I(t) = 5*cos(t) + C*sin(2t),  C = (maxM - 5*cos(cap)) / (1.005 * sin(2*cap))
+function spaForwardMeters(key, mil) {
+    const d = SPA_SOLVE[key];
+    if (!d) return NaN;
+    const rows = d.rows;
+    if (mil <= rows[0][0]) return rows[0][1];
+    const last = rows[rows.length - 1];
+    if (mil <= last[0]) {
+        for (let i = 0; i < rows.length - 1; i++) {
+            const m1 = rows[i][0], r1 = rows[i][1];
+            const m2 = rows[i + 1][0], r2 = rows[i + 1][1];
+            if (mil <= m2) return r1 + (mil - m1) / (m2 - m1) * (r2 - r1);
+        }
+    }
+    const rad = (deg) => deg * Math.PI / 180;
+    const th = rad(mil * SPA_MIL_DEG);
+    const thTop = rad(last[0] * SPA_MIL_DEG);
+    const thCap = rad(d.tail.capDeg);
+    const C = (d.tail.maxM - 5 * Math.cos(thCap)) / (1.005 * Math.sin(2 * thCap));
+    const I = (t) => 5 * Math.cos(t) + C * Math.sin(2 * t);
+    return last[1] + I(th) - I(thTop);
+}
+
+// Exact target-height term (heightM = target above gun level, metres).
+// Difference form keeps the row-baked muzzle height consistent.
+function spaHeightDeltaMeters(key, mil, heightM) {
+    if (!heightM) return 0;
+    const d = SPA_SOLVE[key];
+    const R = spaForwardMeters(key, mil);
+    const thDeg = mil * SPA_MIL_DEG;
+    const rad = thDeg * Math.PI / 180;
+    const sinF = Math.sin(rad), cosF = Math.cos(rad);
+    if (Math.abs(sinF) < 1e-4 || Math.abs(cosF) < 1e-4) return 0;
+    const thSpeed = Math.max(thDeg, 2.8) * Math.PI / 180;
+    const rSpawn = Math.max(R - 5 * cosF, 1);
+    const v2 = SPA_G * rSpawn / (2.01 * Math.sin(thSpeed) * Math.cos(thSpeed));
+    if (!(v2 > 0)) return 0;
+    const v = Math.sqrt(v2), vx = v * cosF, vy0 = v * sinF;
+    const land = (dh) => {
+        const D = d.hmM + 5 * sinF - dh;
+        const disc = Math.max(0, vy0 * vy0 + 2 * SPA_G * D);
+        return 5 * cosF + vx * (vy0 + Math.sqrt(disc)) / SPA_G;
+    };
+    return land(heightM) - land(0);
+}
+
+// Inverse solve: target distance (+ optional height) -> world mil.
+function spaInverseMils(key, meters, heightM) {
+    const height = heightM || 0;
+    const f = (mil) => spaForwardMeters(key, mil) + spaHeightDeltaMeters(key, mil, height) - meters;
+    let lo = -89, hi = 800;
+    const fLo = f(lo), fHi = f(hi);
+    if (!Number.isFinite(fLo) || !Number.isFinite(fHi)) return NaN;
+    if (fLo >= 0) return lo;
+    if (fHi <= 0) return hi;
+    for (let i = 0; i < 60; i++) {
+        const mid = (lo + hi) * 0.5;
+        const fMid = f(mid);
+        if (!Number.isFinite(fMid)) return NaN;
+        if (fMid < 0) lo = mid; else hi = mid;
+        if (hi - lo < 1e-4) break;
+    }
+    return (lo + hi) * 0.5;
+}
+
+// ============================================
+// END SPA SOLVE ENGINE
+// ============================================
 
 // ============================================
 // TANK DATA ARRAY
@@ -655,7 +781,7 @@ const tankInfo = {
 
             coaxial: 'M1919 .30 cal - 200 rounds × 6 magazines',
 
-            topSpeed: '24 km/h',
+            topSpeed: '25 km/h',
 
             yawRate: '7°/s',
 
@@ -749,7 +875,7 @@ const tankInfo = {
 
             coaxial: 'NO COAXIAL',
 
-            topSpeed: '23 km/h',
+            topSpeed: '22 km/h',
 
             yawRate: '6°/s',
 
@@ -953,7 +1079,7 @@ const tankInfo = {
 
             mobilityHealth: '710',
 
-            engineBlockHealth: '430',
+            engineBlockHealth: '530',
 
             gearSwitchTime: '0.8s',
 
@@ -1031,7 +1157,7 @@ const tankInfo = {
 
             coaxial: 'NO COAXIAL GUN',
 
-            topSpeed: '24 km/h',
+            topSpeed: '23 km/h',
 
             yawRate: '8°/s',
 
@@ -1127,7 +1253,7 @@ const tankInfo = {
 
             coaxial: 'MG34 7.92mm - 200 rounds × 6 magazines',
 
-            topSpeed: '24 km/h',
+            topSpeed: '26 km/h', // Note: not confirmed, but likely around 26 km/h
 
             yawRate: '9°/s',
 
@@ -1264,6 +1390,13 @@ const lowRangeAnchors = new Map([
 ].filter(([table]) => !!table));
 
 function interpolate(table, meters) {
+
+    // Validated solve (2026-10-10): measured rows + tail law, inverse for distance -> mil.
+    const solveKey = Object.keys(tables).find((k) => tables[k] === table);
+    if (solveKey && SPA_SOLVE[solveKey]) {
+        const mil = spaInverseMils(solveKey, meters, 0);
+        return Number.isFinite(mil) ? mil : NaN;
+    }
 
     // Filter out minMil and maxMil properties, only use distance keys
 
@@ -1425,21 +1558,18 @@ function updateMilRangeText() {
         const rangeMax = distances[distances.length - 1] || 0;
 
         const physicalRangeOverrides = {
-            'US (Sherman M4A3 105)': `~25m - ${rangeMax}m`,
-            'DAK (Panzer III Ausf.N)': `~24m - ${rangeMax}m`
+            'US (Sherman M4A3 105)': '~23m - 905m',
+            'DAK (Panzer III Ausf.N)': '~18m - 757m',
+            'British (Bishop SP)': '~19m - 2317m',
+            'British (Churchill AVRE)': '~17m - 506m',
+            'Soviet Union (KV-2)': '~22m - 906m'
         };
 
         if (sturmpanzerKey) {
 
-            physicalRangeOverrides[sturmpanzerKey] = `~24m - ${rangeMax}m`;
+            physicalRangeOverrides[sturmpanzerKey] = '~18m - 756m';
 
         }
-
-        physicalRangeOverrides['British (Bishop SP)'] = `~20m - ${rangeMax}m`;
-
-        physicalRangeOverrides['British (Churchill AVRE)'] = `~22m - ${rangeMax}m`;
-
-        physicalRangeOverrides['Soviet Union (KV-2)'] = `~25m - ${rangeMax}m`;
 
         const rangeDisplay = physicalRangeOverrides[faction] || (rangeMin > 100 ? `<${rangeMin}m - ${rangeMax}m` : `${rangeMin}m - ${rangeMax}m`);
 
@@ -1981,15 +2111,15 @@ function adjustValue(fieldId, delta) {
 
     if (fieldId === 'distance') {
 
-        newValue = Math.max(0, Math.min(1000, newValue));
+        newValue = Math.max(0, Math.min(2500, newValue));
 
     } else if (fieldId === 'redNumber') {
 
-        newValue = Math.max(-1000, Math.min(1000, newValue));
+        newValue = Math.max(-356, Math.min(356, newValue));
 
     } else if (fieldId === 'heightDiff') {
 
-        newValue = Math.max(-5000, Math.min(5000, newValue));
+        newValue = newValue;
 
     }
 
@@ -2584,6 +2714,14 @@ function simulateSpaImpactDistanceMeters(table, mil, terrainSlope) {
 
 
 function computeHeightDiffMils(baseMil, distanceMeters, heightDiffMeters, table) {
+
+    // Validated solve (2026-10-10): exact landing equation via the measured engine.
+    const solveKey = Object.keys(tables).find((k) => tables[k] === table);
+    if (solveKey && SPA_SOLVE[solveKey]) {
+        const world = spaInverseMils(solveKey, distanceMeters, heightDiffMeters);
+        const flat = spaInverseMils(solveKey, distanceMeters, 0);
+        if (Number.isFinite(world) && Number.isFinite(flat)) return world - flat;
+    }
 
     const x = distanceMeters;
 
@@ -3673,9 +3811,11 @@ function calculate() {
 
     }
 
-    const minDist = Math.min(...Object.keys(table).filter(k => k !== 'minMil' && k !== 'maxMil').map(Number));
+    const solveKeyForRanges = Object.keys(tables).find(k => tables[k] === table);
+    const solveDataForRanges = solveKeyForRanges ? SPA_SOLVE[solveKeyForRanges] : null;
+    const minDist = solveDataForRanges ? solveDataForRanges.rows[0][1] : Math.min(...Object.keys(table).filter(k => k !== 'minMil' && k !== 'maxMil').map(Number));
 
-    const maxDist = Math.max(...Object.keys(table).filter(k => k !== 'minMil' && k !== 'maxMil').map(Number));
+    const maxDist = solveDataForRanges ? Math.max(spaForwardMeters(solveKeyForRanges, 800), ...solveDataForRanges.rows.map(r => r[1])) : Math.max(...Object.keys(table).filter(k => k !== 'minMil' && k !== 'maxMil').map(Number));
 
 
 
@@ -3691,7 +3831,7 @@ function calculate() {
 
 // Calculate final elevation: base plus height difference (converted to mils) minus tank body angle
 
-    const usePhysicsHeightCorrection = USE_PHYSICS_HEIGHT_CORRECTION && (distance > minDist) && (distance < maxDist);
+    const usePhysicsHeightCorrection = true; // measured solve covers the full span (low band + tail)
 
     let heightDiffMils = usePhysicsHeightCorrection
 
@@ -5453,9 +5593,9 @@ if (heightDiffToggleCheckbox) {
 
                         finalValue = 0;
 
-                    } else if (numValue > 1000) {
+                    } else if (numValue > 2500) {
 
-                        finalValue = 1000;
+                        finalValue = 2500;
 
                     }
 
@@ -5497,14 +5637,10 @@ if (heightDiffToggleCheckbox) {
 
                 if (!isNaN(numValue)) {
 
-                    if (numValue < -1000) {
-
-                        this.value = '-1000';
-
-                    } else if (numValue > 1000) {
-
-                        this.value = '1000';
-
+                    if (numValue < -356) {
+                        this.value = '-356';
+                    } else if (numValue > 356) {
+                        this.value = '356';
                     }
 
                 }
@@ -5521,15 +5657,7 @@ if (heightDiffToggleCheckbox) {
 
                 if (!isNaN(numValue)) {
 
-                    if (numValue < -5000) {
-
-                        this.value = '-5000';
-
-                    } else if (numValue > 5000) {
-
-                        this.value = '5000';
-
-                    }
+                    /* terrain elevation input is unbounded - the engine clamps at the shell's apex */
 
                 }
 
@@ -5657,7 +5785,7 @@ if (heightDiffToggleCheckbox) {
 
                     if (numValue < 0) cleaned = '0';
 
-                    else if (numValue > 1000) cleaned = '1000';
+                    else if (numValue > 2500) cleaned = '2500';
 
                 }
 
@@ -5667,9 +5795,8 @@ if (heightDiffToggleCheckbox) {
 
                 if (!isNaN(numValue)) {
 
-                    if (numValue < -1000) cleaned = '-1000';
-
-                    else if (numValue > 1000) cleaned = '1000';
+                    if (numValue < -356) { cleaned = '-356'; }
+                    else if (numValue > 356) { cleaned = '356'; }
 
                 }
 
@@ -5679,9 +5806,7 @@ if (heightDiffToggleCheckbox) {
 
                 if (!isNaN(numValue)) {
 
-                    if (numValue < -5000) cleaned = '-5000';
-
-                    else if (numValue > 5000) cleaned = '5000';
+                    /* unbounded - apex clamp in the engine */
 
                 }
 
@@ -6133,6 +6258,29 @@ if (calcButtonLiteEl) calcButtonLiteEl.addEventListener('keydown', navigateFocus
 
 
 
+const INPUT_LIMITS = { distance: [0, 2500], redNumber: [-356, 356], heightDiff: [-1000, 1000] };
+
+function clampTypedValue(input, id) {
+    const v = parseFloat(input.value);
+    if (!Number.isFinite(v)) return false;
+    const limits = INPUT_LIMITS[id];
+    let r = Math.round(v);
+    if (limits) {
+        if (r < limits[0]) r = limits[0];
+        else if (r > limits[1]) r = limits[1];
+    }
+    if (input.value !== String(r)) { input.value = String(r); return true; }
+    return false;
+}
+
+function sanitizeTypedValue(input) {
+    const raw = input.value;
+    let cleaned = raw.replace(/[^0-9\-]/g, '');
+    if (cleaned.includes('-')) cleaned = '-' + cleaned.replace(/-/g, '');
+    if (cleaned !== raw) { input.value = cleaned; return true; }
+    return false;
+}
+
 // Sync input values between full and lite modes (bidirectional)
 
 function syncInputValue(sourceInput, targetIds) {
@@ -6162,15 +6310,79 @@ function syncInputValue(sourceInput, targetIds) {
     document.querySelectorAll('input#' + id + ', input#' + id + 'Lite').forEach(input => {
 
         input.addEventListener('input', function() {
-
+            const sanitized = sanitizeTypedValue(this);
             syncInputValue(this, [id]);
-
+            if (sanitized && isAutoCalcEnabled()) calculate();
+        });
+        input.addEventListener('change', function() {
+            const clamped = clampTypedValue(this, id);
+            if (clamped) {
+                syncInputValue(this, [id]);
+                if (isAutoCalcEnabled()) calculate();
+            }
         });
 
     });
 
 });
 
+
+
+// Enter key loop: terrain elevation -> height (if shown) -> target distance -> calculate -> loop
+(function setupEnterLoop() {
+    function visibleEl(id) {
+        for (const key of [id, id + 'Lite']) {
+            const el = document.getElementById(key);
+            if (el && el.offsetParent !== null) return el;
+        }
+        return null;
+    }
+    function enterAdvance(fromId) {
+        if (fromId.startsWith('redNumber')) {
+            const next = visibleEl('heightDiff') || visibleEl('distance');
+            if (next) next.focus();
+        } else if (fromId.startsWith('heightDiff')) {
+            const next = visibleEl('distance');
+            if (next) next.focus();
+        } else if (fromId.startsWith('distance')) {
+            const autoOn = typeof isAutoCalcEnabled === 'function' ? isAutoCalcEnabled() : true;
+            if (autoOn) {
+                calculate();
+                const next = visibleEl('redNumber');
+                if (next) next.focus();
+            } else {
+                // auto calc OFF: step onto the CALCULATE button (Enter presses it)
+                const btn = document.getElementById('calculateButton');
+                const liteBtn = document.getElementById('calculateButtonLite');
+                const target = (liteBtn && liteBtn.offsetParent !== null) ? liteBtn
+                    : ((btn && btn.offsetParent !== null) ? btn : (btn || liteBtn));
+                if (target) target.focus();
+            }
+        }
+    }
+    ['redNumber', 'redNumberLite', 'heightDiff', 'heightDiffLite', 'distance', 'distanceLite'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                enterAdvance(this.id);
+            }
+        });
+    });
+
+    // Enter (or Space) on the CALCULATE button runs it, then loops back to terrain elevation
+    ['calculateButton', 'calculateButtonLite'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) btn.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                setTimeout(() => {
+                    const next = visibleEl('redNumber');
+                    if (next) next.focus();
+                }, 0);
+            }
+        });
+    });
+})();
 
 
 // Set initial label text

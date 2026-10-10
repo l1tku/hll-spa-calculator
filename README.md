@@ -1,10 +1,11 @@
 # HLL SPA Calculator
-**v1.6.4 - Updated for Hell Let Loose Update 21**
+**v2.0.0 - Updated for Hell Let Loose Update 21**
 
-A web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let Loose.
+A Precise web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let Loose.
 
 ## Features
 
+- **Precise Ballistics:** Built on deep research into the game's ballistics internals (solver behaviour, flight and tail physics) validated by our own in-game measurements of every vehicle
 - **Multi-Vehicle Support:** Accurate formulas for all SPA vehicles.
 - **Auto-Calculation:** Toggle auto-calculation on or off.
 - **Height Calculation:** Toggle height calculation on or off.
@@ -39,6 +40,17 @@ No installation required. Open [HLL SPA Calculator](https://l1tku.github.io/hll-
 - **DAK:** Panzer III Ausf.N
 - **Germany:** Sturmpanzer IV (Brummbar)
 
+## Credits
+
+Early SPA research: the Reddit author of the "HLL SPA true calculator" (GitHub:
+Balmontogustangodungagloboguntu) - including the hull-tilt pitch insight. The current
+engine grew out of deep research into the game's ballistics internals (solver, flight,
+tail law) plus hundreds of in-game measurement shots. His tables have since been
+re-measured: the past-cap tail is curved, not linear (905 m, not 1039, at 800 MIL),
+Bishop's linear fits overestimate on flat ground (~2463 m; his ~2930 fits a deep downhill
+shot), and his height rule only fits one impact angle. This calculator runs on the
+research + measurements.
+
 ## Disclaimer & Copyright
 
 This project is a community-made tool and is **not** affiliated with, endorsed by, or sponsored by Team17, Cover 6 Studios, or Black Matter.
@@ -53,6 +65,10 @@ The source code (HTML, CSS, JavaScript) of this project is licensed under the **
 > **Note:** The game assets (vehicle images in `/images/tanks`) are **excluded** from this license and remain the intellectual property of their respective owners.
 
 ## Version History
+
+**v1.6.5 - 2026-10-02**
+### Fixed
+- Bishop SP engine health 430 → 530
 
 **v1.6.4 - 2026-09-30**
 ### Fixed

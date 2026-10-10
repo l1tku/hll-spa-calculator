@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.0.0] - 2026-10-10
+
+### Changed
+- New calculation engine: all six SPAs solve from our own in-game measurements (full span,
+  -89 MIL to the past-cap tail) with exact ballistics - physical tail law and per-vehicle
+  height correction. Old display tables kept as reference only.
+- Input limits match the game: distance 0-2500 m, terrain elevation +/-356 MIL (the
+  firing gate), height +/-1000 m. Whole numbers, clamped on Enter.
+- Vehicle ranges show the true max with full tilt (e.g. Bishop 2317m).
+
+## [1.6.5] - 2026-10-02
+
+### Fixed
+- Bishop SP engine health 430 → 530
+
 ## [1.6.4] - 2026-09-30
 
 ### Fixed
