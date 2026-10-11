@@ -5559,8 +5559,10 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
     #heightRedSection,
     #liteCalcButtonRow,
     .lite-field-row,
+    .lite-toggles-row,
     #calculator-card .panel-section .distance-controls,
-    .relative.mt-0.mb-5.mode-full-only {
+    .relative.mt-0.mb-5.mode-full-only,
+    #calculator-card .panel-section.mode-full-only:has(#heightDiffToggleContainer) {
         display: none !important;
     }
 

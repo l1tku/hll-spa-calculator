@@ -9551,7 +9551,25 @@ function initMobileCalculator() {
 
 
 
+    function ensureHeightEnabled() {
+
+        const toggle = document.getElementById('heightDiffToggle');
+
+        if (toggle && !toggle.checked) {
+
+            toggle.checked = true;
+
+            toggle.dispatchEvent(new Event('change', { bubbles: true }));
+
+        }
+
+    }
+
+
+
     function applyBuffer() {
+
+        if (state.field === 'heightDiff') ensureHeightEnabled();
 
         const target = parseInt(state.buffer, 10) || 0;
 
@@ -9621,6 +9639,8 @@ function initMobileCalculator() {
 
         if (state.field === 'distance') return;
 
+        if (state.field === 'heightDiff') ensureHeightEnabled();
+
         const current = readField(state.field);
 
         adjustValue(state.field, -current - current);
@@ -9683,23 +9703,13 @@ function initMobileCalculator() {
 
 
 
-    function syncHeightTab() {
+    // Height is optional and the toggles panel is hidden on phones, so the
 
-        const on = !heightToggle || heightToggle.checked;
+    // Height tab is always available. The underlying height toggle is switched
 
-        if (heightTab) heightTab.style.display = on ? '' : 'none';
+    // on automatically the first time the Height field is used.
 
-        if (!on && state.field === 'heightDiff') selectField('distance');
-
-    }
-
-
-
-    if (heightToggle) heightToggle.addEventListener('change', syncHeightTab);
-
-
-
-    syncHeightTab();
+    if (heightTab) heightTab.style.display = '';
 
     selectField('distance');
 
