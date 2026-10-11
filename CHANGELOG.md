@@ -11,7 +11,7 @@
 ### Fixed
 - Height/terrain ignored on mobile.
 - Backspace on fresh field, double-tap steps, value caps.
-- Height stuck at close range; now falls back to geometric angle when model saturates.
+- Height stuck at close range; now falls back to a real ballistic solve when model saturates.
 
 ## [2.0.5] - 2026-10-11
 

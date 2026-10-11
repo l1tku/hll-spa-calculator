@@ -2601,7 +2601,7 @@ function computeBallisticHeightDiffMils(baseMil, distanceMeters, heightDiffMeter
 
     if (!(v0 > 0) || !isFinite(v0)) {
 
-        return (y / x) * MILS_PER_RAD_APPROX;
+        return degreesToMils(Math.atan2(y, x) * (180.0 / Math.PI));
 
     }
 
@@ -2615,7 +2615,7 @@ function computeBallisticHeightDiffMils(baseMil, distanceMeters, heightDiffMeter
 
     if (!sols) {
 
-        return (y / x) * MILS_PER_RAD_APPROX;
+        return degreesToMils(Math.atan2(y, x) * (180.0 / Math.PI));
 
     }
 
@@ -2629,7 +2629,7 @@ function computeBallisticHeightDiffMils(baseMil, distanceMeters, heightDiffMeter
 
     const deltaDeg = (chosen - baseElevRad) * (180.0 / Math.PI);
 
-    return -degreesToMils(deltaDeg);
+    return degreesToMils(deltaDeg);
 
 }
 
@@ -2968,13 +2968,16 @@ function computeHeightDiffMils(baseMil, distanceMeters, heightDiffMeters, table)
             // Guard against low-angle saturation in spaHeightDeltaMeters:
             // the model clamps the discriminant for heights above a mil-dependent
             // threshold, so once the user's height lands in that clamped bucket
-            // the inverse solve stops changing with height. Fall back to the
-            // geometric angle in that zone so height still affects the result.
+            // the inverse solve stops changing with height. Fall back to a real
+            // ballistic solve (derive muzzle velocity from the measured table,
+            // then solve for the launch angle that hits the elevated target).
             const absH = Math.abs(heightDiffMeters);
             const dUser = spaHeightDeltaMeters(solveKey, world, absH || 1);
             const dTest = spaHeightDeltaMeters(solveKey, world, Math.max(absH + 50, 100));
             const saturated = Number.isFinite(dUser) && Number.isFinite(dTest) && Math.abs(dTest - dUser) < 0.5;
             if (!saturated) return world - flat;
+            const ballisticDiff = computeBallisticHeightDiffMils(baseMil, distanceMeters, heightDiffMeters);
+            if (Number.isFinite(ballisticDiff)) return ballisticDiff;
             return degreesToMils(Math.atan2(heightDiffMeters, distanceMeters) * (180.0 / Math.PI));
         }
     }
