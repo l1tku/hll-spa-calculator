@@ -9686,6 +9686,8 @@ function initMobileCalculator() {
 
     const activeLabelEl = document.getElementById('mobActiveLabel');
 
+    const helpBtn = document.getElementById('mobActiveHelp');
+
     const heightTab = document.getElementById('mobTabHeight');
 
     const heightToggle = document.getElementById('heightDiffToggle');
@@ -9697,6 +9699,13 @@ function initMobileCalculator() {
 
 
     const FIELD_LABELS = { distance: 'Target Distance', redNumber: 'Terrain Elevation', heightDiff: 'Height Difference' };
+
+    // Help text shown by the value-box "?" button. Distance has none, so the
+    // button hides for that field.
+    const HELP_TEXT = {
+        redNumber: 'Terrain Elevation (MIL)\n\nEnter exactly what your RED MIL HUD shows\n\n- downhill/nose-down (negative value)\n+ uphill/nose-up (positive value)\n\nLIMIT: -356 to +356 MIL. This is the game\'s 20-degree hull-tilt firing gate - past it the game refuses to fire, so a real shot can never show more.',
+        heightDiff: 'HEIGHT DIFFERENCE\n\nTell the calculator how high or low the target is, and it corrects the aim so the shell lands on it.\n\n+ number = target is HIGHER than you\n- number = target is LOWER than you\n\nLeave it at 0 for flat ground.'
+    };
 
     // buffer = unsigned digits being edited, neg = pending sign for the entry.
     // Keeping the sign separate means +/- works even before the first digit
@@ -9826,6 +9835,16 @@ function initMobileCalculator() {
         const signKey = keypad.querySelector('[data-key="sign"]');
 
         if (signKey) signKey.disabled = (state.field === 'distance');
+
+        if (helpBtn) {
+
+            const hasHelp = !!HELP_TEXT[state.field];
+
+            helpBtn.classList.toggle('visible', hasHelp);
+
+            if (hasHelp) helpBtn.setAttribute('aria-label', 'Help: ' + (FIELD_LABELS[state.field] || state.field));
+
+        }
 
         updateTabValues();
 
@@ -10017,6 +10036,30 @@ function initMobileCalculator() {
         });
 
     });
+
+
+
+    // Value-box help button: shows the explanation for the active field.
+
+    if (helpBtn) {
+
+        helpBtn.addEventListener('click', function(e) {
+
+            e.preventDefault();
+
+            e.stopPropagation();
+
+            const helpText = HELP_TEXT[state.field];
+
+            if (!helpText) return;
+
+            haptic(HAPTIC_TAP);
+
+            alert(helpText);
+
+        });
+
+    }
 
 
 
