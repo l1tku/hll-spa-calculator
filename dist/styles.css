@@ -2,6 +2,13 @@
     font-family: 'SpecialElite';
     src: url('../fonts/SpecialElite.ttf') format('truetype');
 }
+@font-face {
+    font-family: 'GothamBold';
+    src: url('../fonts/Gotham-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
 :root {
     --paper: #0f0f10;
     --panel: #18181b;
@@ -76,6 +83,19 @@
 .text-gray-400 { color: #9ca3af; }
 .text-green-400 { color: #4ade80; }
 .text-red-400 { color: #f87171; }
+/* Terrain elevation (RED MIL): in-game HUD red for the signed value */
+.text-hud-red { color: #cc6969; }
+#redNumber,
+#redNumberLite { color: #cc6969; }
+
+.height-diff-positive { color: #4caf50 !important; }
+.height-diff-negative { color: #cc6969 !important; }
+.height-diff-zero { color: inherit; }
+/* Target distance uses the same in-game-style font as terrain elevation */
+#distance,
+#distanceLite {
+    font-family: 'GothamBold', 'Arial Black', sans-serif;
+}
 .overflow-visible { overflow: visible; }
 .gap-0 { gap: 0; }
 .dog-tags { margin-top: 0; }
@@ -1113,7 +1133,7 @@ inset 0 4px 8px rgba(0, 0, 0, 0.4),
     box-shadow: 
 inset 0 4px 12px rgba(0, 0, 0, 0.8),
 0 2px 4px rgba(0, 0, 0, 0.4);
-    font-family: 'Courier New', monospace;
+    font-family: 'GothamBold', 'Arial Black', 'Courier New', monospace;
 }
 .armored-input:focus {
     outline: none;
@@ -4730,9 +4750,6 @@ border-color: #000;
 color: #000;
 transform: scale(0.92);
     }
-    .unit-text-desktop {
-display: none;
-    }
     .armored-metal-panel {
 display: none !important;
     }
@@ -5425,4 +5442,101 @@ border-color: #6b5110;
 }
 .tank-specs-toggle {
     display: none;
+}
+.cat-meme {
+    position: absolute;
+    right: 60px;
+    top: 3%;
+    transform: translateY(-45%);
+    width: 60px;
+    height: auto;
+    z-index: -1;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    opacity: 0.95;
+    filter: saturate(0.9) contrast(1.02);
+}
+@media (max-width: 1200px) {
+    .cat-meme {
+        right: -90px;
+        width: 170px;
+        transform: translateY(-45%) rotate(6deg);
+    }
+}
+@media (max-width: 1000px) {
+    .cat-meme {
+        display: none;
+    }
+}
+.cat-paws {
+    position: absolute;
+    right: 45px;
+    top: 6%;
+    transform: translateY(-45%);
+    width: 90px;
+    height: auto;
+    z-index: 5;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    opacity: 0.95;
+    filter: saturate(0.9) contrast(1.02);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+body:has(#tankInfoIcon.select-info-button:hover) .cat-paws,
+body:has(#tankInfoIcon.select-info-button:active) .cat-paws,
+body:has(#tankInfoIcon.select-info-button:focus) .cat-paws,
+body:has(#tankInfoIcon.select-info-button.extended) .cat-paws,
+body:has(#tankInfoModal[data-open="true"]) .cat-paws {
+    transform: translateY(calc(-45% - 26px));
+}
+@media (max-width: 1200px) {
+    .cat-paws {
+        right: -20px;
+        width: 130px;
+        transform: translateY(-45%) rotate(-4deg);
+    }
+}
+@media (max-width: 1000px) {
+    .cat-paws {
+        display: none;
+    }
+}
+.quickstep-toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translate(-50%, 8px);
+    z-index: 9999;
+    background: rgba(24, 24, 27, 0.96);
+    border: 1px solid #8b6914;
+    border-radius: 6px;
+    color: #e5e7eb;
+    font-family: 'SpecialElite', 'Courier New', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    padding: 10px 18px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    pointer-events: auto;
+    cursor: pointer;
+    max-width: 90vw;
+}
+.quickstep-toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+    animation: quickstep-in 0.3s ease;
+}
+@keyframes quickstep-in {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 8px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
 }

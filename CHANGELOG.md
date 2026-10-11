@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.0.5] - 2026-10-11
+
+### Added
+- The cat meme (`hell_and_back.webp`) now peeks out behind the calculator:3
+- Quick-step steppers on desktop: **Shift+click = ±5**, **Ctrl/Cmd+click = ±25**, with a
+  one-time tip toast ("Hold Shift and press −/+ for ±5 · Hold Ctrl for ±25").
+
+### Changed
+- Inputs read like the in-game HUD: terrain `0MIL`/`+14MIL`/`-7MIL`, height `+5M`/`-3M`, distance `400M`.
+- Tank range shows the measured span as `~17m - ~506m (FLAT)`.
+- Result bar shows `Distance` (e.g. `400M`), signed `Target Height` (`+1M`/`-1M`), and `Terrain Elevation` (`0MIL`/`+14MIL`/`-7MIL`).
+- Holding −/+ no longer auto-repeats — one press = one step.
+
 ## [2.0.0] - 2026-10-10
 
 ### Changed

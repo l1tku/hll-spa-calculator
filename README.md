@@ -1,5 +1,5 @@
 # HLL SPA Calculator
-**v2.0.0 - Updated for Hell Let Loose Update 21**
+**v2.0.5 - Updated for Hell Let Loose Update 21**
 
 A Precise web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let Loose.
 
@@ -60,6 +60,23 @@ The source code (HTML, CSS, JavaScript) of this project is licensed under the **
 
 ## Version History
 
+**v2.0.5 - 2026-10-11**
+### Added
+- The cat meme (`hell_and_back.webp`) now peeks out behind the calculator:3
+- Quick-step steppers on desktop: **Shift+click = ±5**, **Ctrl/Cmd+click = ±25**, with a one-time tip toast.
+
+### Changed
+- Inputs read like the in-game HUD: terrain `0MIL`/`+14MIL`/`-7MIL`, height `+5M`/`-3M`, distance `400M`.
+- Tank range shows the measured span as `~17m - ~506m (FLAT)`.
+- Result bar shows `Distance` (e.g. `400M`), signed `Target Height` (`+1M`/`-1M`), and `Terrain Elevation` (`0MIL`/`+14MIL`/`-7MIL`).
+- Holding −/+ no longer auto-repeats — one press = one step.
+
+**v2.0.0 - 2026-10-10**
+### Changed
+- New calculation engine: all six SPAs solve from our own in-game measurements (full span, -89 MIL to the past-cap tail) with exact ballistics — physical tail law and per-vehicle height correction. Old display tables kept as reference only.
+- Input limits match the game: distance 0–2500 m, terrain elevation ±356 MIL (the firing gate), height ±1000 m. Whole numbers, clamped on Enter.
+- Vehicle ranges show the true max with full tilt (e.g. Bishop 2317m).
+
 **v1.6.5 - 2026-10-02**
 ### Fixed
 - Bishop SP engine health 430 → 530
@@ -87,91 +104,4 @@ The source code (HTML, CSS, JavaScript) of this project is licensed under the **
 ### Changed
 - Version strings all track this changelog (footer `v1.6.3`, service worker `1.6.3-2`).
 
-**v1.6.2 - 2026-09-24**
-### Removed
-- Cleaned up redundant comments across `index.html`, `service-worker.js` and `dist/styles.css`
-
-**v1.6.1 - 2026-09-23**
-
-### Recent Updates
-- **Fixes**: Unselected Full/Lite toggle now stays grey, switched Sturmpanzer screenshots to `sturmpanzer_*.webp`, fixed image viewer right-click opening the previous image, and updated Field Manual subtitle texts.
-
-**v1.6.0 - 2026-09-23**
-
-### Recent Updates
-- **HLL Update 21**: Updated the displayed game version to Hell Let Loose Update 21 and pointed the game version link at the Update 21 changelog.
-
-**v1.5.9 - 2026-09-16**
-
-### Recent Updates
-- **SEO & Search Metadata**: Added Open Graph preview image, Google WebSite structured data, and enhanced favicon definitions to fix search engine snippets and site names.
-
-**v1.5.8 - 2026-06-14**
-
-### Recent Updates
-- **Ko-fi support button**: Added a "Buy me a coffee" button for desktop and mobile.
-- **Clickable version links**: App version now links to GitHub, game version links to the HLL Update 20 changelog, and author links to the GitHub profile.
-
-**v1.5.7 - 2026-06-05**
-
-### Recent Updates
-- **SPA low-range anchor refinement**: Re-tuned the full under-`200m` SPA anchor set with fresh in-game checks for M4A3, Sturmpanzer, KV-2, AVRE, Panzer III, and Bishop.
-- **Closer recovery accuracy**: Updated tested physical minimums and replaced older placeholder low-range points so sub-`200m` distance recovery is more reliable.
-
-**v1.5.6 - 2026-06-04**
-
-### Recent Updates
-- **SPA sight calibration fix**: Rebuilt the yellow sight ladders from live in-game screenshots for all SPA vehicles and removed the broken MIL conversion that was causing incorrect outputs.
-- **Close-range support**: Added tested low-range anchors, physical minimum range displays, and warnings for sub-table SPA shots.
-
-**v1.5.5 - 2026-06-04**
-
-### Recent Updates
-- **Mobile fix**: Fixed a mobile-only scrolling issue where the background temporarily lost its dark overlay while scrolling and only recovered after scrolling stopped.
-
-**v1.5.4 - 2026-06-03**
-
-### Recent Updates
-- **HLL Update 20**: Updated SPA armor-damage stats to match the latest in-game values.
-
-**v1.5.3 - 2026-04-21**
-
-### Recent Updates
-- **Performance**: Preloaded all tank images and flag icons on page load to eliminate popping when switching between vehicles.
-
-**v1.5.2 - 2026-04-19**
-
-### Recent Updates
-- **Mobile UX Improvements**: Fixed reset button triggering keyboard on mobile, added haptic feedback to buttons (Calculate, Copy, Reset, toggles), fixed mobile scrolling when touching +/- buttons, fixed help-icon stuck highlight on mobile, prevented focus loop on mobile after pressing Enter, and fixed input select-all behavior for heightDiff/redNumber.
-- **Performance**: Added image preloads for flag icons and project hub icons.
-
-**v1.5.1 - 2026-04-18**
-
-### Recent Updates
-- **Desktop layout fixes**: Fixed warning icon positioning and toggle button alignment.
-- **Panel height consistency**: Set uniform 117px height for height/elevation and toggle panels.
-- **Animation cleanup**: Removed tear line animation from warning container.
-
-**v1.5.0 - 2026-04-17**
-
-### Recent Updates
-- **Mobile overhaul**: Complete responsive redesign with collapsible tank specs, classified-style tank info button, and optimized touch targets.
-- **Height difference toggle**: New toggle to enable/disable height inputs with dynamic layout adjustment.
-- **Hold-to-repeat buttons**: +/- buttons now auto-increment when held (1.5s delay).
-- **PWA support**: Added manifest.json and app icons for installable web app experience.
-- **Cache-busting**: Versioned assets for reliable GitHub Pages updates.
-- **Bug fixes**: Fixed terrain elevation calculation, reset button, tab navigation, and tank history content.
-
-**v1.0.9 - 2025**
-
-### Recent Updates
-- **Lite mode**: Lightweight HTML/CSS/JS build for faster loads and low-end devices.
-- **Height calculations**: Updated formulas to match in-game red-number compensation and muzzle heights for accurate elevation.
-- **HTML to CSS/JS split**: Styles and scripts moved into built assets for cleaner HTML and quicker rendering.
-
-### Previous Updates
-- **Production-ready CSS**: Switched from Tailwind CDN to built CSS file for better performance and production readiness.
-- **Mobile scaling fixes**: Enhanced viewport settings for better mobile usability and zoom control.
-- **Mobile HTML version**: Comprehensive mobile optimizations with enhanced touch interactions, iOS-specific input handling, and mobile-optimized UI elements.
-- **Performance improvements**: Optimized icon assets (flags resized to 30px, vehicle icons to 28px).
-- **Cleanup**: Removed unused assets to reduce repository size.
+Only the last 5 releases are shown here — the full history lives in [CHANGELOG.md](CHANGELOG.md).

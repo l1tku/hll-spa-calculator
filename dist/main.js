@@ -4,11 +4,11 @@
 
 const HLL_VERSION = {
 
-    appVersion: 'v2.0.0',
+    appVersion: 'v2.0.5',
 
     gamePatch: 'HLL Update 21',
 
-    statsUpdated: '2026-10-10',
+    statsUpdated: '2026-10-11',
 
     author: 'by litku'
 
@@ -449,7 +449,7 @@ function handleTankSelection(value, selectSelected, selectItems, factionInput, i
 
     distanceInputs.forEach(input => {
 
-        input.value = String(defaultDistance);
+        input.value = formatMetersHudValue(defaultDistance);
 
         const event = new Event('input', { bubbles: true });
 
@@ -1558,20 +1558,20 @@ function updateMilRangeText() {
         const rangeMax = distances[distances.length - 1] || 0;
 
         const physicalRangeOverrides = {
-            'US (Sherman M4A3 105)': '~23m - 905m',
-            'DAK (Panzer III Ausf.N)': '~18m - 757m',
-            'British (Bishop SP)': '~19m - 2317m',
-            'British (Churchill AVRE)': '~17m - 506m',
-            'Soviet Union (KV-2)': '~22m - 906m'
+            'US (Sherman M4A3 105)': '~23m - ~905m (FLAT)',
+            'DAK (Panzer III Ausf.N)': '~18m - ~757m (FLAT)',
+            'British (Bishop SP)': '~19m - ~2317m (FLAT)',
+            'British (Churchill AVRE)': '~17m - ~506m (FLAT)',
+            'Soviet Union (KV-2)': '~22m - ~906m (FLAT)'
         };
 
         if (sturmpanzerKey) {
 
-            physicalRangeOverrides[sturmpanzerKey] = '~18m - 756m';
+            physicalRangeOverrides[sturmpanzerKey] = '~18m - ~756m (FLAT)';
 
         }
 
-        const rangeDisplay = physicalRangeOverrides[faction] || (rangeMin > 100 ? `<${rangeMin}m - ${rangeMax}m` : `${rangeMin}m - ${rangeMax}m`);
+        const rangeDisplay = physicalRangeOverrides[faction] || `~${rangeMin}m - ~${rangeMax}m (FLAT)`;
 
 
 
@@ -2083,6 +2083,168 @@ function updateFactionImage() {
 
 
 
+// Signed values shown like the in-game HUD: 0, +14, -7 (terrain elevation / height difference)
+
+function formatSignedValue(value) {
+
+    const num = (typeof value === 'number') ? value : parseFloat(value);
+
+    if (isNaN(num) || num === 0) return '0';
+
+    return (num > 0 ? '+' : '') + num;
+
+}
+
+
+
+// FULL/desktop panel shows the terrain elevation exactly like the in-game HUD: 0MIL, +14MIL, -7MIL
+
+function formatMilsHudValue(value) {
+
+    const num = (typeof value === 'number') ? value : parseFloat(value);
+
+    if (isNaN(num)) return '0MIL';
+
+    return formatSignedValue(num) + 'MIL';
+
+}
+
+
+
+// Target distance is shown like the in-game marker: 400M
+
+function formatMetersHudValue(value) {
+
+    const num = (typeof value === 'number') ? value : parseFloat(value);
+
+    if (isNaN(num)) return '0M';
+
+    return num + 'M';
+
+}
+
+
+
+// The result bar shows the target distance (e.g. 400M) instead of the base MIL
+
+function updateDistanceReadout() {
+
+    const el = document.getElementById('baseValue');
+
+    if (!el) return;
+
+    const inputs = Array.from(document.querySelectorAll('input#distance, input#distanceLite'));
+
+    const visible = inputs.find(i => i.offsetParent !== null) || inputs[0];
+
+    const raw = visible ? parseFloat(visible.value) : NaN;
+
+    el.textContent = formatMetersHudValue(Number.isFinite(raw) ? raw : 0);
+
+}
+
+
+
+// Height difference is shown signed with meters and coloured by sign: 0M, +5M, -3M
+
+function parseHeightDiff(value) {
+
+    const raw = String(value || '0').trim();
+
+    const normalized = raw.replace(/^▲/, '+').replace(/^▼/, '-');
+
+    return parseFloat(normalized);
+
+}
+
+function formatHeightDiffHudValue(value) {
+
+    const num = (typeof value === 'number') ? value : parseHeightDiff(value);
+
+    if (isNaN(num) || num === 0) return '0M';
+
+    return formatSignedValue(num) + 'M';
+
+}
+
+function setHeightDiffClass(input, value) {
+
+    const num = (typeof value === 'number') ? value : parseHeightDiff(value);
+
+    input.classList.remove('height-diff-positive', 'height-diff-negative', 'height-diff-zero');
+
+    if (!Number.isFinite(num) || num === 0) {
+
+        input.classList.add('height-diff-zero');
+
+    } else if (num > 0) {
+
+        input.classList.add('height-diff-positive');
+
+    } else {
+
+        input.classList.add('height-diff-negative');
+
+    }
+
+}
+
+
+
+// One-time tip toast explaining the Shift/Ctrl quick steps on the stepper buttons
+
+function showQuickstepToast() {
+
+    const KEY = 'quickstepTipShown';
+
+    if (showQuickstepToast.shown) return;
+
+    try {
+
+        if (sessionStorage.getItem(KEY)) return;
+
+    } catch (e) {}
+
+    let toast = document.getElementById('quickstepToast');
+
+    if (!toast) {
+
+        toast = document.createElement('div');
+
+        toast.id = 'quickstepToast';
+
+        toast.className = 'quickstep-toast';
+
+        toast.textContent = 'TIP: Hold Shift and press −/+ for ±5 · Hold Ctrl for ±25';
+
+        toast.addEventListener('click', function() { toast.remove(); });
+
+        document.body.appendChild(toast);
+
+    }
+
+    requestAnimationFrame(function() { toast.classList.add('show'); });
+
+    setTimeout(function() {
+
+        toast.classList.remove('show');
+
+        setTimeout(function() { if (toast.parentNode) toast.remove(); }, 300);
+
+    }, 8000);
+
+    try {
+
+        sessionStorage.setItem(KEY, '1');
+
+    } catch (e) {}
+
+    showQuickstepToast.shown = true;
+
+}
+
+
+
 // Adjust value function for increment/decrement buttons
 
 function adjustValue(fieldId, delta) {
@@ -2101,7 +2263,7 @@ function adjustValue(fieldId, delta) {
 
     const inputValue = input.value || '0';
 
-    const currentValue = parseFloat(inputValue.replace('+', '')) || 0;
+    const currentValue = parseHeightDiff(inputValue) || 0;
 
     let newValue = Math.round(currentValue + delta);
 
@@ -2129,7 +2291,27 @@ function adjustValue(fieldId, delta) {
 
     allInputs.forEach(inp => {
 
-        inp.value = newValue;
+        if (fieldId === 'redNumber') {
+
+            // In-game look: 0MIL, +14MIL, -7MIL
+
+            inp.value = formatMilsHudValue(newValue);
+
+        } else if (fieldId === 'distance') {
+
+            inp.value = formatMetersHudValue(newValue);
+
+        } else if (fieldId === 'heightDiff') {
+
+            inp.value = formatHeightDiffHudValue(newValue);
+
+            setHeightDiffClass(inp, newValue);
+
+        } else {
+
+            inp.value = newValue;
+
+        }
 
     });
 
@@ -2153,15 +2335,9 @@ function adjustValue(fieldId, delta) {
 
     } else {
 
-// When auto calc is off, reset base value to "--" and final value to 0000 when any value changes
+// When auto calc is off, show the current distance and reset final value to 0000 when any value changes
 
-        const baseValueEl = document.getElementById('baseValue');
-
-        if (baseValueEl) {
-
-            baseValueEl.textContent = '--';
-
-        }
+        updateDistanceReadout();
 
 // Reset final value to 0000 when auto calc is off
 
@@ -2883,7 +3059,27 @@ function setAllValues(inputs, value) {
 
     inputs.forEach(input => { 
 
-        input.value = value;
+        // In-game look for terrain elevation / distance, signed height difference
+
+        let nextValue = value;
+
+        if (input.id === 'redNumber' || input.id === 'redNumberLite') {
+
+            nextValue = formatMilsHudValue(value);
+
+        } else if (input.id === 'distance' || input.id === 'distanceLite') {
+
+            nextValue = formatMetersHudValue(value);
+
+        } else if (input.id === 'heightDiff' || input.id === 'heightDiffLite') {
+
+            nextValue = formatHeightDiffHudValue(value);
+
+            setHeightDiffClass(input, value);
+
+        }
+
+        input.value = nextValue;
 
         // Trigger input event to ensure any listeners update
 
@@ -3951,23 +4147,17 @@ function calculate() {
 
 
 
-// Set base value - ALWAYS set, NEVER "--"
+// Set distance readout - ALWAYS set, NEVER "--"
 
     const baseValueEl = document.getElementById('baseValue');
 
     if (baseValueEl) {
 
-        if (typeof base === 'number' && !isNaN(base)) {
+        const distanceText = formatMetersHudValue(distance);
 
-            const baseText = String(spaHudMilFromRaw(table, base));
+        baseValueEl.textContent = distanceText;
 
-            baseValueEl.textContent = baseText;
-
-            baseValueEl.innerHTML = baseText;
-
-        }
-
-    } else {
+        baseValueEl.innerHTML = distanceText;
 
     }
 
@@ -3975,19 +4165,9 @@ function calculate() {
 
     const heightEl = document.getElementById('heightValue');
 
-    const heightSymbolEl = document.getElementById('heightSymbol');
-
-    if (heightSymbolEl) {
-
-        heightSymbolEl.textContent = (displayHeightValue >= 0) ? '▲' : '▼';
-
-        heightSymbolEl.className = 'text-gray-300';
-
-    }
-
     if (heightEl) {
 
-        heightEl.textContent = displayHeightValue + 'm';
+        heightEl.textContent = formatHeightDiffHudValue(displayHeightValue);
 
         heightEl.className = (displayHeightValue > 0) ? 'text-green-400' : (displayHeightValue < 0 ? 'text-red-400' : 'text-gray-300');
 
@@ -4001,11 +4181,11 @@ function calculate() {
 
     if (redElement) {
 
-        const redText = (displayRedNumberHud >= 1 ? '+' : '') + displayRedNumberHud;
+        const redText = formatMilsHudValue(displayRedNumberHud);
 
         redElement.textContent = redText;
 
-        const colorClass = displayRedNumberHud > 0 ? 'text-green-400' : (displayRedNumberHud < 0 ? 'text-red-400' : 'text-gray-300');
+        const colorClass = 'text-hud-red';
 
         redElement.className = colorClass;
 
@@ -4031,13 +4211,13 @@ function calculate() {
 
 
 
-// Re-verify and set base if needed
+// Re-verify and set distance if needed
 
-        if (baseEl && typeof base === 'number' && !isNaN(base)) {
+        if (baseEl) {
 
             if (baseEl.textContent === '--' || baseEl.textContent === '0' || baseEl.textContent.trim() === '') {
 
-                baseEl.textContent = String(spaHudMilFromRaw(tables[faction], base));
+                baseEl.textContent = formatMetersHudValue(distance);
 
             }
 
@@ -4051,9 +4231,9 @@ function calculate() {
 
             const currentText = heightEl.textContent;
 
-            const expectedText = displayHeightValue + 'm';
+            const expectedText = formatHeightDiffHudValue(displayHeightValue);
 
-            if (currentText === '--' || currentText === '0m' || currentText.trim() === '') {
+            if (currentText === '--' || currentText === '0M' || currentText.trim() === '') {
 
                 heightEl.textContent = expectedText;
 
@@ -4069,11 +4249,17 @@ function calculate() {
 
             const currentText = redEl.textContent;
 
-            const expectedText = (displayRedNumberHud >= 1 ? '+' : '') + displayRedNumberHud;
+            const expectedText = formatMilsHudValue(displayRedNumberHud);
 
-            if (currentText === '--' || currentText === '0' || currentText.trim() === '') {
+            if (currentText === '--' || currentText === '0' || currentText === '+0' || currentText === '0MIL' || currentText.trim() === '') {
 
                 redEl.textContent = expectedText;
+
+                redEl.className = 'text-hud-red';
+
+                const redUnitCheckEl = document.getElementById('redValueUnit');
+
+                if (redUnitCheckEl) redUnitCheckEl.className = 'text-hud-red';
 
             }
 
@@ -4499,11 +4685,15 @@ function resetCalculator(buttonElement) {
 
 
 
-            if (baseValueEl) baseValueEl.textContent = '0';
+            updateDistanceReadout();
 
-            if (heightValueEl) heightValueEl.textContent = '0m';
+            if (heightValueEl) heightValueEl.textContent = '0M';
 
-            if (redValueEl) redValueEl.textContent = '0';
+            if (redValueEl) { redValueEl.textContent = '0MIL'; redValueEl.className = 'text-hud-red'; }
+
+            const redValueUnitResetEl = document.getElementById('redValueUnit');
+
+            if (redValueUnitResetEl) redValueUnitResetEl.className = 'text-hud-red';
 
 
 
@@ -5151,7 +5341,7 @@ if (isAutoCalcEnabled()) {
 
     const redUnitEl = document.getElementById('redValueUnit');
 
-    if (baseEl) baseEl.textContent = '--';
+    updateDistanceReadout();
 
 // Show "--" when auto calculation is off
 
@@ -5545,7 +5735,19 @@ if (heightDiffToggleCheckbox) {
 
         if (this.value.trim() === '') {
 
-            this.value = '0';
+            if (this.id === 'redNumber' || this.id === 'redNumberLite') {
+
+                this.value = '0MIL';
+
+            } else if (this.id === 'distance' || this.id === 'distanceLite' || this.id === 'heightDiff' || this.id === 'heightDiffLite') {
+
+                this.value = '0M';
+
+            } else {
+
+                this.value = '0';
+
+            }
 
             try {
 
@@ -5559,13 +5761,7 @@ if (heightDiffToggleCheckbox) {
 
 // When auto calc is off, reset base value to "--"
 
-                    const baseValueEl = document.getElementById('baseValue');
-
-                    if (baseValueEl) {
-
-                        baseValueEl.textContent = '--';
-
-                    }
+                    updateDistanceReadout();
 
                 }
 
@@ -5601,11 +5797,7 @@ if (heightDiffToggleCheckbox) {
 
 
 
-                    if (finalValue !== numValue) {
-
-                        this.value = finalValue;
-
-                    }
+                    this.value = formatMetersHudValue(finalValue);
 
 
 
@@ -5635,13 +5827,22 @@ if (heightDiffToggleCheckbox) {
 
                 const numValue = parseFloat(this.value);
 
+                const formatFor = (v) => formatMilsHudValue(v);
+
                 if (!isNaN(numValue)) {
 
                     if (numValue < -356) {
-                        this.value = '-356';
+                        this.value = formatFor(-356);
                     } else if (numValue > 356) {
-                        this.value = '356';
+                        this.value = formatFor(356);
+                    } else {
+                        // In-game look: "0MIL" / "+14MIL" (FULL), signed number (LITE)
+                        this.value = formatFor(numValue);
                     }
+
+                } else {
+
+                    this.value = formatFor(0);
 
                 }
 
@@ -5653,11 +5854,20 @@ if (heightDiffToggleCheckbox) {
 
             if (this.id === 'heightDiff' || this.id === 'heightDiffLite') {
 
-                const numValue = parseFloat(this.value);
+                const numValue = parseHeightDiff(this.value);
 
                 if (!isNaN(numValue)) {
 
-                    /* no cap on height */
+                    // In-game look: ▲5M, ▼3M, 0M
+                    this.value = formatHeightDiffHudValue(numValue);
+
+                    setHeightDiffClass(this, numValue);
+
+                } else {
+
+                    this.value = '0M';
+
+                    setHeightDiffClass(this, 0);
 
                 }
 
@@ -5686,6 +5896,10 @@ if (heightDiffToggleCheckbox) {
             }
 
         }
+
+// Mirror the (possibly re-signed) value into the hidden panel
+
+        syncInputValue(this, [id]);
 
     };
 
@@ -5840,13 +6054,7 @@ if (heightDiffToggleCheckbox) {
 
                 if (this.id === 'heightDiff' || this.id === 'heightDiffLite' || this.id === 'redNumber' || this.id === 'redNumberLite' || this.id === 'distance' || this.id === 'distanceLite') {
 
-                    const baseValueEl = document.getElementById('baseValue');
-
-                    if (baseValueEl) {
-
-                        baseValueEl.textContent = '--';
-
-                    }
+                    updateDistanceReadout();
 
                 }
 
@@ -6146,7 +6354,7 @@ function navigateFocus(e) {
 
         const redValueUnitEl = document.getElementById('redValueUnit');
 
-        if (baseValueEl) baseValueEl.textContent = '--';
+        updateDistanceReadout();
 
         if (heightValueEl) { heightValueEl.textContent = '--'; heightValueEl.className = 'text-gray-300'; }
 
@@ -6261,7 +6469,7 @@ if (calcButtonLiteEl) calcButtonLiteEl.addEventListener('keydown', navigateFocus
 const INPUT_LIMITS = { distance: [0, 2500], redNumber: [-356, 356], heightDiff: [-1000, 1000] };
 
 function clampTypedValue(input, id) {
-    const v = parseFloat(input.value);
+    const v = (id === 'heightDiff') ? parseHeightDiff(input.value) : parseFloat(input.value);
     if (!Number.isFinite(v)) return false;
     const limits = INPUT_LIMITS[id];
     let r = Math.round(v);
@@ -6269,12 +6477,24 @@ function clampTypedValue(input, id) {
         if (r < limits[0]) r = limits[0];
         else if (r > limits[1]) r = limits[1];
     }
-    if (input.value !== String(r)) { input.value = String(r); return true; }
+    let display = String(r);
+    if (id === 'redNumber') {
+        display = formatMilsHudValue(r);
+    } else if (id === 'distance') {
+        display = formatMetersHudValue(r);
+    } else if (id === 'heightDiff') {
+        display = formatHeightDiffHudValue(r);
+    }
+    if (input.value !== display) { input.value = display; return true; }
     return false;
 }
 
 function sanitizeTypedValue(input) {
     const raw = input.value;
+    // Keep the in-game unit suffixes ("0MIL", "200M", "+5M") intact
+    if (/^[+-]?[0-9]*(MIL|M)$/i.test(raw)) {
+        return false;
+    }
     let cleaned = raw.replace(/[^0-9\-]/g, '');
     if (cleaned.includes('-')) cleaned = '-' + cleaned.replace(/-/g, '');
     if (cleaned !== raw) { input.value = cleaned; return true; }
@@ -6423,7 +6643,7 @@ if (autoCalcToggle) {
 
             const redValueEl = document.getElementById('redValue');
 
-            if (baseValueEl) baseValueEl.textContent = '--';
+            updateDistanceReadout();
 
 // Show "--" when auto calculation is off
 
@@ -8592,15 +8812,21 @@ function wireUpEventListeners() {
 
             if (btn && btn.tagName === 'BUTTON') {
 
+                if (delta < 0) {
+
+                    btn.title = 'Click -1 · Hold Shift for -5 · Hold Ctrl for -25';
+
+                } else {
+
+                    btn.title = 'Click +1 · Hold Shift for +5 · Hold Ctrl for +25';
+
+                }
+
                 let lastTouchTime = 0;
 
                 let holdTimer = null;
 
                 let repeatInterval = null;
-
-                const HOLD_DELAY = 1500;
-
-                const REPEAT_RATE = 100;
 
 
 
@@ -8614,37 +8840,11 @@ function wireUpEventListeners() {
 
 
 
-                function startHolding(e) {
+                function startHolding() {
 
-                    lastTouchTime = Date.now();
-
-
-
-                    // Add visual feedback
+                    // Visual feedback only - holding no longer auto-repeats
 
                     btn.classList.add('holding');
-
-
-
-                    // Perform initial adjustment
-
-                    adjustValue(inputId, delta);
-
-
-
-                    // Start hold timer for auto-repeat
-
-                    holdTimer = setTimeout(() => {
-
-                        // After 1.5 seconds, start repeating
-
-                        repeatInterval = setInterval(() => {
-
-                            adjustValue(inputId, delta);
-
-                        }, REPEAT_RATE);
-
-                    }, HOLD_DELAY);
 
                 }
 
@@ -8772,6 +8972,8 @@ function wireUpEventListeners() {
 
                     if (touchHandled) return;
 
+                    if (Date.now() - lastTouchTime < 500) return;
+
                     if (e.button !== 0) return;
 
                     startHolding(e);
@@ -8820,13 +9022,23 @@ function wireUpEventListeners() {
 
                     e.preventDefault();
 
-                    // Only adjust if we didn't already handle it via mousedown
+                    // Modifier keys for quick steps: Shift = x5, Ctrl/Cmd = x25
 
-                    if (!holdTimer && !repeatInterval) {
+                    let step = 1;
 
-                        adjustValue(inputId, delta);
+                    if (e.ctrlKey || e.metaKey) {
+
+                        step = 25;
+
+                    } else if (e.shiftKey) {
+
+                        step = 5;
 
                     }
+
+                    adjustValue(inputId, delta * step);
+
+                    showQuickstepToast();
 
                 });
 
