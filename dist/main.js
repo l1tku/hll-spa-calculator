@@ -9655,9 +9655,17 @@ function initMobileCalculator() {
 
 
 
-    function pressCalc() {
+    function pressStep(amount) {
 
-        if (typeof calculate === 'function') calculate();
+        if (state.field === 'heightDiff') ensureHeightEnabled();
+
+        adjustValue(state.field, amount);
+
+        state.fresh = false;
+
+        state.buffer = String(readField(state.field));
+
+        render();
 
     }
 
@@ -9695,7 +9703,9 @@ function initMobileCalculator() {
 
         else if (action === 'sign') pressSign();
 
-        else if (action === 'calc') pressCalc();
+        else if (action === 'minus') pressStep(-1);
+
+        else if (action === 'plus') pressStep(1);
 
         else if (/^[0-9]$/.test(action)) pressDigit(action);
 
@@ -9710,6 +9720,24 @@ function initMobileCalculator() {
     // on automatically the first time the Height field is used.
 
     if (heightTab) heightTab.style.display = '';
+
+
+
+    // The Calculate button is gone on phones, so mobile always calculates live.
+
+    // Force auto-calculation on even if the (hidden) toggle was switched off.
+
+    const autoToggle = document.getElementById('autoCalcToggle');
+
+    if (autoToggle && !autoToggle.checked) {
+
+        autoToggle.checked = true;
+
+        autoToggle.dispatchEvent(new Event('change', { bubbles: true }));
+
+    }
+
+
 
     selectField('distance');
 
