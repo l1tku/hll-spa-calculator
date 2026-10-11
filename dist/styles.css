@@ -5640,7 +5640,7 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
         color: #c2b280;
     }
     .mob-active-value {
-        font-family: 'Courier New', 'Courier', monospace;
+        font-family: 'GothamBold', 'Arial Black', 'Courier New', monospace;
         font-size: 1.9rem;
         font-weight: bold;
         color: #ffffff;
