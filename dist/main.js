@@ -2191,9 +2191,46 @@ function setHeightDiffClass(input, value) {
 
 
 
+// Haptic feedback (Android Chrome only - iOS has no Vibration API support).
+// The API has no amplitude control, so "strength" is just duration. Calculate
+// is intentionally the strongest; the steppers sit just below it.
+
+const HAPTIC_CALC = 60;
+
+const HAPTIC_STEP = 50;
+
+const HAPTIC_TAP = 40;
+
+function haptic(ms) {
+
+    if (navigator.vibrate) navigator.vibrate(ms);
+
+}
+
+
+
+// Touch-primary devices (phones/tablets) have no Shift/Ctrl keys, so the
+// quick-step stepper hints are desktop-only.
+
+function isTouchPrimaryDevice() {
+
+    if (!window.matchMedia) return false;
+
+    return window.matchMedia('(pointer: coarse)').matches ||
+
+        window.matchMedia('(hover: none)').matches;
+
+}
+
+
+
 // One-time tip toast explaining the Shift/Ctrl quick steps on the stepper buttons
 
 function showQuickstepToast() {
+
+    // Desktop-only tip: skip on touch-primary devices
+
+    if (isTouchPrimaryDevice()) return;
 
     const KEY = 'quickstepTipShown';
 
@@ -4485,9 +4522,7 @@ function copyResult(buttonElement) {
 
 // Copy to clipboard
 
-    navigator.clipboard.writeText(resultText).then(() => {
-
-// Show feedback
+    const showCopied = () => {
 
         if (copyButton) {
 
@@ -4505,9 +4540,11 @@ function copyResult(buttonElement) {
 
         }
 
-    }).catch(err => {
+    };
 
-// Fallback for older browsers
+
+
+    const fallbackCopy = () => {
 
         const textArea = document.createElement('textarea');
 
@@ -4519,37 +4556,53 @@ function copyResult(buttonElement) {
 
         document.body.appendChild(textArea);
 
+        textArea.focus();
+
         textArea.select();
+
+        let ok = false;
 
         try {
 
-            document.execCommand('copy');
-
-            if (copyButton) {
-
-                copyButton.classList.add('copied');
-
-                copyButton.innerHTML = '✓';
-
-                setTimeout(() => {
-
-                    copyButton.innerHTML = originalContent;
-
-                    copyButton.classList.remove('copied');
-
-                }, 2000);
-
-            }
+            ok = document.execCommand('copy');
 
         } catch (err) {
 
-            alert('Failed to copy. Please select and copy the text manually.');
+            ok = false;
 
         }
 
         document.body.removeChild(textArea);
 
-    });
+        if (ok) {
+
+            showCopied();
+
+        } else {
+
+            alert('Failed to copy. Please select and copy the text manually.');
+
+        }
+
+    };
+
+
+
+    // navigator.clipboard only exists in secure contexts (https or localhost).
+
+    // Over plain http (e.g. the LAN URL) it is undefined and writeText throws,
+
+    // which previously prevented the fallback below from ever running.
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+
+        navigator.clipboard.writeText(resultText).then(showCopied).catch(fallbackCopy);
+
+    } else {
+
+        fallbackCopy();
+
+    }
 
 }
 
@@ -8574,9 +8627,9 @@ function wireUpEventListeners() {
 
             calcBtn.classList.add('holding');
 
-            // Haptic feedback on mobile
+            // Haptic feedback on mobile (light press)
 
-            if (navigator.vibrate) navigator.vibrate(10);
+            haptic(HAPTIC_TAP);
 
         }, { passive: true });
 
@@ -8588,9 +8641,9 @@ function wireUpEventListeners() {
 
             touchTriggered = true;
 
-            // Haptic feedback on mobile
+            // Haptic feedback on mobile - strongest reaction of all buttons
 
-            if (navigator.vibrate) navigator.vibrate(15);
+            haptic(HAPTIC_CALC);
 
             // Trigger calculation on mobile touch
 
@@ -8640,73 +8693,19 @@ function wireUpEventListeners() {
 
     if (copyBtn) {
 
-        let copyTouchHandled = false;
+        // A single 'click' handler works for both mouse and touch. A tap that
 
-        let copyLastTouchTime = 0;
+        // becomes a scroll fires no 'click', so this is reliable on mobile - the
 
-
-
-        // Handle touch events with haptic feedback
-
-        copyBtn.addEventListener('touchstart', function(e) {
-
-            copyTouchHandled = true;
-
-            copyLastTouchTime = Date.now();
-
-            e.preventDefault();
-
-            e.stopPropagation();
-
-        }, { passive: false });
-
-
-
-        copyBtn.addEventListener('touchend', function(e) {
-
-            e.preventDefault();
-
-            e.stopPropagation();
-
-            // Haptic feedback on release
-
-            if (navigator.vibrate) navigator.vibrate(10);
-
-            copyResult(this);
-
-            setTimeout(() => { copyTouchHandled = false; }, 100);
-
-        }, { passive: false });
-
-
-
-        copyBtn.addEventListener('touchcancel', function() {
-
-            copyTouchHandled = false;
-
-        });
-
-
-
-        // Handle click for desktop (ignore ghost clicks from touch)
+        // old touchend + ghost-click guard could miss taps and skip the haptic.
 
         copyBtn.addEventListener('click', function(e) {
 
-            const now = Date.now();
-
-            if (now - copyLastTouchTime < 500 || copyTouchHandled) {
-
-                e.preventDefault();
-
-                e.stopPropagation();
-
-                return;
-
-            }
-
             e.preventDefault();
 
             e.stopPropagation();
+
+            haptic(HAPTIC_TAP);
 
             copyResult(this);
 
@@ -8720,73 +8719,15 @@ function wireUpEventListeners() {
 
     if (resetBtn) {
 
-        let resetTouchHandled = false;
-
-        let resetLastTouchTime = 0;
-
-
-
-        // Handle touch events to prevent input focus on mobile
-
-        resetBtn.addEventListener('touchstart', function(e) {
-
-            resetTouchHandled = true;
-
-            resetLastTouchTime = Date.now();
-
-            e.preventDefault();
-
-            e.stopPropagation();
-
-        }, { passive: false });
-
-
-
-        resetBtn.addEventListener('touchend', function(e) {
-
-            e.preventDefault();
-
-            e.stopPropagation();
-
-            // Haptic feedback on release
-
-            if (navigator.vibrate) navigator.vibrate(10);
-
-            resetCalculator(this);
-
-            setTimeout(() => { resetTouchHandled = false; }, 100);
-
-        }, { passive: false });
-
-
-
-        resetBtn.addEventListener('touchcancel', function() {
-
-            resetTouchHandled = false;
-
-        });
-
-
-
-        // Handle click for desktop (ignore ghost clicks from touch)
+        // Single 'click' handler for mouse and touch (no ghost-click guard).
 
         resetBtn.addEventListener('click', function(e) {
 
-            const now = Date.now();
-
-            if (now - resetLastTouchTime < 500 || resetTouchHandled) {
-
-                e.preventDefault();
-
-                e.stopPropagation();
-
-                return;
-
-            }
-
             e.preventDefault();
 
             e.stopPropagation();
+
+            haptic(HAPTIC_TAP);
 
             resetCalculator(this);
 
@@ -8812,7 +8753,13 @@ function wireUpEventListeners() {
 
             if (btn && btn.tagName === 'BUTTON') {
 
-                if (delta < 0) {
+                if (isTouchPrimaryDevice()) {
+
+                    // Desktop-only hints: touch devices have no Shift/Ctrl keys
+
+                    btn.title = delta < 0 ? 'Click -1' : 'Click +1';
+
+                } else if (delta < 0) {
 
                     btn.title = 'Click -1 · Hold Shift for -5 · Hold Ctrl for -25';
 
@@ -8822,75 +8769,17 @@ function wireUpEventListeners() {
 
                 }
 
-                let lastTouchTime = 0;
+                // The +/- step is applied in a single 'click' handler below, which
 
-                let holdTimer = null;
+                // works for both mouse and touch. The old touch/mouse handlers with
 
-                let repeatInterval = null;
-
-
-
-                let touchHandled = false;
-
-                let touchStartY = 0;
-
-                let touchStartX = 0;
-
-                let isScrolling = false;
+                // ghost-click guards could swallow taps on mobile.
 
 
 
-                function startHolding() {
+                // Visual press feedback only - the step is applied on 'click' below
 
-                    // Visual feedback only - holding no longer auto-repeats
-
-                    btn.classList.add('holding');
-
-                }
-
-
-
-                function stopHolding() {
-
-                    // Clear timers
-
-                    if (holdTimer) {
-
-                        clearTimeout(holdTimer);
-
-                        holdTimer = null;
-
-                    }
-
-                    if (repeatInterval) {
-
-                        clearInterval(repeatInterval);
-
-                        repeatInterval = null;
-
-                    }
-
-                    // Remove visual feedback
-
-                    btn.classList.remove('holding');
-
-                }
-
-
-
-                // Handle touch (mobile) - allow scrolling, trigger only on clean tap
-
-                btn.addEventListener('touchstart', function(e) {
-
-                    touchHandled = true;
-
-                    isScrolling = false;
-
-                    touchStartY = e.touches[0].clientY;
-
-                    touchStartX = e.touches[0].clientX;
-
-                    // Just visual feedback - don't trigger yet
+                btn.addEventListener('touchstart', function() {
 
                     btn.classList.add('holding');
 
@@ -8898,59 +8787,11 @@ function wireUpEventListeners() {
 
 
 
-                btn.addEventListener('touchmove', function(e) {
-
-                    const touchY = e.touches[0].clientY;
-
-                    const touchX = e.touches[0].clientX;
-
-                    const yDiff = Math.abs(touchY - touchStartY);
-
-                    const xDiff = Math.abs(touchX - touchStartX);
-
-                    // If moved more than 10px, it's a scroll - cancel everything
-
-                    if (yDiff > 10 || xDiff > 10) {
-
-                        isScrolling = true;
-
-                        btn.classList.remove('holding');
-
-                    }
-
-                }, { passive: true });
-
-
-
-                btn.addEventListener('touchend', function(e) {
+                btn.addEventListener('touchend', function() {
 
                     btn.classList.remove('holding');
 
-                    // Only trigger if we didn't scroll
-
-                    if (!isScrolling && touchHandled) {
-
-                        lastTouchTime = Date.now();
-
-                        // Haptic feedback on mobile
-
-                        if (navigator.vibrate) navigator.vibrate(10);
-
-                        adjustValue(inputId, delta);
-
-                    }
-
-                    // Reset
-
-                    setTimeout(() => {
-
-                        touchHandled = false;
-
-                        isScrolling = false;
-
-                    }, 100);
-
-                }, { passive: false });
+                }, { passive: true });
 
 
 
@@ -8958,25 +8799,15 @@ function wireUpEventListeners() {
 
                     btn.classList.remove('holding');
 
-                    touchHandled = false;
-
-                    isScrolling = false;
-
                 });
 
 
 
-                // Handle mouse (desktop) - skip if touch already handled
+                // Visual feedback for mouse/trackpad users
 
                 btn.addEventListener('mousedown', function(e) {
 
-                    if (touchHandled) return;
-
-                    if (Date.now() - lastTouchTime < 500) return;
-
-                    if (e.button !== 0) return;
-
-                    startHolding(e);
+                    if (e.button === 0) btn.classList.add('holding');
 
                 });
 
@@ -8984,9 +8815,7 @@ function wireUpEventListeners() {
 
                 btn.addEventListener('mouseup', function() {
 
-                    if (touchHandled) return;
-
-                    stopHolding();
+                    btn.classList.remove('holding');
 
                 });
 
@@ -8994,33 +8823,25 @@ function wireUpEventListeners() {
 
                 btn.addEventListener('mouseleave', function() {
 
-                    if (touchHandled) return;
-
-                    stopHolding();
+                    btn.classList.remove('holding');
 
                 });
 
 
 
-                // Handle click (desktop) - for non-hold clicks
+                // Single handler for both mouse and touch. A tap that turns into a
+
+                // scroll fires no 'click', so the step is applied only on a real
+
+                // press - no ghost-click guard that could swallow taps on mobile.
 
                 btn.addEventListener('click', function(e) {
 
-                    const now = Date.now();
-
-                    // Ignore ghost clicks from touch events
-
-                    if (now - lastTouchTime < 500 || touchHandled) {
-
-                        e.preventDefault();
-
-                        e.stopPropagation();
-
-                        return;
-
-                    }
-
                     e.preventDefault();
+
+                    // Haptic feedback on mobile - fires on every real step
+
+                    haptic(HAPTIC_STEP);
 
                     // Modifier keys for quick steps: Shift = x5, Ctrl/Cmd = x25
 
@@ -9154,7 +8975,7 @@ function wireUpEventListeners() {
 
                             // Haptic feedback on toggle
 
-                            if (navigator.vibrate) navigator.vibrate(15);
+                            haptic(HAPTIC_TAP);
 
                             checkbox.checked = !checkbox.checked;
 
