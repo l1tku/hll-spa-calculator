@@ -5566,6 +5566,16 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
         display: none !important;
     }
 
+    /* Compact result box on phones: drop the reset/copy buttons and the
+       Distance / Target Height / Terrain Elevation summary line */
+    #result.armored-result .result-info-row {
+        display: none !important;
+    }
+    #result.armored-result {
+        padding-top: 12px !important;
+        padding-bottom: 12px !important;
+    }
+
     /* Trim vertical space so the whole calculator fits one screen */
     #calculator-card .panel-section.mode-full-only {
         padding-top: 8px !important;
