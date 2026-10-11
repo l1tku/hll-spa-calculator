@@ -65,6 +65,9 @@ The source code (HTML, CSS, JavaScript) of this project is licensed under the **
 - Close-range height correction now uses a real ballistic solve instead of a flat geometric fallback.
 - Changing tank no longer overwrites the current distance with a tank-specific default.
 
+### Changed
+- Turning on auto-calculation with an empty distance seeds the tank's default (400 m, or the table minimum for short-range SPAs) so a result shows immediately.
+
 **v2.1.0 - 2026-10-11**
 ### Added
 - **Mobile calculator layout:** phones get field tabs (Terrain · Height · Target), a big editable value, and a custom keypad (no native keyboard needed); tap the value to type, with haptics.

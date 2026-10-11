@@ -3089,6 +3089,73 @@ function isAutoCalcEnabled() {
 
 
 
+// Sensible starting distance for a tank: 400m normally, or the table minimum
+// for short-range SPAs (e.g. Churchill AVRE).
+
+function getTankDefaultDistance(faction) {
+
+    const table = tables[faction];
+
+    if (!table) return 400;
+
+    const distances = Object.keys(table)
+
+        .filter(k => !isNaN(parseInt(k)))
+
+        .map(k => parseInt(k))
+
+        .sort((a, b) => a - b);
+
+    const minRange = distances[0] || 200;
+
+    const maxRange = distances[distances.length - 1] || 600;
+
+    return maxRange <= 250 ? minRange : 400;
+
+}
+
+
+
+// When auto-calc is switched on with no distance entered yet, seed the tank's
+// default distance so a result is shown immediately. Only runs on an explicit
+// auto-calc activation - never on tank switches or while typing.
+
+function seedDistanceForAutoCalc() {
+
+    // Phones force auto-calc on and deliberately start zeroed - don't seed there.
+    if (isMobileLayout()) return;
+
+    const inputs = Array.from(document.querySelectorAll('input#distance, input#distanceLite'));
+
+    if (!inputs.length) return;
+
+    // Leave any existing distance alone.
+    const hasValue = inputs.some(i => {
+
+        const v = parseFloat(i.value);
+
+        return Number.isFinite(v) && v > 0;
+
+    });
+
+    if (hasValue) return;
+
+    const factionInput = document.getElementById('faction');
+
+    const fallback = getTankDefaultDistance(factionInput ? factionInput.value : '');
+
+    inputs.forEach(input => {
+
+        input.value = formatMetersHudValue(fallback);
+
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+
+    });
+
+}
+
+
+
 // Helper to set value on all inputs in a NodeList (used by faction change and reset handlers)
 
 function setAllValues(inputs, value) {
@@ -5726,7 +5793,13 @@ if (autoCalcToggleLite) {
 
         saveState();
 
-        if (this.checked) calculate();
+        if (this.checked) {
+
+            seedDistanceForAutoCalc();
+
+            calculate();
+
+        }
 
     });
 
@@ -6736,9 +6809,11 @@ if (autoCalcToggle) {
 
             updateTabLoop();
 
-// If switching to auto, calculate immediately
+// If switching to auto, seed a distance (if empty) and calculate immediately
 
             if (this.checked) {
+
+                seedDistanceForAutoCalc();
 
                 calculate();
 
