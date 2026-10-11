@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.1.1] - 2026-10-11
+
+### Fixed
+- Height stuck at close range now falls back to a real ballistic solve instead of a flat geometric angle.
+
 ## [2.1.0] - 2026-10-11
 
 ### Added
