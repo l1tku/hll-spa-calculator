@@ -9763,6 +9763,22 @@ function initMobileCalculator() {
 
 
 
+        // Enter on the phone keyboard dismisses it (commits the value)
+
+        activeInput.addEventListener('keydown', function(e) {
+
+            if (e.key === 'Enter' || e.keyCode === 13) {
+
+                e.preventDefault();
+
+                activeInput.blur();
+
+            }
+
+        });
+
+
+
         activeInput.addEventListener('blur', function() {
 
             render();
