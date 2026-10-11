@@ -9450,3 +9450,271 @@ if (document.readyState === 'loading') {
     injectVersion();
 
 }
+
+
+
+// ============================================
+
+// MOBILE CALCULATOR KEYPAD (phones only)
+
+// Drives the existing inputs via adjustValue()/calculate(), so all the
+
+// formatting, limits, auto-calc and state saving keep working unchanged.
+
+// ============================================
+
+function initMobileCalculator() {
+
+    const root = document.getElementById('mobileCalculator');
+
+    if (!root) return;
+
+    const tabs = Array.prototype.slice.call(root.querySelectorAll('.mob-tab'));
+
+    const keypad = document.getElementById('mobKeypad');
+
+    const activeValueEl = document.getElementById('mobActiveValue');
+
+    const activeLabelEl = document.getElementById('mobActiveLabel');
+
+    const heightTab = document.getElementById('mobTabHeight');
+
+    const heightToggle = document.getElementById('heightDiffToggle');
+
+
+
+    if (!keypad || tabs.length === 0) return;
+
+
+
+    const FIELD_LABELS = { distance: 'Target Distance', redNumber: 'Terrain Elevation', heightDiff: 'Height Difference' };
+
+    const state = { field: 'distance', fresh: true, buffer: '' };
+
+
+
+    function readField(field) {
+
+        const input = document.getElementById(field);
+
+        if (!input) return 0;
+
+        const value = parseHeightDiff(input.value);
+
+        return isNaN(value) ? 0 : value;
+
+    }
+
+
+
+    function render() {
+
+        tabs.forEach(function(tab) {
+
+            const selected = tab.getAttribute('data-field') === state.field;
+
+            tab.classList.toggle('active', selected);
+
+            tab.setAttribute('aria-selected', selected ? 'true' : 'false');
+
+        });
+
+        if (activeLabelEl) activeLabelEl.textContent = FIELD_LABELS[state.field] || '';
+
+        if (activeValueEl) {
+
+            const input = document.getElementById(state.field);
+
+            activeValueEl.textContent = input ? input.value : '0';
+
+        }
+
+        const signKey = keypad.querySelector('[data-key="sign"]');
+
+        if (signKey) signKey.disabled = (state.field === 'distance');
+
+    }
+
+
+
+    function selectField(field) {
+
+        state.field = field;
+
+        state.fresh = true;
+
+        state.buffer = '';
+
+        render();
+
+    }
+
+
+
+    function applyBuffer() {
+
+        const target = parseInt(state.buffer, 10) || 0;
+
+        const current = readField(state.field);
+
+        if (target !== current) adjustValue(state.field, target - current);
+
+        state.fresh = false;
+
+        state.buffer = String(readField(state.field));
+
+        render();
+
+    }
+
+
+
+    function pressDigit(digit) {
+
+        if (state.fresh) {
+
+            state.buffer = digit;
+
+            state.fresh = false;
+
+        } else {
+
+            state.buffer = (state.buffer === '0' ? '' : state.buffer) + digit;
+
+        }
+
+        if (state.buffer.length > 6) state.buffer = state.buffer.slice(0, 6);
+
+        applyBuffer();
+
+    }
+
+
+
+    function pressClear() {
+
+        state.fresh = false;
+
+        state.buffer = '0';
+
+        applyBuffer();
+
+    }
+
+
+
+    function pressBack() {
+
+        if (state.fresh || !state.buffer) return;
+
+        state.buffer = state.buffer.slice(0, -1);
+
+        if (!state.buffer || state.buffer === '-') state.buffer = '0';
+
+        applyBuffer();
+
+    }
+
+
+
+    function pressSign() {
+
+        if (state.field === 'distance') return;
+
+        const current = readField(state.field);
+
+        adjustValue(state.field, -current - current);
+
+        state.fresh = false;
+
+        state.buffer = String(readField(state.field));
+
+        render();
+
+    }
+
+
+
+    function pressCalc() {
+
+        if (typeof calculate === 'function') calculate();
+
+    }
+
+
+
+    tabs.forEach(function(tab) {
+
+        tab.addEventListener('click', function() {
+
+            haptic(HAPTIC_TAP);
+
+            selectField(this.getAttribute('data-field'));
+
+        });
+
+    });
+
+
+
+    keypad.addEventListener('click', function(e) {
+
+        const key = e.target.closest('.mob-key');
+
+        if (!key || key.disabled) return;
+
+        e.preventDefault();
+
+        haptic(HAPTIC_TAP);
+
+        const action = key.getAttribute('data-key');
+
+        if (action === 'clear') pressClear();
+
+        else if (action === 'back') pressBack();
+
+        else if (action === 'sign') pressSign();
+
+        else if (action === 'calc') pressCalc();
+
+        else if (/^[0-9]$/.test(action)) pressDigit(action);
+
+    });
+
+
+
+    function syncHeightTab() {
+
+        const on = !heightToggle || heightToggle.checked;
+
+        if (heightTab) heightTab.style.display = on ? '' : 'none';
+
+        if (!on && state.field === 'heightDiff') selectField('distance');
+
+    }
+
+
+
+    if (heightToggle) heightToggle.addEventListener('change', syncHeightTab);
+
+
+
+    syncHeightTab();
+
+    selectField('distance');
+
+}
+
+
+
+// Wire up the mobile keypad on load
+
+if (document.readyState === 'loading') {
+
+    document.addEventListener('DOMContentLoaded', initMobileCalculator);
+
+} else {
+
+    initMobileCalculator();
+
+}

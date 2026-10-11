@@ -51,7 +51,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="dist/styles.css?v=26">
+    <link rel="stylesheet" href="dist/styles.css?v=27">
     <style>
         @font-face {
             font-family: 'GothamSS';
@@ -599,6 +599,35 @@
                     </div>
                 </div>
 
+                <!-- Mobile calculator UI (phones only) -->
+                <div id="mobileCalculator" aria-label="Mobile calculator">
+                    <div class="mob-tabs" id="mobTabs" role="tablist" aria-label="Select input field">
+                        <button type="button" class="mob-tab active" data-field="distance" role="tab" aria-selected="true">Target<br>Distance</button>
+                        <button type="button" class="mob-tab" data-field="redNumber" role="tab" aria-selected="false">Terrain<br>MIL</button>
+                        <button type="button" class="mob-tab" data-field="heightDiff" id="mobTabHeight" role="tab" aria-selected="false">Height<br>&plusmn;</button>
+                    </div>
+                    <div class="mob-active">
+                        <span class="mob-active-label" id="mobActiveLabel">Target Distance</span>
+                        <span class="mob-active-value" id="mobActiveValue">400M</span>
+                    </div>
+                    <div class="mob-keypad" id="mobKeypad">
+                        <button type="button" class="mob-key" data-key="7">7</button>
+                        <button type="button" class="mob-key" data-key="8">8</button>
+                        <button type="button" class="mob-key" data-key="9">9</button>
+                        <button type="button" class="mob-key" data-key="4">4</button>
+                        <button type="button" class="mob-key" data-key="5">5</button>
+                        <button type="button" class="mob-key" data-key="6">6</button>
+                        <button type="button" class="mob-key" data-key="1">1</button>
+                        <button type="button" class="mob-key" data-key="2">2</button>
+                        <button type="button" class="mob-key" data-key="3">3</button>
+                        <button type="button" class="mob-key mob-key-sign" data-key="sign" aria-label="Toggle plus or minus">&plusmn;</button>
+                        <button type="button" class="mob-key" data-key="0">0</button>
+                        <button type="button" class="mob-key" data-key="back" aria-label="Backspace">&#9003;</button>
+                        <button type="button" class="mob-key mob-key-clear" data-key="clear" aria-label="Clear">C</button>
+                        <button type="button" class="mob-key mob-key-calc" data-key="calc">CALCULATE</button>
+                    </div>
+                </div>
+
                 <button id="mobileHllToolsBtn" class="mobile-hll-tools-button mobile-only" aria-label="View more HLL Tools">
                     <span>MORE HLL TOOLS</span>
                 </button>
@@ -769,6 +798,6 @@
             }
         }
     </script>
-    <script src="dist/main.js?v=30"></script>
+    <script src="dist/main.js?v=32"></script>
 </body>
 </html>

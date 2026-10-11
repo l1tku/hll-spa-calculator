@@ -5542,3 +5542,129 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
         transform: translate(-50%, 0);
     }
 }
+
+/* ============================================
+   Mobile calculator UI (phones only)
+   A keypad replaces the on-screen inputs so the native keyboard never opens.
+   ============================================ */
+#mobileCalculator {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    /* Hide the legacy input controls on phones - the keypad replaces them.
+       The inputs stay in the DOM so the calculation engine keeps working. */
+    #heightRedSection,
+    #liteCalcButtonRow,
+    .lite-field-row,
+    .panel-section .distance-controls,
+    .relative.mt-0.mb-5.mode-full-only {
+        display: none !important;
+    }
+
+    #mobileCalculator {
+        display: block;
+        margin-top: 12px;
+    }
+    .mob-tabs {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 8px;
+    }
+    .mob-tab {
+        flex: 1 1 0;
+        padding: 7px 4px;
+        font-family: inherit;
+        font-size: 0.62rem;
+        font-weight: bold;
+        line-height: 1.15;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        color: #c2b280;
+        background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+        border: 2px solid #4a4a4a;
+        border-top-color: #5a5a5a;
+        border-left-color: #5a5a5a;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+    }
+    .mob-tab.active {
+        color: #000;
+        background: linear-gradient(145deg, #fbbf24, #f59e0b);
+        border-color: #000;
+        box-shadow:
+            inset 0 2px 6px rgba(0, 0, 0, 0.4),
+            0 0 12px rgba(251, 191, 36, 0.5);
+    }
+    .mob-active {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        padding: 8px 10px;
+        margin-bottom: 8px;
+        background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%);
+        border: 2px solid #8b6914;
+        box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.8);
+    }
+    .mob-active-label {
+        font-size: 0.62rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #c2b280;
+    }
+    .mob-active-value {
+        font-family: 'Courier New', 'Courier', monospace;
+        font-size: 1.9rem;
+        font-weight: bold;
+        color: #ffffff;
+        line-height: 1.15;
+        text-shadow: 0 0 14px rgba(255, 255, 255, 0.5);
+    }
+    .mob-keypad {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+    }
+    .mob-key {
+        height: 50px;
+        font-family: 'Courier New', 'Courier', monospace;
+        font-size: 1.4rem;
+        font-weight: bold;
+        color: #e5e7eb;
+        background: linear-gradient(145deg, #3a3a3a, #2a2a2a);
+        border: 2px solid #4a4a4a;
+        border-top-color: #5a5a5a;
+        border-left-color: #5a5a5a;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+    .mob-key:active {
+        transform: scale(0.94);
+        background: linear-gradient(145deg, #fbbf24, #f59e0b);
+        border-color: #000;
+        color: #000;
+    }
+    .mob-key:disabled {
+        opacity: 0.3;
+    }
+    .mob-key-clear {
+        color: #f87171;
+    }
+    .mob-key-calc {
+        grid-column: span 2;
+        font-size: 0.95rem;
+        letter-spacing: 0.08em;
+        color: #000;
+        background: linear-gradient(145deg, #fbbf24, #f59e0b);
+        border-color: #8b6914;
+    }
+    .mob-key-calc:active {
+        transform: scale(0.97);
+        filter: brightness(1.12);
+    }
+}
