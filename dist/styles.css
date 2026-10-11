@@ -5572,6 +5572,11 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
         padding-bottom: 8px !important;
     }
 
+    /* Tidy: drop the "Tank Selection" caption on phones (the dropdown is self-explanatory) */
+    #tankSelectionSection > label[for="faction"] {
+        display: none !important;
+    }
+
     #mobileCalculator {
         display: block;
         margin-top: 12px;
