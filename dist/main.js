@@ -420,8 +420,26 @@ function handleTankSelection(value, selectSelected, selectItems, factionInput, i
 
 
 
-    // Keep the user's current distance/zeroed state when switching tanks.
-    // Do not inject a default distance for the new tank.
+    // Distance handling when switching tanks:
+    //  - auto-calc ON: use the new tank's sensible default (e.g. 100 m for the
+    //    short-range AVRE), so we never leave an unreachable distance behind.
+    //  - auto-calc OFF or on phones: keep the user's current/zeroed value.
+
+    if (isAutoCalcEnabled() && !isMobileLayout()) {
+
+        const fallback = getTankDefaultDistance(tank.value);
+
+        document.querySelectorAll('input#distance, input#distanceLite').forEach(input => {
+
+            input.value = formatMetersHudValue(fallback);
+
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+
+        });
+
+    }
+
+
 
     // Save state and recalculate
 

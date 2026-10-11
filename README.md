@@ -63,10 +63,11 @@ The source code (HTML, CSS, JavaScript) of this project is licensed under the **
 **v2.1.1 - 2026-10-11**
 ### Fixed
 - Close-range height correction now uses a real ballistic solve instead of a flat geometric fallback.
-- Changing tank no longer overwrites the current distance with a tank-specific default.
+- Changing tank with auto-calc off (or on phones) no longer overwrites the current/zeroed distance.
 
 ### Changed
 - Turning on auto-calculation with an empty distance seeds the tank's default (400 m, or the table minimum for short-range SPAs) so a result shows immediately.
+- With auto-calculation on, switching tanks uses the new tank's default distance (e.g. 100 m for the short-range AVRE).
 
 **v2.1.0 - 2026-10-11**
 ### Added
