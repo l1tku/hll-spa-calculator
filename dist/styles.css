@@ -5551,6 +5551,11 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
     display: none;
 }
 
+/* Mobile warning banner - hidden on desktop (uses the icon there) */
+#mobWarning {
+    display: none;
+}
+
 @media screen and (max-width: 768px) {
     /* Hide the legacy input controls on phones - the keypad replaces them.
        The inputs stay in the DOM so the calculation engine keeps working.
@@ -5582,6 +5587,25 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
         padding-bottom: 8px !important;
     }
 
+    /* Phones: soft drop shadow + a LOW inner shadow (kept subtle on purpose) */
+    #calculator-card {
+        box-shadow:
+            0 4px 12px rgba(0, 0, 0, 0.35),
+            inset 0 0 8px rgba(0, 0, 0, 0.3) !important;
+    }
+    /* ...and drop the inner vignette overlay (its bottom gradient is the dark band) */
+    #calculator-card::after {
+        display: none !important;
+    }
+    /* The outer ::before frame paints a dark band along the bottom edge (reads
+       as a shadow on phones) - drop it, and lighten the black bottom border */
+    #calculator-card::before {
+        display: none !important;
+    }
+    #calculator-card {
+        border-bottom-color: #1a1a1a !important;
+    }
+
     /* Tidy: drop the "Tank Selection" caption on phones (the dropdown is self-explanatory) */
     #tankSelectionSection > label[for="faction"] {
         display: none !important;
@@ -5590,6 +5614,29 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
     #mobileCalculator {
         display: block;
         margin-top: 12px;
+    }
+    /* Warning banner above the result (the icon panel is hidden on phones) */
+    #mobWarning {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 8px;
+        padding: 8px 10px;
+        background: rgba(248, 113, 113, 0.12);
+        border: 1px solid #f87171;
+        border-radius: 3px;
+        color: #f7b3b3;
+        font-size: 0.72rem;
+        line-height: 1.3;
+        text-align: left;
+    }
+    #mobWarning.hidden {
+        display: none;
+    }
+    #mobWarning .mob-warning-icon {
+        flex-shrink: 0;
+        font-size: 0.95rem;
+        line-height: 1.2;
     }
     .mob-tabs {
         display: flex;
@@ -5600,14 +5647,19 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
         appearance: none !important;
         -webkit-appearance: none !important;
         flex: 1 1 0;
-        padding: 9px 4px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        padding: 7px 4px;
         font-family: 'GothamSS', 'Nunito', 'Segoe UI', Arial, sans-serif !important;
         font-size: 0.72rem;
         font-weight: 700;
-        line-height: 1.15;
+        line-height: 1.1;
         letter-spacing: 0.03em;
         text-transform: uppercase;
-        color: #cbb27a !important;
+        color: #ffffff !important;
         background: #1c1c1c !important;
         border: 2px solid #3a3a3a !important;
         border-radius: 3px;
@@ -5615,12 +5667,38 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
         -webkit-tap-highlight-color: transparent;
         touch-action: manipulation;
         text-shadow: none !important;
+        transition: transform 0.05s ease, background 0.05s ease, border-color 0.05s ease;
+    }
+    #mobileCalculator .mob-tab-label {
+        font-size: 0.58rem;
+        line-height: 1.1;
+        letter-spacing: 0.03em;
+    }
+    #mobileCalculator .mob-tab-value {
+        font-family: 'GothamBold', 'Arial Black', 'Courier New', monospace;
+        font-size: 0.8rem;
+        font-weight: bold;
+        line-height: 1.1;
+        letter-spacing: 0;
+        text-transform: none;
+        color: #ffffff;
+        text-shadow: none !important;
+    }
+    #mobileCalculator .mob-tab.active .mob-tab-value {
+        color: #ffffff;
+    }
+    /* Terrain MIL = HUD red; Height = green (up) / red (down) */
+    #mobileCalculator .mob-val-red {
+        color: #cc6969 !important;
+    }
+    #mobileCalculator .mob-val-green {
+        color: #4caf50 !important;
     }
     #mobileCalculator .mob-tab.active {
-        color: #ffd24a !important;
-        background: #201c12 !important;
-        border-color: #6b5110 !important;
-        box-shadow: none !important;
+        color: #ffffff !important;
+        background: #2a240f !important;
+        border-color: #a5811a !important;
+        box-shadow: inset 0 0 10px rgba(251, 191, 36, 0.12) !important;
     }
     .mob-active {
         display: flex;
@@ -5645,7 +5723,7 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
         font-weight: bold;
         color: #ffffff;
         line-height: 1.15;
-        text-shadow: 0 0 14px rgba(255, 255, 255, 0.5);
+        text-shadow: none;
         width: 100%;
         box-sizing: border-box;
         text-align: center;
@@ -5670,6 +5748,7 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
         appearance: none;
         -webkit-appearance: none;
         height: 50px;
+        will-change: transform;
         font-family: 'Courier New', 'Courier', monospace;
         font-size: 1.4rem;
         font-weight: bold;
@@ -5684,7 +5763,7 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
         -webkit-user-select: none;
         user-select: none;
     }
-    .mob-key:active {
+    .mob-key.pressed {
         transform: scale(0.94);
         background: linear-gradient(145deg, #fbbf24, #f59e0b);
         border-color: #000;

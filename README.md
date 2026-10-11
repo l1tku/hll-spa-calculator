@@ -1,5 +1,5 @@
 # HLL SPA Calculator
-**v2.0.5 - Updated for Hell Let Loose Update 21**
+**v2.1.0 - Updated for Hell Let Loose Update 21**
 
 A Precise web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let Loose.
 
@@ -9,7 +9,7 @@ A Precise web-based targeting calculator for Self-Propelled Artillery (SPA) in H
 - **Multi-Vehicle Support:** Accurate formulas for all SPA vehicles.
 - **Auto-Calculation:** Toggle auto-calculation on or off.
 - **Height Calculation:** Toggle height calculation on or off.
-- **Mobile Support:** Compact mobile design with collapsible panels.
+- **Mobile Calculator:** Phones get a calculator-style view — field tabs (Terrain MIL · Height ± · Target Distance), a big editable value display, and a custom keypad, so the on-screen keyboard is never needed.
 - **Intel Database:** Built-in "Field Manual" with tank specifications, screenshots, and authentic WWII history.
 - **Immersive UI:** Military-themed interface with authentic styling.
 - **Lite Mode:** Lightweight version.
@@ -60,6 +60,18 @@ The source code (HTML, CSS, JavaScript) of this project is licensed under the **
 
 ## Version History
 
+**v2.1.0 - 2026-10-11**
+### Added
+- **Mobile calculator layout:** phones get field tabs (Terrain · Height · Target), a big editable value, and a custom keypad (no native keyboard needed); tap the value to type, with haptics.
+- Terrain red, Height green/red by sign; `MORE HLL TOOLS` moved to the footer on phones.
+
+### Changed
+- Phones open zeroed with Tank Info collapsed; default distance `0` on a first load.
+- Result refreshes on section change; Height auto-enables when used; lighter card shadow; buttons react on press.
+
+### Fixed
+- Height and terrain were ignored on mobile; backspace on a fresh field; keyboard-typed height now applies; copy works over plain `http`; no double-step; value caps.
+
 **v2.0.5 - 2026-10-11**
 ### Added
 - The cat meme (`hell_and_back.webp`) now peeks out behind the calculator:3
@@ -87,21 +99,5 @@ The source code (HTML, CSS, JavaScript) of this project is licensed under the **
 - Field Manual stats corrected from the game files (datamine, not in any patch notes), all six SPAs: pitch rate 1°/s → 1.5°/s, smoke 45 → 35, elevation field 30° → 26.2°/15°/20°
 - Engine/hull healths raised to current values (Bishop 910/830 → 880/850, AVRE → 1230/1080/960/630), Dustbin clips 50 → 28, Panzer III AT 690 → 640
 - Pitch fields now also show MIL (e.g. `-5° (-89 MIL)`, `1.5°/s (27 MIL/s)`)
-
-**v1.6.3 - 2026-09-30**
-### Fixed
-- Turret max elevation updated to 466 MIL for Sturmpanzer IV, Sherman M4A3 105, KV-2 and Panzer III Ausf. N. Not in the patch notes — thanks, devs.
-- Enter focus loop now wraps on touchscreen laptops.
-- Tank selection no longer calculates twice in auto mode.
-- F5 reload keeps Lite mode and restores values to both panels.
-- Turret max warning now takes priority over the range warning.
-
-### Removed
-- ~2,856 lines of dead code (main.js 11,672 → 9,062).
-- Lite panel's duplicate faction dropdown and legacy Calculate button.
-- The word "(Yellow)" from the result label.
-
-### Changed
-- Version strings all track this changelog (footer `v1.6.3`, service worker `1.6.3-2`).
 
 Only the last 5 releases are shown here — the full history lives in [CHANGELOG.md](CHANGELOG.md).

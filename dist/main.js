@@ -4,7 +4,7 @@
 
 const HLL_VERSION = {
 
-    appVersion: 'v2.0.5',
+    appVersion: 'v2.1.0',
 
     gamePatch: 'HLL Update 21',
 
@@ -13,6 +13,11 @@ const HLL_VERSION = {
     author: 'by litku'
 
 };
+
+
+
+// NOTE: the mobile calculator always starts from all zeros (see
+// initMobileCalculator), so it does not restore a previous distance/elevation.
 
 
 
@@ -443,19 +448,25 @@ function handleTankSelection(value, selectSelected, selectItems, factionInput, i
 
 
 
-    // Update all distance inputs to the default value for this tank
+    // Update all distance inputs to the default value for this tank.
+    // On phones we keep whatever the user has (start zeroed) instead of
+    // injecting a default distance when the tank changes.
 
-    const distanceInputs = document.querySelectorAll('input#distance, input#distanceLite');
+    if (!isMobileLayout()) {
 
-    distanceInputs.forEach(input => {
+        const distanceInputs = document.querySelectorAll('input#distance, input#distanceLite');
 
-        input.value = formatMetersHudValue(defaultDistance);
+        distanceInputs.forEach(input => {
 
-        const event = new Event('input', { bubbles: true });
+            input.value = formatMetersHudValue(defaultDistance);
 
-        input.dispatchEvent(event);
+            const event = new Event('input', { bubbles: true });
 
-    });
+            input.dispatchEvent(event);
+
+        });
+
+    }
 
 
 
@@ -2209,6 +2220,16 @@ function haptic(ms) {
 
 
 
+// Mobile layout (phones) - matches the CSS max-width breakpoint
+
+function isMobileLayout() {
+
+    return window.innerWidth <= 768;
+
+}
+
+
+
 // Touch-primary devices (phones/tablets) have no Shift/Ctrl keys, so the
 // quick-step stepper hints are desktop-only.
 
@@ -2318,7 +2339,9 @@ function adjustValue(fieldId, delta) {
 
     } else if (fieldId === 'heightDiff') {
 
-        newValue = newValue;
+        // Keep height in a sane range (matches the desktop input's max="5000")
+
+        newValue = Math.max(-5000, Math.min(5000, newValue));
 
     }
 
@@ -2375,6 +2398,14 @@ function adjustValue(fieldId, delta) {
 // When auto calc is off, show the current distance and reset final value to 0000 when any value changes
 
         updateDistanceReadout();
+
+// No distance -> no warning (especially the empty phone start state)
+
+        if (mobWarningTimer) { clearTimeout(mobWarningTimer); mobWarningTimer = null; }
+
+        const mobWarnClear = document.getElementById('mobWarning');
+
+        if (mobWarnClear) mobWarnClear.classList.add('hidden');
 
 // Reset final value to 0000 when auto calc is off
 
@@ -2933,7 +2964,19 @@ function computeHeightDiffMils(baseMil, distanceMeters, heightDiffMeters, table)
     if (solveKey && SPA_SOLVE[solveKey]) {
         const world = spaInverseMils(solveKey, distanceMeters, heightDiffMeters);
         const flat = spaInverseMils(solveKey, distanceMeters, 0);
-        if (Number.isFinite(world) && Number.isFinite(flat)) return world - flat;
+        if (Number.isFinite(world) && Number.isFinite(flat)) {
+            // Guard against low-angle saturation in spaHeightDeltaMeters:
+            // the model clamps the discriminant for heights above a mil-dependent
+            // threshold, so once the user's height lands in that clamped bucket
+            // the inverse solve stops changing with height. Fall back to the
+            // geometric angle in that zone so height still affects the result.
+            const absH = Math.abs(heightDiffMeters);
+            const dUser = spaHeightDeltaMeters(solveKey, world, absH || 1);
+            const dTest = spaHeightDeltaMeters(solveKey, world, Math.max(absH + 50, 100));
+            const saturated = Number.isFinite(dUser) && Number.isFinite(dTest) && Math.abs(dTest - dUser) < 0.5;
+            if (!saturated) return world - flat;
+            return degreesToMils(Math.atan2(heightDiffMeters, distanceMeters) * (180.0 / Math.PI));
+        }
     }
 
     const x = distanceMeters;
@@ -3692,6 +3735,12 @@ function rollElevationToNumber(targetNumber) {
 
 // Show warning with compact icon - shows icon, message hidden by default
 
+// Debounce timer for the mobile warning banner (so typing doesn't flash it)
+
+let mobWarningTimer = null;
+
+
+
 function showWarning(warningDiv, message) {
 
     if (!warningDiv) return;
@@ -3745,6 +3794,27 @@ function showWarning(warningDiv, message) {
         }
 
         
+
+        // Mobile banner - debounced so intermediate keystrokes (e.g. typing "8"
+        // on the way to "800") don't flash a warning.
+
+        if (mobWarningTimer) clearTimeout(mobWarningTimer);
+
+        mobWarningTimer = setTimeout(function () {
+
+            const mobWarning = document.getElementById('mobWarning');
+
+            if (!mobWarning) return;
+
+            const bannerText = mobWarning.querySelector('.mob-warning-text');
+
+            if (bannerText) bannerText.textContent = currentMessage;
+
+            mobWarning.classList.remove('hidden');
+
+        }, 700);
+
+
 
         // Add margin class to distance-controls for mobile
 
@@ -3804,6 +3874,16 @@ function hideWarning(warningDiv) {
 
     
 
+    // Hide the mobile warning banner (and cancel any pending show)
+
+    if (mobWarningTimer) { clearTimeout(mobWarningTimer); mobWarningTimer = null; }
+
+    const mobWarningEl = document.getElementById('mobWarning');
+
+    if (mobWarningEl) mobWarningEl.classList.add('hidden');
+
+
+
     // Remove margin class from distance-controls
 
     document.querySelectorAll('.distance-controls').forEach(el => {
@@ -3841,6 +3921,10 @@ function closeWarningMessage() {
     const warningDiv = document.getElementById('warning');
 
     const warningDivMobile = document.getElementById('warningMobile');
+
+    const mobWarningClose = document.getElementById('mobWarning');
+
+    if (mobWarningClose) mobWarningClose.classList.add('hidden');
 
     if (warningDiv) {
 
@@ -3898,6 +3982,12 @@ function calculate() {
 
     }
 
+    // On phones the inputs are hidden (offsetParent is null) - fall back to the
+
+    // first one so the value is still used in the calculation.
+
+    if (!heightDiffInput && allHeightInputs.length) heightDiffInput = allHeightInputs[0];
+
 
 
     let enteredHeight = 0;
@@ -3946,6 +4036,10 @@ function calculate() {
 
     }
 
+    // Same for terrain elevation: hidden on phones, so fall back to first input.
+
+    if (!redNumberInput && allRedInputs.length) redNumberInput = allRedInputs[0];
+
     let redNumber = 0;
 
     if (redNumberInput) {
@@ -3974,7 +4068,15 @@ function calculate() {
 
     if (!distance || isNaN(distance)) {
 
-        if (warningDiv) {
+        // Empty distance is not an error - the phone calculator simply starts
+        // at 0. Stay quiet on mobile (result just shows 0000); keep the prompt
+        // for the desktop Calculate button.
+
+        if (isMobileLayout()) {
+
+            if (typeof hideWarning === 'function') hideWarning(warningDiv);
+
+        } else if (warningDiv) {
 
             showWarning(warningDiv, 'Please enter a valid distance');
 
@@ -9361,6 +9463,24 @@ function handleMobileLayout() {
 
         }
 
+
+
+        // Default the tank info panel to collapsed on phones (once, so a user
+
+        // who opens it isn't fought by later resize events)
+
+        if (!milRangeText.dataset.mobileInitCollapsed) {
+
+            milRangeText.classList.add('tank-specs-collapsed');
+
+            const tankSpecsToggleBtnEl = document.getElementById('tankSpecsToggle');
+
+            if (tankSpecsToggleBtnEl) tankSpecsToggleBtnEl.classList.add('collapsed');
+
+            milRangeText.dataset.mobileInitCollapsed = '1';
+
+        }
+
     } else {
 
         // Move button back outside panel on desktop (to original position)
@@ -9507,6 +9627,68 @@ function initMobileCalculator() {
 
 
 
+    function updateTabValues() {
+
+        ['distance', 'redNumber', 'heightDiff'].forEach(function(field) {
+
+            const el = root.querySelector('.mob-tab-value[data-value-for="' + field + '"]');
+
+            if (!el) return;
+
+            const input = document.getElementById(field);
+
+            el.textContent = input ? input.value : '0';
+
+            el.classList.remove('mob-val-red', 'mob-val-green');
+
+            const numValue = input ? parseHeightDiff(input.value) : 0;
+
+            if (field === 'redNumber') {
+
+                // Terrain elevation is always red (matches the in-game HUD)
+
+                el.classList.add('mob-val-red');
+
+            } else if (field === 'heightDiff') {
+
+                if (numValue > 0) el.classList.add('mob-val-green');
+
+                else if (numValue < 0) el.classList.add('mob-val-red');
+
+            }
+
+        });
+
+        updateActiveValueColor();
+
+    }
+
+
+
+    function updateActiveValueColor() {
+
+        if (!activeInput) return;
+
+        activeInput.classList.remove('mob-val-red', 'mob-val-green');
+
+        if (state.field === 'redNumber') {
+
+            activeInput.classList.add('mob-val-red');
+
+        } else if (state.field === 'heightDiff') {
+
+            const value = readField('heightDiff');
+
+            if (value > 0) activeInput.classList.add('mob-val-green');
+
+            else if (value < 0) activeInput.classList.add('mob-val-red');
+
+        }
+
+    }
+
+
+
     function render() {
 
         tabs.forEach(function(tab) {
@@ -9541,6 +9723,8 @@ function initMobileCalculator() {
 
         if (signKey) signKey.disabled = (state.field === 'distance');
 
+        updateTabValues();
+
     }
 
 
@@ -9554,6 +9738,10 @@ function initMobileCalculator() {
         state.buffer = '';
 
         render();
+
+        // Refresh the result whenever the user moves between the three sections
+
+        if (typeof calculate === 'function' && isAutoCalcEnabled()) calculate();
 
     }
 
@@ -9609,7 +9797,11 @@ function initMobileCalculator() {
 
         }
 
-        if (state.buffer.length > 6) state.buffer = state.buffer.slice(0, 6);
+        // Limit digits per field: terrain 3 (max 356), others 4
+
+        const maxLen = state.field === 'redNumber' ? 3 : 4;
+
+        if (state.buffer.length > maxLen) state.buffer = state.buffer.slice(0, maxLen);
 
         applyBuffer();
 
@@ -9631,9 +9823,19 @@ function initMobileCalculator() {
 
     function pressBack() {
 
-        if (state.fresh || !state.buffer) return;
+        // Even on a freshly selected field, backspace should delete the last
 
-        state.buffer = state.buffer.slice(0, -1);
+        // digit of the current value.
+
+        if (state.fresh) {
+
+            state.buffer = String(readField(state.field));
+
+            state.fresh = false;
+
+        }
+
+        state.buffer = String(state.buffer).slice(0, -1);
 
         if (!state.buffer || state.buffer === '-') state.buffer = '0';
 
@@ -9681,7 +9883,11 @@ function initMobileCalculator() {
 
     tabs.forEach(function(tab) {
 
-        tab.addEventListener('click', function() {
+        // pointerdown = react on press (not release) so it feels instant
+
+        tab.addEventListener('pointerdown', function(e) {
+
+            e.preventDefault();
 
             haptic(HAPTIC_TAP);
 
@@ -9693,7 +9899,13 @@ function initMobileCalculator() {
 
 
 
-    keypad.addEventListener('click', function(e) {
+    let lastKeyAction = '';
+
+    let lastKeyTime = 0;
+
+    // React on pointerdown (immediate) rather than click (on release)
+
+    keypad.addEventListener('pointerdown', function(e) {
 
         const key = e.target.closest('.mob-key');
 
@@ -9701,9 +9913,23 @@ function initMobileCalculator() {
 
         e.preventDefault();
 
-        haptic(HAPTIC_TAP);
+        key.classList.add('pressed');
 
         const action = key.getAttribute('data-key');
+
+        // Guard against a single tap firing the same key twice (which made
+
+        // -/+ step by 2). The window is tiny, so normal tapping is unaffected.
+
+        const now = Date.now();
+
+        if (action === lastKeyAction && (now - lastKeyTime) < 50) return;
+
+        lastKeyAction = action;
+
+        lastKeyTime = now;
+
+        haptic(HAPTIC_TAP);
 
         if (action === 'clear') pressClear();
 
@@ -9716,6 +9942,24 @@ function initMobileCalculator() {
         else if (action === 'plus') pressStep(1);
 
         else if (/^[0-9]$/.test(action)) pressDigit(action);
+
+    });
+
+
+
+    // Clear the pressed animation immediately on release (iOS holds :active)
+
+    ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (evt) {
+
+        keypad.addEventListener(evt, function () {
+
+            keypad.querySelectorAll('.mob-key.pressed').forEach(function (k) {
+
+                k.classList.remove('pressed');
+
+            });
+
+        });
 
     });
 
@@ -9753,11 +9997,17 @@ function initMobileCalculator() {
 
             state.fresh = false;
 
+            // Typing height must also enable the height calculation
+
+            if (state.field === 'heightDiff') ensureHeightEnabled();
+
             const target = parseInt(raw, 10) || 0;
 
             const current = readField(state.field);
 
             if (target !== current) adjustValue(state.field, target - current);
+
+            updateTabValues();
 
         });
 
@@ -9801,15 +10051,43 @@ function initMobileCalculator() {
 
     // The Calculate button is gone on phones, so mobile always calculates live.
 
-    // Force auto-calculation on even if the (hidden) toggle was switched off.
+    // Only touch this on the mobile layout - desktop keeps the Auto toggle.
 
-    const autoToggle = document.getElementById('autoCalcToggle');
+    if (isMobileLayout()) {
 
-    if (autoToggle && !autoToggle.checked) {
+        const autoToggle = document.getElementById('autoCalcToggle');
 
-        autoToggle.checked = true;
+        if (autoToggle && !autoToggle.checked) {
 
-        autoToggle.dispatchEvent(new Event('change', { bubbles: true }));
+            autoToggle.checked = true;
+
+            autoToggle.dispatchEvent(new Event('change', { bubbles: true }));
+
+        }
+
+    }
+
+
+
+    // On phones always start from all zeros - no restored distance/elevation
+
+    if (isMobileLayout()) {
+
+        ['distance', 'heightDiff', 'redNumber'].forEach(function (field) {
+
+            const current = readField(field);
+
+            if (current !== 0) adjustValue(field, -current);
+
+        });
+
+        // Make sure the readouts/counter show zeros, not a stale default
+
+        if (typeof updateDistanceReadout === 'function') updateDistanceReadout();
+
+        // Snap the counter to 0000 instantly (no roll-in from a stale value)
+
+        if (typeof setupElevationCounter === 'function') setupElevationCounter(0);
 
     }
 

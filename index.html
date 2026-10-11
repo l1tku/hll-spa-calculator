@@ -46,12 +46,12 @@
     <link rel="icon" type="image/png" sizes="192x192" href="https://l1tku.github.io/hll-spa-calculator/images/icon-192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="https://l1tku.github.io/hll-spa-calculator/images/icon-512.png">
     <link rel="shortcut icon" href="https://l1tku.github.io/hll-spa-calculator/images/favicon.png">
-    <link rel="manifest" href="manifest.json?v=21">
+    <link rel="manifest" href="manifest.json?v=2.1.0">
     <link rel="apple-touch-icon" href="images/icon-180.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="dist/styles.css?v=40">
+    <link rel="stylesheet" href="dist/styles.css?v=2.1.0">
     <style>
         @font-face {
             font-family: 'GothamSS';
@@ -524,7 +524,7 @@
                                 </div>
                                 <div class="lite-field-controls distance-controls">
                                     <button class="armored-button w-52 h-52" tabindex="-1" data-field="distance" data-delta="-1" aria-label="Decrease distance">-</button>
-                                    <input type="text" id="distanceLite" value="400M" class="armored-input w-90 h-52" inputmode="numeric" pattern="[0-9]*" tabindex="3" aria-label="Target distance in meters">
+                                    <input type="text" id="distanceLite" value="0M" class="armored-input w-90 h-52" inputmode="numeric" pattern="[0-9]*" tabindex="3" aria-label="Target distance in meters">
                                     <button class="armored-button w-52 h-52" tabindex="-1" data-field="distance" data-delta="1" aria-label="Increase distance">+</button>
                                 </div>
                             </div>
@@ -563,7 +563,7 @@
                             </div>
                             <div class="flex-center gap-10 mt-auto">
                                 <button class="armored-button" aria-label="Decrease distance">-</button>
-                                <input type="text" inputmode="decimal" pattern="[0-9]*" id="distance" value="400M" tabindex="3" class="armored-input" aria-label="Target distance in meters">
+                                <input type="text" inputmode="decimal" pattern="[0-9]*" id="distance" value="0M" tabindex="3" class="armored-input" aria-label="Target distance in meters">
                                 <button class="armored-button" aria-label="Increase distance">+</button>
                             </div>
                         </div>
@@ -580,6 +580,11 @@
                     </div>
                 </div>
 
+
+                <div id="mobWarning" class="mob-warning hidden" role="status" aria-live="polite">
+                    <span class="mob-warning-icon">&#9888;</span>
+                    <span class="mob-warning-text"></span>
+                </div>
 
                 <div id="result" class="armored-result">
                     <label class="result-label desktop-only">Set Elevation To:</label>
@@ -602,9 +607,18 @@
                 <!-- Mobile calculator UI (phones only) -->
                 <div id="mobileCalculator" aria-label="Mobile calculator">
                     <div class="mob-tabs" id="mobTabs" role="tablist" aria-label="Select input field">
-                        <button type="button" class="mob-tab" data-field="redNumber" role="tab" aria-selected="false">Terrain<br>MIL</button>
-                        <button type="button" class="mob-tab" data-field="heightDiff" id="mobTabHeight" role="tab" aria-selected="false">Height<br>&plusmn;</button>
-                        <button type="button" class="mob-tab active" data-field="distance" role="tab" aria-selected="true">Target<br>Distance</button>
+                        <button type="button" class="mob-tab" data-field="redNumber" role="tab" aria-selected="false">
+                            <span class="mob-tab-label">Terrain MIL</span>
+                            <span class="mob-tab-value" data-value-for="redNumber">0MIL</span>
+                        </button>
+                        <button type="button" class="mob-tab" data-field="heightDiff" id="mobTabHeight" role="tab" aria-selected="false">
+                            <span class="mob-tab-label">Height &plusmn;</span>
+                            <span class="mob-tab-value" data-value-for="heightDiff">0M</span>
+                        </button>
+                        <button type="button" class="mob-tab active" data-field="distance" role="tab" aria-selected="true">
+                            <span class="mob-tab-label">Target Distance</span>
+                            <span class="mob-tab-value" data-value-for="distance">400M</span>
+                        </button>
                     </div>
                     <div class="mob-active">
                         <span class="mob-active-label" id="mobActiveLabel">Target Distance</span>
@@ -780,7 +794,7 @@
 
     <script>
         if ('serviceWorker' in navigator) {
-            const SERVICE_WORKER_VERSION = '2.0.5';
+            const SERVICE_WORKER_VERSION = '2.1.0';
             const isLocalhost =
                 location.hostname === 'localhost' ||
                 location.hostname === '127.0.0.1' ||
@@ -798,6 +812,6 @@
             }
         }
     </script>
-    <script src="dist/main.js?v=36"></script>
+    <script src="dist/main.js?v=2.1.0"></script>
 </body>
 </html>

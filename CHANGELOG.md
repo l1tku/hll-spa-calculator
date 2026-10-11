@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.1.0] - 2026-10-11
+
+### Added
+- Mobile calculator layout for phones: tabs, custom keypad, haptics, color-coded values.
+
+### Changed
+- Phones start zeroed with Tank Info collapsed; auto-calculate on; result refreshes on tab change.
+
+### Fixed
+- Height/terrain ignored on mobile.
+- Backspace on fresh field, double-tap steps, value caps.
+- Height stuck at close range; now falls back to geometric angle when model saturates.
+
 ## [2.0.5] - 2026-10-11
 
 ### Added
