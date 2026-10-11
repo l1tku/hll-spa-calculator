@@ -420,55 +420,8 @@ function handleTankSelection(value, selectSelected, selectItems, factionInput, i
 
 
 
-    // Calculate appropriate default distance based on tank's max range
-
-    const table = tables[tank.value];
-
-    let defaultDistance = 400;
-
-    if (table) {
-
-        const distances = Object.keys(table)
-
-            .filter(k => !isNaN(parseInt(k)))
-
-            .map(k => parseInt(k))
-
-            .sort((a, b) => a - b);
-
-        const minRange = distances[0] || 200;
-
-        const maxRange = distances[distances.length - 1] || 600;
-
-        // Use the actual table minimum for short-range SPAs (AVRE), otherwise 400m.
-
-        defaultDistance = maxRange <= 250 ? minRange : 400;
-
-    }
-
-
-
-    // Update all distance inputs to the default value for this tank.
-    // On phones we keep whatever the user has (start zeroed) instead of
-    // injecting a default distance when the tank changes.
-
-    if (!isMobileLayout()) {
-
-        const distanceInputs = document.querySelectorAll('input#distance, input#distanceLite');
-
-        distanceInputs.forEach(input => {
-
-            input.value = formatMetersHudValue(defaultDistance);
-
-            const event = new Event('input', { bubbles: true });
-
-            input.dispatchEvent(event);
-
-        });
-
-    }
-
-
+    // Keep the user's current distance/zeroed state when switching tanks.
+    // Do not inject a default distance for the new tank.
 
     // Save state and recalculate
 

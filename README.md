@@ -63,6 +63,7 @@ The source code (HTML, CSS, JavaScript) of this project is licensed under the **
 **v2.1.1 - 2026-10-11**
 ### Fixed
 - Close-range height correction now uses a real ballistic solve instead of a flat geometric fallback.
+- Changing tank no longer overwrites the current distance with a tank-specific default.
 
 **v2.1.0 - 2026-10-11**
 ### Added
