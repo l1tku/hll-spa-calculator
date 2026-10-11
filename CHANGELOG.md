@@ -3,12 +3,11 @@
 ## [2.1.1] - 2026-10-11
 
 ### Fixed
-- Height stuck at close range now falls back to a real ballistic solve instead of a flat geometric angle.
-- Changing tank with auto-calc off (or on phones) no longer overwrites the current/zeroed distance.
+- Close-range height now uses a real ballistic solve when the measured model saturates.
+- Tank switching no longer leaves an unreachable distance: auto-calc on uses the tank default (e.g. 100 m for AVRE), auto-calc off / phones keep the current value.
 
 ### Changed
-- Enabling auto-calculation with an empty distance seeds the tank's sensible default (400 m, or the table minimum for short-range SPAs) so a result appears immediately.
-- With auto-calculation on, switching tanks uses the new tank's default distance (e.g. 100 m for the short-range AVRE) so an unreachable distance is never left behind.
+- Auto-calc with an empty distance seeds the tank default so a result shows immediately.
 
 ## [2.1.0] - 2026-10-11
 
