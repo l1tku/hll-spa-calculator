@@ -3,11 +3,20 @@
 ## [2.1.1] - 2026-10-11
 
 ### Fixed
-- Close-range height now uses a real ballistic solve when the measured model saturates.
-- Tank switching no longer leaves an unreachable distance: auto-calc on uses the tank default (e.g. 100 m for AVRE), auto-calc off / phones keep the current value.
+- Close-range Height now uses a real ballistic solve when the measured model saturates.
+- Restored the "above supported range" warning with clearer wording: it now says the calculator math stops following beyond the flat max range.
+- Fixed Height being ignored for downhill targets (the saturation probe used |height| instead of the signed height).
+- Tank switching keeps a usable distance (auto-calc on = tank default, off/phones = keep current).
+- Mobile: `+/-` before typing, floating warning popup, wider result box, equal card spacing, themed Tank Information button, active tank highlighted.
+- Field Manual modal fits the phone viewport with a cleaned-up header; close button uses an SVG.
+- "MORE HLL TOOLS" themed; footer reordered; haptics added across controls.
+- Non-critical images use `prefetch` instead of `preload` (no more "unused preload" warnings).
 
 ### Changed
 - Auto-calc with an empty distance seeds the tank default so a result shows immediately.
+- Mobile calculator card top gap matches the side gaps.
+- Height input caps at ±1000 m (mobile keypad and desktop).
+- Mobile Distance tab button now reads just "Distance"; the full "Target Distance" label stays on the value readout.
 
 ## [2.1.0] - 2026-10-11
 

@@ -392,6 +392,18 @@ function handleTankSelection(value, selectSelected, selectItems, factionInput, i
 
     `;
 
+    // Highlight the active tank in the dropdown list
+
+    selectItems.querySelectorAll('.select-item').forEach(item => {
+
+        const active = item.getAttribute('data-value') === tank.value;
+
+        item.classList.toggle('select-item-active', active);
+
+        item.setAttribute('aria-selected', active ? 'true' : 'false');
+
+    });
+
 
 
     // Hide dropdown
@@ -505,7 +517,7 @@ function generateTankDropdown() {
 
     selectItems.innerHTML = tankData.map(tank => `
 
-        <div data-value="${tank.value}">
+        <div data-value="${tank.value}" class="select-item${tank.value === currentFaction ? ' select-item-active' : ''}" role="option" aria-selected="${tank.value === currentFaction ? 'true' : 'false'}">
 
             <img src="${tank.flag}" alt="${tank.flagAlt}" class="flag-icon" loading="lazy" decoding="async">
 
@@ -526,6 +538,8 @@ function generateTankDropdown() {
         item.addEventListener('click', function(e) {
 
             e.stopPropagation();
+
+            haptic(HAPTIC_TAP);
 
             const value = this.getAttribute('data-value');
 
@@ -643,7 +657,7 @@ function generateLiteTankDropdown() {
 
     selectItems.innerHTML = tankData.map(tank => `
 
-        <div data-value="${tank.value}">
+        <div data-value="${tank.value}" class="select-item${tank.value === currentFaction ? ' select-item-active' : ''}" role="option" aria-selected="${tank.value === currentFaction ? 'true' : 'false'}">
 
             <img src="${tank.flag}" alt="${tank.flagAlt}" class="flag-icon" loading="lazy" decoding="async">
 
@@ -664,6 +678,8 @@ function generateLiteTankDropdown() {
         item.addEventListener('click', function(e) {
 
             e.stopPropagation();
+
+            haptic(HAPTIC_TAP);
 
             const value = this.getAttribute('data-value');
 
@@ -688,6 +704,8 @@ function generateLiteTankDropdown() {
         selectSelected.addEventListener('click', function(e) {
 
             e.stopPropagation();
+
+            haptic(HAPTIC_TAP);
 
             const isExpanded = selectSelected.getAttribute('aria-expanded') === 'true';
 
@@ -2310,9 +2328,9 @@ function adjustValue(fieldId, delta) {
 
     } else if (fieldId === 'heightDiff') {
 
-        // Keep height in a sane range (matches the desktop input's max="5000")
+        // Keep height in a sane range (matches the desktop input's max="1000")
 
-        newValue = Math.max(-5000, Math.min(5000, newValue));
+        newValue = Math.max(-1000, Math.min(1000, newValue));
 
     }
 
@@ -2936,15 +2954,17 @@ function computeHeightDiffMils(baseMil, distanceMeters, heightDiffMeters, table)
         const world = spaInverseMils(solveKey, distanceMeters, heightDiffMeters);
         const flat = spaInverseMils(solveKey, distanceMeters, 0);
         if (Number.isFinite(world) && Number.isFinite(flat)) {
-            // Guard against low-angle saturation in spaHeightDeltaMeters:
-            // the model clamps the discriminant for heights above a mil-dependent
-            // threshold, so once the user's height lands in that clamped bucket
-            // the inverse solve stops changing with height. Fall back to a real
-            // ballistic solve (derive muzzle velocity from the measured table,
-            // then solve for the launch angle that hits the elevated target).
-            const absH = Math.abs(heightDiffMeters);
-            const dUser = spaHeightDeltaMeters(solveKey, world, absH || 1);
-            const dTest = spaHeightDeltaMeters(solveKey, world, Math.max(absH + 50, 100));
+            // Guard against low-angle saturation in spaHeightDeltaMeters: the model
+            // clamps the discriminant for large heights, so the inverse solve stops
+            // changing with height. Probe with the SAME sign as the target height -
+            // uphill and downhill saturate in different mil bands, so probing with
+            // |height| falsely reports a downhill shot as saturated.
+            const probeHeight = heightDiffMeters === 0 ? 1 : heightDiffMeters;
+            const testHeight = heightDiffMeters >= 0
+                ? Math.max(heightDiffMeters + 50, 100)
+                : Math.min(heightDiffMeters - 50, -100);
+            const dUser = spaHeightDeltaMeters(solveKey, world, probeHeight);
+            const dTest = spaHeightDeltaMeters(solveKey, world, testHeight);
             const saturated = Number.isFinite(dUser) && Number.isFinite(dTest) && Math.abs(dTest - dUser) < 0.5;
             if (!saturated) return world - flat;
             const ballisticDiff = computeBallisticHeightDiffMils(baseMil, distanceMeters, heightDiffMeters);
@@ -3866,7 +3886,6 @@ function showWarning(warningDiv, message) {
         });
 
         
-
         // Keep warning message hidden by default (user must click icon to see it)
 
         warningDiv.classList.add('hidden');
@@ -4187,14 +4206,6 @@ function calculate() {
 
     }
 
-    const solveKeyForRanges = Object.keys(tables).find(k => tables[k] === table);
-    const solveDataForRanges = solveKeyForRanges ? SPA_SOLVE[solveKeyForRanges] : null;
-    const minDist = solveDataForRanges ? solveDataForRanges.rows[0][1] : Math.min(...Object.keys(table).filter(k => k !== 'minMil' && k !== 'maxMil').map(Number));
-
-    const maxDist = solveDataForRanges ? Math.max(spaForwardMeters(solveKeyForRanges, 800), ...solveDataForRanges.rows.map(r => r[1])) : Math.max(...Object.keys(table).filter(k => k !== 'minMil' && k !== 'maxMil').map(Number));
-
-
-
     let base = interpolate(table, distance);
 
     // Ensure base is always a valid number - fallback to interpolate if still NaN
@@ -4202,6 +4213,23 @@ function calculate() {
     if (typeof base !== 'number' || isNaN(base)) {
 
         base = interpolate(table, distance);
+
+    }
+
+    // Flat maximum from the measured table + tail law. Used for the
+    // "above supported range" warning so users know the calculator math
+    // stops following beyond this point.
+    const solveKeyForRange = Object.keys(tables).find(k => tables[k] === table);
+
+    let maxDist = null;
+
+    if (solveKeyForRange && SPA_SOLVE[solveKeyForRange]) {
+
+        const rows = SPA_SOLVE[solveKeyForRange].rows;
+
+        const rowsMaxDist = rows[rows.length - 1][1];
+
+        maxDist = Math.max(spaForwardMeters(solveKeyForRange, 800), rowsMaxDist);
 
     }
 
@@ -4233,8 +4261,6 @@ function calculate() {
 
     const maxMil = table.maxMil;
 
-
-
 // Turret max elevation outranks distance warnings — the dial value is the hard limit.
 
     const lowRangeAnchor = lowRangeAnchors.get(table);
@@ -4255,19 +4281,19 @@ function calculate() {
 
         }
 
-    } else if (distance > maxDist) {
-
-        if (warningDiv) {
-
-            showWarning(warningDiv, `Warning: ${distance}m is above supported range (${maxDist}m max).`);
-
-        }
-
     } else if (final < minMil) {
 
         if (warningDiv) {
 
             showWarning(warningDiv, `WARNING: Calculated elevation (${final} MIL) is below this turret's minimum elevation (${minMil} MIL).`);
+
+        }
+
+    } else if (maxDist !== null && distance > maxDist) {
+
+        if (warningDiv) {
+
+            showWarning(warningDiv, `Distance exceeds supported range. Calculator math stops following beyond ~${Math.round(maxDist)}m.`);
 
         }
 
@@ -6913,6 +6939,8 @@ function toggleDropdown(e) {
 
     }
 
+    haptic(HAPTIC_TAP);
+
     selectItems.classList.toggle('select-hide');
 
     selectSelected.classList.toggle('select-arrow-active');
@@ -8352,6 +8380,8 @@ document.addEventListener('click', function(e) {
 
     if (e.target.classList.contains('info-modal-tab')) {
 
+        haptic(HAPTIC_TAP);
+
         const clickedTab = e.target;
 
         const tabContainer = clickedTab.closest('.info-modal-tabs');
@@ -8401,6 +8431,8 @@ document.addEventListener('click', function(e) {
 
 
 function closeTankInfoModal() {
+
+    haptic(HAPTIC_TAP);
 
     if (tankInfoModal) {
 
@@ -8550,6 +8582,8 @@ function wireUpEventListeners() {
 
             e.preventDefault();
 
+            haptic(HAPTIC_TAP);
+
             moreProjectsBox.classList.add('hidden');
 
             moreProjectsBox.style.display = 'none';
@@ -8598,6 +8632,8 @@ function wireUpEventListeners() {
 
             e.preventDefault();
 
+            haptic(HAPTIC_TAP);
+
             moreProjectsBox.classList.remove('hidden');
 
             moreProjectsBox.style.display = 'block';
@@ -8631,6 +8667,8 @@ function wireUpEventListeners() {
             if (selectItems) selectItems.classList.add('select-hide');
 
             if (selectSelected) selectSelected.classList.remove('select-arrow-active');
+
+            haptic(HAPTIC_TAP);
 
             showTankInfo();
 
@@ -9424,6 +9462,8 @@ function wireUpEventListeners() {
 
             e.stopPropagation();
 
+            haptic(HAPTIC_TAP);
+
             toggleTankSpecs();
 
         });
@@ -9658,7 +9698,10 @@ function initMobileCalculator() {
 
     const FIELD_LABELS = { distance: 'Target Distance', redNumber: 'Terrain Elevation', heightDiff: 'Height Difference' };
 
-    const state = { field: 'distance', fresh: true, buffer: '' };
+    // buffer = unsigned digits being edited, neg = pending sign for the entry.
+    // Keeping the sign separate means +/- works even before the first digit
+    // (e.g. select Height, press +/- then 1 0 0 -> -100).
+    const state = { field: 'distance', fresh: true, buffer: '', neg: false };
 
 
 
@@ -9754,15 +9797,27 @@ function initMobileCalculator() {
 
         if (activeInput) {
 
-            if (document.activeElement === activeInput) {
+            if (document.activeElement === activeInput && !state.fresh) {
 
-                activeInput.value = state.buffer || '';
+                // Show the pending sign even when the digits are still 0 (e.g. "-0")
+                const digits = state.buffer === '' ? '0' : state.buffer;
+
+                activeInput.value = (state.neg ? '-' : '') + digits;
 
             } else {
 
                 const input = document.getElementById(state.field);
 
-                activeInput.value = input ? input.value : '0';
+                let display = input ? input.value : '0';
+
+                // Show the pending negative sign even while the value is still 0
+                if (!state.fresh && state.neg && parseHeightDiff(display) === 0) {
+
+                    display = display.replace(/^\+?0/, '-0');
+
+                }
+
+                activeInput.value = display;
 
             }
 
@@ -9785,6 +9840,8 @@ function initMobileCalculator() {
         state.fresh = true;
 
         state.buffer = '';
+
+        state.neg = readField(field) < 0;
 
         render();
 
@@ -9816,7 +9873,9 @@ function initMobileCalculator() {
 
         if (state.field === 'heightDiff') ensureHeightEnabled();
 
-        const target = parseInt(state.buffer, 10) || 0;
+        const digits = parseInt(state.buffer, 10) || 0;
+
+        const target = state.neg ? -digits : digits;
 
         const current = readField(state.field);
 
@@ -9824,7 +9883,9 @@ function initMobileCalculator() {
 
         state.fresh = false;
 
-        state.buffer = String(readField(state.field));
+        // Keep the buffer unsigned and the sign separate so a pending sign
+        // survives a 0 value (adjustValue cannot represent "-0").
+        state.buffer = String(Math.abs(readField(state.field)));
 
         render();
 
@@ -9864,6 +9925,8 @@ function initMobileCalculator() {
 
         state.buffer = '0';
 
+        state.neg = false;
+
         applyBuffer();
 
     }
@@ -9878,7 +9941,9 @@ function initMobileCalculator() {
 
         if (state.fresh) {
 
-            state.buffer = String(readField(state.field));
+            state.buffer = String(Math.abs(readField(state.field)));
+
+            state.neg = readField(state.field) < 0;
 
             state.fresh = false;
 
@@ -9886,7 +9951,7 @@ function initMobileCalculator() {
 
         state.buffer = String(state.buffer).slice(0, -1);
 
-        if (!state.buffer || state.buffer === '-') state.buffer = '0';
+        if (!state.buffer) state.buffer = '0';
 
         applyBuffer();
 
@@ -9900,15 +9965,20 @@ function initMobileCalculator() {
 
         if (state.field === 'heightDiff') ensureHeightEnabled();
 
-        const current = readField(state.field);
+        // Works even at 0: flip a pending sign so the next digits are negative.
+        if (state.fresh) {
 
-        adjustValue(state.field, -current - current);
+            state.buffer = String(Math.abs(readField(state.field)));
 
-        state.fresh = false;
+            state.neg = readField(state.field) < 0;
 
-        state.buffer = String(readField(state.field));
+            state.fresh = false;
 
-        render();
+        }
+
+        state.neg = !state.neg;
+
+        applyBuffer();
 
     }
 
@@ -9922,7 +9992,9 @@ function initMobileCalculator() {
 
         state.fresh = false;
 
-        state.buffer = String(readField(state.field));
+        state.buffer = String(Math.abs(readField(state.field)));
+
+        state.neg = readField(state.field) < 0;
 
         render();
 
@@ -10020,7 +10092,9 @@ function initMobileCalculator() {
 
         activeInput.addEventListener('focus', function() {
 
-            state.buffer = String(readField(state.field));
+            state.buffer = String(Math.abs(readField(state.field)));
+
+            state.neg = readField(state.field) < 0;
 
             state.fresh = false;
 
@@ -10042,7 +10116,9 @@ function initMobileCalculator() {
 
             if (activeInput.value !== raw) activeInput.value = raw;
 
-            state.buffer = raw;
+            state.neg = raw.charAt(0) === '-';
+
+            state.buffer = raw.replace(/^-/, '');
 
             state.fresh = false;
 

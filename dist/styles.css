@@ -1524,7 +1524,6 @@ linear-gradient(
     left: 0;
     width: 100%;
     transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform;
 }
 .digit-strip.rolling {
     transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -1769,10 +1768,8 @@ h1.dog-tags {
 }
 .select-selected {
     position: relative;
-    background-color: #1a1a1a;
-    background-image:
-linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%),
-repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(100, 100, 100, 0.03) 2px, rgba(100, 100, 100, 0.03) 4px);
+    /* flat background so the selected row and the dropdown items match */
+    background: #1a1a1a;
     color: #d4d4d8;
     white-space: nowrap;
     padding: 10px 14px;
@@ -2148,10 +2145,7 @@ inset -2px 0 5px rgba(0, 0, 0, 0.12),
 }
 .select-selected:hover {
     border-color: #4a4a4a;
-    background-color: #2a2a2a;
-    background-image:
-linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%),
-repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(100, 100, 100, 0.03) 2px, rgba(100, 100, 100, 0.03) 4px);
+    background: #222222;
     box-shadow:
 inset 0 0 30px rgba(0, 0, 0, 0.4),
 0 6px 16px rgba(0, 0, 0, 0.5),
@@ -2165,10 +2159,7 @@ inset 0 0 40px rgba(0, 0, 0, 0.6),
 }
 .select-items {
     position: absolute;
-    background-color: #1a1a1a !important;
-    background-image:
-linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%),
-repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(100, 100, 100, 0.03) 2px, rgba(100, 100, 100, 0.03) 4px);
+    background: #1a1a1a !important;
     border: 3px solid #3a3a3a;
     border-top: none;
     border-radius: 0;
@@ -2202,10 +2193,7 @@ inset 0 0 30px rgba(0, 0, 0, 0.5),
     gap: 8px;
     transition: all 0.2s;
     color: #d4d4d8;
-    background-color: #1a1a1a;
-    background-image:
-linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%),
-repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(100, 100, 100, 0.03) 2px, rgba(100, 100, 100, 0.03) 4px);
+    background: #1a1a1a;
     font-family: 'SpecialElite', monospace;
     font-size: 14px;
     line-height: 1.2;
@@ -2217,14 +2205,18 @@ repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(100, 100, 100
     flex-shrink: 0;
 }
 .select-items div:hover {
-    background-color: #2a2a2a;
-    background-image: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    background: #2a2a2a;
     color: #ffffff;
     box-shadow: inset 0 0 20px rgba(194, 178, 128, 0.1);
 }
 .select-items div:active {
-    background-color: #1a1a1a;
-    background-image: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+    background: #252525;
+}
+/* Currently selected tank in the dropdown */
+.select-items div.select-item-active {
+    background: #262626;
+    color: #ffffff;
+    box-shadow: inset 3px 0 0 #c2b280;
 }
 .tank-specs-panel {
     position: relative;
@@ -2400,6 +2392,9 @@ repeating-linear-gradient(0deg, transparent, transparent 25px, rgba(139, 105, 20
     align-items: flex-start;
     justify-content: center;
     padding-top: 7px;
+    /* balance the trailing letter-space so the label sits centered in Chrome too */
+    padding-left: 0.6em;
+    box-sizing: border-box;
     font-family: 'SpecialElite', monospace;
     font-size: 17px;
     color: #ffffff;
@@ -2496,13 +2491,16 @@ repeating-linear-gradient(0deg, transparent, transparent 25px, rgba(139, 105, 20
     display: flex;
     align-items: center;
     justify-content: center;
-    width: auto;
-    height: auto;
+    width: 40px;
+    height: 40px;
     position: absolute;
     top: 38px;
     right: 20px;
     line-height: 1;
     z-index: 10;
+    /* render the close glyph identically on every browser */
+    -webkit-appearance: none;
+    appearance: none;
 }
 .info-modal-close:hover {
     color: #6b5010;
@@ -2551,9 +2549,10 @@ repeating-linear-gradient(0deg, transparent, transparent 25px, rgba(139, 105, 20
 }
 .info-modal-body {
     padding: 20px;
-    padding-bottom: 20px;
+    padding-bottom: max(20px, env(safe-area-inset-bottom, 0px));
     flex: 1;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     background: transparent;
     position: relative;
     z-index: 2;
@@ -3943,16 +3942,11 @@ inset 0 6px 16px rgba(0, 0, 0, 0.9),
     align-items: center;
     gap: 8px;
     padding: 8px 12px;
-    background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%);
-    border: 2px solid #4a4a4a;
-    border-top: none;
-    top: 100%;
-    left: 0;
-    right: 0;
-    z-index: 10000;
-    max-height: 300px;
-    overflow-y: auto;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    background: #1a1a1a;
+    /* match the tank-info panel below (same width + colour, no shadow).
+       NB: no dropdown positioning/overflow here - this is the closed box. */
+    border: 2px solid #3a3a3a;
+    box-shadow: none;
 }
 .select-items div {
     display: flex;
@@ -4504,6 +4498,8 @@ padding: 12px 10px 12px 10px !important;
 display: flex;
 flex-direction: column;
 align-items: center;
+/* a touch darker so the section sits into the card on phones */
+background: linear-gradient(180deg, #1e1e1e 0%, #151515 100%) !important;
     }
     .panel-section > div[style*="display: flex"] {
 order: 2;
@@ -4652,9 +4648,11 @@ gap: 4px !important;
     .armored-result-value {
 font-size: calc(2rem * var(--counter-scale, 1));
 min-width: auto;
+width: 100%;
+max-width: 100%;
+box-sizing: border-box;
 padding: 0 20px;
-margin-top: 10px;
-margin-bottom: 10px;
+margin: 10px 0;
     }
     .armored-calculate {
 margin-top: 10px;
@@ -4869,7 +4867,12 @@ white-space: pre-line !important;
 width: 90%;
 max-width: 95%;
 margin: 20px auto !important;
+/* use the dynamic viewport height so the URL bar on phones doesn't hide the
+   bottom of the Field Manual when it's scrolled to the end */
 max-height: 94vh;
+/* 40px = the 20px vertical margin of this box, so the Field Manual always
+   fits the visible viewport even with the phone URL bar open */
+max-height: min(94vh, calc(100dvh - 40px));
 text-align: left !important;
 position: relative;
 top: 0;
@@ -4881,23 +4884,46 @@ text-align: left !important;
     .info-modal-body {
 text-align: left !important;
     }
+    /* Field Manual header - document-style vertical rhythm (tank info only) */
+    #tankInfoModal .info-modal-header {
+min-height: 0;
+height: 158px;
+/* keep the header from being squashed by the scrolling body */
+flex-shrink: 0;
+padding: 34px 20px 12px;
+box-sizing: border-box;
+    }
+    #tankInfoModal .info-modal-tabs {
+flex-shrink: 0;
+    }
+    /* HLL Tools modal - centred, nudged a little above the middle */
+    #moreProjectsBox.info-modal:not(.hidden) {
+display: flex !important;
+align-items: center;
+justify-content: center;
+padding-bottom: 12vh;
+box-sizing: border-box;
+    }
+    #moreProjectsBox .info-modal-content {
+margin: 0 auto !important;
+max-height: calc(100dvh - 40px);
+    }
     .info-modal-close {
-font-size: 45px;
-top: -5px;
-right: 3px;
+top: 26px;
+right: 10px;
+    }
+    .field-manual-title {
+top: 34px !important;
+    }
+    .field-manual-subtitle {
+top: 61px !important;
     }
     #tankInfoTitle {
-top: 110px !important;
+top: 97px !important;
 white-space: normal !important;
 max-width: calc(100% - 40px) !important;
 word-wrap: break-word !important;
 overflow-wrap: break-word !important;
-    }
-    .field-manual-subtitle {
-top: 70px !important;
-    }
-    .field-manual-title {
-top: 45px !important;
     }
     .panel-section.mode-full-only {
 display: flex;
@@ -5111,53 +5137,78 @@ right: 0;
 position: absolute;
 box-sizing: border-box;
     }
+    /* Tank Info toggle - matches the tank select above (same font/border/arrow) */
     #tankSpecsToggle.tank-specs-toggle,
     .tank-specs-toggle {
 display: flex;
 align-items: center;
-justify-content: flex-start;
-gap: 8px;
-padding: 10px 14px 10px 48px;
-background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%);
+justify-content: space-between;
+gap: 10px;
+padding: 11px 14px;
+/* flat colour so the toggle + panel read as one box when expanded */
+background: #1a1a1a;
+/* border width matches the specs panel below so they line up when expanded */
 border: 2px solid #3a3a3a;
 border-bottom: none;
-color: #c2b280;
+color: #d4d4d8;
 cursor: pointer;
 font-family: 'SpecialElite', monospace;
-font-size: 13px;
-font-weight: bold;
-text-transform: uppercase;
-letter-spacing: 0.15em;
+font-size: 14px;
+font-weight: normal;
+line-height: 1.2;
+letter-spacing: 0.02em;
+text-transform: none;
+text-align: left;
+white-space: nowrap;
 width: 100%;
 max-width: 100%;
 margin-top: 6px;
 margin-bottom: 0;
 box-sizing: border-box;
 position: relative;
+-webkit-appearance: none;
+appearance: none;
+-webkit-tap-highlight-color: transparent;
+user-select: none;
     }
     .tank-specs-toggle:hover {
-background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%);
+background: #222222;
 border-color: #4a4a4a;
     }
+    .tank-specs-toggle:active {
+background: #252525;
+border-top-color: #c2b280;
+    }
+    .tank-specs-toggle:focus,
+    .tank-specs-toggle:focus-visible {
+outline: none;
+    }
+    #tankSpecsToggle.tank-specs-toggle > span:first-child,
+    .tank-specs-toggle > span:first-child {
+flex: 1 1 auto;
+min-width: 0;
+overflow: hidden;
+text-overflow: ellipsis;
+    }
     #tankSpecsToggleIcon {
+flex: 0 0 auto;
 font-size: 0;
-color: #c2b280;
-transition: transform 0.3s ease;
-position: absolute;
-right: 16px;
-top: 50%;
-transform: translateY(-40%) rotate(180deg);
 width: 0;
 height: 0;
+margin-left: 4px;
 border-left: 6px solid transparent;
 border-right: 6px solid transparent;
 border-top: 6px solid #c2b280;
+transform: rotate(180deg);
+transition: transform 0.3s ease;
     }
 #moreProjectsBox.info-modal {
     display: none;
 }
 #moreProjectsBox.info-modal:not(.hidden) {
-    display: block !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
 }
 #moreProjectsBox .info-modal-content::before {
     display: none !important;
@@ -5185,7 +5236,7 @@ border-top: 6px solid #c2b280;
     background-image: none !important;
 }
     .tank-specs-toggle.collapsed #tankSpecsToggleIcon {
-transform: translateY(-40%) rotate(0deg) !important;
+transform: rotate(0deg) !important;
     }
     #milRangeText.tank-specs-panel,
     #milRangeText,
@@ -5349,30 +5400,33 @@ opacity: 0.7 !important;
     }
     .mobile-hll-tools-button {
 display: flex !important;
-width: calc(100% - 32px);
-max-width: 280px;
-margin: 16px auto 8px;
-padding: 14px 20px;
-background: linear-gradient(145deg, #2a2a2a 0%, #1f1f1f 100%);
-border: 2px solid #8b6914;
-border-radius: 6px;
-color: #c2b280;
-font-family: 'GothamSS', sans-serif;
-font-size: 14px;
-font-weight: bold;
-letter-spacing: 2px;
-text-transform: uppercase;
 align-items: center;
 justify-content: center;
 gap: 10px;
+width: calc(100% - 32px);
+max-width: 300px;
+margin: 18px auto 10px;
+padding: 13px 20px;
+box-sizing: border-box;
+background: linear-gradient(145deg, #4a3a1a, #2a1f0f);
+border: 3px solid #6b5010;
+border-top-color: #8b6914;
+border-left-color: #8b6914;
+border-radius: 0;
+color: #fcd34d;
+font-family: 'Courier New', monospace;
+font-size: 1rem;
+font-weight: bold;
+letter-spacing: 0.15em;
+text-transform: uppercase;
 cursor: pointer;
 box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    0 2px 8px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(139, 105, 20, 0.3);
-transition: all 0.2s ease;
+    inset 0 4px 12px rgba(0, 0, 0, 0.7),
+    0 6px 20px rgba(0, 0, 0, 0.8);
+transition: all 0.15s ease;
 position: relative;
 overflow: hidden;
+-webkit-tap-highlight-color: transparent;
     }
     .mobile-kofi-button {
         display: inline-flex !important;
@@ -5412,35 +5466,32 @@ overflow: hidden;
     .mobile-hll-tools-button::before {
 content: '';
 position: absolute;
-top: 0;
-left: 0;
-right: 0;
-bottom: 0;
-background:
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E"),
-    repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 20px,
-        rgba(0, 0, 0, 0.1) 20px,
-        rgba(0, 0, 0, 0.1) 21px
-    );
-opacity: 0.5;
+top: 3px;
+left: 3px;
+right: 3px;
+bottom: 3px;
+border: 1px solid rgba(252, 211, 77, 0.18);
 pointer-events: none;
     }
     .mobile-hll-tools-button span {
 position: relative;
 z-index: 2;
-text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+text-shadow: 0 0 8px rgba(252, 211, 77, 0.25);
     }
     .mobile-hll-tools-button:active {
-background: linear-gradient(145deg, #1f1f1f 0%, #151515 100%);
-transform: translateY(2px);
+transform: scale(0.97);
+background: linear-gradient(145deg, #fbbf24, #f59e0b);
+border-color: #000;
+color: #000;
 box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.05),
-    0 1px 4px rgba(0, 0, 0, 0.4);
-border-color: #6b5110;
+    inset 0 6px 12px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(251, 191, 36, 0.8),
+    0 0 32px rgba(251, 191, 36, 0.4);
     }
+    /* Phones: put the two actions together, version/fine-print last */
+    .version-footer .mobile-hll-tools-button { order: 1; }
+    .version-footer .mobile-kofi-button { order: 2; }
+    .version-footer .version-links { order: 3; margin-top: 4px; }
 }
 .tank-specs-toggle {
     display: none;
@@ -5579,12 +5630,21 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
     #result.armored-result {
         padding-top: 12px !important;
         padding-bottom: 12px !important;
+        padding-left: 16px !important;
+        padding-right: 16px !important;
     }
 
     /* Trim vertical space so the whole calculator fits one screen */
     #calculator-card .panel-section.mode-full-only {
         padding-top: 8px !important;
         padding-bottom: 8px !important;
+    }
+
+    /* First section (tank selection) sits flush with the card padding so the
+       top gap matches the side gaps - the base .panel-section adds an 8px
+       top margin that only shows at the top. */
+    #calculator-card .panel-section.mode-full-only:has(#tankSelectionSection) {
+        margin-top: 0 !important;
     }
 
     /* Phones: soft drop shadow + a LOW inner shadow (kept subtle on purpose) */
@@ -5615,28 +5675,55 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
         display: block;
         margin-top: 12px;
     }
-    /* Warning banner above the result (the icon panel is hidden on phones) */
+    /* Warning popup - floats over the calculator so nothing shifts vertically */
+    @keyframes mobWarningIn {
+        from { opacity: 0; transform: translateX(-50%) translateY(-8px); }
+        to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
     #mobWarning {
+        position: fixed;
+        top: calc(env(safe-area-inset-top, 0px) + 10px);
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 9999;
+        box-sizing: border-box;
+        width: min(440px, calc(100vw - 20px));
         display: flex;
         align-items: flex-start;
-        gap: 8px;
-        margin-bottom: 8px;
-        padding: 8px 10px;
-        background: rgba(248, 113, 113, 0.12);
-        border: 1px solid #f87171;
-        border-radius: 3px;
-        color: #f7b3b3;
-        font-size: 0.72rem;
-        line-height: 1.3;
+        gap: 9px;
+        padding: 10px 12px;
+        background: rgba(48, 14, 14, 0.97);
+        border: 1px solid rgba(248, 113, 113, 0.65);
+        border-left-width: 3px;
+        border-radius: 6px;
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
+        color: #ffcccc;
+        font-family: 'Nunito', 'Segoe UI', Arial, sans-serif !important;
+        font-size: 0.8rem;
+        font-weight: 400;
+        line-height: 1.45;
+        letter-spacing: 0.01em;
         text-align: left;
+        text-transform: none;
+        text-shadow: none;
+        -webkit-font-smoothing: antialiased;
+        overflow-wrap: anywhere;
+        pointer-events: none;
+        margin: 0;
+        animation: mobWarningIn 0.2s ease;
     }
     #mobWarning.hidden {
         display: none;
     }
     #mobWarning .mob-warning-icon {
         flex-shrink: 0;
-        font-size: 0.95rem;
-        line-height: 1.2;
+        font-size: 1rem;
+        line-height: 1.35;
+        color: #fca5a5;
+    }
+    #mobWarning .mob-warning-text {
+        flex: 1 1 auto;
+        min-width: 0;
     }
     .mob-tabs {
         display: flex;
