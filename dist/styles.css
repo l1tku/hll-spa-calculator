@@ -5553,13 +5553,21 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
 
 @media screen and (max-width: 768px) {
     /* Hide the legacy input controls on phones - the keypad replaces them.
-       The inputs stay in the DOM so the calculation engine keeps working. */
+       The inputs stay in the DOM so the calculation engine keeps working.
+       #calculator-card raises specificity above the
+       `.panel-section > div[style*="display: flex"] !important` rule above. */
     #heightRedSection,
     #liteCalcButtonRow,
     .lite-field-row,
-    .panel-section .distance-controls,
+    #calculator-card .panel-section .distance-controls,
     .relative.mt-0.mb-5.mode-full-only {
         display: none !important;
+    }
+
+    /* Trim vertical space so the whole calculator fits one screen */
+    #calculator-card .panel-section.mode-full-only {
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
     }
 
     #mobileCalculator {
