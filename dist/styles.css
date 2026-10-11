@@ -5646,6 +5646,17 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
         color: #ffffff;
         line-height: 1.15;
         text-shadow: 0 0 14px rgba(255, 255, 255, 0.5);
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+        background: transparent;
+        border: 0;
+        outline: none;
+        padding: 0;
+        margin: 0;
+        caret-color: #fbbf24;
+        -webkit-user-select: text;
+        user-select: text;
     }
     .mob-keypad {
         display: grid;

@@ -9473,7 +9473,7 @@ function initMobileCalculator() {
 
     const keypad = document.getElementById('mobKeypad');
 
-    const activeValueEl = document.getElementById('mobActiveValue');
+    const activeInput = document.getElementById('mobActiveInput');
 
     const activeLabelEl = document.getElementById('mobActiveLabel');
 
@@ -9521,11 +9521,19 @@ function initMobileCalculator() {
 
         if (activeLabelEl) activeLabelEl.textContent = FIELD_LABELS[state.field] || '';
 
-        if (activeValueEl) {
+        if (activeInput) {
 
-            const input = document.getElementById(state.field);
+            if (document.activeElement === activeInput) {
 
-            activeValueEl.textContent = input ? input.value : '0';
+                activeInput.value = state.buffer || '';
+
+            } else {
+
+                const input = document.getElementById(state.field);
+
+                activeInput.value = input ? input.value : '0';
+
+            }
 
         }
 
@@ -9710,6 +9718,58 @@ function initMobileCalculator() {
         else if (/^[0-9]$/.test(action)) pressDigit(action);
 
     });
+
+
+
+    // Tapping the value readout lets you type with the phone's own keyboard
+
+    if (activeInput) {
+
+        activeInput.addEventListener('focus', function() {
+
+            state.buffer = String(readField(state.field));
+
+            state.fresh = false;
+
+            activeInput.select();
+
+        });
+
+
+
+        activeInput.addEventListener('input', function() {
+
+            let raw = activeInput.value.replace(/[^0-9-]/g, '');
+
+            raw = (state.field === 'distance')
+
+                ? raw.replace(/-/g, '')
+
+                : raw.replace(/(?!^)-/g, '');
+
+            if (activeInput.value !== raw) activeInput.value = raw;
+
+            state.buffer = raw;
+
+            state.fresh = false;
+
+            const target = parseInt(raw, 10) || 0;
+
+            const current = readField(state.field);
+
+            if (target !== current) adjustValue(state.field, target - current);
+
+        });
+
+
+
+        activeInput.addEventListener('blur', function() {
+
+            render();
+
+        });
+
+    }
 
 
 
