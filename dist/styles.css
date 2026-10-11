@@ -5618,9 +5618,9 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
     }
     #mobileCalculator .mob-tab.active {
         color: #ffd24a !important;
-        background: #262014 !important;
-        border-color: #fbbf24 !important;
-        box-shadow: inset 0 0 10px rgba(251, 191, 36, 0.25);
+        background: #201c12 !important;
+        border-color: #6b5110 !important;
+        box-shadow: none !important;
     }
     .mob-active {
         display: flex;
@@ -5649,8 +5649,11 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
     }
     .mob-keypad {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         gap: 6px;
+    }
+    .mob-key-zero {
+        grid-column: span 2;
     }
     .mob-key {
         appearance: none;
