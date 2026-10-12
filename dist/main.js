@@ -10542,9 +10542,13 @@ function initMobileCalculator() {
 
         document.body.appendChild(popup);
 
+        document.body.style.overflow = 'hidden';
+
         function close() {
 
             popup.remove();
+
+            document.body.style.overflow = '';
 
             document.removeEventListener('keydown', onKey, true);
 

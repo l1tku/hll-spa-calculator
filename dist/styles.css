@@ -5929,6 +5929,7 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
     max-width: 420px;
     max-height: 88vh;
     overflow: auto;
+    overscroll-behavior: contain;
     box-sizing: border-box;
     transform: translateY(-70px);
     background: #26282e;
@@ -5936,6 +5937,15 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
     border-radius: 8px;
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
     color: #e5e7eb;
+}
+@media (max-width: 768px) {
+    /* Phones: no upward shift (it pushed the header off-screen) and cap to the
+       real visible height so the close button stays reachable and it scrolls. */
+    .mob-help-box {
+        transform: none;
+        max-height: calc(100vh - 32px);
+        max-height: calc(100dvh - 32px);
+    }
 }
 .mob-help-head {
     display: flex;
