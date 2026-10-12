@@ -27,7 +27,7 @@ No installation required. Open [HLL SPA Calculator](https://l1tku.github.io/hll-
 1. **Select Vehicle:** Choose your tank/SPA from the dropdown.
 2. **Set Terrain Elevation:** Type the **RED MIL** number you see in your ingame HUD.
 3. **Set Distance:** Enter the distance to the target (the enemy).
-4. **Set Height Difference (optional):** Enter the height difference between your gun and the target, in meters.
+4. **Set Height Difference (optional):** Enter the height difference between your gun and the target.
 5. **Calculate:** Set your turret to the elevation shown.
 
 ## Vehicles Supported
