@@ -3665,13 +3665,14 @@ body.keypad-view #result.armored-result .result-info-row {
 }
 body.keypad-view #mobileCalculator {
     display: block;
-    margin: 12px auto 0;
+    margin: 8px auto 0;
 }
 /* Narrow the whole card in KEYPAD view so the keypad fills it (no dead space) */
 body.keypad-view #calculator-card {
     max-width: 500px;
     margin-left: auto;
     margin-right: auto;
+    padding-bottom: 12.5px;
 }
 /* No room for the big tank image in the narrow keypad card - specs take the row */
 body.keypad-view .faction-image {
@@ -5651,7 +5652,7 @@ box-shadow:
 .cat-paws {
     position: absolute;
     right: 45px;
-    top: calc(5% + 5px);
+    top: calc(5%);
     transform: translateY(-45%);
     width: 90px;
     height: auto;
@@ -5824,11 +5825,6 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
     display: none;
     align-items: center;
     justify-content: center;
-    font-family: 'Georgia', 'Times New Roman', serif;
-    font-style: italic;
-    font-weight: bold;
-    font-size: 0.7rem;
-    line-height: 1;
     color: #c2b280;
     background: transparent;
     border: 1px solid #6b6350;
@@ -5851,10 +5847,176 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
     height: 40px;
     transform: translate(-50%, -50%);
 }
+/* FULL-mode help "i" button – keypad style, inline next to the field label */
+.help-i {
+    flex: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #c2b280;
+    background: transparent;
+    border: 1px solid #6b6350;
+    cursor: pointer;
+    padding: 0;
+    margin: -8px 0 0 4px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+.help-i svg {
+    display: block;
+}
+.help-i:hover,
+.help-i:active {
+    background: rgba(251, 191, 36, 0.25);
+    border-color: #fbbf24;
+    color: #fbbf24;
+}
+/* Keypad keyboard-controls link */
+.keypad-controls-link {
+    appearance: none;
+    -webkit-appearance: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.72rem;
+    font-weight: bold;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #d8c9a0;
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+.keypad-controls-link svg {
+    display: block;
+}
+.keypad-controls-link:hover,
+.keypad-controls-link:active {
+    color: #fbbf24;
+}
 .mob-active-help:active {
     background: rgba(251, 191, 36, 0.25);
     border-color: #fbbf24;
     color: #fbbf24;
+}
+/* Keypad help popup (i button) – text + optional in-game screenshot */
+.mob-help-popup {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0.55);
+}
+.mob-help-box {
+    width: 100%;
+    max-width: 420px;
+    max-height: 88vh;
+    overflow: auto;
+    box-sizing: border-box;
+    transform: translateY(-70px);
+    background: #26282e;
+    border: 1px solid #454851;
+    border-radius: 8px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+    color: #e5e7eb;
+}
+.mob-help-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 14px;
+    border-bottom: 1px solid #383b42;
+    background: #2d3037;
+}
+.mob-help-title {
+    font-family: 'GothamMedium', 'Segoe UI', Arial, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #e0b64a;
+}
+.mob-help-close {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 0;
+    border-radius: 6px;
+    color: #9aa0a6;
+    font-size: 0.95rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+}
+.mob-help-close:hover,
+.mob-help-close:active {
+    background: rgba(255, 255, 255, 0.09);
+    color: #ffffff;
+}
+.mob-help-body {
+    padding: 14px 16px 18px;
+}
+.mob-help-img {
+    display: block;
+    width: 100%;
+    margin: 0 0 14px;
+    border: 0;
+    border-radius: 4px;
+    image-rendering: auto;
+}
+.mob-help-text {
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-family: 'Nunito', 'Segoe UI', system-ui, Arial, sans-serif;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: #d7dae0;
+}
+/* Keypad shortcuts popup - two-column layout */
+.mob-help-shortcuts {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+.ks-row {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    font-size: 0.85rem;
+}
+.ks-key {
+    min-width: 96px;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    color: #e0b64a;
+}
+.ks-row > span:last-child {
+    color: #d7dae0;
+}
+.ks-foot {
+    margin-top: 8px;
+    padding-top: 10px;
+    border-top: 1px solid #383b42;
+    font-size: 0.8rem;
 }
 .mob-active-label {
     font-size: 0.62rem;
@@ -5909,16 +6071,41 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
     user-select: none;
 }
 .mob-key.pressed {
-    transform: scale(0.94);
+    transform: scale(0.93) translateY(1px);
     background: linear-gradient(145deg, #fbbf24, #f59e0b);
     border-color: #000;
     color: #000;
+    box-shadow:
+        inset 0 3px 6px rgba(0, 0, 0, 0.5),
+        0 0 12px rgba(251, 191, 36, 0.45);
 }
 .mob-key:disabled {
     opacity: 0.3;
 }
 .mob-key-clear {
     color: #f87171;
+}
+/* Keypad keyboard controls hint - only on desktop keypad (phones have no keys) */
+.keypad-hint {
+    display: none;
+    margin: 12.5px 0 0;
+    text-align: center;
+    font-family: 'Courier New', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+    line-height: 1.5;
+    color: #7a7f88;
+}
+@media (hover: hover) and (pointer: fine) {
+    body.keypad-view .keypad-hint {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+    .keypad-hint .help-i {
+        margin: 0;
+    }
 }
 /* Desktop only: hover/active feedback on the keypad keys. Guarded with
    (hover: hover) so touch devices never get sticky hover states. */
@@ -5940,7 +6127,13 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
         box-shadow: 0 0 5px rgba(251, 191, 36, 0.18);
     }
     .mob-key:active {
-        transform: scale(0.97);
+        transform: scale(0.93) translateY(1px);
+        background: linear-gradient(145deg, #fbbf24, #f59e0b);
+        border-color: #000;
+        color: #000;
+        box-shadow:
+            inset 0 3px 6px rgba(0, 0, 0, 0.5),
+            0 0 12px rgba(251, 191, 36, 0.45);
     }
     .mob-key-clear:hover {
         color: #fca5a5;
@@ -5966,6 +6159,12 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
     }
     #mobileCalculator .mob-tab:active {
         transform: scale(0.97);
+    }
+    /* Keypad help (i) button */
+    .mob-active-help:hover {
+        background: rgba(251, 191, 36, 0.25);
+        border-color: #fbbf24;
+        color: #fbbf24;
     }
 }
 

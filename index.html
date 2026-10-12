@@ -50,12 +50,12 @@
     <link rel="icon" type="image/png" sizes="192x192" href="https://l1tku.github.io/hll-spa-calculator/images/icon-192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="https://l1tku.github.io/hll-spa-calculator/images/icon-512.png">
     <link rel="shortcut icon" href="https://l1tku.github.io/hll-spa-calculator/images/favicon.png">
-    <link rel="manifest" href="manifest.json?v=2.2.0">
+    <link rel="manifest" href="manifest.json?v=2.2.1">
     <link rel="apple-touch-icon" href="images/icon-180.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="dist/styles.css?v=2.2.0">
+    <link rel="stylesheet" href="dist/styles.css?v=2.2.1">
     <style>
         @font-face {
             font-family: 'GothamSS';
@@ -326,8 +326,8 @@
 <body class="min-h-screen" data-mode="full">
     <main class="container mx-auto px-4 py-8">
         <div class="max-w-3xl mx-auto relative">
-            <img src="images/UI/hell_and_back.webp" alt="" class="cat-meme mode-full-only" loading="lazy" decoding="async" draggable="false">
-            <img src="images/UI/hell_and_back_paws.webp" alt="" class="cat-paws mode-full-only" loading="lazy" decoding="async" draggable="false">
+            <img src="images/UI/help/hell_and_back.webp" alt="" class="cat-meme mode-full-only" loading="lazy" decoding="async" draggable="false">
+            <img src="images/UI/help/hell_and_back_paws.webp" alt="" class="cat-paws mode-full-only" loading="lazy" decoding="async" draggable="false">
             <div class="fixed-top-right flex-center-end">
                 <div class="view-toggle full-active" id="viewToggle" role="tablist" aria-label="View mode toggle">
                     <button class="toggle-pill active" data-mode="full" role="tab" aria-selected="true" aria-controls="calculator-card">FULL</button>
@@ -448,7 +448,7 @@
                     <div class="distance-controls" style="display: flex; flex-direction: column; align-items: center; gap: 5px; margin-top: 5px;">
                         <div style="display: flex; align-items: center; gap: 4px;">
                             <label for="redNumber" style="text-align: center;">Terrain Elevation</label>
-                            <button class="help-icon mobile-only" onclick="alert('Terrain Elevation (MIL)\n\nEnter exactly what your RED MIL HUD shows\n\n- downhill/nose-down (negative value)\n+ uphill/nose-up (positive value)\n\nLIMIT: -356 to +356 MIL. This is the game\'s 20-degree hull-tilt firing gate - past it the game refuses to fire, so a real shot can never show more.')" aria-label="Terrain elevation help">?</button>
+                            <button type="button" class="help-i" data-help-field="redNumber" aria-label="Terrain elevation help" title="Help"><svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor" aria-hidden="true" focusable="false"><circle cx="8" cy="4.1" r="1.15"/><rect x="7.15" y="6.4" width="1.7" height="6.2" rx="0.85"/></svg></button>
                         </div>
                         <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
                             <button class="armored-button" aria-label="Decrease terrain elevation">-</button>
@@ -551,7 +551,7 @@
                             <div class="flex-shrink-0 mb-5">
                                 <div style="display: flex; align-items: center; gap: 4px; justify-content: center; margin-top: 10px;">
                                     <label for="heightDiff">Height Difference</label>
-                                    <button class="help-icon mobile-only" onclick="alert('HEIGHT DIFFERENCE\n\nTell the calculator how high or low the target is, and it corrects the aim so the shell lands on it.\n\n+ number = target is HIGHER than you\n- number = target is LOWER than you\n\nLeave it at 0 for flat ground.')" aria-label="Height difference help">?</button>
+                                    <button type="button" class="help-i" data-help-field="heightDiff" aria-label="Height difference help" title="Help"><svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor" aria-hidden="true" focusable="false"><circle cx="8" cy="4.1" r="1.15"/><rect x="7.15" y="6.4" width="1.7" height="6.2" rx="0.85"/></svg></button>
                                 </div>
                             </div>
                             <div class="flex-center gap-10 mt-auto">
@@ -623,7 +623,7 @@
                     <div class="mob-active">
                         <span class="mob-active-head">
                             <span class="mob-active-label" id="mobActiveLabel">Target Distance</span>
-                            <button type="button" class="mob-active-help" id="mobActiveHelp" aria-label="Help" title="Help">i</button>
+                            <button type="button" class="mob-active-help" id="mobActiveHelp" aria-label="Help" title="Help"><svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor" aria-hidden="true" focusable="false"><circle cx="8" cy="4.1" r="1.15"/><rect x="7.15" y="6.4" width="1.7" height="6.2" rx="0.85"/></svg></button>
                         </span>
                         <input class="mob-active-value" id="mobActiveInput" type="text" inputmode="numeric" enterkeyhint="done" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Active value" value="400M">
                     </div>
@@ -643,6 +643,9 @@
                         <button type="button" class="mob-key mob-key-zero" data-key="0">0</button>
                         <button type="button" class="mob-key" data-key="minus" aria-label="Decrease">&#8722;</button>
                         <button type="button" class="mob-key" data-key="plus" aria-label="Increase">+</button>
+                    </div>
+                    <div class="keypad-hint">
+                        <button type="button" class="keypad-controls-link" id="keypadShortcutsBtn" aria-label="Keyboard controls">Keyboard controls<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"></rect><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M8 14h8"></path></svg></button>
                     </div>
                 </div>
             </div>
@@ -808,7 +811,7 @@
 
     <script>
         if ('serviceWorker' in navigator) {
-            const SERVICE_WORKER_VERSION = '2.2.0-1';
+            const SERVICE_WORKER_VERSION = '2.2.1-1';
             const isLocalhost =
                 location.hostname === 'localhost' ||
                 location.hostname === '127.0.0.1' ||
@@ -826,6 +829,6 @@
             }
         }
     </script>
-    <script src="dist/main.js?v=2.2.0"></script>
+    <script src="dist/main.js?v=2.2.1"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@
 
 const HLL_VERSION = {
 
-    appVersion: 'v2.2.0',
+    appVersion: 'v2.2.1',
 
     gamePatch: 'HLL Update 21',
 
@@ -3969,9 +3969,11 @@ function showWarning(warningDiv, message) {
         if (mobWarningTimer) clearTimeout(mobWarningTimer);
 
         // Phones debounce harder (typing "8" on the way to "800" would flash the
-        // banner); desktop should pop it almost immediately.
+        // banner); desktop should pop it almost immediately. The desktop KEYPAD
+        // view is typed with keys too, so it gets the same longer debounce -
+        // intermediate entries like "5" on the way to "500" should not flash.
 
-        const warningDelay = isMobileLayout() ? 700 : 120;
+        const warningDelay = (isMobileLayout() || isKeypadView()) ? 700 : 120;
 
         mobWarningTimer = setTimeout(function () {
 
@@ -9780,8 +9782,8 @@ function initMobileCalculator() {
     // Help text shown by the value-box "?" button. Distance has none, so the
     // button hides for that field.
     const HELP_TEXT = {
-        redNumber: 'Terrain Elevation (MIL)\n\nEnter exactly what your RED MIL HUD shows\n\n- downhill/nose-down (negative value)\n+ uphill/nose-up (positive value)\n\nLIMIT: -356 to +356 MIL. This is the game\'s 20-degree hull-tilt firing gate - past it the game refuses to fire, so a real shot can never show more.',
-        heightDiff: 'HEIGHT DIFFERENCE\n\nTell the calculator how high or low the target is, and it corrects the aim so the shell lands on it.\n\n+ number = target is HIGHER than you\n- number = target is LOWER than you\n\nLeave it at 0 for flat ground.'
+        redNumber: 'The red MIL in your HUD is the slope you\'re facing. Park the tank straight - if it sits sideways, the aim is tilted with it and the shell drops off to the side, past the target.\n\ntank downhill  = negative\ntank uphill    = positive\n\nLIMIT: -356 to +356 MIL - the game\'s 20 degree hull-tilt firing gate. Past it the gun refuses to fire.',
+        heightDiff: 'Tell the calculator the height difference between your gun and the target, in meters.\n\n+  target above you\n-  target below you\n\nOvershooting? The target is lower - go negative. Undershooting? It\'s higher - go positive.\n\nLeave it at 0 if you\'re roughly level with the target.'
     };
 
     // buffer = unsigned digits being edited, neg = pending sign for the entry.
@@ -10116,6 +10118,262 @@ function initMobileCalculator() {
 
 
 
+    // Desktop keypad keyboard support: type with the keyboard like a real
+    // calculator - digits fill the active field, Tab/Enter move to the next,
+    // Backspace deletes, +/- step the value, . or § (or ~) flips the sign, C clears.
+    const keypadOrder = ['redNumber', 'distance', 'heightDiff'];
+
+    document.addEventListener('keydown', function (e) {
+
+        if (!isKeypadView()) return;
+
+        if (document.getElementById('mobHelpPopup')) return;
+
+        let handledKey = false;
+
+        if (e.key === 'Tab') {
+
+            handledKey = true;
+
+            const idx = keypadOrder.indexOf(state.field);
+
+            if (idx !== -1) {
+
+                const dir = e.shiftKey ? -1 : 1;
+
+                e.preventDefault();
+
+                selectField(keypadOrder[(idx + dir + keypadOrder.length) % keypadOrder.length]);
+
+            }
+
+            if (handledKey) showKeyboardTip();
+
+            return;
+
+        }
+
+        // When the editable value box is focused, typing there works natively.
+        if (document.activeElement === activeInput) return;
+
+        if (/^[0-9]$/.test(e.key)) {
+
+            handledKey = true;
+
+            haptic(HAPTIC_TAP);
+
+            e.preventDefault();
+
+            pressDigit(e.key);
+
+        } else if (e.key === 'Backspace') {
+
+            handledKey = true;
+
+            haptic(HAPTIC_TAP);
+
+            e.preventDefault();
+
+            pressBack();
+
+        } else if (e.key === 'Enter') {
+
+            handledKey = true;
+
+            haptic(HAPTIC_TAP);
+
+            e.preventDefault();
+
+            selectField(keypadOrder[(keypadOrder.indexOf(state.field) + 1) % keypadOrder.length]);
+
+        } else if (e.code === 'Equal' || e.code === 'NumpadAdd' || e.key === '+' || e.key === '=' || e.key === '*') {
+
+            handledKey = true;
+
+            haptic(HAPTIC_TAP);
+
+            e.preventDefault();
+
+            let step = e.ctrlKey || e.metaKey ? 25 : (e.shiftKey ? 5 : 1);
+
+            pressStep(step);
+
+        } else if (e.code === 'Minus' || e.code === 'NumpadSubtract' || e.key === '-' || e.key === '_') {
+
+            handledKey = true;
+
+            haptic(HAPTIC_TAP);
+
+            e.preventDefault();
+
+            let step = e.ctrlKey || e.metaKey ? 25 : (e.shiftKey ? 5 : 1);
+
+            pressStep(-step);
+
+        } else if (
+            e.code === 'IntlBackslash' || e.code === 'Backquote' ||
+            e.code === 'Period' || e.code === 'NumpadDecimal' ||
+            e.key === '§' || e.key === '°' || e.key === '~' || e.key === '`' ||
+            e.key === '½' || e.key === '^' || e.key === '²' || e.key === 'º' ||
+            e.key === 'ª' || e.key === '¬' || e.key === '¦' || e.key === '.'
+        ) {
+
+            handledKey = true;
+
+            haptic(HAPTIC_TAP);
+
+            e.preventDefault();
+
+            pressSign();
+
+        } else if (e.key === 'c' || e.key === 'C') {
+
+            handledKey = true;
+
+            haptic(HAPTIC_TAP);
+
+            e.preventDefault();
+
+            pressClear();
+
+        }
+
+        if (handledKey) showKeyboardTip();
+
+    });
+
+
+
+    // Keyboard-controls help (i) button under the keypad
+    const keypadShortcutsBtn = document.getElementById('keypadShortcutsBtn');
+
+    // Try to detect the actual sign-key label from the user's keyboard layout.
+    // The Backquote key (left of 1) is the sign-flip key on most layouts, but
+    // the character printed on it varies (§, ^, `, ², etc.).
+    let detectedSignKeyLabel = null;
+    let signKeyDetectPromise = null;
+    function detectSignKeyLabel() {
+        if (signKeyDetectPromise) return signKeyDetectPromise;
+        signKeyDetectPromise = Promise.resolve().then(function () {
+            if (!navigator.keyboard || !navigator.keyboard.getLayoutMap) return null;
+            return navigator.keyboard.getLayoutMap().then(function (map) {
+                const main = map.get('Backquote');
+                const alt = map.get('IntlBackslash');
+                const parts = [];
+                if (main) parts.push(main);
+                // Only include the secondary ISO key if it differs and is one of
+                // the sign-like characters we already accept as a flip shortcut.
+                if (alt && alt !== main && /[§°~`½^²ºª¬¦]/.test(alt)) parts.push(alt);
+                detectedSignKeyLabel = parts.length ? parts.join(' / ') : null;
+                return detectedSignKeyLabel;
+            });
+        }).catch(function () { return null; });
+        return signKeyDetectPromise;
+    }
+    // Start detection in the background; no need to block UI.
+    detectSignKeyLabel();
+
+    function getSignKeyLabelText() {
+        return detectedSignKeyLabel || '§';
+    }
+
+    function buildKeypadControlsHtml() {
+        const signLabel = getSignKeyLabelText();
+        const rows = [
+            ['0-9', 'enter digits'],
+            ['Tab / Enter', 'next field'],
+            ['Shift+Tab', 'previous field'],
+            ['+', 'step up'],
+            ['-', 'step down'],
+            ['. or sign key (' + signLabel + ')', 'flip sign (+ / -)'],
+            ['Backspace', 'delete digit'],
+            ['C', 'clear'],
+            ['Shift + press + / -', 'step by 5'],
+            ['Ctrl + press + / -', 'step by 25']
+        ];
+        return rows
+            .map(function (row) {
+                return '<div class="ks-row"><span class="ks-key">' + row[0] + '</span><span>' + row[1] + '</span></div>';
+            })
+            .join('') +
+        '<div class="ks-row ks-foot"><span class="ks-key">Shift + click the + / - buttons</span><span>step by 5</span></div>' +
+        '<div class="ks-row"><span class="ks-key">Ctrl + click the + / - buttons</span><span>step by 25</span></div>';
+    }
+
+    if (keypadShortcutsBtn) {
+
+        keypadShortcutsBtn.addEventListener('click', function (e) {
+
+            e.preventDefault();
+
+            e.stopPropagation();
+
+            haptic(HAPTIC_TAP);
+
+            // Wait for detection if it hasn't finished, then show.
+            detectSignKeyLabel().then(function () {
+                showHelpPopup('controls', buildKeypadControlsHtml(), 'Keyboard Controls', true);
+            });
+
+        });
+
+    }
+
+
+
+    // One-time tip: keyboard works on the keypad (shown on first key use).
+    let keyboardTipDone = false;
+
+    function showKeyboardTip() {
+
+        if (keyboardTipDone) return;
+
+        keyboardTipDone = true;
+
+        try {
+
+            if (sessionStorage.getItem('keypadKeyTip')) return;
+
+        } catch (e) {}
+
+        let tip = document.getElementById('keypadKeyToast');
+
+        if (!tip) {
+
+            tip = document.createElement('div');
+
+            tip.id = 'keypadKeyToast';
+
+            tip.className = 'quickstep-toast';
+
+            tip.textContent = 'TIP: You can type numbers on the keypad - Tab/Enter next, +/-, . or sign key (' + getSignKeyLabelText() + ')';
+
+            tip.addEventListener('click', function () { tip.remove(); });
+
+            document.body.appendChild(tip);
+
+        }
+
+        requestAnimationFrame(function () { tip.classList.add('show'); });
+
+        setTimeout(function () {
+
+            tip.classList.remove('show');
+
+            setTimeout(function () { if (tip.parentNode) tip.remove(); }, 300);
+
+        }, 6000);
+
+        try {
+
+            sessionStorage.setItem('keypadKeyTip', '1');
+
+        } catch (e) {}
+
+    }
+
+
+
     // Value-box help button: shows the explanation for the active field.
 
     if (helpBtn) {
@@ -10132,9 +10390,163 @@ function initMobileCalculator() {
 
             haptic(HAPTIC_TAP);
 
-            alert(helpText);
+            showHelpPopup(state.field, helpText);
 
         });
+
+    }
+
+
+
+    // FULL-mode field help (i) buttons reuse the same themed popup
+    document.querySelectorAll('.help-i[data-help-field]').forEach(function (btn) {
+
+        btn.addEventListener('click', function (e) {
+
+            e.preventDefault();
+
+            e.stopPropagation();
+
+            const field = btn.getAttribute('data-help-field');
+
+            if (!HELP_TEXT[field]) return;
+
+            haptic(HAPTIC_TAP);
+
+            showHelpPopup(field, HELP_TEXT[field]);
+
+        });
+
+    });
+
+
+
+    // Popup help with optional in-game screenshot for Terrain Elevation
+    function showHelpPopup(field, text, title, html) {
+
+        const old = document.getElementById('mobHelpPopup');
+
+        if (old) old.remove();
+
+        const popup = document.createElement('div');
+
+        popup.id = 'mobHelpPopup';
+
+        popup.className = 'mob-help-popup';
+
+        const box = document.createElement('div');
+
+        box.className = 'mob-help-box';
+
+        box.setAttribute('role', 'dialog');
+
+        box.setAttribute('aria-modal', 'true');
+
+        const head = document.createElement('div');
+
+        head.className = 'mob-help-head';
+
+        const titleEl = document.createElement('span');
+
+        titleEl.className = 'mob-help-title';
+
+        titleEl.textContent = title || FIELD_LABELS[field] || 'Help';
+
+        const closeBtn = document.createElement('button');
+
+        closeBtn.type = 'button';
+
+        closeBtn.className = 'mob-help-close';
+
+        closeBtn.setAttribute('aria-label', 'Close help');
+
+        closeBtn.textContent = '\u2715';
+
+        head.appendChild(titleEl);
+
+        head.appendChild(closeBtn);
+
+        const body = document.createElement('div');
+
+        body.className = 'mob-help-body';
+
+        const helpImgs = {
+
+            redNumber: { src: 'images/UI/help/red_mil_ingame.webp', alt: 'In-game HUD showing the red terrain elevation MIL' },
+
+            heightDiff: { src: 'images/UI/help/height_difference.webp', alt: 'Height difference between you and the target' }
+
+        };
+
+        const helpImg = helpImgs[field];
+
+        if (helpImg) {
+
+            const img = document.createElement('img');
+
+            img.src = helpImg.src;
+
+            img.alt = helpImg.alt;
+
+            img.loading = 'lazy';
+
+            img.className = 'mob-help-img';
+
+            body.appendChild(img);
+
+        }
+
+        if (html) {
+
+            const div = document.createElement('div');
+
+            div.className = 'mob-help-shortcuts';
+
+            div.innerHTML = text;
+
+            body.appendChild(div);
+
+        } else {
+
+            const pre = document.createElement('pre');
+
+            pre.className = 'mob-help-text';
+
+            pre.textContent = text;
+
+            body.appendChild(pre);
+
+        }
+
+        box.appendChild(head);
+
+        box.appendChild(body);
+
+        popup.appendChild(box);
+
+        document.body.appendChild(popup);
+
+        function close() {
+
+            popup.remove();
+
+            document.removeEventListener('keydown', onKey, true);
+
+        }
+
+        function onKey(e) {
+
+            if (e.key === 'Escape') close();
+
+        }
+
+        popup.addEventListener('pointerdown', function(e) {
+
+            if (e.target === popup || e.target.closest('.mob-help-close')) close();
+
+        });
+
+        document.addEventListener('keydown', onKey, true);
 
     }
 
@@ -10178,9 +10590,25 @@ function initMobileCalculator() {
 
         else if (action === 'sign') pressSign();
 
-        else if (action === 'minus') pressStep(-1);
+        else if (action === 'minus' || action === 'plus') {
 
-        else if (action === 'plus') pressStep(1);
+            // Same Quick-Step modifiers as the desktop FULL-mode −/+ buttons:
+            // Shift = ±5, Ctrl/Cmd = ±25.
+            let step = 1;
+
+            if (e.ctrlKey || e.metaKey) {
+
+                step = 25;
+
+            } else if (e.shiftKey) {
+
+                step = 5;
+
+            }
+
+            pressStep((action === 'minus' ? -1 : 1) * step);
+
+        }
 
         else if (/^[0-9]$/.test(action)) pressDigit(action);
 

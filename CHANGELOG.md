@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.2.1] - 2026-10-12
+
+### Added
+- Desktop keypad accepts real keyboard input: type numbers, Tab/Enter to move, Backspace/C to clear, `.` or the sign key flips the sign.
+- Shift = ±5, Ctrl = ±25 quick-steps (the tip shows your actual sign key).
+- Keypad hint line + "Keyboard controls" popup.
+- Terrain/Height help popups with in-game screenshots (were plain browser alerts).
+- FULL mode got the same `(i)` help buttons as the keypad.
+
+### Changed
+- Rewrote the Terrain/Height help texts.
+- Keypad card spacing evened out.
+
+### Fixed
+- Help popup text now renders under the screenshot.
+
 ## [2.2.0] - 2026-10-12
 
 ### Added
