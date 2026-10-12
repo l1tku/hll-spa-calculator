@@ -5633,7 +5633,7 @@ box-shadow:
 .cat-meme {
     position: absolute;
     right: 60px;
-    top: calc(2%);
+    top: 20px;
     transform: translateY(-45%);
     width: 60px;
     height: auto;
@@ -5652,7 +5652,7 @@ box-shadow:
 .cat-paws {
     position: absolute;
     right: 45px;
-    top: calc(5%);
+    top: 60px;
     transform: translateY(-45%);
     width: 90px;
     height: auto;

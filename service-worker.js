@@ -35,7 +35,7 @@ self.addEventListener('fetch', (event) => {
         const isImage = event.request.url.match(/\.(webp|png|jpg|jpeg|gif|svg|ico)(\?.*)?$/);
         
         if (isAppFile || isImage) {
-          return fetch(event.request)
+          return fetch(event.request, { cache: 'no-cache' })
             .then((fetchResponse) => {
               caches.open(CACHE_NAME).then((cache) => {
                 cache.put(event.request, fetchResponse.clone());
