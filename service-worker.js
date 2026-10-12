@@ -1,5 +1,5 @@
-const CACHE_NAME = 'hll-spa-calc-2.1.1-3';
-const CACHE_VERSION = '2.1.1-3';
+const CACHE_NAME = 'hll-spa-calc-2.2.0-1';
+const CACHE_VERSION = '2.2.0-1';
 
 const urlsToCache = [
   './',
@@ -7,6 +7,7 @@ const urlsToCache = [
   './manifest.json',
   './dist/styles.css',
   './dist/main.js',
+  './fonts/Gotham-Medium.otf',
   './images/background/background.webp',
   './images/favicon.png',
   './images/icon-180.png',

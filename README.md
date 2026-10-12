@@ -1,18 +1,17 @@
 # HLL SPA Calculator
-**v2.1.1 - Updated for Hell Let Loose Update 21**
+**v2.2.0 - Updated for Hell Let Loose Update 21**
 
 A Precise web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let Loose.
 
 ## Features
 
-- **Precise Ballistics:** Built on deep research into the game's ballistics internals (solver behaviour, flight and tail physics) validated by our own in-game measurements of every vehicle
-- **Multi-Vehicle Support:** Accurate formulas for all SPA vehicles.
+- **Precise Ballistics:** Built on the game's ballistics internals and validated by our own in-game measurements.
+- **Multi-Vehicle Support:** All six SPA vehicles.
 - **Auto-Calculation:** Toggle auto-calculation on or off.
-- **Height Calculation:** Toggle height calculation on or off.
-- **Mobile Calculator:** Phones get a calculator-style view — field tabs (Terrain MIL · Height ± · Target Distance), a big editable value display, and a custom keypad, so the on-screen keyboard is never needed.
-- **Intel Database:** Built-in "Field Manual" with tank specifications, screenshots, and authentic WWII history.
-- **Immersive UI:** Military-themed interface with authentic styling.
-- **Lite Mode:** Lightweight version.
+- **Height Calculation:** Toggle height correction on or off.
+- **Mobile Calculator:** Phone layout with field tabs, a big editable value, and a custom keypad.
+- **Keypad View (Desktop):** The phone-style keypad on desktop in a narrower card.
+- **Field Manual:** Tank specs, screenshots, and historical notes.
 
 ## Installation & Local Usage
 
@@ -60,22 +59,32 @@ The source code (HTML, CSS, JavaScript) of this project is licensed under the **
 
 ## Version History
 
-**v2.1.1 - 2026-10-11**
-### Fixed
-- Close-range height now uses a real ballistic solve when the measured model saturates.
-- Restored the "above supported range" warning with clearer wording — it now says the calculator math stops following beyond the flat max range.
-- Fixed Height being ignored for downhill targets (the saturation probe used |height| instead of the signed height).
-- Tank switching keeps a usable distance: auto-calc on uses the tank default, auto-calc off / phones keep the current value.
-- Mobile: `+/-` before typing, floating warning popup, wider result box, equal card spacing, themed Tank Information button, active tank highlighted.
-- Field Manual modal fits the phone viewport with a cleaned-up header; close button uses an SVG.
-- "MORE HLL TOOLS" themed; footer reordered; haptics added across controls.
-- Non-critical images use `prefetch` instead of `preload` (no more "unused preload" warnings).
+**v2.2.0 - 2026-10-12**
+### Added
+- **KEYPAD view on desktop** — the phone-style keypad, now on PC too.
+- KEYPAD: hover/press feedback on the keys and the Terrain / Distance / Height tabs.
 
 ### Changed
-- Auto-calc with an empty distance seeds the tank default so a result shows immediately.
-- Mobile calculator card top gap matches the side gaps.
-- Height input caps at ±1000 m (mobile keypad and desktop).
-- Mobile Distance tab button now reads just "Distance"; the full "Target Distance" label stays on the value readout.
+- Switching between FULL / LITE / KEYPAD keeps the values you entered.
+- Phones: "More HLL Tools" sits above the Ko-fi button.
+- Tank ranges no longer show "(FLAT)".
+
+### Fixed
+- KEYPAD: picking a tank now fills in a sensible distance instead of leaving it at 0.
+- KEYPAD no longer shows stale values after you edit them in FULL / LITE.
+
+**v2.1.1 - 2026-10-11**
+### Fixed
+- Height correction now works for downhill and close-range targets.
+- Restored the "beyond max range" warning with clearer wording.
+- Switching tanks keeps a sensible distance.
+- Mobile: warning popup, wider result box, themed Tank Information button, active tank highlighted.
+- Field Manual fits the phone screen.
+
+### Changed
+- Auto-calc with no distance entered fills in the tank's default.
+- Height capped at ±1000 m.
+- Mobile Distance tab reads just "Distance".
 
 **v2.1.0 - 2026-10-11**
 ### Added
@@ -105,16 +114,5 @@ The source code (HTML, CSS, JavaScript) of this project is licensed under the **
 - New calculation engine: all six SPAs solve from our own in-game measurements (full span, -89 MIL to the past-cap tail) with exact ballistics — physical tail law and per-vehicle height correction. Old display tables kept as reference only.
 - Input limits match the game: distance 0–2500 m, terrain elevation ±356 MIL (the firing gate), height ±1000 m. Whole numbers, clamped on Enter.
 - Vehicle ranges show the true max with full tilt (e.g. Bishop 2317m).
-
-**v1.6.5 - 2026-10-02**
-### Fixed
-- Bishop SP engine health 430 → 530
-
-**v1.6.4 - 2026-09-30**
-### Fixed
-- Field Manual munitions cost for Bishop SP corrected from 280 to 240
-- Field Manual stats corrected from the game files (datamine, not in any patch notes), all six SPAs: pitch rate 1°/s → 1.5°/s, smoke 45 → 35, elevation field 30° → 26.2°/15°/20°
-- Engine/hull healths raised to current values (Bishop 910/830 → 880/850, AVRE → 1230/1080/960/630), Dustbin clips 50 → 28, Panzer III AT 690 → 640
-- Pitch fields now also show MIL (e.g. `-5° (-89 MIL)`, `1.5°/s (27 MIL/s)`)
 
 Only the last 5 releases are shown here — the full history lives in [CHANGELOG.md](CHANGELOG.md).

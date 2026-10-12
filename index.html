@@ -50,12 +50,12 @@
     <link rel="icon" type="image/png" sizes="192x192" href="https://l1tku.github.io/hll-spa-calculator/images/icon-192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="https://l1tku.github.io/hll-spa-calculator/images/icon-512.png">
     <link rel="shortcut icon" href="https://l1tku.github.io/hll-spa-calculator/images/favicon.png">
-    <link rel="manifest" href="manifest.json?v=2.1.1">
+    <link rel="manifest" href="manifest.json?v=2.2.0">
     <link rel="apple-touch-icon" href="images/icon-180.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="dist/styles.css?v=2.1.1">
+    <link rel="stylesheet" href="dist/styles.css?v=2.2.0">
     <style>
         @font-face {
             font-family: 'GothamSS';
@@ -331,6 +331,7 @@
             <div class="fixed-top-right flex-center-end">
                 <div class="view-toggle full-active" id="viewToggle" role="tablist" aria-label="View mode toggle">
                     <button class="toggle-pill active" data-mode="full" role="tab" aria-selected="true" aria-controls="calculator-card">FULL</button>
+                    <button class="toggle-pill" data-mode="keypad" role="tab" aria-selected="false" aria-controls="calculator-card">KEYPAD</button>
                     <button class="toggle-pill" data-mode="lite" role="tab" aria-selected="false" aria-controls="calculator-card">LITE</button>
                 </div>
             </div>
@@ -505,21 +506,6 @@
                         </div>
                     </div>
 
-                    <div class="lite-field-row lite-height-diff-row hidden" id="liteHeightDiffRow">
-                        <div class="lite-field-panel distance-panel">
-                            <div class="distance-box">
-                                <div class="lite-field-label distance-label">
-                                    <strong>Height Difference</strong>
-                                </div>
-                                <div class="lite-field-controls distance-controls">
-                                    <button class="armored-button w-52 h-52" tabindex="-1" data-field="heightDiff" data-delta="-1" aria-label="Decrease height difference">▼</button>
-                                    <input type="text" id="heightDiffLite" value="0M" class="armored-input w-90 h-52" inputmode="numeric" pattern="[0-9]*" tabindex="2" aria-label="Height difference in meters">
-                                    <button class="armored-button w-52 h-52" tabindex="-1" data-field="heightDiff" data-delta="1" aria-label="Increase height difference">▲</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="lite-field-row">
                         <div class="lite-field-panel distance-panel">
                             <div class="distance-box">
@@ -528,8 +514,23 @@
                                 </div>
                                 <div class="lite-field-controls distance-controls">
                                     <button class="armored-button w-52 h-52" tabindex="-1" data-field="distance" data-delta="-1" aria-label="Decrease distance">-</button>
-                                    <input type="text" id="distanceLite" value="0M" class="armored-input w-90 h-52" inputmode="numeric" pattern="[0-9]*" tabindex="3" aria-label="Target distance in meters">
+                                    <input type="text" id="distanceLite" value="0M" class="armored-input w-90 h-52" inputmode="numeric" pattern="[0-9]*" tabindex="2" aria-label="Target distance in meters">
                                     <button class="armored-button w-52 h-52" tabindex="-1" data-field="distance" data-delta="1" aria-label="Increase distance">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lite-field-row lite-height-diff-row hidden" id="liteHeightDiffRow">
+                        <div class="lite-field-panel distance-panel">
+                            <div class="distance-box">
+                                <div class="lite-field-label distance-label">
+                                    <strong>Height Difference</strong>
+                                </div>
+                                <div class="lite-field-controls distance-controls">
+                                    <button class="armored-button w-52 h-52" tabindex="-1" data-field="heightDiff" data-delta="-1" aria-label="Decrease height difference">▼</button>
+                                    <input type="text" id="heightDiffLite" value="0M" class="armored-input w-90 h-52" inputmode="numeric" pattern="[0-9]*" tabindex="3" aria-label="Height difference in meters">
+                                    <button class="armored-button w-52 h-52" tabindex="-1" data-field="heightDiff" data-delta="1" aria-label="Increase height difference">▲</button>
                                 </div>
                             </div>
                         </div>
@@ -555,7 +556,7 @@
                             </div>
                             <div class="flex-center gap-10 mt-auto">
                                 <button class="armored-button" aria-label="Decrease height difference">▼</button>
-                                <input type="text" inputmode="decimal" pattern="[0-9]*" id="heightDiff" value="0M" tabindex="2" class="armored-input" max="1000" aria-label="Height difference in meters">
+                                <input type="text" inputmode="decimal" pattern="[0-9]*" id="heightDiff" value="0M" tabindex="3" class="armored-input" max="1000" aria-label="Height difference in meters">
                                 <button class="armored-button" aria-label="Increase height difference">▲</button>
                             </div>
                         </div>
@@ -567,7 +568,7 @@
                             </div>
                             <div class="flex-center gap-10 mt-auto">
                                 <button class="armored-button" aria-label="Decrease distance">-</button>
-                                <input type="text" inputmode="decimal" pattern="[0-9]*" id="distance" value="0M" tabindex="3" class="armored-input" aria-label="Target distance in meters">
+                                <input type="text" inputmode="decimal" pattern="[0-9]*" id="distance" value="0M" tabindex="2" class="armored-input" aria-label="Target distance in meters">
                                 <button class="armored-button" aria-label="Increase distance">+</button>
                             </div>
                         </div>
@@ -597,7 +598,7 @@
                     <div class="result-info-row">
                         <button class="reset-result-button" title="Reset all values" aria-label="Reset all values">🔄</button>
                         <div class="result-info-text">
-                            <p><span class="result-line">Distance: <span id="baseValue" class="text-white">400M</span></span> <span id="targetHeightSection" class="result-line"><span class="pipe-separator">| </span>Target Height: <span id="heightValue" class="text-gray-300">0M</span></span> <span class="result-line"><span class="pipe-separator">| </span>Terrain Elevation: <span id="redValue" class="text-hud-red">0MIL</span></span></p>
+                            <p><span class="result-line">Terrain Elevation: <span id="redValue" class="text-hud-red">0MIL</span></span> <span class="result-line"><span class="pipe-separator">| </span>Distance: <span id="baseValue" class="text-white">400M</span></span> <span id="targetHeightSection" class="result-line"><span class="pipe-separator">| </span>Height Difference: <span id="heightValue" class="text-gray-300">0M</span></span></p>
                         </div>
                         <button class="copy-result-button" title="Copy result to clipboard" aria-label="Copy result to clipboard">📋</button>
                     </div>
@@ -694,6 +695,37 @@
             </div>
 
             <div class="text-xs text-gray-500 text-center mt-4 version-footer">
+                <a
+                    href="https://ko-fi.com/litku"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="mobile-kofi-button mobile-only"
+                    aria-label="Buy me a coffee"
+                >
+                    <img
+                        src="images/kofi_symbol.png"
+                        class="mobile-kofi-icon"
+                        alt="Ko-fi"
+                    />
+                    <span>Buy me a coffee</span>
+                </a>
+                <button id="mobileHllToolsBtn" class="mobile-hll-tools-button mobile-only" aria-label="View more HLL Tools">
+                    <span>MORE HLL TOOLS</span>
+                </button>
+                <a
+                    href="https://ko-fi.com/litku"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="desktop-kofi-button desktop-only"
+                    aria-label="Buy me a coffee"
+                >
+                    <img
+                        src="images/kofi_symbol.png"
+                        class="desktop-kofi-icon"
+                        alt="Ko-fi"
+                    />
+                    <span>Buy me a coffee</span>
+                </a>
                 <div class="version-links">
                     <a
                         href="https://github.com/l1tku/hll-spa-calculator"
@@ -716,37 +748,6 @@
                         id="authorProfile"
                     >by litku</a>
                 </div>
-                <button id="mobileHllToolsBtn" class="mobile-hll-tools-button mobile-only" aria-label="View more HLL Tools">
-                    <span>MORE HLL TOOLS</span>
-                </button>
-                <a
-                    href="https://ko-fi.com/litku"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="mobile-kofi-button mobile-only"
-                    aria-label="Buy me a coffee"
-                >
-                    <img
-                        src="images/kofi_symbol.png"
-                        class="mobile-kofi-icon"
-                        alt="Ko-fi"
-                    />
-                    <span>Buy me a coffee</span>
-                </a>
-                <a
-                    href="https://ko-fi.com/litku"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="desktop-kofi-button desktop-only"
-                    aria-label="Buy me a coffee"
-                >
-                    <img
-                        src="images/kofi_symbol.png"
-                        class="desktop-kofi-icon"
-                        alt="Ko-fi"
-                    />
-                    <span>Buy me a coffee</span>
-                </a>
             </div>
 
 
@@ -807,7 +808,7 @@
 
     <script>
         if ('serviceWorker' in navigator) {
-            const SERVICE_WORKER_VERSION = '2.1.1-3';
+            const SERVICE_WORKER_VERSION = '2.2.0-1';
             const isLocalhost =
                 location.hostname === 'localhost' ||
                 location.hostname === '127.0.0.1' ||
@@ -825,6 +826,6 @@
             }
         }
     </script>
-    <script src="dist/main.js?v=2.1.1"></script>
+    <script src="dist/main.js?v=2.2.0"></script>
 </body>
 </html>

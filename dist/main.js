@@ -4,7 +4,7 @@
 
 const HLL_VERSION = {
 
-    appVersion: 'v2.1.1',
+    appVersion: 'v2.2.0',
 
     gamePatch: 'HLL Update 21',
 
@@ -437,7 +437,7 @@ function handleTankSelection(value, selectSelected, selectItems, factionInput, i
     //    short-range AVRE), so we never leave an unreachable distance behind.
     //  - auto-calc OFF or on phones: keep the user's current/zeroed value.
 
-    if (isAutoCalcEnabled() && !isMobileLayout()) {
+    if (isAutoCalcEnabled() && (!isMobileLayout() || isKeypadView())) {
 
         const fallback = getTankDefaultDistance(tank.value);
 
@@ -468,6 +468,10 @@ function handleTankSelection(value, selectSelected, selectItems, factionInput, i
         rollElevationToNumber(0);
 
     }
+
+    // Keep the on-screen keypad readouts in step after a tank switch
+
+    if (typeof refreshKeypadFromInputs === 'function') refreshKeypadFromInputs();
 
 
 
@@ -561,11 +565,102 @@ function getTankByValue(value) {
 
 
 
+// Read/write a field across the full + lite input pair. The two layouts use
+// separate inputs, so switching views must mirror the values.
+
+function readViewValue(wasLite, fullId, liteId) {
+
+    const el = document.getElementById(wasLite ? liteId : fullId) ||
+
+        document.getElementById(fullId) ||
+
+        document.getElementById(liteId);
+
+    return el ? el.value : null;
+
+}
+
+function applyViewValue(value, fullId, liteId) {
+
+    if (value == null) return;
+
+    [fullId, liteId].forEach(function(id) {
+
+        const el = document.getElementById(id);
+
+        if (el && el.value !== value) el.value = value;
+
+    });
+
+}
+
+
+
 // Switch between full and lite view modes
 
 function switchViewMode(mode) {
 
-    document.body.setAttribute('data-mode', mode);
+    // Capture the currently-visible values first so switching views keeps them.
+
+    const wasLite = document.body.getAttribute('data-mode') === 'lite';
+
+    const captured = {
+
+        distance: readViewValue(wasLite, 'distance', 'distanceLite'),
+
+        heightDiff: readViewValue(wasLite, 'heightDiff', 'heightDiffLite'),
+
+        redNumber: readViewValue(wasLite, 'redNumber', 'redNumberLite')
+
+    };
+
+    // KEYPAD is an overlay on the FULL layout, so the full-mode styling
+    // (tank image, side buttons, spec panel) stays identical. Keep data-mode
+    // as "full" and flag the keypad with a body class instead.
+
+    const keypadView = (mode === 'keypad');
+
+    const layoutMode = keypadView ? 'full' : mode;
+
+    document.body.setAttribute('data-mode', layoutMode);
+
+    document.body.classList.toggle('keypad-view', keypadView);
+
+    // Mirror the captured values into both input pairs so the values stay.
+
+    applyViewValue(captured.distance, 'distance', 'distanceLite');
+
+    applyViewValue(captured.heightDiff, 'heightDiff', 'heightDiffLite');
+
+    applyViewValue(captured.redNumber, 'redNumber', 'redNumberLite');
+
+    // Refresh the keypad display from the underlying inputs so it doesn't show stale values.
+
+    if (keypadView && typeof refreshKeypadFromInputs === 'function') refreshKeypadFromInputs();
+
+    
+
+    // KEYPAD view hides the Height / Auto toggles, so force both on (the keypad
+
+    // is always live, same as phones).
+
+    if (keypadView) {
+
+        ['heightDiffToggle', 'autoCalcToggle'].forEach(function(id) {
+
+            const t = document.getElementById(id);
+
+            if (t && !t.checked) {
+
+                t.checked = true;
+
+                t.dispatchEvent(new Event('change', { bubbles: true }));
+
+            }
+
+        });
+
+    }
 
     
 
@@ -585,7 +680,7 @@ function switchViewMode(mode) {
 
     // Regenerate dropdowns for the new mode
 
-    if (mode === 'lite') {
+    if (layoutMode === 'lite') {
 
         generateLiteTankDropdown();
 
@@ -1337,7 +1432,7 @@ const tankInfo = {
 
 const lowRangeAnchors = new Map([
     [tables['US (Sherman M4A3 105)'], {
-        minDistance: 25,
+        minDistance: 23,
         anchors: [
             { distance: 25, mil: -89 },
             { distance: 47, mil: -30 },
@@ -1345,7 +1440,7 @@ const lowRangeAnchors = new Map([
         ]
     }],
     [tables['DAK (Panzer III Ausf.N)'], {
-        minDistance: 20,
+        minDistance: 18,
         anchors: [
             { distance: 20, mil: -89 },
             { distance: 48, mil: -10 },
@@ -1353,7 +1448,7 @@ const lowRangeAnchors = new Map([
         ]
     }],
     [sturmpanzerKey ? tables[sturmpanzerKey] : null, {
-        minDistance: 24,
+        minDistance: 18,
         anchors: [
             { distance: 24, mil: -89 },
             { distance: 47, mil: -15 },
@@ -1362,7 +1457,7 @@ const lowRangeAnchors = new Map([
         ]
     }],
     [tables['Soviet Union (KV-2)'], {
-        minDistance: 25,
+        minDistance: 22,
         anchors: [
             { distance: 25, mil: -89 },
             { distance: 45, mil: -24 },
@@ -1370,7 +1465,7 @@ const lowRangeAnchors = new Map([
         ]
     }],
     [tables['British (Churchill AVRE)'], {
-        minDistance: 22,
+        minDistance: 17,
         anchors: [
             { distance: 22, mil: -89 },
             { distance: 48, mil: 10 },
@@ -1379,7 +1474,7 @@ const lowRangeAnchors = new Map([
         ]
     }],
     [tables['British (Bishop SP)'], {
-        minDistance: 23,
+        minDistance: 19,
         anchors: [
             { distance: 23, mil: -89 },
             { distance: 47, mil: -27 },
@@ -1558,20 +1653,20 @@ function updateMilRangeText() {
         const rangeMax = distances[distances.length - 1] || 0;
 
         const physicalRangeOverrides = {
-            'US (Sherman M4A3 105)': '~23m - ~905m (FLAT)',
-            'DAK (Panzer III Ausf.N)': '~18m - ~757m (FLAT)',
-            'British (Bishop SP)': '~19m - ~2317m (FLAT)',
-            'British (Churchill AVRE)': '~17m - ~506m (FLAT)',
-            'Soviet Union (KV-2)': '~22m - ~906m (FLAT)'
+            'US (Sherman M4A3 105)': '~23m - ~905m',
+            'DAK (Panzer III Ausf.N)': '~18m - ~757m',
+            'British (Bishop SP)': '~19m - ~2317m',
+            'British (Churchill AVRE)': '~17m - ~506m',
+            'Soviet Union (KV-2)': '~22m - ~906m'
         };
 
         if (sturmpanzerKey) {
 
-            physicalRangeOverrides[sturmpanzerKey] = '~18m - ~756m (FLAT)';
+            physicalRangeOverrides[sturmpanzerKey] = '~18m - ~756m';
 
         }
 
-        const rangeDisplay = physicalRangeOverrides[faction] || `~${rangeMin}m - ~${rangeMax}m (FLAT)`;
+        const rangeDisplay = physicalRangeOverrides[faction] || `~${rangeMin}m - ~${rangeMax}m`;
 
 
 
@@ -2214,6 +2309,18 @@ function haptic(ms) {
 function isMobileLayout() {
 
     return window.innerWidth <= 768;
+
+}
+
+
+
+// KEYPAD view is an overlay on the full layout (see switchViewMode). It behaves
+// like the desktop calculator even in a narrow window, so tank switches there
+// should seed the tank's default distance.
+
+function isKeypadView() {
+
+    return document.body.classList.contains('keypad-view');
 
 }
 
@@ -3861,6 +3968,11 @@ function showWarning(warningDiv, message) {
 
         if (mobWarningTimer) clearTimeout(mobWarningTimer);
 
+        // Phones debounce harder (typing "8" on the way to "800" would flash the
+        // banner); desktop should pop it almost immediately.
+
+        const warningDelay = isMobileLayout() ? 700 : 120;
+
         mobWarningTimer = setTimeout(function () {
 
             const mobWarning = document.getElementById('mobWarning');
@@ -3873,7 +3985,7 @@ function showWarning(warningDiv, message) {
 
             mobWarning.classList.remove('hidden');
 
-        }, 700);
+        }, warningDelay);
 
 
 
@@ -4128,11 +4240,11 @@ function calculate() {
 
     if (!distance || isNaN(distance)) {
 
-        // Empty distance is not an error - the phone calculator simply starts
-        // at 0. Stay quiet on mobile (result just shows 0000); keep the prompt
-        // for the desktop Calculate button.
+        // Empty distance is not an error while the calculator is live - it just
+        // starts at 0. Stay quiet on mobile and whenever auto-calc is on; only
+        // prompt on an explicit desktop Calculate (auto-calc off).
 
-        if (isMobileLayout()) {
+        if (isMobileLayout() || isAutoCalcEnabled()) {
 
             if (typeof hideWarning === 'function') hideWarning(warningDiv);
 
@@ -6296,7 +6408,7 @@ if (heightDiffToggleCheckbox) {
 
 
 
-// Keyboard focus loop: Distance -> Height -> Elevation -> Calculate (manual only) -> Distance
+// Keyboard focus loop: Elevation (terrain) -> Distance -> Height -> Calculate (manual only) -> Elevation
 
 const distanceInputEl = document.getElementById('distance');
 
@@ -6434,7 +6546,13 @@ function getFocusOrder() {
 
 
 
-    // Distance is always first if visible
+    // Terrain elevation is always first if visible
+
+    if (isVisible(redInput)) order.push(redInput);
+
+
+
+    // Distance is always included if visible
 
     if (isVisible(distInput)) order.push(distInput);
 
@@ -6447,12 +6565,6 @@ function getFocusOrder() {
         order.push(heightInput);
 
     }
-
-
-
-    // Red/terrain elevation always included if visible
-
-    if (isVisible(redInput)) order.push(redInput);
 
 
 
@@ -6776,61 +6888,6 @@ function syncInputValue(sourceInput, targetIds) {
 
 
 
-// Enter: terrain -> height -> distance -> calculate -> loop
-(function setupEnterLoop() {
-    function visibleEl(id) {
-        for (const key of [id, id + 'Lite']) {
-            const el = document.getElementById(key);
-            if (el && el.offsetParent !== null) return el;
-        }
-        return null;
-    }
-    function enterAdvance(fromId) {
-        if (fromId.startsWith('redNumber')) {
-            const next = visibleEl('heightDiff') || visibleEl('distance');
-            if (next) next.focus();
-        } else if (fromId.startsWith('heightDiff')) {
-            const next = visibleEl('distance');
-            if (next) next.focus();
-        } else if (fromId.startsWith('distance')) {
-            const autoOn = typeof isAutoCalcEnabled === 'function' ? isAutoCalcEnabled() : true;
-            if (autoOn) {
-                calculate();
-                const next = visibleEl('redNumber');
-                if (next) next.focus();
-            } else {
-                // auto calc off: go to the CALCULATE button
-                const btn = document.getElementById('calculateButton');
-                const liteBtn = document.getElementById('calculateButtonLite');
-                const target = (liteBtn && liteBtn.offsetParent !== null) ? liteBtn
-                    : ((btn && btn.offsetParent !== null) ? btn : (btn || liteBtn));
-                if (target) target.focus();
-            }
-        }
-    }
-    ['redNumber', 'redNumberLite', 'heightDiff', 'heightDiffLite', 'distance', 'distanceLite'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                enterAdvance(this.id);
-            }
-        });
-    });
-
-    // Enter on CALCULATE runs it, then back to terrain elevation
-    ['calculateButton', 'calculateButtonLite'].forEach(id => {
-        const btn = document.getElementById(id);
-        if (btn) btn.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                setTimeout(() => {
-                    const next = visibleEl('redNumber');
-                    if (next) next.focus();
-                }, 0);
-            }
-        });
-    });
-})();
 
 
 // Set initial label text
@@ -8710,6 +8767,22 @@ function wireUpEventListeners() {
 
         const togglePills = viewToggle.querySelectorAll('.toggle-pill');
 
+        // Keep the sliding highlight aligned with the active pill (there are 3 now)
+
+        const positionViewHighlight = function() {
+
+            const active = viewToggle.querySelector('.toggle-pill.active');
+
+            if (!active) return;
+
+            viewToggle.style.setProperty('--hl-left', active.offsetLeft + 'px');
+
+            viewToggle.style.setProperty('--hl-width', active.offsetWidth + 'px');
+
+        };
+
+        window.addEventListener('resize', positionViewHighlight);
+
         togglePills.forEach(pill => {
 
             pill.addEventListener('click', function(e) {
@@ -8740,9 +8813,11 @@ function wireUpEventListeners() {
 
                 // Update toggle container class
 
-                viewToggle.classList.remove('full-active', 'lite-active');
+                viewToggle.classList.remove('full-active', 'lite-active', 'keypad-active');
 
-                viewToggle.classList.add(mode === 'full' ? 'full-active' : 'lite-active');
+                viewToggle.classList.add(mode === 'full' ? 'full-active' : (mode === 'lite' ? 'lite-active' : 'keypad-active'));
+
+                positionViewHighlight();
 
             });
 
@@ -8754,7 +8829,7 @@ function wireUpEventListeners() {
 
             const savedMode = localStorage.getItem('hll-calculator-mode');
 
-            if ((savedMode === 'lite' || savedMode === 'full') && document.body.getAttribute('data-mode') !== savedMode) {
+            if ((savedMode === 'lite' || savedMode === 'full' || savedMode === 'keypad') && document.body.getAttribute('data-mode') !== savedMode) {
 
                 switchViewMode(savedMode);
 
@@ -8768,9 +8843,9 @@ function wireUpEventListeners() {
 
                 });
 
-                viewToggle.classList.remove('full-active', 'lite-active');
+                viewToggle.classList.remove('full-active', 'lite-active', 'keypad-active');
 
-                viewToggle.classList.add(savedMode === 'full' ? 'full-active' : 'lite-active');
+                viewToggle.classList.add(savedMode === 'full' ? 'full-active' : (savedMode === 'lite' ? 'lite-active' : 'keypad-active'));
 
             }
 
@@ -8779,6 +8854,8 @@ function wireUpEventListeners() {
             // Ignore localStorage errors
 
         }
+
+        positionViewHighlight();
 
     }
 
@@ -10207,6 +10284,42 @@ function initMobileCalculator() {
 
 
 
+    // Reset the keypad entry state whenever the active field's underlying input
+
+    // is changed from outside the keypad (e.g. tank switch seeding a default
+
+    // distance, the reset button, or typing in a desktop input). This makes the
+
+    // next digit replace the value instead of appending to a stale buffer.
+
+    ['distance', 'redNumber', 'heightDiff'].forEach(function(field) {
+
+        ['', 'Lite'].forEach(function(suffix) {
+
+            const input = document.getElementById(field + suffix);
+
+            if (!input) return;
+
+            input.addEventListener('input', function() {
+
+                if (state.field !== field) return;
+
+                state.fresh = true;
+
+                state.buffer = '';
+
+                state.neg = readField(field) < 0;
+
+                render();
+
+            });
+
+        });
+
+    });
+
+
+
     // Height is optional and the toggles panel is hidden on phones, so the
 
     // Height tab is always available. The underlying height toggle is switched
@@ -10259,7 +10372,9 @@ function initMobileCalculator() {
 
     }
 
+    // Refresh the keypad readouts from the underlying inputs when switching views.
 
+    window.refreshKeypadFromInputs = render;
 
     selectField('distance');
 

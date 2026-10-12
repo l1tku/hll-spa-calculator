@@ -1,22 +1,33 @@
 # Changelog
 
+## [2.2.0] - 2026-10-12
+
+### Added
+- **KEYPAD view on desktop** — the phone-style keypad, now on PC too.
+- KEYPAD: hover/press feedback on the keys and the Terrain / Distance / Height tabs.
+
+### Changed
+- Switching between FULL / LITE / KEYPAD keeps the values you entered.
+- Phones: "More HLL Tools" sits above the Ko-fi button.
+- Tank ranges no longer show "(FLAT)".
+
+### Fixed
+- KEYPAD: picking a tank now fills in a sensible distance instead of leaving it at 0.
+- KEYPAD no longer shows stale values after you edit them in FULL / LITE.
+
 ## [2.1.1] - 2026-10-11
 
 ### Fixed
-- Close-range Height now uses a real ballistic solve when the measured model saturates.
-- Restored the "above supported range" warning with clearer wording: it now says the calculator math stops following beyond the flat max range.
-- Fixed Height being ignored for downhill targets (the saturation probe used |height| instead of the signed height).
-- Tank switching keeps a usable distance (auto-calc on = tank default, off/phones = keep current).
-- Mobile: `+/-` before typing, floating warning popup, wider result box, equal card spacing, themed Tank Information button, active tank highlighted.
-- Field Manual modal fits the phone viewport with a cleaned-up header; close button uses an SVG.
-- "MORE HLL TOOLS" themed; footer reordered; haptics added across controls.
-- Non-critical images use `prefetch` instead of `preload` (no more "unused preload" warnings).
+- Height correction now works for downhill and close-range targets.
+- Restored the "beyond max range" warning with clearer wording.
+- Switching tanks keeps a sensible distance.
+- Mobile: warning popup, wider result box, themed Tank Information button, active tank highlighted.
+- Field Manual fits the phone screen.
 
 ### Changed
-- Auto-calc with an empty distance seeds the tank default so a result shows immediately.
-- Mobile calculator card top gap matches the side gaps.
-- Height input caps at ±1000 m (mobile keypad and desktop).
-- Mobile Distance tab button now reads just "Distance"; the full "Target Distance" label stays on the value readout.
+- Auto-calc with no distance entered fills in the tank's default.
+- Height capped at ±1000 m.
+- Mobile Distance tab reads just "Distance".
 
 ## [2.1.0] - 2026-10-11
 
