@@ -9743,6 +9743,95 @@ if (document.readyState === 'loading') {
 
 // ============================================
 
+// CHANGELOG VIEWER - footer version opens the changelog
+
+// ============================================
+
+function renderChangelogMarkdown(md) {
+
+    function esc(s) {
+        return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function inline(s) {
+        return esc(s)
+            .replace(/`([^`]+)`/g, '<code>$1</code>')
+            .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    }
+
+    const lines = String(md).split('\n');
+    let html = '';
+    let inList = false;
+
+    function closeList() { if (inList) { html += '</ul>'; inList = false; } }
+
+    lines.forEach(function (raw) {
+        const line = raw.replace(/\r$/, '');
+        if (/^#\s/.test(line)) return;
+        if (/^##\s/.test(line)) { closeList(); html += '<h4>' + inline(line.replace(/^#+\s+/, '')) + '</h4>'; return; }
+        if (/^###\s/.test(line)) { closeList(); html += '<h5>' + inline(line.replace(/^#+\s+/, '')) + '</h5>'; return; }
+        if (/^-\s+/.test(line)) { if (!inList) { html += '<ul>'; inList = true; } html += '<li>' + inline(line.replace(/^-\s+/, '')) + '</li>'; return; }
+        if (line.trim() === '') { closeList(); return; }
+        closeList();
+        html += '<p>' + inline(line) + '</p>';
+    });
+
+    closeList();
+    return html;
+
+}
+
+function initChangelog() {
+
+    const openBtn = document.getElementById('appVersion');
+    const modal = document.getElementById('changelogBox');
+    const body = document.getElementById('changelogBody');
+    const closeBtn = document.getElementById('closeChangelog');
+
+    if (!openBtn || !modal || !body) return;
+
+    let loaded = false;
+
+    function onKey(e) { if (e.key === 'Escape') close(); }
+
+    function close() {
+        modal.classList.remove('open');
+        document.body.style.overflow = '';
+        document.removeEventListener('keydown', onKey, true);
+    }
+
+    function open() {
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        document.addEventListener('keydown', onKey, true);
+        if (loaded) return;
+        body.innerHTML = '<p class="changelog-empty">Loading...</p>';
+        fetch('CHANGELOG.md', { cache: 'no-cache' })
+            .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+            .then(function (md) { body.innerHTML = renderChangelogMarkdown(md); loaded = true; })
+            .catch(function () { body.innerHTML = '<p class="changelog-empty">Could not load the changelog.</p>'; });
+    }
+
+    openBtn.addEventListener('click', function (e) { e.preventDefault(); open(); });
+    if (closeBtn) closeBtn.addEventListener('click', close);
+    modal.addEventListener('pointerdown', function (e) { if (e.target === modal) close(); });
+
+}
+
+if (document.readyState === 'loading') {
+
+    document.addEventListener('DOMContentLoaded', initChangelog);
+
+} else {
+
+    initChangelog();
+
+}
+
+
+
+// ============================================
+
 // MOBILE CALCULATOR KEYPAD (phones only)
 
 // Drives the existing inputs via adjustValue()/calculate(), so all the
@@ -9782,7 +9871,7 @@ function initMobileCalculator() {
     // Help text shown by the value-box "?" button. Distance has none, so the
     // button hides for that field.
     const HELP_TEXT = {
-        redNumber: 'The red MIL in your HUD is your tank\'s terrain elevation - the slope it is sitting on.\n\nTip: Keep the hull pointing straight at the target: if the tank leans sideways the shot plane tilts and the shell lands off to one side.\n\ntank downhill  = negative\ntank uphill    = positive\n\nLIMIT: -356 to +356 MIL - the game\'s 20 degree hull-tilt firing gate. Past it the gun refuses to fire.',
+        redNumber: 'The red MIL in your HUD is your tank\'s terrain elevation - the ground tilt under your tank.\n\nTip: Keep the hull pointing straight at the target: if the tank leans sideways the shot plane tilts and the shell lands off to one side.\n\ntank downhill  = negative\ntank uphill    = positive\n\nLIMIT: -356 to +356 MIL - the game\'s 20 degree hull-tilt firing gate. Past it the gun refuses to fire.',
         heightDiff: 'The height difference is how much higher or lower the target is than your gun, in meters.\n\n+  target above you\n-  target below you\n\nOvershooting? The target is lower - go negative. Undershooting? It\'s higher - go positive.\n\nLeave it at 0 if you\'re roughly level with the target.'
     };
 

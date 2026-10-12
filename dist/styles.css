@@ -4373,6 +4373,172 @@ inset 0 1px 2px rgba(0, 0, 0, 0.1);
 .version-links a:hover {
     opacity: 0.7;
 }
+.version-links .version-btn {
+    appearance: none;
+    -webkit-appearance: none;
+    background: none;
+    border: 0;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: opacity 0.2s ease;
+}
+.version-links .version-btn:hover {
+    opacity: 0.7;
+}
+/* Footer changelog viewer */
+.changelog-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+.changelog-modal.open {
+    display: flex;
+}
+.changelog-box {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 560px;
+    max-height: calc(100vh - 32px);
+    max-height: calc(100dvh - 32px);
+    overflow: hidden;
+    box-sizing: border-box;
+    background: #26282e;
+    border: 1px solid #454851;
+    border-radius: 8px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+    color: #e5e7eb;
+}
+.changelog-head {
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 14px;
+    border-bottom: 1px solid #383b42;
+    background: #2d3037;
+}
+.changelog-title {
+    font-family: 'GothamMedium', 'Segoe UI', Arial, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #e0b64a;
+}
+.changelog-close {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 0;
+    border-radius: 6px;
+    color: #9aa0a6;
+    cursor: pointer;
+    padding: 0;
+}
+.changelog-close:hover,
+.changelog-close:active {
+    background: rgba(255, 255, 255, 0.09);
+    color: #ffffff;
+}
+.changelog-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 6px 18px 20px;
+    overflow: auto;
+    overscroll-behavior: contain;
+    font-family: 'Nunito', 'Segoe UI', system-ui, Arial, sans-serif;
+    font-size: 0.84rem;
+    line-height: 1.55;
+    color: #d7dae0;
+}
+.changelog-body h4 {
+    margin: 18px 0 6px;
+    padding-bottom: 5px;
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #e0b64a;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.changelog-body h4:first-child {
+    margin-top: 8px;
+}
+.changelog-body h5 {
+    margin: 12px 0 4px;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #9aa0a9;
+}
+.changelog-body ul {
+    margin: 4px 0 8px;
+    padding-left: 18px;
+}
+.changelog-body li {
+    margin: 3px 0;
+}
+.changelog-body code {
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    color: #e0b64a;
+    background: rgba(255, 255, 255, 0.06);
+    padding: 1px 4px;
+    border-radius: 3px;
+}
+.changelog-body strong {
+    color: #ffffff;
+}
+.changelog-empty {
+    color: #9aa0a9;
+}
+.changelog-foot {
+    flex: none;
+    padding: 11px 14px;
+    border-top: 1px solid #383b42;
+    background: #2d3037;
+    text-align: center;
+}
+.changelog-foot a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    font-family: 'Nunito', 'Segoe UI', system-ui, Arial, sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: #e0b64a;
+    background: rgba(224, 182, 74, 0.12);
+    border: 1px solid #6b6350;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.changelog-foot a:hover {
+    color: #ffffff;
+    background: rgba(224, 182, 74, 0.22);
+    border-color: #e0b64a;
+}
 .version-separator {
     opacity: 0.5;
     user-select: none;

@@ -730,12 +730,14 @@
                     <span>Buy me a coffee</span>
                 </a>
                 <div class="version-links">
-                    <a
-                        href="https://github.com/l1tku/hll-spa-calculator"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                    <button
+                        type="button"
                         id="appVersion"
-                    ></a>
+                        class="version-btn"
+                        aria-haspopup="dialog"
+                        aria-controls="changelogBox"
+                        title="View changelog"
+                    ></button>
                     <span class="version-separator">•</span>
                     <a
                         href="https://hellletloose.com/blog/hll-u21-changelog"
@@ -809,9 +811,24 @@
         <span class="mob-warning-text"></span>
     </div>
 
+    <div id="changelogBox" class="changelog-modal" role="dialog" aria-modal="true" aria-labelledby="changelogTitle">
+        <div class="changelog-box">
+            <div class="changelog-head">
+                <span class="changelog-title" id="changelogTitle">Changelog</span>
+                <button type="button" class="changelog-close" id="closeChangelog" aria-label="Close changelog">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg>
+                </button>
+            </div>
+            <div class="changelog-body" id="changelogBody"></div>
+            <div class="changelog-foot">
+                <a href="https://github.com/l1tku/hll-spa-calculator" target="_blank" rel="noopener noreferrer">View on GitHub &rarr;</a>
+            </div>
+        </div>
+    </div>
+
     <script>
         if ('serviceWorker' in navigator) {
-            const SERVICE_WORKER_VERSION = '2.2.1-4';
+            const SERVICE_WORKER_VERSION = '2.2.1-5';
             const isLocalhost =
                 location.hostname === 'localhost' ||
                 location.hostname === '127.0.0.1' ||
