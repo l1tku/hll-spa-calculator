@@ -5927,25 +5927,16 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
 .mob-help-box {
     width: 100%;
     max-width: 420px;
-    max-height: 88vh;
+    max-height: calc(100vh - 32px);
+    max-height: calc(100dvh - 32px);
     overflow: auto;
     overscroll-behavior: contain;
     box-sizing: border-box;
-    transform: translateY(-70px);
     background: #26282e;
     border: 1px solid #454851;
     border-radius: 8px;
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
     color: #e5e7eb;
-}
-@media (max-width: 768px) {
-    /* Phones: no upward shift (it pushed the header off-screen) and cap to the
-       real visible height so the close button stays reachable and it scrolls. */
-    .mob-help-box {
-        transform: none;
-        max-height: calc(100vh - 32px);
-        max-height: calc(100dvh - 32px);
-    }
 }
 .mob-help-head {
     display: flex;
@@ -6027,32 +6018,107 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
     line-height: 1.6;
     color: #d7dae0;
 }
-/* Keypad shortcuts popup - two-column layout */
+/* Keypad shortcuts popup - grouped categories with keycaps */
 .mob-help-shortcuts {
+    font-family: 'Nunito', 'Segoe UI', system-ui, Arial, sans-serif;
+    font-size: 0.9rem;
+}
+.kc-group + .kc-group {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+.kc-title {
     display: flex;
-    flex-direction: column;
-    gap: 7px;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 9px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #9aa0a9;
 }
-.ks-row {
+.kc-title svg {
+    display: block;
+    width: 15px;
+    height: 15px;
+    color: #c2b280;
+}
+.kc-row {
     display: flex;
-    align-items: baseline;
-    gap: 24px;
-    font-size: 0.85rem;
+    align-items: center;
+    gap: 12px;
+    padding: 4px 0;
 }
-.ks-key {
-    min-width: 96px;
-    font-family: 'Courier New', monospace;
-    font-weight: bold;
-    color: #e0b64a;
+.kc-keys {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
 }
-.ks-row > span:last-child {
+.kc-desc {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin-left: 18px;
     color: #d7dae0;
 }
-.ks-foot {
+.kc-sub {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: 6px;
+}
+.kc-word {
+    margin: 0 2px;
+    font-size: 0.82rem;
+    color: #8f949d;
+}
+.kc-pad {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    margin-left: 3px;
+    border-radius: 50%;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: #e5e7eb;
+    background: radial-gradient(circle at 35% 30%, #4c525c, #34383f);
+    border: 1px solid #5c626d;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+}
+.kc-key {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 7px;
+    box-sizing: border-box;
+    font-family: 'Courier New', monospace;
+    font-size: 0.78rem;
+    font-weight: bold;
+    color: #e0b64a;
+    background: linear-gradient(180deg, #3b3f47, #2f3238);
+    border: 1px solid #4a4e57;
+    border-bottom-color: #212328;
+    border-radius: 5px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.45);
+}
+.kc-join,
+.kc-or,
+.kc-range {
+    color: #9aa0a6;
+    font-size: 0.82rem;
+}
+.kc-note {
     margin-top: 8px;
-    padding-top: 10px;
-    border-top: 1px solid #383b42;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
+    color: #8f949d;
 }
 .mob-active-label {
     font-size: 0.62rem;

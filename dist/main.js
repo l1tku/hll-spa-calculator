@@ -9783,7 +9783,7 @@ function initMobileCalculator() {
     // button hides for that field.
     const HELP_TEXT = {
         redNumber: 'The red MIL in your HUD is your tank\'s terrain elevation - the slope it is sitting on.\n\nTip: Keep the hull pointing straight at the target: if the tank leans sideways the shot plane tilts and the shell lands off to one side.\n\ntank downhill  = negative\ntank uphill    = positive\n\nLIMIT: -356 to +356 MIL - the game\'s 20 degree hull-tilt firing gate. Past it the gun refuses to fire.',
-        heightDiff: 'Tell the calculator the height difference between your gun and the target, in meters.\n\n+  target above you\n-  target below you\n\nOvershooting? The target is lower - go negative. Undershooting? It\'s higher - go positive.\n\nLeave it at 0 if you\'re roughly level with the target.'
+        heightDiff: 'The height difference is how much higher or lower the target is than your gun, in meters.\n\n+  target above you\n-  target below you\n\nOvershooting? The target is lower - go negative. Undershooting? It\'s higher - go positive.\n\nLeave it at 0 if you\'re roughly level with the target.'
     };
 
     // buffer = unsigned digits being edited, neg = pending sign for the entry.
@@ -10279,25 +10279,34 @@ function initMobileCalculator() {
 
     function buildKeypadControlsHtml() {
         const signLabel = getSignKeyLabelText();
-        const rows = [
-            ['0-9', 'enter digits'],
-            ['Tab / Enter', 'next field'],
-            ['Shift+Tab', 'previous field'],
-            ['+', 'step up'],
-            ['-', 'step down'],
-            ['. or sign key (' + signLabel + ')', 'flip sign (+ / -)'],
-            ['Backspace', 'delete digit'],
-            ['C', 'clear'],
-            ['Shift + press + / -', 'step by 5'],
-            ['Ctrl + press + / -', 'step by 25']
-        ];
-        return rows
-            .map(function (row) {
-                return '<div class="ks-row"><span class="ks-key">' + row[0] + '</span><span>' + row[1] + '</span></div>';
-            })
-            .join('') +
-        '<div class="ks-row ks-foot"><span class="ks-key">Shift + click the + / - buttons</span><span>step by 5</span></div>' +
-        '<div class="ks-row"><span class="ks-key">Ctrl + click the + / - buttons</span><span>step by 25</span></div>';
+        const k = function (t) { return '<kbd class="kc-key">' + t + '</kbd>'; };
+        const pad = function (t) { return '<span class="kc-pad">' + t + '</span>'; };
+        const plus = '<span class="kc-join">+</span>';
+        const or = '<span class="kc-or">/</span>';
+        const row = function (keys, desc) {
+            return '<div class="kc-row"><span class="kc-keys">' + keys + '</span><span class="kc-desc">' + desc + '</span></div>';
+        };
+        const kbIcon = '<svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="1.5" y="4" width="13" height="8" rx="1.4"/><path d="M4 6.5h.01M6.5 6.5h.01M9 6.5h.01M11.5 6.5h.01M5.5 9.5h5" stroke-linecap="round"/></svg>';
+        const mouseIcon = '<svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="4.5" y="1.5" width="7" height="13" rx="3.5"/><path d="M8 1.5v4" stroke-linecap="round"/></svg>';
+
+        return ''
+            + '<div class="kc-group">'
+            +   '<div class="kc-title">' + kbIcon + 'Keyboard</div>'
+            +   row(k('0') + '<span class="kc-range">&#8211;</span>' + k('9'), 'enter digits')
+            +   row(k('Tab') + or + k('Enter'), 'next field')
+            +   row(k('Shift') + plus + k('Tab'), 'previous field')
+            +   row(k('+') + or + k('-'), 'step by 1')
+            +   row(k('.') + or + k(signLabel), 'flip sign (+ / -)')
+            +   row(k('Backspace'), 'delete digit')
+            +   row(k('C'), 'clear')
+            +   row(k('Shift') + plus + k('-') + or + k('+'), 'step by 5')
+            +   row(k('Ctrl') + plus + k('-') + or + k('+'), 'step by 25')
+            + '</div>'
+            + '<div class="kc-group">'
+            +   '<div class="kc-title">' + mouseIcon + 'Mouse</div>'
+            +   row(k('Shift') + plus + k('Click') + pad('-') + or + pad('+'), 'step by 5')
+            +   row(k('Ctrl') + plus + k('Click') + pad('-') + or + pad('+'), 'step by 25')
+            + '</div>';
     }
 
     if (keypadShortcutsBtn) {
