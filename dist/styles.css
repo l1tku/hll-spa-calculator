@@ -3756,6 +3756,10 @@ body.keypad-view .armored-result-value {
     body.keypad-view #mobileCalculator .mob-tab-value {
         font-size: 0.98rem;
     }
+    /* Desktop: the active-field label was still phone-tiny (0.62rem). */
+    body.keypad-view #mobileCalculator .mob-active-label {
+        font-size: 0.85rem;
+    }
 }
 [data-mode="lite"] .container {
     max-width: 765px;
@@ -5817,7 +5821,7 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
     position: absolute;
     left: 100%;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(calc(-50% - 2px));
     margin-left: 5px;
     width: 16px;
     height: 16px;
@@ -5917,6 +5921,8 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
     padding: 16px;
     box-sizing: border-box;
     background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
 }
 .mob-help-box {
     width: 100%;
@@ -5939,6 +5945,26 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
     padding: 10px 14px;
     border-bottom: 1px solid #383b42;
     background: #2d3037;
+}
+.mob-help-head-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+.mob-help-info {
+    flex: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #e0b64a;
+    border: 1px solid #6b6350;
+}
+.mob-help-info svg {
+    display: block;
 }
 .mob-help-title {
     font-family: 'GothamMedium', 'Segoe UI', Arial, sans-serif;

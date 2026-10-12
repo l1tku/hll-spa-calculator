@@ -9782,7 +9782,7 @@ function initMobileCalculator() {
     // Help text shown by the value-box "?" button. Distance has none, so the
     // button hides for that field.
     const HELP_TEXT = {
-        redNumber: 'The red MIL in your HUD is the slope you\'re facing. Park the tank straight - if it sits sideways, the aim is tilted with it and the shell drops off to the side, past the target.\n\ntank downhill  = negative\ntank uphill    = positive\n\nLIMIT: -356 to +356 MIL - the game\'s 20 degree hull-tilt firing gate. Past it the gun refuses to fire.',
+        redNumber: 'The red MIL in your HUD is your tank\'s terrain elevation - the slope it is sitting on.\n\nTip: Keep the hull pointing straight at the target: if the tank leans sideways the shot plane tilts and the shell lands off to one side.\n\ntank downhill  = negative\ntank uphill    = positive\n\nLIMIT: -356 to +356 MIL - the game\'s 20 degree hull-tilt firing gate. Past it the gun refuses to fire.',
         heightDiff: 'Tell the calculator the height difference between your gun and the target, in meters.\n\n+  target above you\n-  target below you\n\nOvershooting? The target is lower - go negative. Undershooting? It\'s higher - go positive.\n\nLeave it at 0 if you\'re roughly level with the target.'
     };
 
@@ -10462,7 +10462,23 @@ function initMobileCalculator() {
 
         closeBtn.textContent = '\u2715';
 
-        head.appendChild(titleEl);
+        const infoIcon = document.createElement('span');
+
+        infoIcon.className = 'mob-help-info';
+
+        infoIcon.setAttribute('aria-hidden', 'true');
+
+        infoIcon.innerHTML = '<svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor" aria-hidden="true" focusable="false"><circle cx="8" cy="4.1" r="1.15"/><rect x="7.15" y="6.4" width="1.7" height="6.2" rx="0.85"/></svg>';
+
+        const headLeft = document.createElement('div');
+
+        headLeft.className = 'mob-help-head-left';
+
+        headLeft.appendChild(infoIcon);
+
+        headLeft.appendChild(titleEl);
+
+        head.appendChild(headLeft);
 
         head.appendChild(closeBtn);
 
