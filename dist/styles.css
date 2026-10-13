@@ -2225,7 +2225,6 @@ inset 0 0 30px rgba(0, 0, 0, 0.5),
 .select-items div:active {
     background: #252525;
 }
-/* Currently selected tank in the dropdown */
 .select-items div.select-item-active {
     background: #262626;
     color: #ffffff;

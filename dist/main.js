@@ -14,8 +14,6 @@ const HLL_VERSION = {
 
 };
 
-// Flag <img>: desktop (1x DPR) uses the small _30 asset; phones/retina (2x) the full-res.
-
 function flagImgTag(flagSrc, alt, loading) {
 
     const src = String(flagSrc);
@@ -25,12 +23,6 @@ function flagImgTag(flagSrc, alt, loading) {
     return '<img src="' + small + '" srcset="' + small + ' 1x, ' + src + ' 2x" alt="' + alt + '" class="flag-icon" loading="' + loading + '" decoding="async">';
 
 }
-
-
-
-// NOTE: the mobile calculator always starts from all zeros (see
-// initMobileCalculator), so it does not restore a previous distance/elevation.
-
 
 
 // ============================================
@@ -81,7 +73,6 @@ tables['US (Sherman M4A3 105)'] = {
     300: 166, 275: 150, 250: 133, 225: 116, 200: 100,
     minMil: -89, maxMil: 466
 };
-
 
 
 // ============================================
@@ -375,7 +366,6 @@ const tankData = [
 ];
 
 
-
 // Helper function to handle tank selection (used by both full and lite dropdowns)
 
 function handleTankSelection(value, selectSelected, selectItems, factionInput, isLite) {
@@ -383,18 +373,11 @@ function handleTankSelection(value, selectSelected, selectItems, factionInput, i
     const tank = tankData.find(t => t.value === value);
 
 
-
     if (!tank) return false;
 
 
-
-    // Update hidden input
-
     factionInput.value = tank.value;
 
-
-
-    // Update selected display
 
     selectSelected.innerHTML = `
 
@@ -404,7 +387,6 @@ function handleTankSelection(value, selectSelected, selectItems, factionInput, i
 
     `;
 
-    // Highlight the active tank in the dropdown list
 
     selectItems.querySelectorAll('.select-item').forEach(item => {
 
@@ -417,16 +399,10 @@ function handleTankSelection(value, selectSelected, selectItems, factionInput, i
     });
 
 
-
-    // Hide dropdown
-
     selectItems.classList.add('select-hide');
 
     selectSelected.classList.remove('select-arrow-active');
 
-
-
-    // Lite mode specific: update aria-expanded
 
     if (isLite) {
 
@@ -434,7 +410,6 @@ function handleTankSelection(value, selectSelected, selectItems, factionInput, i
 
     } else {
 
-        // Full mode specific: update related UI elements
 
         updateFactionImage();
 
@@ -442,14 +417,6 @@ function handleTankSelection(value, selectSelected, selectItems, factionInput, i
 
     }
 
-
-
-    // Distance is left untouched when switching tanks: keep whatever the user
-    // has entered (0 if they haven't), even with auto-calc on.
-
-
-
-    // Save state and recalculate
 
     saveState();
 
@@ -470,11 +437,9 @@ function handleTankSelection(value, selectSelected, selectItems, factionInput, i
     if (typeof refreshKeypadFromInputs === 'function') refreshKeypadFromInputs();
 
 
-
     return true;
 
 }
-
 
 
 function generateTankDropdown() {
@@ -486,23 +451,14 @@ function generateTankDropdown() {
     const factionInput = document.getElementById('faction');
 
 
-
-    
-
     if (!selectSelected || !selectItems || !factionInput) return;
 
     
-
-    // Get current faction or default to first tank
-
     const currentFaction = factionInput.value || tankData[0].value;
 
     const currentTank = tankData.find(t => t.value === currentFaction) || tankData[0];
 
     
-
-    // Generate selected item HTML
-
     selectSelected.innerHTML = `
 
         ${flagImgTag(currentTank.flag, currentTank.flagAlt, 'eager')}
@@ -512,9 +468,6 @@ function generateTankDropdown() {
     `;
 
     
-
-    // Generate dropdown items HTML
-
     selectItems.innerHTML = tankData.map(tank => `
 
         <div data-value="${tank.value}" class="select-item${tank.value === currentFaction ? ' select-item-active' : ''}" role="option" aria-selected="${tank.value === currentFaction ? 'true' : 'false'}">
@@ -528,9 +481,6 @@ function generateTankDropdown() {
     `).join('');
 
     
-
-    // Re-attach click handlers to new dropdown items
-
     const items = selectItems.querySelectorAll('div[data-value]');
 
     items.forEach(item => {
@@ -552,13 +502,11 @@ function generateTankDropdown() {
 }
 
 
-
 function getTankByValue(value) {
 
     return tankData.find(t => t.value === value) || tankData[0];
 
 }
-
 
 
 // Read/write a field across the full + lite input pair. The two layouts use
@@ -589,7 +537,6 @@ function applyViewValue(value, fullId, liteId) {
     });
 
 }
-
 
 
 // Switch between full and lite view modes
@@ -635,7 +582,6 @@ function switchViewMode(mode) {
     if (keypadView && typeof refreshKeypadFromInputs === 'function') refreshKeypadFromInputs();
 
     
-
     // KEYPAD view hides the Height / Auto toggles, so force both on (the keypad
 
     // is always live, same as phones).
@@ -659,28 +605,20 @@ function switchViewMode(mode) {
     }
 
     
-
-    // Save preference to localStorage
-
     try {
 
         localStorage.setItem('hll-calculator-mode', mode);
 
     } catch (e) {
 
-        // Ignore localStorage errors
 
     }
 
     
-
-    // Regenerate dropdowns for the new mode
-
     if (layoutMode === 'lite') {
 
         generateLiteTankDropdown();
 
-        // Sync lite toggles with full mode state when switching to lite
 
         syncFullTogglesToLite();
 
@@ -688,15 +626,11 @@ function switchViewMode(mode) {
 
         generateTankDropdown();
 
-        // Ensure calculate button is visible/hidden correctly when returning to full mode
 
         updateCalculateButton();
 
     }
 
-
-
-    // Recalculate if auto-calc is enabled
 
     if (isAutoCalcEnabled()) {
 
@@ -705,7 +639,6 @@ function switchViewMode(mode) {
     }
 
 }
-
 
 
 // Generate lite mode dropdown
@@ -719,21 +652,14 @@ function generateLiteTankDropdown() {
     const factionInput = document.getElementById('faction');
 
     
-
     if (!selectSelected || !selectItems || !factionInput) return;
 
     
-
-    // Get current faction or default to first tank
-
     const currentFaction = factionInput.value || tankData[0].value;
 
     const currentTank = tankData.find(t => t.value === currentFaction) || tankData[0];
 
     
-
-    // Generate selected item HTML
-
     selectSelected.innerHTML = `
 
         ${flagImgTag(currentTank.flag, currentTank.flagAlt, 'eager')}
@@ -743,9 +669,6 @@ function generateLiteTankDropdown() {
     `;
 
     
-
-    // Generate dropdown items HTML
-
     selectItems.innerHTML = tankData.map(tank => `
 
         <div data-value="${tank.value}" class="select-item${tank.value === currentFaction ? ' select-item-active' : ''}" role="option" aria-selected="${tank.value === currentFaction ? 'true' : 'false'}">
@@ -759,9 +682,6 @@ function generateLiteTankDropdown() {
     `).join('');
 
     
-
-    // Re-attach click handlers to new dropdown items
-
     const items = selectItems.querySelectorAll('div[data-value]');
 
     items.forEach(item => {
@@ -781,17 +701,11 @@ function generateLiteTankDropdown() {
     });
 
     
-
-    // Only attach selectSelected click handler once
-
     if (!selectSelected.dataset.liteHandlerAttached) {
 
         selectSelected.dataset.liteHandlerAttached = 'true';
 
         
-
-        // Toggle dropdown on click
-
         selectSelected.addEventListener('click', function(e) {
 
             e.stopPropagation();
@@ -811,17 +725,11 @@ function generateLiteTankDropdown() {
     }
 
     
-
-    // Only attach document click handler once
-
     if (!document.body.dataset.liteDropdownCloseAttached) {
 
         document.body.dataset.liteDropdownCloseAttached = 'true';
 
         
-
-        // Close dropdown when clicking outside
-
         document.addEventListener('click', function(e) {
 
             const liteDropdown = document.querySelector('.mode-lite-only .custom-select');
@@ -849,7 +757,6 @@ function generateLiteTankDropdown() {
     }
 
 }
-
 
 
 // Tank information data (in-game statistics, history, and real life)
@@ -1423,7 +1330,6 @@ const tankInfo = {
 };
 
 
-
 // Helper function to interpolate values
 
 const lowRangeAnchors = new Map([
@@ -1489,9 +1395,6 @@ function interpolate(table, meters) {
         return Number.isFinite(mil) ? mil : NaN;
     }
 
-    // Filter out minMil and maxMil properties, only use distance keys
-
-// Filter out minMil and maxMil properties, only use distance keys
 
     const distances = Object.keys(table)
 
@@ -1502,14 +1405,10 @@ function interpolate(table, meters) {
         .sort((a, b) => b - a);
 
 
-
     const maxDist = distances[0];
 
     const minDist = distances[distances.length - 1];
 
-
-
-// Extrapolate for distances > maxDist (600m)
 
     if (meters > maxDist) {
 
@@ -1527,9 +1426,6 @@ function interpolate(table, meters) {
 
     }
 
-
-
-// Use confirmed physical low-end anchors when available instead of extending the sight table linearly.
 
     if (meters < minDist) {
 
@@ -1579,9 +1475,6 @@ function interpolate(table, meters) {
     }
 
 
-
-// Interpolate for distances within range
-
     for (let i = 0; i < distances.length - 1; i++) {
 
         const d1 = distances[i];
@@ -1603,11 +1496,9 @@ function interpolate(table, meters) {
     }
 
 
-
     return table[distances[distances.length - 1]];
 
 }
-
 
 
 // Update MIL range text and stats
@@ -1625,16 +1516,12 @@ function updateMilRangeText() {
     const tank = getTankByValue(faction);
 
 
-
     if (table && info && info.stats) {
 
         const stats = info.stats;
 
         const elevation = `${table.minMil} MIL to ${table.maxMil} MIL`;
 
-
-
-// Get range min/max from table keys
 
         const distances = Object.keys(table)
 
@@ -1665,9 +1552,6 @@ function updateMilRangeText() {
         const rangeDisplay = physicalRangeOverrides[faction] || `~${rangeMin}m - ~${rangeMax}m`;
 
 
-
-// Format main gun - extract only ammo (remove gun name)
-
         let mainGunText = stats.mainGun;
 
         const mainGunParts = mainGunText.split(' - ');
@@ -1676,7 +1560,6 @@ function updateMilRangeText() {
 
         if (mainGunParts[1]) {
 
-// Extract ammo counts: "50 HE rounds, 35 SMOKE rounds, 20 HEAT rounds"
 
             const ammoMatches = mainGunParts[1].match(/(\d+)\s*(HEAT|HE|SMOKE|AP|FLYING DUSTBIN)\s*rounds/g);
 
@@ -1711,9 +1594,6 @@ function updateMilRangeText() {
         }
 
 
-
-// Format hull gun - show if has MG, ammo count, and magazines
-
         let hullGunText = stats.hullGun;
 
         if (hullGunText.includes('NO')) {
@@ -1722,7 +1602,6 @@ function updateMilRangeText() {
 
         } else {
 
-// Extract ammo count and magazines: "200 rounds × 6 magazines"
 
             const ammoMatch = hullGunText.match(/(\d+)\s*rounds(?:\s*×\s*(\d+)\s*magazines)?/);
 
@@ -1745,9 +1624,6 @@ function updateMilRangeText() {
         }
 
 
-
-// Format coaxial gun - show if has MG, ammo count, and magazines
-
         let coaxialGunText = stats.coaxial;
 
         if (coaxialGunText.includes('NO')) {
@@ -1756,7 +1632,6 @@ function updateMilRangeText() {
 
         } else {
 
-// Extract ammo count and magazines: "200 rounds × 6 magazines"
 
             const ammoMatch = coaxialGunText.match(/(\d+)\s*rounds(?:\s*×\s*(\d+)\s*magazines)?/);
 
@@ -1778,9 +1653,6 @@ function updateMilRangeText() {
 
         }
 
-
-
-// Extract total rotation
 
         let rotationText = stats.turretRotation;
 
@@ -1807,13 +1679,9 @@ function updateMilRangeText() {
         }
 
 
-
-// Check if values should be crossed out
-
         const coaxCrossed = coaxialGunText === 'NO MG' ? 'text-decoration: line-through; opacity: 0.6;' : '';
 
         const hullCrossed = hullGunText === 'NO MG' ? 'text-decoration: line-through; opacity: 0.6;' : '';
-
 
 
         const isMobile = window.innerWidth <= 768;
@@ -1835,11 +1703,7 @@ function updateMilRangeText() {
         ` : '';
 
 
-
-        // Get reference to tank info button before clearing innerHTML
-
         const tankInfoBtn = document.getElementById('tankInfoIcon');
-
 
 
         milRangeText.innerHTML = `
@@ -1908,7 +1772,6 @@ function updateMilRangeText() {
 
         `;
 
-        // Append tank info button back after innerHTML clears it
 
         if (isMobile && tankInfoBtn && !milRangeText.contains(tankInfoBtn)) {
 
@@ -1934,7 +1797,6 @@ function updateMilRangeText() {
 
         `;
 
-        // Append tank info button back after innerHTML clears it
 
         if (isMobile && tankInfoBtn && !milRangeText.contains(tankInfoBtn)) {
 
@@ -1949,7 +1811,6 @@ function updateMilRangeText() {
 }
 
 
-
 // Update faction image
 
 function updateFactionImage() {
@@ -1959,7 +1820,6 @@ function updateFactionImage() {
     const tank = getTankByValue(faction);
 
     
-
     const img = document.getElementById('factionImage');
 
     const picture = img ? img.closest('picture') : null;
@@ -1969,7 +1829,6 @@ function updateFactionImage() {
     const pictureCompact = imgCompact ? imgCompact.closest('picture') : null;
 
 
-
     if (img && picture) {
 
         const webpSrc = tank.image;
@@ -1977,7 +1836,6 @@ function updateFactionImage() {
         const currentSrc = img.src;
 
         
-
         if (currentSrc && (currentSrc.includes(tank.imageBase) || currentSrc.endsWith(`${tank.imageBase}.png`))) {
 
             img.style.opacity = '1';
@@ -1987,7 +1845,6 @@ function updateFactionImage() {
             const source = picture.querySelector('source');
 
             const newImage = new Image();
-
 
 
             if (currentSrc && !currentSrc.includes('data:') && currentSrc !== '') {
@@ -2003,7 +1860,6 @@ function updateFactionImage() {
                 img.style.transition = 'opacity 0.2s ease';
 
             }
-
 
 
             const switchImage = function(useWebP = true) {
@@ -2029,7 +1885,6 @@ function updateFactionImage() {
                 });
 
             };
-
 
 
             let imageLoaded = false;
@@ -2067,7 +1922,6 @@ function updateFactionImage() {
             };
 
 
-
             newImage.src = webpSrc;
 
             if (newImage.complete && newImage.naturalWidth > 0) {
@@ -2077,7 +1931,6 @@ function updateFactionImage() {
                 switchImage(true);
 
             }
-
 
 
             img.onerror = function() {
@@ -2099,9 +1952,6 @@ function updateFactionImage() {
     }
 
 
-
-    // Also update compact image
-
     if (imgCompact && pictureCompact) {
 
         const webpSrc = tank.image;
@@ -2117,9 +1967,6 @@ function updateFactionImage() {
         imgCompact.src = webpSrc;
 
         
-
-        // Move compact image inside milRangeText panel on mobile
-
         const milRangeText = document.getElementById('milRangeText');
 
         if (milRangeText && window.innerWidth <= 768) {
@@ -2135,9 +1982,6 @@ function updateFactionImage() {
             }
 
             
-
-            // Also move tank info button inside panel on mobile
-
             const tankInfoBtn = document.getElementById('tankInfoIcon');
 
             if (tankInfoBtn && !milRangeText.contains(tankInfoBtn)) {
@@ -2153,9 +1997,6 @@ function updateFactionImage() {
     }
 
 
-
-    // Update classified reference text
-
     const classifiedText = tank.classifiedRef;
 
     const refTextElement = document.getElementById('classifiedRefText');
@@ -2167,11 +2008,9 @@ function updateFactionImage() {
     }
 
 
-
     updateMilRangeText();
 
 }
-
 
 
 // Signed values shown like the in-game HUD: 0, +14, -7 (terrain elevation / height difference)
@@ -2187,7 +2026,6 @@ function formatSignedValue(value) {
 }
 
 
-
 // FULL/desktop panel shows the terrain elevation exactly like the in-game HUD: 0MIL, +14MIL, -7MIL
 
 function formatMilsHudValue(value) {
@@ -2201,7 +2039,6 @@ function formatMilsHudValue(value) {
 }
 
 
-
 // Target distance is shown like the in-game marker: 400M
 
 function formatMetersHudValue(value) {
@@ -2213,7 +2050,6 @@ function formatMetersHudValue(value) {
     return num + 'M';
 
 }
-
 
 
 // The result bar shows the target distance (e.g. 400M) instead of the base MIL
@@ -2233,7 +2069,6 @@ function updateDistanceReadout() {
     el.textContent = formatMetersHudValue(Number.isFinite(raw) ? raw : 0);
 
 }
-
 
 
 // Height difference is shown signed with meters and coloured by sign: 0M, +5M, -3M
@@ -2281,7 +2116,6 @@ function setHeightDiffClass(input, value) {
 }
 
 
-
 // Haptic feedback (Android Chrome only - iOS has no Vibration API support).
 // The API has no amplitude control, so "strength" is just duration. Calculate
 // is intentionally the strongest; the steppers sit just below it.
@@ -2299,7 +2133,6 @@ function haptic(ms) {
 }
 
 
-
 // Mobile layout (phones) - matches the CSS max-width breakpoint
 
 function isMobileLayout() {
@@ -2307,7 +2140,6 @@ function isMobileLayout() {
     return window.innerWidth <= 768;
 
 }
-
 
 
 // KEYPAD view is an overlay on the full layout (see switchViewMode). It behaves
@@ -2319,7 +2151,6 @@ function isKeypadView() {
     return document.body.classList.contains('keypad-view');
 
 }
-
 
 
 // Touch-primary devices (phones/tablets) have no Shift/Ctrl keys, so the
@@ -2334,7 +2165,6 @@ function isTouchPrimaryDevice() {
         window.matchMedia('(hover: none)').matches;
 
 }
-
 
 
 // One-time tip toast explaining the Shift/Ctrl quick steps on the stepper buttons
@@ -2394,21 +2224,16 @@ function showQuickstepToast() {
 }
 
 
-
 // Adjust value function for increment/decrement buttons
 
 function adjustValue(fieldId, delta) {
 
-    // Find all inputs with this ID (handles duplicate IDs for lite/full modes)
 
     const allInputs = document.querySelectorAll(`input[id="${fieldId}"], input[id="${fieldId}Lite"]`);
 
     if (allInputs.length === 0) return;
 
     
-
-    // Get value from first input
-
     const input = allInputs[0];
 
     const inputValue = input.value || '0';
@@ -2417,9 +2242,6 @@ function adjustValue(fieldId, delta) {
 
     let newValue = Math.round(currentValue + delta);
 
-
-
-    // Apply limits
 
     if (fieldId === 'distance') {
 
@@ -2431,15 +2253,11 @@ function adjustValue(fieldId, delta) {
 
     } else if (fieldId === 'heightDiff') {
 
-        // Keep height in a sane range (matches the desktop input's max="1000")
 
         newValue = Math.max(-1000, Math.min(1000, newValue));
 
     }
 
-
-
-    // Update ALL inputs with this ID
 
     allInputs.forEach(inp => {
 
@@ -2468,16 +2286,8 @@ function adjustValue(fieldId, delta) {
     });
 
 
-
-// Always save state when values change
-
     saveState();
 
-
-
-// Trigger calculation if we have distance and auto mode is enabled
-
-// calculate() will set all display values correctly
 
     const distance = parseFloat(document.getElementById('distance').value);
 
@@ -2487,11 +2297,9 @@ function adjustValue(fieldId, delta) {
 
     } else {
 
-// When auto calc is off, show the current distance and reset final value to 0000 when any value changes
 
         updateDistanceReadout();
 
-// No distance -> no warning (especially the empty phone start state)
 
         if (mobWarningTimer) { clearTimeout(mobWarningTimer); mobWarningTimer = null; }
 
@@ -2499,13 +2307,11 @@ function adjustValue(fieldId, delta) {
 
         if (mobWarnClear) mobWarnClear.classList.add('hidden');
 
-// Reset final value to 0000 when auto calc is off
 
         if (fieldId === 'distance' || fieldId === 'heightDiff' || fieldId === 'redNumber') {
 
             rollElevationToNumber(0);
 
-// Show "--" for height and elevation when auto calc is off
 
             const heightValueEl = document.getElementById('heightValue');
 
@@ -2519,7 +2325,6 @@ function adjustValue(fieldId, delta) {
 
             if (redValueUnitEl) { redValueUnitEl.className = 'text-gray-300'; }
 
-// Update MIL labels after values are set to "--"
 
             updateMilLabels();
 
@@ -2529,9 +2334,6 @@ function adjustValue(fieldId, delta) {
 
 }
 
-
-
-// Constants
 
 const MILS_PER_RAD_APPROX = -80;
 
@@ -2544,7 +2346,6 @@ const SPA_G_MPS2 = 9.8;
 const USE_PHYSICS_HEIGHT_CORRECTION = true;
 
 
-
 function degreesToMils(deg) {
 
     return deg * MILS_PER_DEG;
@@ -2552,13 +2353,11 @@ function degreesToMils(deg) {
 }
 
 
-
 function roundToIntUnreal(x) {
 
     return x >= 0 ? Math.floor(x + 0.5) : Math.ceil(x - 0.5);
 
 }
-
 
 
 function hudQuantizeMil(mils) {
@@ -2576,13 +2375,11 @@ function spaHudMilFromRaw(table, mils) {
 }
 
 
-
 function milToDegrees(mil) {
 
     return mil / MILS_PER_DEG;
 
 }
-
 
 
 function solveBallisticAnglesRad(xMeters, yMeters, v0Mps, gMps2) {
@@ -2620,7 +2417,6 @@ function solveBallisticAnglesRad(xMeters, yMeters, v0Mps, gMps2) {
 }
 
 
-
 function computeEffectiveMuzzleSpeedMps(baseMil, distanceMeters) {
 
     if (!(distanceMeters > 0) || !isFinite(baseMil) || !isFinite(distanceMeters)) {
@@ -2628,7 +2424,6 @@ function computeEffectiveMuzzleSpeedMps(baseMil, distanceMeters) {
         return null;
 
     }
-
 
 
     const baseDeg = Math.abs(milToDegrees(baseMil));
@@ -2642,7 +2437,6 @@ function computeEffectiveMuzzleSpeedMps(baseMil, distanceMeters) {
     }
 
 
-
     const sin2 = Math.sin(2.0 * elevRad);
 
     if (!(sin2 > 1e-6)) {
@@ -2650,7 +2444,6 @@ function computeEffectiveMuzzleSpeedMps(baseMil, distanceMeters) {
         return null;
 
     }
-
 
 
     const v2 = (distanceMeters * SPA_G_MPS2) / sin2;
@@ -2674,7 +2467,6 @@ function computeEffectiveMuzzleSpeedMps(baseMil, distanceMeters) {
 }
 
 
-
 function computeBallisticHeightDiffMils(baseMil, distanceMeters, heightDiffMeters) {
 
     const x = distanceMeters;
@@ -2688,7 +2480,6 @@ function computeBallisticHeightDiffMils(baseMil, distanceMeters, heightDiffMeter
     }
 
 
-
     const v0 = computeEffectiveMuzzleSpeedMps(baseMil, x) ?? SPA_V0_MPS;
 
     if (!(v0 > 0) || !isFinite(v0)) {
@@ -2696,7 +2487,6 @@ function computeBallisticHeightDiffMils(baseMil, distanceMeters, heightDiffMeter
         return degreesToMils(Math.atan2(y, x) * (180.0 / Math.PI));
 
     }
-
 
 
     const baseDegAbs = Math.abs(milToDegrees(baseMil));
@@ -2712,7 +2502,6 @@ function computeBallisticHeightDiffMils(baseMil, distanceMeters, heightDiffMeter
     }
 
 
-
     const a0 = sols[0];
 
     const a1 = sols[1];
@@ -2726,7 +2515,6 @@ function computeBallisticHeightDiffMils(baseMil, distanceMeters, heightDiffMeter
 }
 
 
-
 function clamp01(x) {
 
     if (x <= 0) return 0;
@@ -2738,7 +2526,6 @@ function clamp01(x) {
 }
 
 
-
 function lerp(a, b, t) {
 
     return a + (b - a) * t;
@@ -2746,11 +2533,9 @@ function lerp(a, b, t) {
 }
 
 
-
 function rangeFromPerfectMil(table, mil) {
 
     if (!table || !isFinite(mil)) return NaN;
-
 
 
     const distances = Object.keys(table)
@@ -2764,13 +2549,11 @@ function rangeFromPerfectMil(table, mil) {
         .sort((a, b) => a - b);
 
 
-
     if (distances.length < 2) return NaN;
 
     const minRange = distances[0];
 
     const maxRange = distances[distances.length - 1];
-
 
 
     const maxPitchMil = Number(table[minRange]);
@@ -2784,7 +2567,6 @@ function rangeFromPerfectMil(table, mil) {
     }
 
 
-
     const denom = (minPitchMil - maxPitchMil);
 
     if (!Number.isFinite(denom) || Math.abs(denom) < 1e-9) return NaN;
@@ -2796,7 +2578,6 @@ function rangeFromPerfectMil(table, mil) {
 }
 
 
-
 function simulateSpaImpactDistanceMeters(table, mil, terrainSlope) {
 
     const targetX = rangeFromPerfectMil(table, mil);
@@ -2806,7 +2587,6 @@ function simulateSpaImpactDistanceMeters(table, mil, terrainSlope) {
         return NaN;
 
     }
-
 
 
     const aimedPitchDeg = milToDegrees(mil);
@@ -2822,15 +2602,12 @@ function simulateSpaImpactDistanceMeters(table, mil, terrainSlope) {
     const dispersedTravelDelay = 1.2;
 
 
-
     const pitchFactor = clamp01((aimedPitchDeg - -90.0) / ((maxPitchDeg - -90.0) || 1));
 
     const scaledApexPoint = (apexPoint - 0.01) * pitchFactor + 0.01;
 
 
-
     const targetZ = 0;
-
 
 
     const rad = aimedPitchDeg * (Math.PI / 180.0);
@@ -2842,11 +2619,9 @@ function simulateSpaImpactDistanceMeters(table, mil, terrainSlope) {
     const invLen0 = 1.0 / Math.max(1e-9, Math.sqrt(initialNX * initialNX + initialNZ * initialNZ));
 
 
-
     let initX = initialNX * invLen0;
 
     let initZ = initialNZ * invLen0;
-
 
 
     let newX = initX;
@@ -2854,17 +2629,14 @@ function simulateSpaImpactDistanceMeters(table, mil, terrainSlope) {
     let newZ = initZ;
 
 
-
     const baseSpeed = SPA_V0_MPS;
 
     const apexSpeed = baseSpeed * apexSpeedMultiplier;
 
 
-
     let posX = 0;
 
     let posZ = 0;
-
 
 
     let velX = baseSpeed * initX;
@@ -2874,7 +2646,6 @@ function simulateSpaImpactDistanceMeters(table, mil, terrainSlope) {
     let prevVelZ = velZ;
 
 
-
     let velZCap = Number.POSITIVE_INFINITY;
 
     let passedApex = false;
@@ -2882,11 +2653,9 @@ function simulateSpaImpactDistanceMeters(table, mil, terrainSlope) {
     let guidanceOff = false;
 
 
-
     const dt = 1.0 / 60.0;
 
     const maxSteps = 2000;
-
 
 
     for (let i = 0; i < maxSteps; i++) {
@@ -2896,7 +2665,6 @@ function simulateSpaImpactDistanceMeters(table, mil, terrainSlope) {
         const prevZ = posZ;
 
 
-
         if (!guidanceOff) {
 
             const xyDist = Math.abs(posX);
@@ -2904,13 +2672,11 @@ function simulateSpaImpactDistanceMeters(table, mil, terrainSlope) {
             const travelAlpha = clamp01(xyDist / targetX);
 
 
-
             if (!passedApex && scaledApexPoint <= travelAlpha) {
 
                 passedApex = true;
 
             }
-
 
 
             if (travelAlpha >= 0.9999 || (passedApex && posZ < targetZ)) {
@@ -2930,7 +2696,6 @@ function simulateSpaImpactDistanceMeters(table, mil, terrainSlope) {
                 const dirZ = toZ * invToLen;
 
 
-
                 if (passedApex && travelAlpha > 0 && (1.0 - scaledApexPoint) > 1e-6) {
 
                     let t = ((travelAlpha + 0.05) - scaledApexPoint) / (1.0 - scaledApexPoint);
@@ -2944,11 +2709,9 @@ function simulateSpaImpactDistanceMeters(table, mil, terrainSlope) {
                 }
 
 
-
                 const disperse = Math.pow(travelAlpha + 0.05, dispersedTravelDelay);
 
                 newX = lerp(initX, dirX, disperse);
-
 
 
                 const invNewLen = 1.0 / Math.max(1e-9, Math.sqrt(newX * newX + newZ * newZ));
@@ -2958,7 +2721,6 @@ function simulateSpaImpactDistanceMeters(table, mil, terrainSlope) {
                 newZ *= invNewLen;
 
 
-
                 if (newZ > velZCap) {
 
                     newZ = velZCap;
@@ -2966,7 +2728,6 @@ function simulateSpaImpactDistanceMeters(table, mil, terrainSlope) {
                 }
 
                 velZCap = newZ;
-
 
 
                 const apexPointClamped = Math.min(0.95, Math.max(0.05, scaledApexPoint));
@@ -2992,7 +2753,6 @@ function simulateSpaImpactDistanceMeters(table, mil, terrainSlope) {
                 }
 
 
-
                 velX = speed * newX;
 
                 const wantVelZ = speed * newZ;
@@ -3008,13 +2768,11 @@ function simulateSpaImpactDistanceMeters(table, mil, terrainSlope) {
         }
 
 
-
         posX += velX * dt;
 
         posZ += velZ * dt;
 
         prevVelZ = velZ;
-
 
 
         const groundPrev = terrainSlope * prevX;
@@ -3032,7 +2790,6 @@ function simulateSpaImpactDistanceMeters(table, mil, terrainSlope) {
         }
 
 
-
         if (posX > targetX * 2.0) {
 
             return posX;
@@ -3042,11 +2799,9 @@ function simulateSpaImpactDistanceMeters(table, mil, terrainSlope) {
     }
 
 
-
     return targetX;
 
 }
-
 
 
 function computeHeightDiffMils(baseMil, distanceMeters, heightDiffMeters, table) {
@@ -3087,13 +2842,11 @@ function computeHeightDiffMils(baseMil, distanceMeters, heightDiffMeters, table)
     }
 
 
-
     if (Math.abs(y) < 1e-6) {
 
         return 0;
 
     }
-
 
 
     const slope = y / x;
@@ -3109,9 +2862,7 @@ function computeHeightDiffMils(baseMil, distanceMeters, heightDiffMeters, table)
     }
 
 
-
     const f = (mil) => simulateSpaImpactDistanceMeters(table, mil, slope) - x;
-
 
 
 // Prefer a LOCAL solution near the base mil so small height changes don't jump the aim
@@ -3125,7 +2876,6 @@ function computeHeightDiffMils(baseMil, distanceMeters, heightDiffMeters, table)
     let fLo = f(lo);
 
     let fHi = f(hi);
-
 
 
 // Expand window gradually until we bracket a root or we hit full bounds
@@ -3145,13 +2895,11 @@ function computeHeightDiffMils(baseMil, distanceMeters, heightDiffMeters, table)
     }
 
 
-
     if (!Number.isFinite(fLo) || !Number.isFinite(fHi)) {
 
         return computeBallisticHeightDiffMils(baseMil, distanceMeters, heightDiffMeters);
 
     }
-
 
 
     if (fLo === 0) {
@@ -3167,13 +2915,11 @@ function computeHeightDiffMils(baseMil, distanceMeters, heightDiffMeters, table)
     }
 
 
-
     if (fLo * fHi > 0) {
 
         return computeBallisticHeightDiffMils(baseMil, distanceMeters, heightDiffMeters);
 
     }
-
 
 
     for (let i = 0; i < 26; i++) {
@@ -3211,14 +2957,10 @@ function computeHeightDiffMils(baseMil, distanceMeters, heightDiffMeters, table)
     }
 
 
-
     return ((lo + hi) * 0.5) - baseMil;
 
 }
 
-
-
-// Check if auto calculation is enabled
 
 function isAutoCalcEnabled() {
 
@@ -3229,19 +2971,14 @@ function isAutoCalcEnabled() {
 }
 
 
-
 // Distances are no longer auto-seeded anywhere - the calculator keeps 0 until
 // the user enters a value.
 
-
-
-// Helper to set value on all inputs in a NodeList (used by faction change and reset handlers)
 
 function setAllValues(inputs, value) {
 
     inputs.forEach(input => { 
 
-        // In-game look for terrain elevation / distance, signed height difference
 
         let nextValue = value;
 
@@ -3263,7 +3000,6 @@ function setAllValues(inputs, value) {
 
         input.value = nextValue;
 
-        // Trigger input event to ensure any listeners update
 
         const event = new Event('input', { bubbles: true });
 
@@ -3272,7 +3008,6 @@ function setAllValues(inputs, value) {
     });
 
 }
-
 
 
 function updateCalculateButton() {
@@ -3284,19 +3019,16 @@ function updateCalculateButton() {
     const isAuto = isAutoCalcEnabled();
 
 
-
     if (button && metalPanel) {
 
         if (isAuto) {
 
-            // Temporarily make button visible for measurement if hidden
 
             const wasHidden = button.offsetHeight === 0;
 
             let originalVisibility = button.style.visibility;
 
             let originalPosition = button.style.position;
-
 
 
             if (wasHidden) {
@@ -3310,14 +3042,8 @@ function updateCalculateButton() {
             }
 
 
-
-            // Get button height before hiding it
-
             let buttonHeight = button.offsetHeight;
 
-
-
-            // Restore styles if we changed them
 
             if (wasHidden) {
 
@@ -3328,9 +3054,6 @@ function updateCalculateButton() {
             }
 
 
-
-            // Fallback to CSS-defined height if still 0
-
             if (buttonHeight === 0) {
 
                 buttonHeight = 54;
@@ -3338,16 +3061,12 @@ function updateCalculateButton() {
             }
 
 
-
-            // Hide button, show metal panel
-
             button.style.display = 'none';
 
             metalPanel.classList.remove('hidden');
 
             metalPanel.style.display = 'block';
 
-            // Match metal panel height to button height exactly
 
             metalPanel.style.height = buttonHeight + 'px';
 
@@ -3355,7 +3074,6 @@ function updateCalculateButton() {
 
         } else {
 
-            // Show button, hide metal panel
 
             button.style.display = '';
 
@@ -3372,14 +3090,8 @@ function updateCalculateButton() {
 }
 
 
-
-// Update MIL label visibility based on whether results are calculated
-
 function updateMilLabels() {
 
-// MIL is always visible in mechanical counter, so this function is no longer needed
-
-// But keeping it for compatibility with other code that calls it
 
     const milCounter = document.getElementById('elevationMilCounter');
 
@@ -3390,9 +3102,6 @@ function updateMilLabels() {
     }
 
 
-
-// Update MIL label visibility based on values
-
     const baseValueEl = document.getElementById('baseValue');
 
     const baseMilLabelEl = document.getElementById('baseMilLabel');
@@ -3401,9 +3110,6 @@ function updateMilLabels() {
 
     const redValueUnitEl = document.getElementById('redValueUnit');
 
-
-
-// Hide MIL labels when values are "--"
 
     if (baseValueEl && baseMilLabelEl) {
 
@@ -3414,9 +3120,6 @@ function updateMilLabels() {
 }
 
 
-
-// Mechanical Counter System - from demo
-
 let currentElevationDigits = [];
 
 let isElevationNegative = false;
@@ -3426,13 +3129,11 @@ const elevationCounterElement = document.getElementById('elevationCounter');
 const CELL_HEIGHT = 80;
 
 
-
 function createElevationDigitWheel(index, isFirstWheel = false) {
 
     const wheel = document.createElement('div');
 
     wheel.className = 'digit-wheel';
-
 
 
     const strip = document.createElement('div');
@@ -3442,18 +3143,13 @@ function createElevationDigitWheel(index, isFirstWheel = false) {
     strip.id = `elevation-strip-${index}`;
 
 
-
     if (isFirstWheel) {
 
-// First wheel: only 0 and minus sign (no other digits)
 
         const firstWheelSequence = [0, '−'];
 
         const sequenceLength = firstWheelSequence.length;
 
-
-
-// Create 40 cells (sequence repeated for smooth rolling)
 
         for (let i = 0; i < 40; i++) {
 
@@ -3469,7 +3165,6 @@ function createElevationDigitWheel(index, isFirstWheel = false) {
 
     } else {
 
-// Regular digit wheels: 0-9 repeated (more cells for smooth animation)
 
         for (let i = 0; i < 40; i++) {
 
@@ -3486,13 +3181,11 @@ function createElevationDigitWheel(index, isFirstWheel = false) {
     }
 
 
-
     wheel.appendChild(strip);
 
     return wheel;
 
 }
-
 
 
 function createElevationMILWheel(letter) {
@@ -3502,11 +3195,9 @@ function createElevationMILWheel(letter) {
     wheel.className = 'mil-wheel';
 
 
-
     const strip = document.createElement('div');
 
     strip.className = 'mil-strip';
-
 
 
 // Create cells with the letter in the middle position (position 10)
@@ -3532,11 +3223,7 @@ function createElevationMILWheel(letter) {
     }
 
 
-
-// Position to show the letter (middle position)
-
     strip.style.transform = `translateY(-${10 * CELL_HEIGHT}px)`;
-
 
 
     wheel.appendChild(strip);
@@ -3546,13 +3233,11 @@ function createElevationMILWheel(letter) {
 }
 
 
-
 function initializeElevationMIL() {
 
     const milCounter = document.getElementById('elevationMilCounter');
 
     if (!milCounter) return;
-
 
 
     milCounter.innerHTML = '';
@@ -3570,7 +3255,6 @@ function initializeElevationMIL() {
 }
 
 
-
 function setupElevationCounter(targetNumber) {
 
     const absValue = Math.abs(targetNumber);
@@ -3581,9 +3265,6 @@ function setupElevationCounter(targetNumber) {
 
     const isNeg = targetNumber < 0;
 
-
-
-// Always create 4 wheels (first wheel can show - or digit)
 
     if (currentElevationDigits.length !== 4) {
 
@@ -3599,9 +3280,6 @@ function setupElevationCounter(targetNumber) {
 
     }
 
-
-
-// Initialize all strips to show 0 (or - for first wheel if negative)
 
     for (let i = 0; i < 4; i++) {
 
@@ -3628,13 +3306,11 @@ function setupElevationCounter(targetNumber) {
     }
 
 
-
     currentElevationDigits = [0, 0, 0, 0];
 
     isElevationNegative = isNeg;
 
 }
-
 
 
 function rollElevationToNumber(targetNumber) {
@@ -3648,18 +3324,12 @@ function rollElevationToNumber(targetNumber) {
     const isNeg = targetNumber < 0;
 
 
-
-// Ensure we have 4 wheels
-
     if (currentElevationDigits.length !== 4) {
 
         setupElevationCounter(targetNumber);
 
     }
 
-
-
-// Handle first wheel separately (can show 0 or -)
 
     const firstStrip = document.getElementById('elevation-strip-0');
 
@@ -3676,20 +3346,16 @@ function rollElevationToNumber(targetNumber) {
         const needsAnimation = signChanged || isResetting;
 
 
-
         if (needsAnimation) {
 
-// Simple direct switch between 0 and - (no rolling animation)
 
             void firstStrip.offsetWidth;
-
 
 
             setTimeout(() => {
 
                 if (isNeg) {
 
-// Switch directly to minus sign (position 1)
 
                     firstStrip.style.transition = 'transform 0.2s ease-in-out';
 
@@ -3697,7 +3363,6 @@ function rollElevationToNumber(targetNumber) {
 
                 } else {
 
-// Switch directly to 0 (position 0)
 
                     firstStrip.style.transition = 'transform 0.2s ease-in-out';
 
@@ -3712,20 +3377,12 @@ function rollElevationToNumber(targetNumber) {
     }
 
 
-
-// Roll remaining 3 digits (index 1, 2, 3) with staggered delay
-
-// Only animate digits that actually change
-
     for (let index = 1; index < 4; index++) {
 
         const strip = document.getElementById(`elevation-strip-${index}`);
 
         if (!strip) continue;
 
-
-
-// Get current digit from state, but also verify from DOM transform
 
         let currentDigit = currentElevationDigits[index] || 0;
 
@@ -3737,27 +3394,20 @@ function rollElevationToNumber(targetNumber) {
 
         if (transformMatch) {
 
-// Get the actual pixel position from DOM (will be negative)
 
             actualCurrentPosition = Math.abs(parseInt(transformMatch[1]));
 
-// Calculate current digit from actual position (normalize to 0-9)
 
             currentDigit = Math.round(actualCurrentPosition / CELL_HEIGHT) % 10;
 
         }
 
 
-
         const targetDigit = targetDigits[index - 1];
 
 
-
-// Check if digit actually changed
-
         if (currentDigit === targetDigit) {
 
-// Digit hasn't changed - set position immediately without animation
 
             const finalSnapPosition = -(targetDigit * CELL_HEIGHT);
 
@@ -3772,44 +3422,24 @@ function rollElevationToNumber(targetNumber) {
         }
 
 
-
-// Normalize current position to base range (0-9) to ensure we start from a safe position
-
         const normalizedCurrentPosition = currentDigit * CELL_HEIGHT;
 
 
-
-// Calculate how many positions to move (direct movement, no rolling)
-
-// For both upward and downward, move directly without wrapping
-
         let moveDistance = targetDigit - currentDigit;
 
-// No wrapping - move directly to target (can be negative for downward)
-
-
-
-// Calculate final animation position (direct movement)
 
         const finalPosition = -(normalizedCurrentPosition + moveDistance * CELL_HEIGHT);
 
-
-
-// Snap to normalized position first (without animation)
 
         strip.style.transition = 'none';
 
         strip.style.transform = `translateY(-${normalizedCurrentPosition}px)`;
 
 
-
-// Force reflow and wait a frame for snap to apply
-
         void strip.offsetWidth;
 
         requestAnimationFrame(() => {
 
-// Animate with staggered delay (only for changing digits)
 
             setTimeout(() => {
 
@@ -3824,9 +3454,6 @@ function rollElevationToNumber(targetNumber) {
     }
 
 
-
-// Update current state
-
     currentElevationDigits = [isNeg ? '-' : 0, targetDigits[0], targetDigits[1], targetDigits[2]];
 
     isElevationNegative = isNeg;
@@ -3834,19 +3461,12 @@ function rollElevationToNumber(targetNumber) {
 }
 
 
-
-// Show warning with compact icon - shows icon, message hidden by default
-
-// Debounce timer for the mobile warning banner (so typing doesn't flash it)
-
 let mobWarningTimer = null;
-
 
 
 function showWarning(warningDiv, message) {
 
     if (!warningDiv) return;
-
 
 
     const warningP = warningDiv.querySelector('p');
@@ -3856,7 +3476,6 @@ function showWarning(warningDiv, message) {
     const warningIconMobile = document.getElementById('warningIconMobile');
 
     
-
     if (warningP) {
 
         const currentMessage = message || warningP.textContent;
@@ -3864,9 +3483,6 @@ function showWarning(warningDiv, message) {
         warningP.textContent = currentMessage;
 
         
-
-        // Also sync text to mobile warning
-
         const warningMobileDiv = document.getElementById('warningMobile');
 
         const warningMobileP = warningMobileDiv ? warningMobileDiv.querySelector('p') : null;
@@ -3878,16 +3494,12 @@ function showWarning(warningDiv, message) {
         }
 
         
-
-        // Show the warning icon button (desktop)
-
         if (warningIconBtn) {
 
             warningIconBtn.classList.remove('hidden');
 
         }
 
-        // Show the warning icon button (mobile)
 
         if (warningIconMobile) {
 
@@ -3896,16 +3508,8 @@ function showWarning(warningDiv, message) {
         }
 
         
-
-        // Mobile banner - debounced so intermediate keystrokes (e.g. typing "8"
-        // on the way to "800") don't flash a warning.
-
         if (mobWarningTimer) clearTimeout(mobWarningTimer);
 
-        // Phones debounce harder (typing "8" on the way to "800" would flash the
-        // banner); desktop should pop it almost immediately. The desktop KEYPAD
-        // view is typed with keys too, so it gets the same longer debounce -
-        // intermediate entries like "5" on the way to "500" should not flash.
 
         const warningDelay = (isMobileLayout() || isKeypadView()) ? 700 : 120;
 
@@ -3924,9 +3528,6 @@ function showWarning(warningDiv, message) {
         }, warningDelay);
 
 
-
-        // Add margin class to distance-controls for mobile
-
         document.querySelectorAll('.distance-controls').forEach(el => {
 
             el.classList.add('warning-margin');
@@ -3934,8 +3535,6 @@ function showWarning(warningDiv, message) {
         });
 
         
-        // Keep warning message hidden by default (user must click icon to see it)
-
         warningDiv.classList.add('hidden');
 
     }
@@ -3943,36 +3542,25 @@ function showWarning(warningDiv, message) {
 }
 
 
-
-// Hide warning - hides both icon and message
-
 function hideWarning(warningDiv) {
 
     if (!warningDiv) return;
 
     
-
     const warningIconBtn = document.getElementById('warningIcon');
 
     const warningIconMobile = document.getElementById('warningIconMobile');
 
     
-
-    // Hide the warning message
-
     warningDiv.classList.add('hidden');
 
     
-
-    // Hide the warning icon button (desktop)
-
     if (warningIconBtn) {
 
         warningIconBtn.classList.add('hidden');
 
     }
 
-    // Hide the warning icon button (mobile)
 
     if (warningIconMobile) {
 
@@ -3981,18 +3569,12 @@ function hideWarning(warningDiv) {
     }
 
     
-
-    // Hide the mobile warning banner (and cancel any pending show)
-
     if (mobWarningTimer) { clearTimeout(mobWarningTimer); mobWarningTimer = null; }
 
     const mobWarningEl = document.getElementById('mobWarning');
 
     if (mobWarningEl) mobWarningEl.classList.add('hidden');
 
-
-
-    // Remove margin class from distance-controls
 
     document.querySelectorAll('.distance-controls').forEach(el => {
 
@@ -4002,9 +3584,6 @@ function hideWarning(warningDiv) {
 
 }
 
-
-
-// Toggle warning message visibility when icon is clicked
 
 function toggleWarningMessage(warningId) {
 
@@ -4020,9 +3599,6 @@ function toggleWarningMessage(warningId) {
 
 }
 
-
-
-// Close warning message when X is clicked
 
 function closeWarningMessage() {
 
@@ -4049,9 +3625,6 @@ function closeWarningMessage() {
 }
 
 
-
-// Calculate function
-
 function calculate() {
 
     try {
@@ -4061,18 +3634,10 @@ function calculate() {
         const distance = parseFloat(document.getElementById('distance').value);
 
 
-
-// Parse heightDiff - handle +, -, and empty values
-
-// Check if height difference toggle is enabled (default OFF)
-
     const heightDiffToggle = document.getElementById('heightDiffToggle');
 
     const heightDiffEnabled = heightDiffToggle ? heightDiffToggle.checked : false;
 
-
-
-    // Find the visible heightDiff input (there are duplicates in lite/full modes)
 
     const allHeightInputs = document.querySelectorAll('input#heightDiff, input#heightDiffLite');
 
@@ -4090,12 +3655,8 @@ function calculate() {
 
     }
 
-    // On phones the inputs are hidden (offsetParent is null) - fall back to the
-
-    // first one so the value is still used in the calculation.
 
     if (!heightDiffInput && allHeightInputs.length) heightDiffInput = allHeightInputs[0];
-
 
 
     let enteredHeight = 0;
@@ -4119,14 +3680,8 @@ function calculate() {
     }
 
 
-
     const heightDiff = enteredHeight;
 
-
-
-// Parse redNumber - handle +, -, and empty values
-
-    // Find the visible redNumber input (there are duplicates in lite/full modes)
 
     const allRedInputs = document.querySelectorAll('input#redNumber, input#redNumberLite');
 
@@ -4144,7 +3699,6 @@ function calculate() {
 
     }
 
-    // Same for terrain elevation: hidden on phones, so fall back to first input.
 
     if (!redNumberInput && allRedInputs.length) redNumberInput = allRedInputs[0];
 
@@ -4169,16 +3723,11 @@ function calculate() {
     }
 
 
-
     const warningDiv = document.getElementById('warning');
-
 
 
     if (!distance || isNaN(distance)) {
 
-        // Empty distance is not an error while the calculator is live - it just
-        // starts at 0. Stay quiet on mobile and whenever auto-calc is on; only
-        // prompt on an explicit desktop Calculate (auto-calc off).
 
         if (isMobileLayout() || isAutoCalcEnabled()) {
 
@@ -4190,7 +3739,6 @@ function calculate() {
 
         }
 
-// Show default "0000 MIL" when validation fails
 
         rollElevationToNumber(0);
 
@@ -4217,7 +3765,6 @@ function calculate() {
     }
 
 
-
     const table = tables[faction];
 
     if (!table) {
@@ -4228,7 +3775,6 @@ function calculate() {
 
         }
 
-// Show default "0000 MIL" when faction error
 
         rollElevationToNumber(0);
 
@@ -4256,7 +3802,6 @@ function calculate() {
 
     let base = interpolate(table, distance);
 
-    // Ensure base is always a valid number - fallback to interpolate if still NaN
 
     if (typeof base !== 'number' || isNaN(base)) {
 
@@ -4264,9 +3809,6 @@ function calculate() {
 
     }
 
-    // Flat maximum from the measured table + tail law. Used for the
-    // "above supported range" warning so users know the calculator math
-    // stops following beyond this point.
     const solveKeyForRange = Object.keys(tables).find(k => tables[k] === table);
 
     let maxDist = null;
@@ -4281,7 +3823,6 @@ function calculate() {
 
     }
 
-// Calculate final elevation: base plus height difference (converted to mils) minus tank body angle
 
     const usePhysicsHeightCorrection = true; // measured solve covers the full span (low band + tail)
 
@@ -4300,16 +3841,10 @@ function calculate() {
     const final = Math.round(base + heightDiffMils - redNumber);
 
 
-
-
-
-// Check turret elevation limits
-
     const minMil = table.minMil;
 
     const maxMil = table.maxMil;
 
-// Turret max elevation outranks distance warnings — the dial value is the hard limit.
 
     const lowRangeAnchor = lowRangeAnchors.get(table);
 
@@ -4356,14 +3891,8 @@ function calculate() {
     }
 
 
-
-// Update elevation using mechanical counter
-
     rollElevationToNumber(Math.round(spaHudMilFromRaw(table, final)));
 
-
-
-// Remove any existing animation classes to prevent animations (legacy cleanup)
 
     const elevationCounterEl = document.getElementById('elevationCounter');
 
@@ -4384,24 +3913,12 @@ function calculate() {
     }
 
 
-
-// ===== CRITICAL: Set ALL display values - MUST BE DONE HERE =====
-
-// These values MUST be set and MUST NEVER be "--" after a successful calculation
-
-
-
-// Normalize values to ensure they're numbers
-
     const displayHeightValue = ((typeof heightDiff === 'number' && !isNaN(heightDiff)) ? heightDiff : 0);
 
     const displayRedNumber = (typeof redNumber === 'number' && !isNaN(redNumber)) ? redNumber : 0;
 
     const displayRedNumberHud = hudQuantizeMil(displayRedNumber);
 
-
-
-// Set distance readout - ALWAYS set, NEVER "--"
 
     const baseValueEl = document.getElementById('baseValue');
 
@@ -4416,7 +3933,6 @@ function calculate() {
     }
 
 
-
     const heightEl = document.getElementById('heightValue');
 
     if (heightEl) {
@@ -4426,7 +3942,6 @@ function calculate() {
         heightEl.className = (displayHeightValue > 0) ? 'text-green-400' : (displayHeightValue < 0 ? 'text-red-400' : 'text-gray-300');
 
     }
-
 
 
     const redElement = document.getElementById('redValue');
@@ -4452,9 +3967,6 @@ function calculate() {
     }
 
 
-
-// Final verification - ensure values are set and not overwritten
-
     setTimeout(() => {
 
         const baseEl = document.getElementById('baseValue');
@@ -4463,9 +3975,6 @@ function calculate() {
 
         const redEl = document.getElementById('redValue');
 
-
-
-// Re-verify and set distance if needed
 
         if (baseEl) {
 
@@ -4477,9 +3986,6 @@ function calculate() {
 
         }
 
-
-
-// Re-verify and set height if needed
 
         if (heightEl) {
 
@@ -4495,9 +4001,6 @@ function calculate() {
 
         }
 
-
-
-// Re-verify and set elevation if needed
 
         if (redEl) {
 
@@ -4522,18 +4025,8 @@ function calculate() {
     }, 50);
 
 
-
-// Update MIL labels after values are set
-
     updateMilLabels();
 
-
-
-// In manual mode, focus distance input after calculation (for Enter key workflow)
-
-// In auto mode, remove focus from calculate button to clear yellow highlight
-
-// Skip focus on touch-primary devices (phones/tablets) to prevent keyboard from opening
 
     const isCoarsePointer = !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
 
@@ -4556,14 +4049,10 @@ function calculate() {
     }
 
 
-
-// Persist current state
-
     saveState();
 
     } catch (error) {
 
-// Show error to user
 
         const warningDiv = document.getElementById('warning');
 
@@ -4578,18 +4067,11 @@ function calculate() {
 }
 
 
-
-// Explicitly expose to global scope for inline onclick handlers
-
 window.calculate = calculate;
 
 
-
-// Copy result to clipboard
-
 function copyResult(buttonElement) {
 
-// Get value from mechanical counter
 
     const counterElement = document.getElementById('elevationCounter');
 
@@ -4600,7 +4082,6 @@ function copyResult(buttonElement) {
         const strips = counterElement.querySelectorAll('.digit-strip');
 
         let valueStr = '';
-
 
 
         strips.forEach((strip, index) => {
@@ -4616,10 +4097,8 @@ function copyResult(buttonElement) {
                 const cells = strip.querySelectorAll('.digit-cell');
 
 
-
                 if (cells.length > 0) {
 
-// Get the cell at the current position (modulo to handle wrapping)
 
                     const cellIndex = position % cells.length;
 
@@ -4629,17 +4108,14 @@ function copyResult(buttonElement) {
 
                 } else {
 
-// Fallback: calculate digit from position
 
                     if (index === 0) {
 
-// First wheel: even position = 0, odd position = '−'
 
                         valueStr += (position % 2 === 1) ? '−' : '0';
 
                     } else {
 
-// Regular digit wheels: 0-9
 
                         valueStr += (position % 10);
 
@@ -4656,18 +4132,13 @@ function copyResult(buttonElement) {
         });
 
 
-
-// Process the value string
-
         if (valueStr.includes('−')) {
 
-// Has minus sign - extract it and pad the numeric part
 
             const numericPart = valueStr.replace(/[^0-9]/g, '');
 
             const paddedNumeric = numericPart.padStart(4, '0');
 
-// Remove leading zeros, but keep at least one digit
 
             const trimmedNumeric = paddedNumeric.replace(/^0+/, '') || '0';
 
@@ -4675,13 +4146,11 @@ function copyResult(buttonElement) {
 
         } else {
 
-// No minus sign - just pad to 4 digits
 
             const numericPart = valueStr.replace(/[^0-9]/g, '');
 
             const paddedNumeric = numericPart.padStart(4, '0');
 
-// Remove leading zeros, but keep at least one digit
 
             elevationValue = paddedNumeric.replace(/^0+/, '') || '0';
 
@@ -4690,9 +4159,6 @@ function copyResult(buttonElement) {
     }
 
 
-
-// Get display values
-
     const baseValueEl = document.getElementById('baseValue');
 
     const heightValueEl = document.getElementById('heightValue');
@@ -4700,7 +4166,6 @@ function copyResult(buttonElement) {
     const redValueEl = document.getElementById('redValue');
 
     const heightSymbolEl = document.getElementById('heightSymbol');
-
 
 
     const baseValue = baseValueEl ? baseValueEl.textContent.trim() : '--';
@@ -4712,20 +4177,11 @@ function copyResult(buttonElement) {
     const heightSymbol = heightSymbolEl ? heightSymbolEl.textContent.trim() : 'Δ';
 
 
-
-// Format the result text
-
     let resultText = `Set Elevation To: ${elevationValue} MIL`;
 
 
-
-// Get the button element - use passed element or fallback to querySelector
-
     const copyButton = buttonElement || document.querySelector('.copy-result-button');
 
-
-
-// Store original content if not already stored, or always use the known original
 
     if (copyButton && !copyButton.dataset.originalContent) {
 
@@ -4735,9 +4191,6 @@ function copyResult(buttonElement) {
 
     const originalContent = copyButton ? (copyButton.dataset.originalContent || '📋') : '📋';
 
-
-
-// Copy to clipboard
 
     const showCopied = () => {
 
@@ -4758,7 +4211,6 @@ function copyResult(buttonElement) {
         }
 
     };
-
 
 
     const fallbackCopy = () => {
@@ -4804,7 +4256,6 @@ function copyResult(buttonElement) {
     };
 
 
-
     // navigator.clipboard only exists in secure contexts (https or localhost).
 
     // Over plain http (e.g. the LAN URL) it is undefined and writeText throws,
@@ -4824,18 +4275,11 @@ function copyResult(buttonElement) {
 }
 
 
-
-// Reset calculator to default values
-
 function resetCalculator(buttonElement) {
 
-// Get button element
 
     const resetButton = buttonElement || document.querySelector('.reset-result-button');
 
-
-
-// Store original content if not already stored
 
     if (resetButton && !resetButton.dataset.originalContent) {
 
@@ -4846,9 +4290,6 @@ function resetCalculator(buttonElement) {
     const originalContent = resetButton ? (resetButton.dataset.originalContent || '🔄') : '🔄';
 
 
-
-// Add resetting class and change text
-
     if (resetButton) {
 
         resetButton.classList.add('resetting');
@@ -4858,18 +4299,12 @@ function resetCalculator(buttonElement) {
     }
 
 
-
-// Reset input fields
-
     const distanceInputs = document.querySelectorAll('input#distance, input#distanceLite');
 
     const heightDiffInputs = document.querySelectorAll('input#heightDiff, input#heightDiffLite');
 
     const redNumberInputs = document.querySelectorAll('input#redNumber, input#redNumberLite');
 
-
-
-    // Reset all fields to zero (no auto distance)
 
     if (distanceInputs.length > 0) {
 
@@ -4890,11 +4325,6 @@ function resetCalculator(buttonElement) {
     }
 
 
-
-// Recalculate to update all displays and counter
-
-// Use setTimeout to ensure inputs are processed first
-
     setTimeout(() => {
 
         if (typeof calculate === 'function') {
@@ -4903,7 +4333,6 @@ function resetCalculator(buttonElement) {
 
         } else {
 
-// Fallback: manually reset counter and displays
 
             if (typeof rollElevationToNumber === 'function') {
 
@@ -4916,15 +4345,11 @@ function resetCalculator(buttonElement) {
             }
 
 
-
-// Reset display values
-
             const baseValueEl = document.getElementById('baseValue');
 
             const heightValueEl = document.getElementById('heightValue');
 
             const redValueEl = document.getElementById('redValue');
-
 
 
             updateDistanceReadout();
@@ -4938,12 +4363,8 @@ function resetCalculator(buttonElement) {
             if (redValueUnitResetEl) redValueUnitResetEl.className = 'text-hud-red';
 
 
-
         }
 
-
-
-// Hide warning if visible
 
         const warningDiv = document.getElementById('warning');
 
@@ -4954,16 +4375,12 @@ function resetCalculator(buttonElement) {
         }
 
 
-
         if (typeof syncArmoredToggles === 'function') {
 
             syncArmoredToggles();
 
         }
 
-
-
-// Save state
 
         if (typeof saveState === 'function') {
 
@@ -4973,9 +4390,6 @@ function resetCalculator(buttonElement) {
 
     }, 50);
 
-
-
-// Reset button appearance after a moment
 
     setTimeout(() => {
 
@@ -4992,14 +4406,8 @@ function resetCalculator(buttonElement) {
 }
 
 
-
-// Explicitly expose to global scope for inline onclick handlers
-
 window.resetCalculator = resetCalculator;
 
-
-
-// Save current UI state to localStorage
 
 function saveState() {
 
@@ -5007,7 +4415,6 @@ function saveState() {
 
         const faction = document.getElementById('faction').value;
 
-        // Find the visible heightDiff input to save its value
 
         const allHeightInputs = document.querySelectorAll('input#heightDiff, input#heightDiffLite');
 
@@ -5024,7 +4431,6 @@ function saveState() {
             }
 
         }
-
 
 
         const state = {
@@ -5047,15 +4453,11 @@ function saveState() {
 
     } catch (e) {
 
-// Ignore storage errors (e.g., disabled storage)
 
     }
 
 }
 
-
-
-// Load UI state from localStorage if available
 
 function loadState() {
 
@@ -5068,16 +4470,12 @@ function loadState() {
         const state = JSON.parse(raw);
 
 
-
         if (state.faction) {
 
             const hiddenFaction = document.getElementById('faction');
 
             hiddenFaction.value = state.faction;
 
-
-
-// Update custom select display
 
             const flagMap = {
 
@@ -5096,23 +4494,19 @@ function loadState() {
             };
 
 
-
             const flag = flagMap[state.faction] || 'BRITISH.webp';
 
             const selectSelected = document.getElementById('selectSelected');
 
-// Format faction name for display (remove "105" from M4A3)
 
             const displayName = state.faction.replace(' (Sherman M4A3 105)', ' (Sherman M4A3)');
 
             selectSelected.innerHTML = `${flagImgTag('images/UI/Icons/flags/' + flag, flag.split('.')[0], 'eager')} <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0;">${displayName}</span>`;
 
 
-
             updateFactionImage();
 
         }
-
 
 
         const distanceInputs = document.querySelectorAll('input#distance, input#distanceLite');
@@ -5123,9 +4517,6 @@ function loadState() {
 
         }
 
-
-
-        // Set all heightDiff inputs (both lite and full modes)
 
         if (state.heightDiff !== undefined && state.heightDiff !== null && state.heightDiff !== '') {
 
@@ -5146,7 +4537,6 @@ function loadState() {
             }
 
         }
-
 
 
         const redNumberInputs = document.querySelectorAll('input#redNumber, input#redNumberLite');
@@ -5170,7 +4560,6 @@ function loadState() {
         }
 
 
-
         const autoCalcToggle = document.getElementById('autoCalcToggle');
 
         if (autoCalcToggle && typeof state.autoCalc === 'boolean') {
@@ -5178,7 +4567,6 @@ function loadState() {
             autoCalcToggle.checked = state.autoCalc;
 
         }
-
 
 
         const heightDiffToggle = document.getElementById('heightDiffToggle');
@@ -5190,9 +4578,6 @@ function loadState() {
         }
 
 
-
-// Update UI elements after loading state
-
         updateCalculateButton();
 
         updateToggleLEDs();
@@ -5203,12 +4588,10 @@ function loadState() {
 
     } catch (e) {
 
-// Ignore parse/storage errors
 
     }
 
 }
-
 
 
 function toggleArmoredSwitch(checkboxId, element) {
@@ -5224,12 +4607,8 @@ function toggleArmoredSwitch(checkboxId, element) {
         }
 
 
-
         checkbox.checked = !checkbox.checked;
 
-
-
-// Update visual state immediately
 
         if (checkbox.checked) {
 
@@ -5242,16 +4621,12 @@ function toggleArmoredSwitch(checkboxId, element) {
         }
 
 
-
-// Trigger the existing event handlers
-
         if (checkboxId === 'autoCalcToggle') {
 
             const event = new Event('change', { bubbles: true });
 
             checkbox.dispatchEvent(event);
 
-// Also sync the toggle state to ensure it's correct
 
             syncArmoredToggles();
 
@@ -5276,14 +4651,8 @@ function toggleArmoredSwitch(checkboxId, element) {
 }
 
 
-
-// Explicitly expose to global scope for inline onclick handlers
-
 window.toggleArmoredSwitch = toggleArmoredSwitch;
 
-
-
-// Sync armored toggles with checkboxes on load
 
 function syncArmoredToggles() {
 
@@ -5294,7 +4663,6 @@ function syncArmoredToggles() {
     const armoredAuto = document.getElementById('armoredAutoToggle');
 
     const armoredHeightDiffToggle = document.getElementById('armoredHeightDiffToggle');
-
 
 
     if (autoToggle && armoredAuto) {
@@ -5312,7 +4680,6 @@ function syncArmoredToggles() {
     }
 
 
-
     if (heightDiffToggle && armoredHeightDiffToggle) {
 
         if (heightDiffToggle.checked) {
@@ -5328,18 +4695,12 @@ function syncArmoredToggles() {
     }
 
 
-
-// Update LED indicators
-
     updateToggleLEDs();
 
     updateHeightDiffToggleUI();
 
 }
 
-
-
-// Function to update LED-style toggle labels
 
 function updateToggleLEDs() {
 
@@ -5350,14 +4711,10 @@ function updateToggleLEDs() {
     const calcOffLabel = document.getElementById('calcOffLabel');
 
 
-
-// Update Auto Calculation toggle labels
-
     if (autoCalcToggle && calcOnLabel && calcOffLabel) {
 
         if (autoCalcToggle.checked) {
 
-// ON state: light up ON label with green LED, turn OFF label off
 
             calcOnLabel.classList.add('led-on-green');
 
@@ -5367,7 +4724,6 @@ function updateToggleLEDs() {
 
         } else {
 
-// OFF state: light up OFF label with red LED, turn ON label off
 
             calcOffLabel.classList.add('led-off');
 
@@ -5380,9 +4736,6 @@ function updateToggleLEDs() {
     }
 
 
-
-// Update Height Difference toggle labels
-
     const heightDiffToggleLED = document.getElementById('heightDiffToggle');
 
     const heightDiffOnLabel = document.getElementById('heightDiffOnLabel');
@@ -5393,7 +4746,6 @@ function updateToggleLEDs() {
 
         if (heightDiffToggleLED.checked) {
 
-// ON state: light up ON label with green LED, turn OFF label off
 
             heightDiffOnLabel.classList.add('led-on-green');
 
@@ -5403,7 +4755,6 @@ function updateToggleLEDs() {
 
         } else {
 
-// OFF state: light up OFF label with red LED, turn ON label off
 
             heightDiffOffLabel.classList.add('led-off');
 
@@ -5417,9 +4768,6 @@ function updateToggleLEDs() {
 
 }
 
-
-
-// Update Height Difference toggle UI (visibility and grid layout)
 
 function updateHeightDiffToggleUI() {
 
@@ -5436,16 +4784,11 @@ function updateHeightDiffToggleUI() {
     const targetHeightSection = document.getElementById('targetHeightSection');
 
 
-
     if (!heightDiffToggle) return;
-
 
 
     const isEnabled = heightDiffToggle.checked;
 
-
-
-    // Update armored toggle switch visual
 
     if (armoredHeightDiffToggle) {
 
@@ -5466,14 +4809,10 @@ function updateHeightDiffToggleUI() {
     }
 
 
-
-    // Update visibility and grid layout
-
     if (heightDiffColumn && heightRedGrid) {
 
         if (isEnabled) {
 
-            // Show height diff column and switch to 2-column layout
 
             heightDiffColumn.classList.remove('hidden');
 
@@ -5483,7 +4822,6 @@ function updateHeightDiffToggleUI() {
 
         } else {
 
-            // Hide height diff column and switch to 1-column layout
 
             heightDiffColumn.classList.add('hidden');
 
@@ -5491,7 +4829,6 @@ function updateHeightDiffToggleUI() {
 
             heightRedGrid.classList.add('grid-cols-1');
 
-            // Reset height diff value to 0 when disabled (all inputs)
 
             setAllValues(document.querySelectorAll('input#heightDiff, input#heightDiffLite'), '0');
 
@@ -5499,9 +4836,6 @@ function updateHeightDiffToggleUI() {
 
     }
 
-
-
-    // Update result display - hide/show Target Height section
 
     if (targetHeightSection) {
 
@@ -5518,14 +4852,8 @@ function updateHeightDiffToggleUI() {
     }
 
 
-
-    // Update LED labels
-
     updateToggleLEDs();
 
-
-
-    // Trigger recalculation if auto calc is enabled
 
     if (isAutoCalcEnabled()) {
 
@@ -5536,32 +4864,20 @@ function updateHeightDiffToggleUI() {
 }
 
 
-
-// Load any saved state before wiring up interactions
-
 updateHeightDiffToggleUI();
 
 loadState();
 
-
-
-// Initialize mechanical counter
 
 setupElevationCounter(0);
 
 initializeElevationMIL();
 
 
-
-// Ensure faction image and badges are displayed on initial load
-
 updateFactionImage();
 
 updateMilRangeText();
 
-
-
-// Run initial calculation after everything is set up (only if auto mode)
 
 if (isAutoCalcEnabled()) {
 
@@ -5569,7 +4885,6 @@ if (isAutoCalcEnabled()) {
 
 } else {
 
-// Show default "0000 MIL" when auto calculation is off on initial load
 
     setupElevationCounter(0);
 
@@ -5585,7 +4900,6 @@ if (isAutoCalcEnabled()) {
 
     updateDistanceReadout();
 
-// Show "--" when auto calculation is off
 
     if (heightEl) {
 
@@ -5618,9 +4932,6 @@ updateMilLabels();
 syncArmoredToggles();
 
 
-
-// Sync armored toggles when checkboxes change
-
 const autoToggleCheckbox = document.getElementById('autoCalcToggle');
 
 const heightDiffToggleCheckbox = document.getElementById('heightDiffToggle');
@@ -5644,9 +4955,6 @@ if (heightDiffToggleCheckbox) {
 }
 
 
-
-// Lite toggle handling
-
 const heightDiffToggleLite = document.getElementById('heightDiffToggleLite');
 
 const autoCalcToggleLite = document.getElementById('autoCalcToggleLite');
@@ -5654,7 +4962,6 @@ const autoCalcToggleLite = document.getElementById('autoCalcToggleLite');
 const armoredHeightDiffToggleLite = document.getElementById('armoredHeightDiffToggleLite');
 
 const armoredAutoToggleLite = document.getElementById('armoredAutoToggleLite');
-
 
 
 function updateLiteToggleUI(toggle, armoredToggle, onLabel, offLabel, isActive) {
@@ -5698,7 +5005,6 @@ function updateLiteToggleUI(toggle, armoredToggle, onLabel, offLabel, isActive) 
 }
 
 
-
 function updateLiteHeightDiffVisibility() {
 
     const heightDiffToggleLite = document.getElementById('heightDiffToggleLite');
@@ -5720,7 +5026,6 @@ function updateLiteHeightDiffVisibility() {
     }
 
 }
-
 
 
 function updateLiteCalcButtonVisibility() {
@@ -5746,7 +5051,6 @@ function updateLiteCalcButtonVisibility() {
 }
 
 
-
 function syncLiteTogglesToFull() {
 
     const fullHeightToggle = document.getElementById('heightDiffToggle');
@@ -5770,7 +5074,6 @@ function syncLiteTogglesToFull() {
     updateHeightDiffToggleUI();
 
 }
-
 
 
 function syncFullTogglesToLite() {
@@ -5810,7 +5113,6 @@ function syncFullTogglesToLite() {
 }
 
 
-
 if (heightDiffToggleLite) {
 
     heightDiffToggleLite.addEventListener('change', function() {
@@ -5838,7 +5140,6 @@ if (heightDiffToggleLite) {
     updateLiteHeightDiffVisibility();
 
 }
-
 
 
 if (autoCalcToggleLite) {
@@ -5876,7 +5177,6 @@ if (autoCalcToggleLite) {
 }
 
 
-
 // Add click handlers to visual switch elements (checkboxes are hidden)
 
 if (armoredHeightDiffToggleLite && heightDiffToggleLite) {
@@ -5892,7 +5192,6 @@ if (armoredHeightDiffToggleLite && heightDiffToggleLite) {
 }
 
 
-
 if (armoredAutoToggleLite && autoCalcToggleLite) {
 
     armoredAutoToggleLite.addEventListener('click', function() {
@@ -5906,9 +5205,6 @@ if (armoredAutoToggleLite && autoCalcToggleLite) {
 }
 
 
-
-// Lite calculate button click handler
-
 const calculateButtonLite = document.getElementById('calculateButtonLite');
 
 if (calculateButtonLite) {
@@ -5920,7 +5216,6 @@ if (calculateButtonLite) {
     });
 
 }
-
 
 
 if (autoToggleCheckbox) {
@@ -5936,20 +5231,13 @@ if (heightDiffToggleCheckbox) {
 }
 
 
-
-// Make editing fast and keep fields from being empty
-
 ['distance', 'heightDiff', 'redNumber'].forEach(id => {
 
-    // Get all inputs with this ID (both full and lite modes)
 
     const allInputs = document.querySelectorAll(`input#${id}, input#${id}Lite`);
 
     if (!allInputs.length) return;
 
-
-
-// On focus/click, select the entire value so typing overwrites it
 
     const selectAllHandler = function() {
 
@@ -5965,7 +5253,6 @@ if (heightDiffToggleCheckbox) {
 
             } catch (e) {
 
-// some browsers may not support setSelectionRange
 
             }
 
@@ -5973,9 +5260,6 @@ if (heightDiffToggleCheckbox) {
 
     };
 
-
-
-// On blur, if left empty, force it back to 0
 
     const ensureNonEmptyHandler = function() {
 
@@ -6005,7 +5289,6 @@ if (heightDiffToggleCheckbox) {
 
                 } else {
 
-// When auto calc is off, reset base value to "--"
 
                     updateDistanceReadout();
 
@@ -6013,13 +5296,11 @@ if (heightDiffToggleCheckbox) {
 
             } catch (e) {
 
-// ignore if not available yet
 
             }
 
         } else {
 
-// Enforce min/max limits for distance field
 
             if (this.id === 'distance' || this.id === 'distanceLite') {
 
@@ -6028,7 +5309,6 @@ if (heightDiffToggleCheckbox) {
                 if (!isNaN(numValue)) {
 
                     let finalValue = numValue;
-
 
 
                     if (numValue < 0) {
@@ -6042,12 +5322,8 @@ if (heightDiffToggleCheckbox) {
                     }
 
 
-
                     this.value = formatMetersHudValue(finalValue);
 
-
-
-// If value was clamped, trigger calculation and save state
 
                     if (finalValue !== numValue) {
 
@@ -6065,9 +5341,6 @@ if (heightDiffToggleCheckbox) {
 
             }
 
-
-
-// Enforce min/max limits for redNumber field (tank body angle)
 
             if (this.id === 'redNumber' || this.id === 'redNumberLite') {
 
@@ -6095,9 +5368,6 @@ if (heightDiffToggleCheckbox) {
             }
 
 
-
-// Enforce min/max limits for heightDiff field
-
             if (this.id === 'heightDiff' || this.id === 'heightDiffLite') {
 
                 const numValue = parseHeightDiff(this.value);
@@ -6120,16 +5390,10 @@ if (heightDiffToggleCheckbox) {
             }
 
 
-
-// Trigger calculation in auto mode when any input changes
-
-// calculate() will set all display values correctly
-
             if (isAutoCalcEnabled()) {
 
                 if (this.id === 'heightDiff' || this.id === 'heightDiffLite' || this.id === 'redNumber' || this.id === 'redNumberLite' || this.id === 'distance' || this.id === 'distanceLite') {
 
-// Use setTimeout to ensure value is updated in DOM before calculation
 
                     setTimeout(() => {
 
@@ -6143,15 +5407,11 @@ if (heightDiffToggleCheckbox) {
 
         }
 
-// Mirror the (possibly re-signed) value into the hidden panel
 
         syncInputValue(this, [id]);
 
     };
 
-
-
-    // Apply event listeners to all instances of this input (full and lite modes)
 
     allInputs.forEach(input => {
 
@@ -6162,9 +5422,6 @@ if (heightDiffToggleCheckbox) {
         input.addEventListener('blur', ensureNonEmptyHandler);
 
 
-
-        // Also prevent paste of non-numeric content - wrap in forEach
-
         input.addEventListener('paste', function(e) {
 
             e.preventDefault();
@@ -6172,16 +5429,11 @@ if (heightDiffToggleCheckbox) {
             const paste = (e.clipboardData || window.clipboardData).getData('text');
 
 
-
-            // Handle negative numbers for redNumber and heightDiff fields
-
             const isNegative = paste.trim().startsWith('-');
 
-            // Remove all non-numeric characters except comma, period, and minus sign
 
             let cleaned = paste.replace(/[^0-9,.\-]/g, '');
 
-            // Ensure minus sign is only at the start
 
             if (cleaned.includes('-')) {
 
@@ -6194,12 +5446,8 @@ if (heightDiffToggleCheckbox) {
             }
 
 
-
-            // Replace comma with period for consistency, or keep first decimal separator
-
             if (cleaned.includes(',') && cleaned.includes('.')) {
 
-                // If both exist, keep the first one
 
                 const firstComma = cleaned.indexOf(',');
 
@@ -6217,13 +5465,11 @@ if (heightDiffToggleCheckbox) {
 
             } else if (cleaned.includes(',')) {
 
-                // Replace comma with period
 
                 cleaned = cleaned.replace(/,/g, '.');
 
             }
 
-            // Ensure only one decimal separator
 
             const parts = cleaned.split('.');
 
@@ -6233,9 +5479,6 @@ if (heightDiffToggleCheckbox) {
 
             }
 
-
-
-            // Apply limits after cleaning
 
             if (this.id === 'distance' || this.id === 'distanceLite') {
 
@@ -6273,18 +5516,13 @@ if (heightDiffToggleCheckbox) {
             }
 
 
-
             this.value = cleaned;
 
-
-
-            // After paste, handle calculation or reset base value
 
             if (isAutoCalcEnabled()) {
 
                 if (this.id === 'heightDiff' || this.id === 'heightDiffLite' || this.id === 'redNumber' || this.id === 'redNumberLite' || this.id === 'distance' || this.id === 'distanceLite') {
 
-                    // Use setTimeout to ensure value is updated in DOM before calculation
 
                     setTimeout(() => {
 
@@ -6296,7 +5534,6 @@ if (heightDiffToggleCheckbox) {
 
             } else {
 
-                // When auto calc is off, reset base value to "--" when any input changes
 
                 if (this.id === 'heightDiff' || this.id === 'heightDiffLite' || this.id === 'redNumber' || this.id === 'redNumberLite' || this.id === 'distance' || this.id === 'distanceLite') {
 
@@ -6313,9 +5550,6 @@ if (heightDiffToggleCheckbox) {
 });
 
 
-
-// Keyboard focus loop: Elevation (terrain) -> Distance -> Height -> Calculate (manual only) -> Elevation
-
 const distanceInputEl = document.getElementById('distance');
 
 const heightInputEl = document.getElementById('heightDiff');
@@ -6325,18 +5559,13 @@ const redInputEl = document.getElementById('redNumber');
 const calcButtonEl = document.getElementById('calculateButton');
 
 
-
-// Function to update tab loop based on auto/manual mode
-
 function updateTabLoop() {
 
     const isAuto = isAutoCalcEnabled();
 
 
-
     if (calcButtonEl) {
 
-        // In auto mode, remove button from tab order; in manual mode, include it
 
         calcButtonEl.tabIndex = isAuto ? -1 : 4;
 
@@ -6344,9 +5573,6 @@ function updateTabLoop() {
 
 }
 
-
-
-// Unified navigation for Enter and Tab keys
 
 function getFocusOrder() {
 
@@ -6359,12 +5585,8 @@ function getFocusOrder() {
     const isManualMode = !isAutoCalcEnabled();
 
 
-
     const order = [];
 
-
-
-    // Helper to check if element is actually visible (not display:none and not hidden class)
 
     function isVisible(el) {
 
@@ -6374,7 +5596,6 @@ function getFocusOrder() {
 
         if (el.style.display === 'none') return false;
 
-        // Check if offsetParent is null (means display:none or not in document)
 
         if (el.offsetParent === null) return false;
 
@@ -6382,11 +5603,6 @@ function getFocusOrder() {
 
     }
 
-
-
-    // Get fresh references to inputs (in case mode changed)
-
-    // Find the visible distance input (there are duplicates in lite and full modes)
 
     const allDistInputs = document.querySelectorAll('input#distance, input#distanceLite');
 
@@ -6405,9 +5621,6 @@ function getFocusOrder() {
     }
 
 
-
-    // Find the visible heightDiff input (there are duplicates in lite and full modes)
-
     const allHeightInputs = document.querySelectorAll('input#heightDiff, input#heightDiffLite');
 
     let heightInput = null;
@@ -6424,9 +5637,6 @@ function getFocusOrder() {
 
     }
 
-
-
-    // Find the visible redNumber input (there are duplicates in lite and full modes)
 
     const allRedInputs = document.querySelectorAll('input#redNumber, input#redNumberLite');
 
@@ -6445,26 +5655,16 @@ function getFocusOrder() {
     }
 
 
-
     const calcBtn = document.getElementById('calculateButton');
 
     const calcBtnLite = document.getElementById('calculateButtonLite');
 
 
-
-    // Terrain elevation is always first if visible
-
     if (isVisible(redInput)) order.push(redInput);
 
 
-
-    // Distance is always included if visible
-
     if (isVisible(distInput)) order.push(distInput);
 
-
-
-    // Height diff only if toggle is ON AND input is visible
 
     if (isHeightDiffEnabled && isVisible(heightInput)) {
 
@@ -6473,16 +5673,12 @@ function getFocusOrder() {
     }
 
 
-
-    // Calculate button only in manual mode AND if visible
-
     if (isManualMode && isVisible(calcBtn)) {
 
         order.push(calcBtn);
 
     }
 
-    // Lite calculate button only in manual mode AND if visible
 
     if (isManualMode && isVisible(calcBtnLite)) {
 
@@ -6491,19 +5687,15 @@ function getFocusOrder() {
     }
 
 
-
     return order;
 
 }
 
 
-
 function navigateFocus(e) {
 
-    // Handle both Enter and Tab
 
     if (e.key !== 'Enter' && e.key !== 'Tab') return;
-
 
 
     const order = getFocusOrder();
@@ -6511,34 +5703,21 @@ function navigateFocus(e) {
     if (order.length === 0) return;
 
 
-
     const currentIndex = order.indexOf(document.activeElement);
 
     if (currentIndex === -1) return;
 
 
-
     e.preventDefault();
 
-
-
-    // Calculate direction
 
     const direction = (e.key === 'Tab' && e.shiftKey) ? -1 : 1;
 
     let nextIndex = currentIndex + direction;
 
 
-
-    // Detect touch-primary device (phones/tablets): they stop at the last field
-
-    // instead of looping; fine-pointer devices (mouse/trackpad) always loop.
-
     const isCoarsePointer = !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
 
-
-
-    // Wrap around (only on fine-pointer devices - touch-primary should not loop)
 
     if (!isCoarsePointer) {
 
@@ -6548,13 +5727,11 @@ function navigateFocus(e) {
 
     } else {
 
-        // Touch-primary device: don't wrap - stay at boundaries
 
         if (nextIndex < 0) nextIndex = 0;
 
         if (nextIndex >= order.length) {
 
-            // At the last element, just blur (don't loop)
 
             document.activeElement.blur();
 
@@ -6565,14 +5742,10 @@ function navigateFocus(e) {
     }
 
 
-
-    // Calculate before moving focus (only if auto calc is enabled, OR if on calculate button)
-
     const currentId = document.activeElement.id;
 
     if (currentId === 'calculateButton' || currentId === 'calculateButtonLite') {
 
-        // Calculate button pressed - always calculate
 
         calculate();
 
@@ -6580,7 +5753,6 @@ function navigateFocus(e) {
 
     } else if ((currentId === 'distance' || currentId === 'distanceLite' || currentId === 'heightDiff' || currentId === 'heightDiffLite' || currentId === 'redNumber' || currentId === 'redNumberLite') && isAutoCalcEnabled()) {
 
-        // Input field with auto calc on - calculate automatically
 
         calculate();
 
@@ -6588,7 +5760,6 @@ function navigateFocus(e) {
 
     } else if ((currentId === 'distance' || currentId === 'distanceLite' || currentId === 'heightDiff' || currentId === 'heightDiffLite' || currentId === 'redNumber' || currentId === 'redNumberLite') && !isAutoCalcEnabled()) {
 
-        // Input field with auto calc off - reset final counter to 0000
 
         rollElevationToNumber(0);
 
@@ -6615,9 +5786,6 @@ function navigateFocus(e) {
     }
 
 
-
-    // Move focus
-
     const nextEl = order[nextIndex];
 
     if (nextEl) {
@@ -6631,16 +5799,10 @@ function navigateFocus(e) {
 }
 
 
-
-// Attach unified handler to all inputs and button (using keydown for both Tab and Enter)
-
-// Attach to ALL distance inputs (both lite and full modes)
-
 document.querySelectorAll('input#distance, input#distanceLite').forEach(input => {
 
     input.addEventListener('keydown', navigateFocus);
 
-    // Trigger auto-calculation on blur (click outside)
 
     input.addEventListener('blur', function() {
 
@@ -6654,15 +5816,11 @@ document.querySelectorAll('input#distance, input#distanceLite').forEach(input =>
 
 });
 
-
-
-// Attach to ALL heightDiff inputs (both lite and full modes)
 
 document.querySelectorAll('input#heightDiff, input#heightDiffLite').forEach(input => {
 
     input.addEventListener('keydown', navigateFocus);
 
-    // Trigger auto-calculation on blur (click outside)
 
     input.addEventListener('blur', function() {
 
@@ -6676,15 +5834,11 @@ document.querySelectorAll('input#heightDiff, input#heightDiffLite').forEach(inpu
 
 });
 
-
-
-// Attach to ALL redNumber inputs (both lite and full modes)
 
 document.querySelectorAll('input#redNumber, input#redNumberLite').forEach(input => {
 
     input.addEventListener('keydown', navigateFocus);
 
-    // Trigger auto-calculation on blur (click outside)
 
     input.addEventListener('blur', function() {
 
@@ -6699,17 +5853,12 @@ document.querySelectorAll('input#redNumber, input#redNumberLite').forEach(input 
 });
 
 
-
 if (calcButtonEl) calcButtonEl.addEventListener('keydown', navigateFocus);
 
-
-
-// Attach keydown handler to lite calculate button
 
 const calcButtonLiteEl = document.getElementById('calculateButtonLite');
 
 if (calcButtonLiteEl) calcButtonLiteEl.addEventListener('keydown', navigateFocus);
-
 
 
 const INPUT_LIMITS = { distance: [0, 2500], redNumber: [-356, 356], heightDiff: [-1000, 1000] };
@@ -6747,7 +5896,6 @@ function sanitizeTypedValue(input) {
     return false;
 }
 
-// Sync input values between full and lite modes (bidirectional)
 
 function syncInputValue(sourceInput, targetIds) {
 
@@ -6767,9 +5915,6 @@ function syncInputValue(sourceInput, targetIds) {
 
 }
 
-
-
-// Attach input event listeners to sync values across all modes
 
 ['distance', 'heightDiff', 'redNumber'].forEach(id => {
 
@@ -6793,13 +5938,7 @@ function syncInputValue(sourceInput, targetIds) {
 });
 
 
-
-
-
-// Set initial label text
-
 updateToggleLEDs();
-
 
 
 if (autoCalcToggle) {
@@ -6816,7 +5955,6 @@ if (autoCalcToggle) {
 
             updateTabLoop();
 
-// If switching to auto, seed a distance (if empty) and calculate immediately
 
             if (this.checked) {
 
@@ -6824,7 +5962,6 @@ if (autoCalcToggle) {
 
             } else {
 
-// Show default "0000 MIL" when auto calculation is turned off
 
             rollElevationToNumber(0);
 
@@ -6836,7 +5973,6 @@ if (autoCalcToggle) {
 
             updateDistanceReadout();
 
-// Show "--" when auto calculation is off
 
             if (heightValueEl) {
 
@@ -6862,7 +5998,6 @@ if (autoCalcToggle) {
 
             }
 
-// Show MIL labels for default "0000"
 
             updateMilLabels();
 
@@ -6883,11 +6018,9 @@ if (autoCalcToggle) {
 }
 
 
-
 const selectSelected = document.getElementById('selectSelected');
 
 const selectItems = document.getElementById('selectItems');
-
 
 
 function toggleDropdown(e) {
@@ -6909,10 +6042,8 @@ function toggleDropdown(e) {
 }
 
 
-
 if (selectSelected) {
 
-    // Support both click and touch events for mobile
 
     selectSelected.addEventListener('click', toggleDropdown);
 
@@ -6920,9 +6051,6 @@ if (selectSelected) {
 
 }
 
-
-
-// Close dropdown when clicking outside
 
 document.addEventListener('click', function(e) {
 
@@ -6937,9 +6065,6 @@ document.addEventListener('click', function(e) {
 });
 
 
-
-// Tank info modal functionality
-
 let tankInfoIcon;
 
 let tankInfoModal;
@@ -6950,9 +6075,6 @@ let tankInfoTitle;
 
 let tankInfoContent;
 
-
-
-// Mapping of tank names to screenshot folder names
 
 const tankScreenshotMap = {
 
@@ -6971,18 +6093,12 @@ const tankScreenshotMap = {
 };
 
 
-
-// Function to get screenshots for a tank
-
 function getTankScreenshots(tankName) {
 
     const folderName = tankScreenshotMap[tankName];
 
     if (!folderName) return [];
 
-
-
-// List of screenshot filenames for each tank (using new naming convention)
 
     const screenshotFiles = {
 
@@ -7109,18 +6225,13 @@ function getTankScreenshots(tankName) {
     };
 
 
-
     const files = screenshotFiles[folderName] || [];
 
-// Use the updated screenshot set that matches the current UI styling
 
     return files.map(file => `images/screenshots/${folderName}/${file}`);
 
 }
 
-
-
-// Function to generate screenshot gallery HTML
 
 function generateScreenshotGallery(tankName) {
 
@@ -7129,10 +6240,8 @@ function generateScreenshotGallery(tankName) {
     if (screenshots.length === 0) return '';
 
 
-
     const galleryItems = screenshots.map((src, index) => {
 
-        // Create WebP paths (both thumbnail and full) - all files are now WebP only
 
         const thumbSrc = src.replace(/\.webp$/, '_thumb.webp');
 
@@ -7149,7 +6258,6 @@ function generateScreenshotGallery(tankName) {
         `;
 
     }).join('');
-
 
 
     return `
@@ -7171,9 +6279,6 @@ function generateScreenshotGallery(tankName) {
 }
 
 
-
-// Store current screenshot gallery and index
-
 let currentScreenshotGallery = [];
 
 let currentScreenshotIndex = -1;
@@ -7181,7 +6286,6 @@ let currentScreenshotIndex = -1;
 let screenshotNavRequestId = 0;
 
 let screenshotActiveSlot = 0;
-
 
 
 function getScreenshotLightboxElements() {
@@ -7201,7 +6305,6 @@ function getScreenshotLightboxElements() {
 }
 
 
-
 function buildScreenshotGalleryFromDOM() {
 
     const screenshotItems = document.querySelectorAll('.screenshot-item');
@@ -7213,7 +6316,6 @@ function buildScreenshotGalleryFromDOM() {
     }).filter(url => url);
 
 }
-
 
 
 function preloadScreenshotByIndex(index) {
@@ -7233,7 +6335,6 @@ function preloadScreenshotByIndex(index) {
     img.src = url;
 
 }
-
 
 
 async function loadAndDecodeImage(url) {
@@ -7277,7 +6378,6 @@ async function loadAndDecodeImage(url) {
 }
 
 
-
 async function showScreenshotAtIndex(index) {
 
     const { imgA, imgB } = getScreenshotLightboxElements();
@@ -7287,7 +6387,6 @@ async function showScreenshotAtIndex(index) {
     if (!currentScreenshotGallery || currentScreenshotGallery.length === 0) return;
 
     if (index < 0 || index >= currentScreenshotGallery.length) return;
-
 
 
     const requestId = ++screenshotNavRequestId;
@@ -7305,9 +6404,7 @@ async function showScreenshotAtIndex(index) {
     const item = currentScreenshotGallery[index];
 
 
-
     incomingImg.classList.remove('is-visible');
-
 
 
     let url;
@@ -7323,9 +6420,7 @@ async function showScreenshotAtIndex(index) {
     }
 
 
-
     if (requestId !== screenshotNavRequestId) return;
-
 
 
     incomingImg.src = url;
@@ -7343,9 +6438,7 @@ async function showScreenshotAtIndex(index) {
     }
 
 
-
     if (requestId !== screenshotNavRequestId) return;
-
 
 
     incomingImg.classList.add('is-visible');
@@ -7353,7 +6446,6 @@ async function showScreenshotAtIndex(index) {
     outgoingImg.classList.remove('is-visible');
 
     screenshotActiveSlot = incomingSlot;
-
 
 
     const nextIndex = (index + 1) % currentScreenshotGallery.length;
@@ -7367,9 +6459,6 @@ async function showScreenshotAtIndex(index) {
 }
 
 
-
-// Function to open screenshot in lightbox (make it global)
-
 window.openScreenshotLightbox = function(src) {
 
     const { lightbox, imgA, imgB } = getScreenshotLightboxElements();
@@ -7377,11 +6466,9 @@ window.openScreenshotLightbox = function(src) {
     if (!lightbox || !imgA || !imgB) return;
 
 
-
     currentScreenshotGallery = buildScreenshotGalleryFromDOM();
 
     if (!currentScreenshotGallery || currentScreenshotGallery.length === 0) return;
-
 
 
     const screenshotItems = document.querySelectorAll('.screenshot-item');
@@ -7393,7 +6480,6 @@ window.openScreenshotLightbox = function(src) {
     );
 
 
-
     if (clickedItem) {
 
         currentScreenshotIndex = Array.from(screenshotItems).indexOf(clickedItem);
@@ -7403,7 +6489,6 @@ window.openScreenshotLightbox = function(src) {
         currentScreenshotIndex = 0;
 
     }
-
 
 
     imgA.classList.remove('is-visible');
@@ -7419,7 +6504,6 @@ window.openScreenshotLightbox = function(src) {
     screenshotNavRequestId++;
 
 
-
     lightbox.classList.add('active');
 
     showScreenshotAtIndex(currentScreenshotIndex);
@@ -7427,20 +6511,13 @@ window.openScreenshotLightbox = function(src) {
 };
 
 
-
-// Function to navigate between screenshots
-
 window.navigateScreenshot = function(direction) {
 
     if (currentScreenshotGallery.length === 0) return;
 
 
-
     currentScreenshotIndex += direction;
 
-
-
-// Loop around
 
     if (currentScreenshotIndex < 0) {
 
@@ -7453,14 +6530,10 @@ window.navigateScreenshot = function(direction) {
     }
 
 
-
     showScreenshotAtIndex(currentScreenshotIndex);
 
 };
 
-
-
-// Function to close screenshot lightbox (make it global)
 
 window.closeScreenshotLightbox = function() {
 
@@ -7473,9 +6546,6 @@ window.closeScreenshotLightbox = function() {
     }
 
 
-
-// Cancel any in-flight decode/load and reset visibility so re-open can't flash old content
-
     screenshotNavRequestId++;
 
     const { imgA, imgB } = getScreenshotLightboxElements();
@@ -7486,9 +6556,6 @@ window.closeScreenshotLightbox = function() {
 
 };
 
-
-
-// Keyboard navigation for lightbox
 
 document.addEventListener('keydown', function(e) {
 
@@ -7515,7 +6582,6 @@ document.addEventListener('keydown', function(e) {
 });
 
 
-
 function showTankInfo() {
 
     const faction = document.getElementById('faction').value;
@@ -7523,20 +6589,15 @@ function showTankInfo() {
     const info = tankInfo[faction];
 
 
-
     if (info) {
 
         tankInfoTitle.textContent = info.title;
 
 
-
-// Helper function to format ammunition (200 × 6 or 200/6 means rounds × magazines)
-
         function formatAmmo(text) {
 
             if (text.includes(' × ') || text.includes('×') || text.includes('/')) {
 
-// Replace × with × and add clarification
 
                 return text.replace(/(\d+)\s*[×/]\s*(\d+)/g, '$1 rounds × $2 magazines');
 
@@ -7547,22 +6608,13 @@ function showTankInfo() {
         }
 
 
-
-// Generate screenshot gallery
-
         const screenshotGallery = generateScreenshotGallery(faction);
 
-
-
-// Function to collect all image paths that will be used in the content
 
         function collectImagePaths(info) {
 
             const imagePaths = new Set();
 
-
-
-// Collect from main gun
 
             if (info.stats.mainGun) {
 
@@ -7604,9 +6656,6 @@ function showTankInfo() {
             }
 
 
-
-// Collect from coaxial and hull gun (T_HUD_Status_Ammo_invert_28.png)
-
             if (info.stats.coaxial && !info.stats.coaxial.includes('NO')) {
 
                 imagePaths.add('images/UI/Icons/vehicles/T_HUD_Status_Ammo_invert_28.webp');
@@ -7620,14 +6669,10 @@ function showTankInfo() {
             }
 
 
-
             return Array.from(imagePaths);
 
         }
 
-
-
-// Function to preload images
 
         function preloadImages(imagePaths) {
 
@@ -7650,10 +6695,8 @@ function showTankInfo() {
         }
 
 
-
         function formatMainGun(text) {
 
-// Extract gun name and ammunition info
 
             const parts = text.split(' - ');
 
@@ -7663,9 +6706,6 @@ function showTankInfo() {
 
                 const ammoText = parts[1];
 
-
-
-// Extract all ammo types with their counts - build complete HTML
 
                 const ammoItems = [];
 
@@ -7683,7 +6723,6 @@ function showTankInfo() {
 
                             const type = match[2];
 
-// Use the dedicated shell icons when they exist, otherwise fall back to a generic ammo icon.
 
                             const ammoIconMap = {
                                 HE: 'HE_invert_28.webp',
@@ -7694,7 +6733,6 @@ function showTankInfo() {
                             };
                             const imagePath = `images/UI/Icons/vehicles/${ammoIconMap[type] || 'T_HUD_Status_Ammo_invert_28.webp'}`;
 
-// Build each ammo item with explicit image tag (inside single box)
 
                             ammoItems.push(`<span style="display: inline-flex; align-items: center; gap: 3px; margin-right: 8px;"><img src="${imagePath}" alt="${type}" style="width: 16px; height: 16px; object-fit: contain;" loading="eager" decoding="async"><span class="highlight-number">${count}</span> <span class="highlight-number">${type}</span></span>`);
 
@@ -7704,9 +6742,6 @@ function showTankInfo() {
 
                 }
 
-
-
-// Return gun name + single ammo box containing all ammo types
 
                 const ammoBox = ammoItems.length > 0 
 
@@ -7723,18 +6758,12 @@ function showTankInfo() {
         }
 
 
-
-// Function to highlight elevation MIL values - full value highlighted
-
         function formatElevation(text) {
 
             return `<span class="highlight-number">${text}</span>`;
 
         }
 
-
-
-// Function to highlight turret rotation
 
         function formatTurretRotation(text) {
 
@@ -7743,18 +6772,12 @@ function showTankInfo() {
         }
 
 
-
-// Function to highlight top speed - full value highlighted
-
         function formatTopSpeed(text) {
 
             return `<span class="highlight-number">${text}</span>`;
 
         }
 
-
-
-// Function to format numeric values with units
 
 // Pitch angle display: degrees stay highlighted, trailing "(xxx MIL)" is muted
 function formatPitchAngle(value) {
@@ -7774,9 +6797,6 @@ function formatPitchAngle(value) {
         }
 
 
-
-// Function to highlight coaxial and hull gun
-
         function formatGunAmmo(text) {
 
             if (text.includes('NO') || text.includes('NO ')) {
@@ -7785,7 +6805,6 @@ function formatPitchAngle(value) {
 
             }
 
-// Split by " - " to separate gun name and ammo
 
             const parts = text.split(' - ');
 
@@ -7795,7 +6814,6 @@ function formatPitchAngle(value) {
 
                 const ammoText = parts[1];
 
-// Format: "200 rounds × 6 magazines" into one box with image
 
                 const ammoMatch = ammoText.match(/(\d+)\s*rounds\s*[×x]\s*(\d+)\s*magazines/i);
 
@@ -7813,15 +6831,11 @@ function formatPitchAngle(value) {
 
             }
 
-// Fallback to highlight full text
 
             return `<span class="highlight-number">${text}</span>`;
 
         }
 
-
-
-// Generate content for each tab
 
         const statsContent = `
 
@@ -7836,7 +6850,6 @@ function formatPitchAngle(value) {
                         <div class="spec-subtitle"><span>Operational Data</span><span class="spec-updated">Updated ${HLL_VERSION.statsUpdated}</span></div>
 
                     </div>
-
 
 
                     <div class="spec-table">
@@ -8096,7 +7109,6 @@ function formatPitchAngle(value) {
                     </div>
 
 
-
                     <div class="field-manual-footer">
 
                         <div class="footer-line">────────────────────────────────────────</div>
@@ -8112,7 +7124,6 @@ function formatPitchAngle(value) {
         `;
 
 
-
         const screenshotsContent = `
 
             <div class="info-tab-content" id="tab-screenshots">
@@ -8122,7 +7133,6 @@ function formatPitchAngle(value) {
             </div>
 
         `;
-
 
 
         const historyContent = `
@@ -8204,14 +7214,8 @@ function formatPitchAngle(value) {
         `;
 
 
-
-// Collect and preload images before displaying modal
-
         const imagePaths = collectImagePaths(info);
 
-
-
-// Preload images, then display modal
 
         preloadImages(imagePaths).then(() => {
 
@@ -8221,11 +7225,9 @@ function formatPitchAngle(value) {
 
             tankInfoModal.setAttribute('data-open', 'true');
 
-            // Lock background scrolling
 
             document.body.style.overflow = 'hidden';
 
-// Keep button extended when modal is open
 
             if (tankInfoIcon) {
 
@@ -8234,18 +7236,13 @@ function formatPitchAngle(value) {
             }
 
 
-
-// Reset tabs to default "stats" tab
-
             const tabContainer = document.querySelector('.info-modal-tabs');
 
             if (tabContainer) {
 
-// Remove active from all tabs
 
                 tabContainer.querySelectorAll('.info-modal-tab').forEach(btn => btn.classList.remove('active'));
 
-// Set stats tab as active
 
                 const statsTab = tabContainer.querySelector('[data-tab="stats"]');
 
@@ -8257,9 +7254,6 @@ function formatPitchAngle(value) {
 
             }
 
-
-
-// Ensure stats content is visible
 
             const modalContent = document.querySelector('.info-modal-content');
 
@@ -8277,9 +7271,6 @@ function formatPitchAngle(value) {
 
             }
 
-
-
-// Add click handlers for screenshot items (using event delegation)
 
             const screenshotItems = tankInfoContent.querySelectorAll('.screenshot-item');
 
@@ -8306,9 +7297,6 @@ function formatPitchAngle(value) {
 }
 
 
-
-// Toggle tank specifications panel
-
 function toggleTankSpecs() {
 
     const specsPanel = document.getElementById('milRangeText');
@@ -8316,7 +7304,6 @@ function toggleTankSpecs() {
     const toggleBtn = document.getElementById('tankSpecsToggle');
 
     
-
     if (!specsPanel || !toggleBtn) {
 
         return;
@@ -8324,7 +7311,6 @@ function toggleTankSpecs() {
     }
 
     
-
     const isCollapsed = specsPanel.classList.contains('tank-specs-collapsed');
 
     specsPanel.classList.toggle('tank-specs-collapsed');
@@ -8332,7 +7318,6 @@ function toggleTankSpecs() {
     toggleBtn.classList.toggle('collapsed', !isCollapsed);
 
 }
-
 
 
 // Tab switching functionality (using event delegation)
@@ -8350,7 +7335,6 @@ document.addEventListener('click', function(e) {
         const modalContent = clickedTab.closest('.info-modal-content');
 
 
-
         if (tabContainer && modalContent) {
 
 // Remove active class from all tabs
@@ -8358,20 +7342,11 @@ document.addEventListener('click', function(e) {
             tabContainer.querySelectorAll('.info-modal-tab').forEach(btn => btn.classList.remove('active'));
 
 
-
-// Remove active class from all content
-
             modalContent.querySelectorAll('.info-tab-content').forEach(content => content.classList.remove('active'));
 
 
-
-// Add active class to clicked tab
-
             clickedTab.classList.add('active');
 
-
-
-// Show corresponding content
 
             const tabName = clickedTab.getAttribute('data-tab');
 
@@ -8390,7 +7365,6 @@ document.addEventListener('click', function(e) {
 });
 
 
-
 function closeTankInfoModal() {
 
     haptic(HAPTIC_TAP);
@@ -8403,11 +7377,9 @@ function closeTankInfoModal() {
 
     }
 
-    // Restore background scrolling
 
     document.body.style.overflow = '';
 
-// Move button back to original position when modal closes
 
     if (tankInfoIcon) {
 
@@ -8418,12 +7390,8 @@ function closeTankInfoModal() {
 }
 
 
-
-// Close modal with Escape key - comprehensive handler
-
 document.addEventListener('keydown', function(e) {
 
-// Only handle Escape key
 
     if (e.key !== 'Escape' && e.key !== 'Esc' && e.keyCode !== 27) {
 
@@ -8431,9 +7399,6 @@ document.addEventListener('keydown', function(e) {
 
     }
 
-
-
-// Check if tank info modal is open using multiple methods
 
     if (tankInfoModal) {
 
@@ -8445,9 +7410,6 @@ document.addEventListener('keydown', function(e) {
 
         const isOpenByClass = tankInfoIcon && tankInfoIcon.classList.contains('extended');
 
-
-
-// If modal is open by any method, close it
 
         if (isOpenByStyle || isOpenByData || isOpenByComputed || isOpenByClass) {
 
@@ -8464,9 +7426,7 @@ document.addEventListener('keydown', function(e) {
     }
 
 
-
 }, true);
-
 
 
 // ==========================================
@@ -8476,22 +7436,14 @@ document.addEventListener('keydown', function(e) {
 // ==========================================
 
 
-
 function wireUpEventListeners() {
 
-    // Generate tank dropdown dynamically
 
     generateTankDropdown();
 
 
-
-    // Also generate lite mode dropdown if elements exist
-
     generateLiteTankDropdown();
 
-
-
-    // Assign tank info modal variables after DOM is ready
 
     tankInfoIcon = document.getElementById('tankInfoIcon');
 
@@ -8504,15 +7456,11 @@ function wireUpEventListeners() {
     tankInfoContent = document.getElementById('tankInfoContent');
 
 
-
-    // More Projects button
-
     const moreProjectsBtn = document.getElementById('moreProjectsBtn');
 
     const moreProjectsBox = document.getElementById('moreProjectsBox');
 
     const closeMoreProjects = document.getElementById('closeMoreProjects');
-
 
 
     if (moreProjectsBtn && moreProjectsBox && closeMoreProjects) {
@@ -8529,12 +7477,10 @@ function wireUpEventListeners() {
 
             moreProjectsBtn.classList.add('extended');
 
-            // Lock background scrolling
 
             document.body.style.overflow = 'hidden';
 
         });
-
 
 
         closeMoreProjects.addEventListener('click', function(e) {
@@ -8551,12 +7497,10 @@ function wireUpEventListeners() {
 
             moreProjectsBtn.classList.remove('extended');
 
-            // Restore background scrolling
 
             document.body.style.overflow = '';
 
         });
-
 
 
         document.addEventListener('click', function(e) {
@@ -8569,7 +7513,6 @@ function wireUpEventListeners() {
 
                 moreProjectsBtn.classList.remove('extended');
 
-                // Restore background scrolling
 
                 document.body.style.overflow = '';
 
@@ -8579,9 +7522,6 @@ function wireUpEventListeners() {
 
     }
 
-
-
-    // Mobile HLL Tools button (shares the same modal as desktop)
 
     const mobileHllToolsBtn = document.getElementById('mobileHllToolsBtn');
 
@@ -8599,7 +7539,6 @@ function wireUpEventListeners() {
 
             moreProjectsBox.style.display = 'block';
 
-            // Lock background scrolling
 
             document.body.style.overflow = 'hidden';
 
@@ -8607,9 +7546,6 @@ function wireUpEventListeners() {
 
     }
 
-
-
-    // Tank info button event listener
 
     if (tankInfoIcon) {
 
@@ -8619,7 +7555,6 @@ function wireUpEventListeners() {
 
             e.preventDefault();
 
-            // Close dropdown if open
 
             const selectItems = document.getElementById('selectItems');
 
@@ -8638,18 +7573,12 @@ function wireUpEventListeners() {
     }
 
 
-
-    // Close tank info modal
-
     if (closeTankInfo) {
 
         closeTankInfo.addEventListener('click', closeTankInfoModal);
 
     }
 
-
-
-    // Close tank info modal when clicking outside
 
     window.addEventListener('click', function(e) {
 
@@ -8662,16 +7591,12 @@ function wireUpEventListeners() {
     });
 
 
-
-    // Wire up View Toggle
-
     const viewToggle = document.getElementById('viewToggle');
 
     if (viewToggle) {
 
         const togglePills = viewToggle.querySelectorAll('.toggle-pill');
 
-        // Keep the sliding highlight aligned with the active pill (there are 3 now)
 
         const positionViewHighlight = function() {
 
@@ -8698,9 +7623,6 @@ function wireUpEventListeners() {
                 switchViewMode(mode);
 
                 
-
-                // Update active states
-
                 togglePills.forEach(p => {
 
                     p.classList.remove('active');
@@ -8714,9 +7636,6 @@ function wireUpEventListeners() {
                 this.setAttribute('aria-selected', 'true');
 
                 
-
-                // Update toggle container class
-
                 viewToggle.classList.remove('full-active', 'lite-active', 'keypad-active');
 
                 viewToggle.classList.add(mode === 'full' ? 'full-active' : (mode === 'lite' ? 'lite-active' : 'keypad-active'));
@@ -8727,7 +7646,6 @@ function wireUpEventListeners() {
 
         });
 
-        // Restore saved view mode on load (F5 keeps Lite/Full selection)
 
         try {
 
@@ -8755,7 +7673,6 @@ function wireUpEventListeners() {
 
         } catch (e) {
 
-            // Ignore localStorage errors
 
         }
 
@@ -8764,10 +7681,8 @@ function wireUpEventListeners() {
     }
 
 
-
     // 1. Wire up the Calculate Button
 
-    // Helper function to detect touch/mobile devices
 
     function isTouchDevice() {
 
@@ -8780,7 +7695,6 @@ function wireUpEventListeners() {
     }
 
 
-
     const calcBtn = document.getElementById('calculateButton');
 
     if (calcBtn) {
@@ -8788,21 +7702,16 @@ function wireUpEventListeners() {
         let touchTriggered = false;
 
 
-
-        // Handle touch (mobile) - for visual feedback and calculation
-
         calcBtn.addEventListener('touchstart', function(e) {
 
             touchTriggered = false;
 
             calcBtn.classList.add('holding');
 
-            // Haptic feedback on mobile (light press)
 
             haptic(HAPTIC_TAP);
 
         }, { passive: true });
-
 
 
         calcBtn.addEventListener('touchend', function(e) {
@@ -8811,16 +7720,13 @@ function wireUpEventListeners() {
 
             touchTriggered = true;
 
-            // Haptic feedback on mobile - strongest reaction of all buttons
 
             haptic(HAPTIC_CALC);
 
-            // Trigger calculation on mobile touch
 
             calculate();
 
         });
-
 
 
         calcBtn.addEventListener('touchcancel', function(e) {
@@ -8830,10 +7736,8 @@ function wireUpEventListeners() {
         });
 
 
-
         calcBtn.addEventListener('click', function(e) {
 
-            // If touch already triggered calculation, skip
 
             if (touchTriggered) {
 
@@ -8854,7 +7758,6 @@ function wireUpEventListeners() {
         });
 
     }
-
 
 
     // 2. Wire up Copy and Reset Buttons
@@ -8884,7 +7787,6 @@ function wireUpEventListeners() {
     }
 
 
-
     const resetBtn = document.querySelector('.reset-result-button');
 
     if (resetBtn) {
@@ -8906,14 +7808,11 @@ function wireUpEventListeners() {
     }
 
 
-
     // 3. Wire up the Plus/Minus Buttons for all inputs
 
-    // Handle duplicate IDs by scoping to visible containers
 
     function wireButton(inputId, delta) {
 
-        // Find all inputs with this ID
 
         const allInputs = document.querySelectorAll(`input[id="${inputId}"], input[id="${inputId}Lite"]`);
 
@@ -8925,7 +7824,6 @@ function wireUpEventListeners() {
 
                 if (isTouchPrimaryDevice()) {
 
-                    // Desktop-only hints: touch devices have no Shift/Ctrl keys
 
                     btn.title = delta < 0 ? 'Click -1' : 'Click +1';
 
@@ -8946,15 +7844,11 @@ function wireUpEventListeners() {
                 // ghost-click guards could swallow taps on mobile.
 
 
-
-                // Visual press feedback only - the step is applied on 'click' below
-
                 btn.addEventListener('touchstart', function() {
 
                     btn.classList.add('holding');
 
                 }, { passive: true });
-
 
 
                 btn.addEventListener('touchend', function() {
@@ -8964,7 +7858,6 @@ function wireUpEventListeners() {
                 }, { passive: true });
 
 
-
                 btn.addEventListener('touchcancel', function() {
 
                     btn.classList.remove('holding');
@@ -8972,15 +7865,11 @@ function wireUpEventListeners() {
                 });
 
 
-
-                // Visual feedback for mouse/trackpad users
-
                 btn.addEventListener('mousedown', function(e) {
 
                     if (e.button === 0) btn.classList.add('holding');
 
                 });
-
 
 
                 btn.addEventListener('mouseup', function() {
@@ -8990,7 +7879,6 @@ function wireUpEventListeners() {
                 });
 
 
-
                 btn.addEventListener('mouseleave', function() {
 
                     btn.classList.remove('holding');
@@ -8998,22 +7886,13 @@ function wireUpEventListeners() {
                 });
 
 
-
-                // Single handler for both mouse and touch. A tap that turns into a
-
-                // scroll fires no 'click', so the step is applied only on a real
-
-                // press - no ghost-click guard that could swallow taps on mobile.
-
                 btn.addEventListener('click', function(e) {
 
                     e.preventDefault();
 
-                    // Haptic feedback on mobile - fires on every real step
 
                     haptic(HAPTIC_STEP);
 
-                    // Modifier keys for quick steps: Shift = x5, Ctrl/Cmd = x25
 
                     let step = 1;
 
@@ -9040,9 +7919,6 @@ function wireUpEventListeners() {
     }
 
     
-
-    // Wire up all buttons
-
     ['distance', 'heightDiff', 'redNumber'].forEach(id => {
 
         wireButton(id, -1);
@@ -9050,7 +7926,6 @@ function wireUpEventListeners() {
         wireButton(id, 1);
 
     });
-
 
 
     // 4. Wire up the Armored Toggles (Auto Calc & Height Diff)
@@ -9076,7 +7951,6 @@ function wireUpEventListeners() {
     ];
 
 
-
     toggleConfig.forEach(config => {
 
         const checkbox = document.getElementById(config.checkboxId);
@@ -9094,16 +7968,12 @@ function wireUpEventListeners() {
                     element.parentNode.replaceChild(newElement, element);
 
 
-
                     let touchStartTime = 0;
 
                     let touchStartY = 0;
 
                     let touchHandled = false;
 
-
-
-                    // Handle touch start
 
                     newElement.addEventListener('touchstart', function(e) {
 
@@ -9116,15 +7986,11 @@ function wireUpEventListeners() {
                     }, { passive: true });
 
 
-
-                    // Handle touch end - only toggle if it was a tap (not a scroll)
-
                     newElement.addEventListener('touchend', function(e) {
 
                         e.preventDefault();
 
                         e.stopPropagation();
-
 
 
                         const touchEndTime = Date.now();
@@ -9136,14 +8002,10 @@ function wireUpEventListeners() {
                         const yDiff = Math.abs(touchEndY - touchStartY);
 
 
-
-                        // Only toggle if it was a quick tap (less than 300ms) and minimal movement (less than 10px)
-
                         if (timeDiff < 300 && yDiff < 10) {
 
                             touchHandled = true;
 
-                            // Haptic feedback on toggle
 
                             haptic(HAPTIC_TAP);
 
@@ -9164,12 +8026,8 @@ function wireUpEventListeners() {
                     }, { passive: false });
 
 
-
-                    // Handle click for desktop/mouse users
-
                     newElement.addEventListener('click', function(e) {
 
-                        // Only handle click if it wasn't from a touch event
 
                         if (touchHandled) {
 
@@ -9194,7 +8052,6 @@ function wireUpEventListeners() {
                     });
 
 
-
                     newElement.style.cursor = 'pointer';
 
                 }
@@ -9204,7 +8061,6 @@ function wireUpEventListeners() {
         }
 
     });
-
 
 
     // 5. Wire up Screenshot Lightbox Navigation (Arrows & Close Button)
@@ -9219,9 +8075,6 @@ function wireUpEventListeners() {
 
         const closeIcon = lightbox.querySelector('.screenshot-lightbox-close');
 
-
-
-        // Left Arrow
 
         if (leftZone) {
 
@@ -9238,9 +8091,6 @@ function wireUpEventListeners() {
         }
 
 
-
-        // Right Arrow
-
         if (rightZone) {
 
             rightZone.addEventListener('click', function(e) {
@@ -9255,9 +8105,6 @@ function wireUpEventListeners() {
 
         }
 
-
-
-        // Close 'X' Button
 
         if (closeIcon) {
 
@@ -9274,9 +8121,6 @@ function wireUpEventListeners() {
         }
 
 
-
-        // Close when clicking the dark background (optional quality of life)
-
         lightbox.addEventListener('click', function(e) {
 
             // Only close if clicking the background itself, not the image
@@ -9290,7 +8134,6 @@ function wireUpEventListeners() {
         });
 
     }
-
 
 
     // 6. Wire up Warning Icon and Close Button
@@ -9311,7 +8154,6 @@ function wireUpEventListeners() {
 
     }
 
-    // Mobile warning icon
 
     const warningIconMobile = document.getElementById('warningIconMobile');
 
@@ -9330,7 +8172,6 @@ function wireUpEventListeners() {
     }
 
 
-
     document.querySelectorAll('.warning-close').forEach(function(warningCloseBtn) {
 
         warningCloseBtn.addEventListener('click', function(e) {
@@ -9346,9 +8187,6 @@ function wireUpEventListeners() {
     });
 
 
-
-    // Close warning when clicking outside of it (desktop)
-
     document.addEventListener('click', function(e) {
 
         const warningDiv = document.getElementById('warning');
@@ -9357,7 +8195,6 @@ function wireUpEventListeners() {
 
         if (warningDiv && !warningDiv.classList.contains('hidden')) {
 
-            // Check if click was outside warning banner and outside warning icon
 
             if (!warningDiv.contains(e.target) && 
 
@@ -9371,7 +8208,6 @@ function wireUpEventListeners() {
 
     });
 
-    // Close mobile warning when clicking outside of it
 
     document.addEventListener('click', function(e) {
 
@@ -9381,7 +8217,6 @@ function wireUpEventListeners() {
 
         if (warningMobileDiv && !warningMobileDiv.classList.contains('hidden')) {
 
-            // Check if click was outside warning banner and outside warning icon
 
             if (!warningMobileDiv.contains(e.target) && 
 
@@ -9396,7 +8231,6 @@ function wireUpEventListeners() {
     });
 
 
-
     // 7. Wire up Tank Specs Toggle Button
 
     const tankSpecsToggleBtn = document.getElementById('tankSpecsToggle');
@@ -9406,10 +8240,8 @@ function wireUpEventListeners() {
     const tankSpecsToggleIcon = document.getElementById('tankSpecsToggleIcon');
 
     
-
     if (tankSpecsToggleBtn && milRangeText) {
 
-        // Collapse by default on mobile
 
         const isMobile = window.innerWidth <= 768;
 
@@ -9419,7 +8251,6 @@ function wireUpEventListeners() {
 
         }
 
-        // Sync toggle button collapsed class with panel state
 
         if (milRangeText.classList.contains('tank-specs-collapsed')) {
 
@@ -9427,7 +8258,6 @@ function wireUpEventListeners() {
 
         }
 
-        // Clear text content for CSS triangle (HTML has "▼" which would show as text)
 
         if (tankSpecsToggleIcon) {
 
@@ -9436,7 +8266,6 @@ function wireUpEventListeners() {
         }
 
         
-
         tankSpecsToggleBtn.addEventListener('click', function(e) {
 
             e.preventDefault();
@@ -9454,9 +8283,6 @@ function wireUpEventListeners() {
 }
 
 
-
-// Run immediately if DOM is ready, or wait for DOMContentLoaded
-
 if (document.readyState === 'loading') {
 
     document.addEventListener('DOMContentLoaded', wireUpEventListeners);
@@ -9466,7 +8292,6 @@ if (document.readyState === 'loading') {
     wireUpEventListeners();
 
 }
-
 
 
 // ============================================
@@ -9484,7 +8309,6 @@ function handleMobileLayout() {
     const tankInfoBtn = document.getElementById('tankInfoIcon');
 
 
-
     if (!milRangeText || !tankInfoBtn) {
 
         return;
@@ -9492,10 +8316,8 @@ function handleMobileLayout() {
     }
 
 
-
     if (isMobile) {
 
-        // Force button visible and move into panel
 
         tankInfoBtn.classList.remove('hidden');
 
@@ -9505,7 +8327,6 @@ function handleMobileLayout() {
 
         tankInfoBtn.style.opacity = '1';
 
-        // Update text to be two lines
 
         const span = tankInfoBtn.querySelector('span');
 
@@ -9516,7 +8337,6 @@ function handleMobileLayout() {
         }
 
 
-
         if (!milRangeText.contains(tankInfoBtn)) {
 
             milRangeText.appendChild(tankInfoBtn);
@@ -9524,20 +8344,12 @@ function handleMobileLayout() {
         }
 
         
-
-        // Re-render tank specs to generate compact image for mobile
-
         if (typeof updateMilRangeText === 'function') {
 
             updateMilRangeText();
 
         }
 
-
-
-        // Default the tank info panel to collapsed on phones (once, so a user
-
-        // who opens it isn't fought by later resize events)
 
         if (!milRangeText.dataset.mobileInitCollapsed) {
 
@@ -9553,7 +8365,6 @@ function handleMobileLayout() {
 
     } else {
 
-        // Move button back outside panel on desktop (to original position)
 
         const calculatorCard = document.getElementById('calculator-card');
 
@@ -9563,9 +8374,6 @@ function handleMobileLayout() {
 
         }
 
-
-
-        // Ensure panel is expanded when switching to desktop
 
         milRangeText.classList.remove('tank-specs-collapsed');
 
@@ -9578,9 +8386,6 @@ function handleMobileLayout() {
         }
 
 
-
-        // Re-render tank specs to remove compact image for desktop
-
         if (typeof updateMilRangeText === 'function') {
 
             updateMilRangeText();
@@ -9591,9 +8396,6 @@ function handleMobileLayout() {
 
 }
 
-
-
-// Run mobile layout handler on DOM ready and resize
 
 if (document.readyState === 'loading') {
 
@@ -9606,7 +8408,6 @@ if (document.readyState === 'loading') {
 }
 
 window.addEventListener('resize', handleMobileLayout);
-
 
 
 // ============================================
@@ -9628,9 +8429,6 @@ function injectVersion() {
 }
 
 
-
-// Inject version on page load
-
 if (document.readyState === 'loading') {
 
     document.addEventListener('DOMContentLoaded', injectVersion);
@@ -9640,7 +8438,6 @@ if (document.readyState === 'loading') {
     injectVersion();
 
 }
-
 
 
 // ============================================
@@ -9731,14 +8528,8 @@ if (document.readyState === 'loading') {
 }
 
 
-
 // ============================================
 
-// MOBILE CALCULATOR KEYPAD (phones only)
-
-// Drives the existing inputs via adjustValue()/calculate(), so all the
-
-// formatting, limits, auto-calc and state saving keep working unchanged.
 
 // ============================================
 
@@ -9763,9 +8554,7 @@ function initMobileCalculator() {
     const heightToggle = document.getElementById('heightDiffToggle');
 
 
-
     if (!keypad || tabs.length === 0) return;
-
 
 
     const FIELD_LABELS = { distance: 'Target Distance', redNumber: 'Terrain Elevation', heightDiff: 'Height Difference' };
@@ -9783,7 +8572,6 @@ function initMobileCalculator() {
     const state = { field: 'distance', fresh: true, buffer: '', neg: false };
 
 
-
     function readField(field) {
 
         const input = document.getElementById(field);
@@ -9795,7 +8583,6 @@ function initMobileCalculator() {
         return isNaN(value) ? 0 : value;
 
     }
-
 
 
     function updateTabValues() {
@@ -9835,7 +8622,6 @@ function initMobileCalculator() {
     }
 
 
-
     function updateActiveValueColor() {
 
         if (!activeInput) return;
@@ -9857,7 +8643,6 @@ function initMobileCalculator() {
         }
 
     }
-
 
 
     function render() {
@@ -9921,7 +8706,6 @@ function initMobileCalculator() {
     }
 
 
-
     function selectField(field) {
 
         state.field = field;
@@ -9941,7 +8725,6 @@ function initMobileCalculator() {
     }
 
 
-
     function ensureHeightEnabled() {
 
         const toggle = document.getElementById('heightDiffToggle');
@@ -9955,7 +8738,6 @@ function initMobileCalculator() {
         }
 
     }
-
 
 
     function applyBuffer() {
@@ -9979,7 +8761,6 @@ function initMobileCalculator() {
         render();
 
     }
-
 
 
     function pressDigit(digit) {
@@ -10007,7 +8788,6 @@ function initMobileCalculator() {
     }
 
 
-
     function pressClear() {
 
         state.fresh = false;
@@ -10019,7 +8799,6 @@ function initMobileCalculator() {
         applyBuffer();
 
     }
-
 
 
     function pressBack() {
@@ -10047,7 +8826,6 @@ function initMobileCalculator() {
     }
 
 
-
     function pressSign() {
 
         if (state.field === 'distance') return;
@@ -10072,7 +8850,6 @@ function initMobileCalculator() {
     }
 
 
-
     function pressStep(amount) {
 
         if (state.field === 'heightDiff') ensureHeightEnabled();
@@ -10090,7 +8867,6 @@ function initMobileCalculator() {
     }
 
 
-
     tabs.forEach(function(tab) {
 
         // pointerdown = react on press (not release) so it feels instant
@@ -10106,7 +8882,6 @@ function initMobileCalculator() {
         });
 
     });
-
 
 
     // Desktop keypad keyboard support: type with the keyboard like a real
@@ -10234,7 +9009,6 @@ function initMobileCalculator() {
     });
 
 
-
     // Keyboard-controls help (i) button under the keypad
     const keypadShortcutsBtn = document.getElementById('keypadShortcutsBtn');
 
@@ -10320,7 +9094,6 @@ function initMobileCalculator() {
     }
 
 
-
     // One-time tip: keyboard works on the keypad (shown on first key use).
     let keyboardTipDone = false;
 
@@ -10373,7 +9146,6 @@ function initMobileCalculator() {
     }
 
 
-
     // Value-box help button: shows the explanation for the active field.
 
     if (helpBtn) {
@@ -10397,7 +9169,6 @@ function initMobileCalculator() {
     }
 
 
-
     // FULL-mode field help (i) buttons reuse the same themed popup
     document.querySelectorAll('.help-i[data-help-field]').forEach(function (btn) {
 
@@ -10418,7 +9189,6 @@ function initMobileCalculator() {
         });
 
     });
-
 
 
     // Popup help with optional in-game screenshot for Terrain Elevation
@@ -10571,7 +9341,6 @@ function initMobileCalculator() {
     }
 
 
-
     let lastKeyAction = '';
 
     let lastKeyTime = 0;
@@ -10635,7 +9404,6 @@ function initMobileCalculator() {
     });
 
 
-
     // Clear the pressed animation immediately on release (iOS holds :active)
 
     ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (evt) {
@@ -10653,7 +9421,6 @@ function initMobileCalculator() {
     });
 
 
-
     // Tapping the value readout lets you type with the phone's own keyboard
 
     if (activeInput) {
@@ -10669,7 +9436,6 @@ function initMobileCalculator() {
             activeInput.select();
 
         });
-
 
 
         activeInput.addEventListener('input', function() {
@@ -10705,7 +9471,6 @@ function initMobileCalculator() {
         });
 
 
-
         // Enter on the phone keyboard dismisses it (commits the value)
 
         activeInput.addEventListener('keydown', function(e) {
@@ -10721,7 +9486,6 @@ function initMobileCalculator() {
         });
 
 
-
         activeInput.addEventListener('blur', function() {
 
             render();
@@ -10729,7 +9493,6 @@ function initMobileCalculator() {
         });
 
     }
-
 
 
     // Reset the keypad entry state whenever the active field's underlying input
@@ -10767,7 +9530,6 @@ function initMobileCalculator() {
     });
 
 
-
     // Height is optional and the toggles panel is hidden on phones, so the
 
     // Height tab is always available. The underlying height toggle is switched
@@ -10775,7 +9537,6 @@ function initMobileCalculator() {
     // on automatically the first time the Height field is used.
 
     if (heightTab) heightTab.style.display = '';
-
 
 
     // The Calculate button is gone on phones, so mobile always calculates live.
@@ -10795,7 +9556,6 @@ function initMobileCalculator() {
         }
 
     }
-
 
 
     // On phones always start from all zeros - no restored distance/elevation
@@ -10828,9 +9588,6 @@ function initMobileCalculator() {
 
 }
 
-
-
-// Wire up the mobile keypad on load
 
 if (document.readyState === 'loading') {
 
