@@ -4645,12 +4645,19 @@ inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 [data-mode="lite"] .result-info-text p {
     white-space: normal;
-    line-height: 1.4;
+    line-height: 1.35;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     justify-content: center;
-    gap: 0 4px;
-    align-items: baseline;
+    align-items: center;
+    gap: 2px;
+}
+[data-mode="lite"] .result-info-text p .result-line {
+    display: block;
+    white-space: nowrap;
+}
+[data-mode="lite"] .result-info-text p .pipe-separator {
+    display: none;
 }
 [data-mode="lite"] .result-info-text .mil-label {
     display: inline;
