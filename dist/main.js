@@ -8801,6 +8801,34 @@ function initMobileCalculator() {
     }
 
 
+    function pressResetAll() {
+
+        // Del = reset everything to 0 (unlike C, which only clears the active field)
+        if (typeof resetCalculator === 'function') {
+
+            resetCalculator();
+
+        } else {
+
+            keypadOrder.forEach(function(field) {
+
+                adjustValue(field, -readField(field));
+
+            });
+
+        }
+
+        state.fresh = true;
+
+        state.buffer = '';
+
+        state.neg = readField(state.field) < 0;
+
+        render();
+
+    }
+
+
     function pressBack() {
 
         // Even on a freshly selected field, backspace should delete the last
@@ -8886,7 +8914,8 @@ function initMobileCalculator() {
 
     // Desktop keypad keyboard support: type with the keyboard like a real
     // calculator - digits fill the active field, Tab/Enter move to the next,
-    // Backspace deletes, +/- step the value, . or § (or ~) flips the sign, C clears.
+    // Backspace deletes, +/- step the value, . or § (or ~) flips the sign,
+    // C clears the active field, Del resets all fields to 0.
     const keypadOrder = ['redNumber', 'distance', 'heightDiff'];
 
     document.addEventListener('keydown', function (e) {
@@ -8941,6 +8970,16 @@ function initMobileCalculator() {
             e.preventDefault();
 
             pressBack();
+
+        } else if (e.key === 'Delete') {
+
+            handledKey = true;
+
+            haptic(HAPTIC_TAP);
+
+            e.preventDefault();
+
+            pressResetAll();
 
         } else if (e.key === 'Enter') {
 
@@ -9064,6 +9103,7 @@ function initMobileCalculator() {
             +   row(k('.') + or + k(signLabel), 'flip sign (+ / -)')
             +   row(k('Backspace'), 'delete digit')
             +   row(k('C'), 'clear')
+            +   row(k('Del'), 'reset all to 0')
             +   row(k('Shift') + plus + k('-') + or + k('+'), 'step by 5')
             +   row(k('Ctrl') + plus + k('-') + or + k('+'), 'step by 25')
             + '</div>'
@@ -9119,7 +9159,7 @@ function initMobileCalculator() {
 
             tip.className = 'quickstep-toast';
 
-            tip.textContent = 'TIP: You can type numbers on the keypad - Tab/Enter next, +/-, . or sign key (' + getSignKeyLabelText() + ')';
+            tip.textContent = 'TIP: You can type numbers on the keypad - Tab/Enter next, +/-, . or sign key (' + getSignKeyLabelText() + '), C clear, Del reset all';
 
             tip.addEventListener('click', function () { tip.remove(); });
 
