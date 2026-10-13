@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.2.2] - 2026-10-13
+
+### Added
+- Changelog viewer in the footer - tap the version.
+
+### Changed
+- Distance no longer auto-fills a default; it stays 0 until you enter one.
+- Flags: high-res on phones, small _30 on desktop.
+- Some Field manual subtitles smaller on mobile.
+
 ## [2.2.1] - 2026-10-12
 
 ### Added

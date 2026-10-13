@@ -4,7 +4,7 @@
 
 const HLL_VERSION = {
 
-    appVersion: 'v2.2.1',
+    appVersion: 'v2.2.2',
 
     gamePatch: 'HLL Update 21',
 
@@ -13,6 +13,18 @@ const HLL_VERSION = {
     author: 'by litku'
 
 };
+
+// Flag <img>: desktop (1x DPR) uses the small _30 asset; phones/retina (2x) the full-res.
+
+function flagImgTag(flagSrc, alt, loading) {
+
+    const src = String(flagSrc);
+
+    const small = src.replace(/([^/]+)\.webp$/, '$1_30.webp');
+
+    return '<img src="' + small + '" srcset="' + small + ' 1x, ' + src + ' 2x" alt="' + alt + '" class="flag-icon" loading="' + loading + '" decoding="async">';
+
+}
 
 
 
@@ -386,7 +398,7 @@ function handleTankSelection(value, selectSelected, selectItems, factionInput, i
 
     selectSelected.innerHTML = `
 
-        <img src="${tank.flag}" alt="${tank.flagAlt}" class="flag-icon" loading="eager" decoding="async">
+        ${flagImgTag(tank.flag, tank.flagAlt, 'eager')}
 
         <span class="text-ellipsis flex-1 min-w-0">${tank.shortName}</span>
 
@@ -432,24 +444,8 @@ function handleTankSelection(value, selectSelected, selectItems, factionInput, i
 
 
 
-    // Distance handling when switching tanks:
-    //  - auto-calc ON: use the new tank's sensible default (e.g. 100 m for the
-    //    short-range AVRE), so we never leave an unreachable distance behind.
-    //  - auto-calc OFF or on phones: keep the user's current/zeroed value.
-
-    if (isAutoCalcEnabled() && (!isMobileLayout() || isKeypadView())) {
-
-        const fallback = getTankDefaultDistance(tank.value);
-
-        document.querySelectorAll('input#distance, input#distanceLite').forEach(input => {
-
-            input.value = formatMetersHudValue(fallback);
-
-            input.dispatchEvent(new Event('input', { bubbles: true }));
-
-        });
-
-    }
+    // Distance is left untouched when switching tanks: keep whatever the user
+    // has entered (0 if they haven't), even with auto-calc on.
 
 
 
@@ -509,7 +505,7 @@ function generateTankDropdown() {
 
     selectSelected.innerHTML = `
 
-        <img src="${currentTank.flag}" alt="${currentTank.flagAlt}" class="flag-icon" loading="eager" decoding="async">
+        ${flagImgTag(currentTank.flag, currentTank.flagAlt, 'eager')}
 
         <span class="text-ellipsis flex-1 min-w-0">${currentTank.shortName}</span>
 
@@ -523,7 +519,7 @@ function generateTankDropdown() {
 
         <div data-value="${tank.value}" class="select-item${tank.value === currentFaction ? ' select-item-active' : ''}" role="option" aria-selected="${tank.value === currentFaction ? 'true' : 'false'}">
 
-            <img src="${tank.flag}" alt="${tank.flagAlt}" class="flag-icon" loading="lazy" decoding="async">
+            ${flagImgTag(tank.flag, tank.flagAlt, 'lazy')}
 
             ${tank.shortName}
 
@@ -740,7 +736,7 @@ function generateLiteTankDropdown() {
 
     selectSelected.innerHTML = `
 
-        <img src="${currentTank.flag}" alt="${currentTank.flagAlt}" class="flag-icon" loading="eager" decoding="async">
+        ${flagImgTag(currentTank.flag, currentTank.flagAlt, 'eager')}
 
         <span class="text-ellipsis flex-1 min-w-0">${currentTank.shortName}</span>
 
@@ -754,7 +750,7 @@ function generateLiteTankDropdown() {
 
         <div data-value="${tank.value}" class="select-item${tank.value === currentFaction ? ' select-item-active' : ''}" role="option" aria-selected="${tank.value === currentFaction ? 'true' : 'false'}">
 
-            <img src="${tank.flag}" alt="${tank.flagAlt}" class="flag-icon" loading="lazy" decoding="async">
+            ${flagImgTag(tank.flag, tank.flagAlt, 'lazy')}
 
             ${tank.shortName}
 
@@ -3234,70 +3230,8 @@ function isAutoCalcEnabled() {
 
 
 
-// Sensible starting distance for a tank: 400m normally, or the table minimum
-// for short-range SPAs (e.g. Churchill AVRE).
-
-function getTankDefaultDistance(faction) {
-
-    const table = tables[faction];
-
-    if (!table) return 400;
-
-    const distances = Object.keys(table)
-
-        .filter(k => !isNaN(parseInt(k)))
-
-        .map(k => parseInt(k))
-
-        .sort((a, b) => a - b);
-
-    const minRange = distances[0] || 200;
-
-    const maxRange = distances[distances.length - 1] || 600;
-
-    return maxRange <= 250 ? minRange : 400;
-
-}
-
-
-
-// When auto-calc is switched on with no distance entered yet, seed the tank's
-// default distance so a result is shown immediately. Only runs on an explicit
-// auto-calc activation - never on tank switches or while typing.
-
-function seedDistanceForAutoCalc() {
-
-    // Phones force auto-calc on and deliberately start zeroed - don't seed there.
-    if (isMobileLayout()) return;
-
-    const inputs = Array.from(document.querySelectorAll('input#distance, input#distanceLite'));
-
-    if (!inputs.length) return;
-
-    // Leave any existing distance alone.
-    const hasValue = inputs.some(i => {
-
-        const v = parseFloat(i.value);
-
-        return Number.isFinite(v) && v > 0;
-
-    });
-
-    if (hasValue) return;
-
-    const factionInput = document.getElementById('faction');
-
-    const fallback = getTankDefaultDistance(factionInput ? factionInput.value : '');
-
-    inputs.forEach(input => {
-
-        input.value = formatMetersHudValue(fallback);
-
-        input.dispatchEvent(new Event('input', { bubbles: true }));
-
-    });
-
-}
+// Distances are no longer auto-seeded anywhere - the calculator keeps 0 until
+// the user enters a value.
 
 
 
@@ -4935,39 +4869,11 @@ function resetCalculator(buttonElement) {
 
 
 
-    // Get current faction and calculate appropriate default distance
-
-    const faction = document.getElementById('faction').value;
-
-    const table = tables[faction];
-
-    let defaultDistance = 400;
-
-    if (table) {
-
-        const distances = Object.keys(table)
-
-            .filter(k => !isNaN(parseInt(k)))
-
-            .map(k => parseInt(k))
-
-            .sort((a, b) => a - b);
-
-        const minRange = distances[0] || 200;
-
-        const maxRange = distances[distances.length - 1] || 600;
-
-        // Use the actual table minimum for short-range SPAs (AVRE), otherwise 400m.
-
-        defaultDistance = maxRange <= 250 ? minRange : 400;
-
-    }
-
-
+    // Reset all fields to zero (no auto distance)
 
     if (distanceInputs.length > 0) {
 
-        setAllValues(distanceInputs, String(defaultDistance));
+        setAllValues(distanceInputs, '0');
 
     }
 
@@ -5199,7 +5105,7 @@ function loadState() {
 
             const displayName = state.faction.replace(' (Sherman M4A3 105)', ' (Sherman M4A3)');
 
-            selectSelected.innerHTML = `<img src="images/UI/Icons/flags/${flag}" alt="${flag.split('.')[0]}" class="flag-icon" loading="eager" decoding="async"> <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0;">${displayName}</span>`;
+            selectSelected.innerHTML = `${flagImgTag('images/UI/Icons/flags/' + flag, flag.split('.')[0], 'eager')} <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0;">${displayName}</span>`;
 
 
 
@@ -5952,8 +5858,6 @@ if (autoCalcToggleLite) {
         saveState();
 
         if (this.checked) {
-
-            seedDistanceForAutoCalc();
 
             calculate();
 
@@ -6915,8 +6819,6 @@ if (autoCalcToggle) {
 // If switching to auto, seed a distance (if empty) and calculate immediately
 
             if (this.checked) {
-
-                seedDistanceForAutoCalc();
 
                 calculate();
 
