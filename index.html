@@ -70,6 +70,13 @@
             justify-content: center;
             gap: 12px;
         }
+        /* Mirror the stamp's width on the left so the TITLE itself is centred,
+           while the stamp stays to its right. 60 = 54 content + 3+3 border. */
+        .title-wrap::before {
+            content: "";
+            flex: none;
+            width: 60px;
+        }
         .version-stamp {
             flex: none;
             position: relative;
@@ -100,6 +107,9 @@
         @media (max-width: 560px) {
             .title-wrap {
                 gap: 8px;
+            }
+            .title-wrap::before {
+                width: 42px;
             }
             .title-wrap h1 {
                 font-size: clamp(17px, 6.4vw, 28px);
@@ -837,7 +847,7 @@
 
     <script>
         if ('serviceWorker' in navigator) {
-            const SERVICE_WORKER_VERSION = '2.2.3';
+            const SERVICE_WORKER_VERSION = '2.2.4';
             const isLocalhost =
                 location.hostname === 'localhost' ||
                 location.hostname === '127.0.0.1' ||
