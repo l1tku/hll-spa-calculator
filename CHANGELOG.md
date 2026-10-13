@@ -3,25 +3,25 @@
 ## [2.2.2] - 2026-10-13
 
 ### Added
-- Changelog viewer in the footer - tap the version.
+- Changelog viewer in the footer — tap the version.
 
 ### Changed
-- Distance no longer auto-fills a default; it stays 0 until you enter one.
-- Flags: high-res on phones, small _30 on desktop.
-- Some Field manual subtitles smaller on mobile.
+- Distance no longer auto-fills a default; it stays 0 until entered.
+- Flags are high-res on phones, small `_30` on desktop.
+- Field Manual subtitles are smaller on mobile.
 
 ## [2.2.1] - 2026-10-12
 
 ### Added
-- Desktop keypad accepts real keyboard input: type numbers, Tab/Enter to move, Backspace/C to clear, `.` or the sign key flips the sign.
-- Shift = ±5, Ctrl = ±25 quick-steps (the tip shows your actual sign key).
-- Keypad hint line + "Keyboard controls" popup.
-- Terrain/Height help popups with in-game screenshots (were plain browser alerts).
-- FULL mode got the same `(i)` help buttons as the keypad.
+- Desktop keypad accepts real keyboard input (numbers, Tab/Enter, Backspace/C, sign key).
+- Shift = ±5, Ctrl = ±25 quick-step modifiers.
+- Keypad hint line and "Keyboard controls" popup.
+- Terrain/Height help popups with in-game screenshots (replaced browser alerts).
+- FULL mode now has the same `(i)` help buttons as the keypad.
 
 ### Changed
-- Rewrote the Terrain/Height help texts.
-- Keypad card spacing evened out.
+- Rewrote Terrain/Height help texts.
+- Evened out keypad card spacing.
 
 ### Fixed
 - Help popup text now renders under the screenshot.
@@ -30,16 +30,16 @@
 
 ### Added
 - **KEYPAD view on desktop** — the phone-style keypad, now on PC too.
-- KEYPAD: hover/press feedback on the keys and the Terrain / Distance / Height tabs.
+- Hover/press feedback on keypad keys and the Terrain/Distance/Height tabs.
 
 ### Changed
-- Switching between FULL / LITE / KEYPAD keeps the values you entered.
-- Phones: "More HLL Tools" sits above the Ko-fi button.
-- Tank ranges no longer show "(FLAT)".
+- Switching between FULL / LITE / KEYPAD preserves entered values.
+- "More HLL Tools" sits above the Ko-fi button on phones.
+- Tank ranges no longer show `(FLAT)`.
 
 ### Fixed
-- KEYPAD: picking a tank now fills in a sensible distance instead of leaving it at 0.
-- KEYPAD no longer shows stale values after you edit them in FULL / LITE.
+- Keypad tank selection now fills in a sensible distance instead of leaving it at 0.
+- Keypad no longer shows stale values after edits in FULL / LITE.
 
 ## [2.1.1] - 2026-10-11
 
@@ -47,336 +47,283 @@
 - Height correction now works for downhill and close-range targets.
 - Restored the "beyond max range" warning with clearer wording.
 - Switching tanks keeps a sensible distance.
-- Mobile: warning popup, wider result box, themed Tank Information button, active tank highlighted.
+- Mobile warning popup, wider result box, themed Tank Information button, and active-tank highlight.
 - Field Manual fits the phone screen.
 
 ### Changed
 - Auto-calc with no distance entered fills in the tank's default.
 - Height capped at ±1000 m.
-- Mobile Distance tab reads just "Distance".
+- Mobile Distance tab renamed to "Distance".
 
 ## [2.1.0] - 2026-10-11
 
 ### Added
-- Mobile calculator layout for phones: tabs, custom keypad, haptics, color-coded values.
+- Mobile calculator layout: tabs, custom keypad, haptics, color-coded values.
 
 ### Changed
 - Phones start zeroed with Tank Info collapsed; auto-calculate on; result refreshes on tab change.
 
 ### Fixed
 - Height/terrain ignored on mobile.
-- Backspace on fresh field, double-tap steps, value caps.
-- Height stuck at close range; now falls back to a real ballistic solve when model saturates.
+- Backspace on fresh field, double-tap steps, and value caps.
+- Height stuck at close range; now falls back to a real ballistic solve when the model saturates.
 
 ## [2.0.5] - 2026-10-11
 
 ### Added
-- The cat meme (`hell_and_back.webp`) now peeks out behind the calculator:3
-- Quick-step steppers on desktop: **Shift+click = ±5**, **Ctrl/Cmd+click = ±25**, with a
-  one-time tip toast ("Hold Shift and press −/+ for ±5 · Hold Ctrl for ±25").
+- The cat meme (`hell_and_back.webp`) peeks out behind the calculator.
+- Quick-step modifiers on desktop: **Shift+click = ±5**, **Ctrl/Cmd+click = ±25**, with a one-time tip toast.
 
 ### Changed
 - Inputs read like the in-game HUD: terrain `0MIL`/`+14MIL`/`-7MIL`, height `+5M`/`-3M`, distance `400M`.
-- Tank range shows the measured span as `~17m - ~506m (FLAT)`.
-- Result bar shows `Distance` (e.g. `400M`), signed `Target Height` (`+1M`/`-1M`), and `Terrain Elevation` (`0MIL`/`+14MIL`/`-7MIL`).
-- Holding −/+ no longer auto-repeats — one press = one step.
+- Tank range shows the measured span.
+- Result bar shows `Distance`, signed `Target Height`, and `Terrain Elevation`.
+- `+`/`-` buttons no longer auto-repeat.
 
 ## [2.0.0] - 2026-10-10
 
 ### Changed
-- New calculation engine: all six SPAs solve from our own in-game measurements (full span,
-  -89 MIL to the past-cap tail) with exact ballistics - physical tail law and per-vehicle
-  height correction. Old display tables kept as reference only.
-- Input limits match the game: distance 0-2500 m, terrain elevation +/-356 MIL (the
-  firing gate), height +/-1000 m. Whole numbers, clamped on Enter.
-- Vehicle ranges show the true max with full tilt (e.g. Bishop 2317m).
+- New calculation engine: all six SPAs solve from in-game measurements with exact ballistics, physical tail law, and per-vehicle height correction. Old display tables kept as reference only.
+- Input limits match the game: distance 0–2500 m, terrain elevation ±356 MIL, height ±1000 m. Whole numbers, clamped on Enter.
+- Vehicle ranges show the true max with full tilt (e.g. Bishop 2317 m).
 
 ## [1.6.5] - 2026-10-02
 
-### Fixed
-- Bishop SP engine health 430 → 530
+### Changed
+- Bishop SP engine health: 430 → 530.
 
 ## [1.6.4] - 2026-09-30
 
-### Fixed
-- Field Manual munitions cost for Bishop SP corrected from 280 to 240
-- Field Manual stats corrected from the game files (datamine, not in any patch notes), all six SPAs: pitch rate 1°/s → 1.5°/s, smoke 45 → 35, elevation field 30° → 26.2°/15°/20°
-- Engine/hull healths raised to current values (Bishop 910/830 → 880/850, AVRE → 1230/1080/960/630), Dustbin clips 50 → 28, Panzer III AT 690 → 640
-- Pitch fields now also show MIL (e.g. `-5° (-89 MIL)`, `1.5°/s (27 MIL/s)`)
+### Changed
+- Field Manual Bishop munition cost: 280 → 240.
+- Field Manual stats corrected from game files for all six SPAs (pitch rate, smoke count, elevation fields).
+- Engine/hull healths updated to current values; Dustbin clips 50 → 28; Panzer III AT 690 → 640.
+- Pitch fields now show MIL alongside degrees.
 
 ## [1.6.3] - 2026-09-30
 
 ### Fixed
-- Turret max elevation updated to 466 MIL for Sturmpanzer IV, Sherman M4A3 105, KV-2 and Panzer III Ausf. N. Not in the patch notes — thanks, devs.
+- Turret max elevation updated to 466 MIL for Sturmpanzer IV, Sherman M4A3 105, KV-2, and Panzer III Ausf. N.
 - Enter focus loop now wraps on touchscreen laptops.
 - Tank selection no longer calculates twice in auto mode.
 - F5 reload keeps Lite mode and restores values to both panels.
 - Turret max warning now takes priority over the range warning.
 
 ### Removed
-- ~2,856 lines of dead code (main.js 11,672 → 9,062).
+- ~2,856 lines of dead code.
 - Lite panel's duplicate faction dropdown and legacy Calculate button.
 - The word "(Yellow)" from the result label.
 
 ### Changed
-- Version strings all track this changelog (footer `v1.6.3`, service worker `1.6.3-2`).
+- Version strings synced across footer and service worker.
 
 ## [1.6.2] - 2026-09-24
 
 ### Removed
-- Cleaned up redundant comments across `index.html`, `service-worker.js` and `dist/styles.css`
+- Redundant comments across `index.html`, `service-worker.js`, and `dist/styles.css`.
 
 ## [1.6.1] - 2026-09-23
 
 ### Fixed
 - Unselected Full/Lite toggle button now stays grey.
-- Updated Sturmpanzer screenshots to use new `sturmpanzer_*.webp` images.
-- Fixed image viewer so right-clicking "Open image in new tab" opens the current image instead of the previous one.
-- Updated Field Manual subtitle texts.
+- Sturmpanzer screenshots updated to new `sturmpanzer_*.webp` images.
+- Image viewer right-click "Open image in new tab" now opens the current image.
+- Field Manual subtitle texts updated.
 
 ## [1.6.0] - 2026-09-23
 
-### Hell Let Loose Update 21
-- Updated the displayed game patch from `HLL Update 20` to `HLL Update 21`.
-- Game version link now points to the [HLL Update 21 changelog](https://hellletloose.com/blog/hll-u21-changelog).
-- Bumped Service Worker cache version to `v25`.
+### Changed
+- Updated displayed game patch from HLL Update 20 to HLL Update 21.
+- Game version link now points to the HLL Update 21 changelog.
+- Service Worker cache version bumped to `v25`.
 
 ## [1.5.9] - 2026-09-16
 
-### Fixed & Improved
-- Added explicit Open Graph preview image (`og:image`) and Twitter Card tags pointing to the SPA icon so search engines and social shares display the correct preview image.
-- Added Schema.org `WebSite` JSON-LD structured data and `og:site_name` to ensure search engines display the proper site name.
-- Updated favicon definitions with explicit dimensions and URLs for search crawlers.
-- Bumped Service Worker cache version to `v24`.
+### Added
+- Open Graph (`og:image`) and Twitter Card preview image.
+- Schema.org `WebSite` JSON-LD structured data and `og:site_name`.
+- Favicon definitions with explicit dimensions and URLs.
+
+### Changed
+- Service Worker cache version bumped to `v24`.
 
 ## [1.5.8] - 2026-06-14
 
 ### Added
-- Added Ko-fi support button on desktop and mobile.
+- Ko-fi support button on desktop and mobile.
 
 ### Changed
-- Made version text clickable: app version links to GitHub, game version links to the HLL Update 20 changelog, and author links to the GitHub profile.
+- Version text is now clickable: app version links to GitHub, game version links to the HLL changelog, author links to the GitHub profile.
 
 ## [1.5.7] - 2026-06-05
 
-### SPA Low-Range Anchor Refinement
-- Re-tuned sub-`200m` anchor sets for Sherman M4A3 105, Sturmpanzer IV, KV-2, Churchill AVRE, Panzer III Ausf. N, and Bishop using fresh in-game distance checks.
-- Updated tested physical minimums where needed so close-range interpolation starts from the latest confirmed floor for each SPA vehicle.
-- Improved under-`200m` distance recovery accuracy by replacing older placeholder anchors with measured points across the full SPA roster.
-- Renamed Other Projects links
+### Changed
+- Re-tuned sub-200 m anchor sets for all SPAs using fresh in-game distance checks.
+- Updated tested physical minimums for close-range interpolation.
+- Improved under-200 m recovery accuracy with measured anchor points.
+- Renamed Other Projects links.
 
 ## [1.5.6] - 2026-06-04
 
-### SPA Sight Calibration Fix
-- Rebuilt SPA yellow-sight range tables from in-game screenshots for Sherman M4A3 105, KV-2, Panzer III Ausf. N, Sturmpanzer IV, Churchill AVRE, and Bishop SP.
-- Fixed broken SPA HUD MIL conversion that previously caused vehicles like the M4A3 to display incorrect sight values across the range table.
-- Added tested low-range vehicle anchors and warnings for sub-table shots so close-range fire no longer relies on the old broken linear extrapolation.
-- Updated vehicle range displays to reflect tested physical minimums instead of falsely implying a hard `200m` minimum.
+### Changed
+- Rebuilt SPA yellow-sight range tables from in-game screenshots for all six vehicles.
+- Added tested low-range vehicle anchors and warnings for sub-table shots.
+- Vehicle range displays now reflect tested physical minimums instead of implying a hard 200 m minimum.
+
+### Fixed
+- Broken SPA HUD MIL conversion that caused incorrect sight values across the range table.
 
 ## [1.5.5] - 2026-06-04
 
-### Field Manual Ammo Fix
-- Corrected field manual primary armament ammo displays for Sherman M4A3 105, Sturmpanzer IV, KV-2, Churchill AVRE, Panzer III Ausf. N, and Bishop SP.
-- Added support for `HEAT` and `FLYING DUSTBIN` ammo labels in the field manual renderer so those rounds no longer disappear from the ammo box.
-- Updated ammo icon mapping so `HEAT` uses the AP icon and `FLYING DUSTBIN` uses the HE icon.
-- Increased primary armament, coaxial, and hull machine-gun ammo icon size slightly for better readability.
+### Changed
+- Corrected Field Manual primary armament ammo displays for all six SPAs.
+- Added `HEAT` and `FLYING DUSTBIN` support in the Field Manual renderer; `HEAT` uses the AP icon, `FLYING DUSTBIN` uses the HE icon.
+- Slightly increased ammo and machine-gun icon sizes for readability.
 
-### Mobile Background Fix
-- Fixed a mobile-only scrolling bug where the background image lost its dark overlay while scrolling back up from the bottom of the page.
-- Moved the mobile background darkening from a fixed overlay layer into the mobile body background to avoid compositor repaint issues on touch devices.
+### Fixed
+- Mobile-only scrolling bug where the background overlay was lost when scrolling back up.
+
+### Changed
+- Moved mobile background darkening from a fixed overlay layer into the body background to avoid compositor repaint issues.
 
 ## [1.5.4] - 2026-06-03
 
-### Hell Let Loose Update 20
-- Updated SPA armor-damage stats to match HLL Update 20.
-- Panzer III Ausf. N `apDamage` updated from `610` to `690`.
-- All other SPA `apDamage` values updated from `950` to `1025` where applicable.
+### Changed
+- SPA armor-damage stats updated for HLL Update 20.
+- Panzer III Ausf. N `apDamage`: 610 → 690.
+- Remaining SPA `apDamage` values: 950 → 1025 where applicable.
 
 ## [1.5.3] - 2026-04-21
 
-### Desktop UI Refinements
-- More compact desktop layout and improved overall UI consistency.
+### Changed
+- More compact desktop layout and improved UI consistency.
 
 ## [1.5.2] - 2026-04-19
 
-### Mobile UX Improvements
-- Fixed reset button triggering keyboard on mobile
-- Added haptic feedback to buttons (Calculate, Copy, Reset, toggles)
-- Fixed mobile scrolling when touching +/- buttons
-- Fixed help-icon stuck highlight on mobile
-- Prevented focus loop on mobile after pressing Enter
-- Fixed input select-all behavior for heightDiff/redNumber
+### Fixed
+- Reset button triggering keyboard on mobile.
+- Mobile scrolling when touching `+`/`-` buttons.
+- Help-icon stuck highlight on mobile.
+- Focus loop on mobile after pressing Enter.
+- Input select-all behavior for height/diff/red number.
 
-### Performance
-- Added image preloads for flag icons and project hub icons
+### Added
+- Haptic feedback on Calculate, Copy, Reset, and toggles.
+
+### Changed
+- Preloaded flag icons and project hub icons.
 
 ## [1.5.1] - 2026-04-18
 
-### Desktop Layout Fixes
-- Positioned warning icon outside panel 
-- Set heightRedSection and toggle panel to 117px height
-- Aligned Height Calculation and Auto Calculation toggles
-- Removed tear line animation from warning container
-- Added mobile-specific flexbox ordering for warning icon
-
-### Image Caching Fix
-- Changed image caching from cache-first to network-first strategy
+### Changed
+- Warning icon positioned outside panel.
+- `heightRedSection` and toggle panel heights aligned.
+- Height Calculation and Auto Calculation toggles aligned.
+- Removed tear line animation from warning container.
+- Added mobile-specific flexbox ordering for warning icon.
+- Image caching switched from cache-first to network-first.
 
 ## [1.5.0] - 2026-04-17
 
-### Project Restructure
-- Unified separate index files (index.html, index-mobile.html, index-lite.html) into single responsive build
-- Consolidated multiple CSS/JS files into unified dist/styles.css and dist/main.js
-- Single codebase handles all view modes - eliminated code duplication
+### Added
+- Unified responsive build replacing separate `index.html`, `index-mobile.html`, and `index-lite.html`.
+- Consolidated CSS/JS into `dist/styles.css` and `dist/main.js`.
+- Height difference toggle.
+- Hold-to-repeat `+`/`-` buttons.
+- PWA support with `manifest.json` and app icons.
+- Cache-busting version system for GitHub Pages deployment.
 
-### Major Mobile Overhaul
-- Complete mobile layout redesign with responsive panels and optimized touch targets
-- Added collapsible tank specs panel with toggle button
-- Mobile tank info button restyled as classified document with noise texture
-- Mobile "More HLL Tools" button for accessing project hub
+### Changed
+- Complete mobile layout redesign with responsive panels and optimized touch targets.
+- Collapsible tank specs panel.
+- Mobile tank info restyled as a classified document with noise texture.
+- Mobile "More HLL Tools" button for the project hub.
+- Unified full/lite mode result display handling.
+- More Projects modal restyled with dark armored panel.
+- Simplified screenshot gallery to WebP only.
 
-### New Features
-- Height difference toggle to enable/disable height inputs
-- Hold-to-repeat (+/-) buttons with 1.5s delay before auto-increment
-- PWA support with manifest.json and app icons
-- Cache-busting version system for GitHub Pages deployment
+### Removed
+- Deprecated armored ruler component.
 
-### UI/UX Improvements
-- Unified full/lite mode result display handling
-- More Projects modal restyled with dark armored panel
-- Removed deprecated armored ruler component
-- Simplified screenshot gallery (WebP only)
-
-### Fixes
-- Terrain elevation calculating correctly (was returning 0)
-- Base value showing correct MIL instead of 0
-- Tab/Enter navigation working correctly across modes
-- Tank history content corrections (removed game patch notes)
+### Fixed
+- Terrain elevation returning 0.
+- Base value showing 0.
+- Tab/Enter navigation across modes.
+- Tank history content corrections.
 
 ## [1.0.9] - 2025-12-21
 
 ### Fixed
-- **Lite View Control Buttons**
-  - Fixed an issue where the increment/decrement (+/-) buttons in the Lite view (`index-lite.html`) were unresponsive.
-  - Added missing `data-field` and `data-delta` attributes to the Distance, Height, and Elevation buttons to ensure they correctly hook into the JavaScript logic and trigger calculations.
-  
+- Lite view `+`/`-` buttons were unresponsive due to missing `data-field` and `data-delta` attributes.
+
 ## [1.0.8] - 2025-12-20
 
 ### Changed
-- Visual polish for toggle buttons (ruler snap, auto calc) with clearer ON/OFF states
-- Refined height difference handling for more reliable elevation results
-- Improved structure by moving inline styles/scripts into bundled CSS/JS for better caching and performance
-
-### Affected
-- index.html
-- index-mobile.html
-- index-lite.html
-- dist/styles.css, dist/styles-lite.css
-- dist/main.js, dist/main-lite.js, dist/main-mobile.js
+- Toggle button styling with clearer ON/OFF states.
+- Refined height difference handling for more reliable elevation results.
+- Moved inline styles/scripts into bundled CSS/JS for better caching and performance.
 
 ## [1.0.7] - 2025-01-XX
 
 ### Changed
-- **Production-ready Tailwind CSS setup**
-  - Replaced CDN Tailwind script with built CSS file (`dist/output.css`) for production use
-  - Eliminated console warnings about CDN usage in production
-  - Improved performance with optimized, minified CSS
-  - Better offline support and faster page loads
+- Replaced CDN Tailwind with a built CSS file (`dist/output.css`) for production.
+- Verified ballistics data accuracy against the PDF reference for all vehicles.
 
 ### Fixed
-- **Critical: Height difference calculation formula**
-  - Fixed incorrect height difference calculation that was adding meters directly to mils
-  - Now correctly converts height difference from meters to mils using standard ballistics formula: `mils = (height_diff_meters / distance_meters) * 1000`
-  - Applied fix to both `index.html` and `index-mobile.html`
-  - This significantly improves accuracy for targets at different elevations
-- **Mobile scaling improvements**
-  - Enhanced viewport settings with `maximum-scale=5.0` and `user-scalable=yes` for better mobile usability
-  - Prevents UI elements from scaling incorrectly on mobile devices
-  - Better touch interaction and zoom control on mobile devices
-- **History correction and small bug fixes**
-  - Fixed calculation history display issues
-  - Resolved minor UI inconsistencies
-  - Improved error handling for edge cases
-
-### Verified
-- **Ballistics data accuracy**
-  - Verified all ballistics mil values match the PDF reference data for all vehicles
-  - Confirmed minMil and maxMil values are correct for all vehicles
-  - All distance-to-mil mappings (200m-600m) verified against ballistics.pdf
-
-## [1.0.6] - 2025-12-12
-
-### Release
-- Version bump for release
+- Height difference calculation now correctly converts meters to mils.
+- Mobile viewport scaling (`maximum-scale=5.0`, `user-scalable=yes`).
+- Calculation history display and minor UI inconsistencies.
 
 ## [1.0.5] - 2025-01-XX
 
 ### Added
-- **Mobile HTML version with comprehensive mobile optimizations**
-  - Enhanced viewport settings with maximum-scale=5.0 and user-scalable=yes for better mobile usability
-  - Mobile-optimized touch interactions with active state feedback for all interactive elements
-  - iOS-specific input optimizations (minimum 16px font size to prevent automatic zoom)
-  - Mobile-specific styling adjustments for better readability and usability on small screens
-  - Optimized dropdown menus for mobile with viewport height-based max-height
-  - Mobile-optimized counter elements with scalable CSS variables
-  - Simplified 3D depth effects for better mobile performance
-  - Mobile-specific decorative element visibility adjustments
+- Mobile HTML version with viewport, touch, iOS font-size, dropdown, counter, and 3D-effect optimizations.
 
 ### Changed
-- Improved mobile user experience with touch-friendly interface elements
-- Enhanced mobile responsiveness with better container padding and layout adjustments
-- Background attachment changed to scroll on mobile for better performance
+- Improved mobile UX, padding, and layout.
+- Background attachment set to scroll on mobile for better performance.
 
 ## [1.0.4] - 2025-01-XX
 
 ### Fixed
-- Fixed screenshot lightbox image not being centered when displayed
-- Fixed screenshot navigation showing loading state when switching with arrow keys (now preloads images with smooth fade transition)
-- Fixed old screenshot image briefly appearing when clicking a new screenshot (now immediately clears old image with multiple hiding methods and preloads new image before switching)
-- Fixed field manual ammo icons (AP_invert_28, HE_invert_28, SMOKE_invert_28) flashing briefly when opening on Netlify (now preloads before display)
-- Fixed tank image loading flash and delayed switching when changing tanks on Netlify (now preloads with fade transition for smooth switching)
+- Screenshot lightbox centering.
+- Screenshot navigation loading state and preloading.
+- Old screenshot briefly appearing when clicking a new one.
+- Field Manual ammo icon flash on Netlify.
+- Tank image loading flash and delayed switching.
 
-### Performance
-- **Massive image size reduction with WebP format**
-  - Background image: 6.3 MB → 178 KB (97% reduction!)
-  - Tank images: 45-68 KB → 7-13 KB (80% reduction!)
-  - Implemented WebP with PNG fallback for maximum browser compatibility
-- Optimized image loading for faster page load times
-  - Added preload for critical tank images with high priority (WebP + PNG)
-  - Implemented lazy loading for non-critical images (flag icons, vehicle icons, screenshots)
-  - Added async decoding for all images to prevent blocking main thread
-  - Improved tank image switching with preloading for smoother transitions
-  - Added CSS optimization hints for background image rendering
+### Changed
+- Massive image size reduction with WebP format and PNG fallback.
+- Optimized image loading with preloads, lazy loading, async decoding, and CSS rendering hints.
 
 ## [1.0.3] - 2025-01-XX
 
 ### Changed
-- Updated warning sign display and styling
-- Improved final value visual presentation and formatting
+- Warning sign display and styling.
+- Improved final value visual presentation and formatting.
 
 ## [1.0.2] - 2025-01-XX
 
 ### Fixed
-- Fixed an issue where ammunition icons (AP, HE, SMOKE) were not displaying in the tank information panel due to a bug in the JavaScript rendering logic.
-- Fixed missing images throughout the application
+- Ammunition icons not displaying in the tank information panel.
+- Missing images throughout the app.
 
 ### Added
-- Added mechanical counter feature
+- Mechanical counter feature.
 
 ## [1.0.1] - 2025-01-XX
 
-### Performance
-- Optimized icon assets for better performance
-  - Flag icons resized to 30px (`BRITISH_30.png`, `GERMANY_30.png`, `SOVIET_30.png`, `US_30.png`)
-  - Vehicle icons resized to 28px (`AP_invert_28.png`, `HE_invert_28.png`, `SMOKE_invert_28.png`, `T_HUD_Status_Ammo_invert_28.png`)
-- Removed unused assets to reduce repository size
+### Changed
+- Optimized icon assets (flags at 30 px, vehicle icons at 28 px).
+
+### Removed
+- Unused assets to reduce repository size.
 
 ## [1.0.0] - 2025
 
-### Initial Release
-- Calculate accurate elevation settings for multiple SPA vehicles
-- Support for British Bishop, Churchill AVRE, US Sherman M4A3, Soviet KV-2, and German Panzer III/Brummbär
-- Interactive distance ruler with snap-to-grid functionality
-- Auto-calculation mode or manual calculation
-- Tank information with specifications and screenshots
-- Military-themed UI with authentic styling
+### Added
+- Initial release: elevation calculator for multiple SPA vehicles.
+- Interactive distance ruler with snap-to-grid.
+- Auto-calculation or manual calculation modes.
+- Tank information with specifications and screenshots.
+- Military-themed UI.
