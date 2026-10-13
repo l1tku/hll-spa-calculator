@@ -208,7 +208,7 @@ const tankData = [
 
         value: "British (Bishop SP)",
 
-        flag: "images/UI/Icons/flags/BRITISH_30.webp",
+        flag: "images/UI/Icons/flags/BRITISH.webp",
 
         flagAlt: "BRITISH",
 
@@ -234,7 +234,7 @@ const tankData = [
 
         value: "British (Churchill AVRE)",
 
-        flag: "images/UI/Icons/flags/BRITISH_30.webp",
+        flag: "images/UI/Icons/flags/BRITISH.webp",
 
         flagAlt: "BRITISH",
 
@@ -260,7 +260,7 @@ const tankData = [
 
         value: "US (Sherman M4A3 105)",
 
-        flag: "images/UI/Icons/flags/US_30.webp",
+        flag: "images/UI/Icons/flags/US.webp",
 
         flagAlt: "US",
 
@@ -286,7 +286,7 @@ const tankData = [
 
         value: "Soviet Union (KV-2)",
 
-        flag: "images/UI/Icons/flags/SOVIET_30.webp",
+        flag: "images/UI/Icons/flags/SOVIET.webp",
 
         flagAlt: "USSR",
 
@@ -312,7 +312,7 @@ const tankData = [
 
         value: "DAK (Panzer III Ausf.N)",
 
-        flag: "images/UI/Icons/flags/GERMANY_30.webp",
+        flag: "images/UI/Icons/flags/GERMANY.webp",
 
         flagAlt: "Germany",
 
@@ -338,7 +338,7 @@ const tankData = [
 
         value: "Germany (Sturmpanzer IV Brummbär)",
 
-        flag: "images/UI/Icons/flags/GERMANY_30.webp",
+        flag: "images/UI/Icons/flags/GERMANY.webp",
 
         flagAlt: "Germany",
 
@@ -5175,23 +5175,23 @@ function loadState() {
 
             const flagMap = {
 
-                'British (Bishop SP)': 'BRITISH_30.webp',
+                'British (Bishop SP)': 'BRITISH.webp',
 
-                'British (Churchill AVRE)': 'BRITISH_30.webp',
+                'British (Churchill AVRE)': 'BRITISH.webp',
 
-                'US (Sherman M4A3 105)': 'US_30.webp',
+                'US (Sherman M4A3 105)': 'US.webp',
 
-                'Soviet Union (KV-2)': 'SOVIET_30.webp',
+                'Soviet Union (KV-2)': 'SOVIET.webp',
 
-                'DAK (Panzer III Ausf.N)': 'GERMANY_30.webp',
+                'DAK (Panzer III Ausf.N)': 'GERMANY.webp',
 
-                'Germany (Sturmpanzer IV Brummbär)': 'GERMANY_30.webp'
+                'Germany (Sturmpanzer IV Brummbär)': 'GERMANY.webp'
 
             };
 
 
 
-            const flag = flagMap[state.faction] || 'BRITISH_30.webp';
+            const flag = flagMap[state.faction] || 'BRITISH.webp';
 
             const selectSelected = document.getElementById('selectSelected');
 
@@ -7931,7 +7931,7 @@ function formatPitchAngle(value) {
 
                         <div class="spec-title">VEHICLE STATS</div>
 
-                        <div class="spec-subtitle">Operational Data · Updated ${HLL_VERSION.statsUpdated}</div>
+                        <div class="spec-subtitle"><span>Operational Data</span><span class="spec-updated">Updated ${HLL_VERSION.statsUpdated}</span></div>
 
                     </div>
 
