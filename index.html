@@ -50,12 +50,12 @@
     <link rel="icon" type="image/png" sizes="192x192" href="https://l1tku.github.io/hll-spa-calculator/images/icon-192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="https://l1tku.github.io/hll-spa-calculator/images/icon-512.png">
     <link rel="shortcut icon" href="https://l1tku.github.io/hll-spa-calculator/images/favicon.png">
-    <link rel="manifest" href="manifest.json?v=2.2.1">
+    <link rel="manifest" href="manifest.json?v=2.2.3">
     <link rel="apple-touch-icon" href="images/icon-180.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="dist/styles.css?v=2.2.2">
+    <link rel="stylesheet" href="dist/styles.css?v=2.2.3">
     <style>
         @font-face {
             font-family: 'GothamSS';
@@ -410,7 +410,7 @@
                     </div>
                 </div>
 
-                <div class="panel-section mode-full-only" style="padding-top: 0;">
+                <div class="panel-section mode-full-only" id="elevationSection" style="padding-top: 0;">
                     <div class="armored-rivet-small armored-rivet-small-top-left"></div>
                     <div class="armored-rivet-small armored-rivet-small-top-right"></div>
                     <div class="armored-rivet-small armored-rivet-small-bottom-left"></div>
@@ -446,8 +446,9 @@
                         </div>
                     </div>
                     <div class="distance-controls" style="display: flex; flex-direction: column; align-items: center; gap: 5px; margin-top: 5px;">
-                        <div style="display: flex; align-items: center; gap: 4px;">
-                            <label for="redNumber" style="text-align: center;">Terrain Elevation</label>
+                        <div class="terrain-label-row">
+                            <span class="terrain-label-spacer" aria-hidden="true"></span>
+                            <label for="redNumber">Terrain Elevation</label>
                             <button type="button" class="help-i" data-help-field="redNumber" aria-label="Terrain elevation help" title="Help"><svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor" aria-hidden="true" focusable="false"><circle cx="8" cy="4.1" r="1.15"/><rect x="7.15" y="6.4" width="1.7" height="6.2" rx="0.85"/></svg></button>
                         </div>
                         <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
@@ -511,6 +512,7 @@
                             <div class="distance-box">
                                 <div class="lite-field-label distance-label">
                                     <strong>Target Distance</strong>
+                                    <span class="max-range-hint" id="maxRangeHintLite"></span>
                                 </div>
                                 <div class="lite-field-controls distance-controls">
                                     <button class="armored-button w-52 h-52" tabindex="-1" data-field="distance" data-delta="-1" aria-label="Decrease distance">-</button>
@@ -549,7 +551,8 @@
                     <div class="grid height-grid grid-cols-1 gap-20 items-stretch" id="heightRedGrid">
                         <div class="flex-col height-diff-column hidden" id="heightDiffColumn">
                             <div class="flex-shrink-0 mb-5">
-                                <div style="display: flex; align-items: center; gap: 4px; justify-content: center; margin-top: 10px;">
+                                <div class="height-diff-label-row">
+                                    <span class="terrain-label-spacer" aria-hidden="true"></span>
                                     <label for="heightDiff">Height Difference</label>
                                     <button type="button" class="help-i" data-help-field="heightDiff" aria-label="Height difference help" title="Help"><svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor" aria-hidden="true" focusable="false"><circle cx="8" cy="4.1" r="1.15"/><rect x="7.15" y="6.4" width="1.7" height="6.2" rx="0.85"/></svg></button>
                                 </div>
@@ -562,8 +565,10 @@
                         </div>
                         <div class="flex-col terrain-elevation-column" id="distanceColumn">
                             <div class="flex-shrink-0 mb-5">
-                                <div style="display: flex; align-items: center; gap: 4px; justify-content: center; margin-top: 10px;">
+                                <div class="distance-label-row">
+                                    <span class="distance-label-spacer" aria-hidden="true"></span>
                                     <label for="distance">Target Distance</label>
+                                    <span class="max-range-hint" id="maxRangeHintFull"></span>
                                 </div>
                             </div>
                             <div class="flex-center gap-10 mt-auto">
@@ -622,8 +627,12 @@
                     </div>
                     <div class="mob-active">
                         <span class="mob-active-head">
+                            <span class="mob-active-spacer" aria-hidden="true"></span>
                             <span class="mob-active-label" id="mobActiveLabel">Target Distance</span>
-                            <button type="button" class="mob-active-help" id="mobActiveHelp" aria-label="Help" title="Help"><svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor" aria-hidden="true" focusable="false"><circle cx="8" cy="4.1" r="1.15"/><rect x="7.15" y="6.4" width="1.7" height="6.2" rx="0.85"/></svg></button>
+                            <span class="mob-active-side">
+                                <span class="max-range-hint mob-max-hint" id="maxRangeHintMobile"></span>
+                                <button type="button" class="mob-active-help" id="mobActiveHelp" aria-label="Help" title="Help"><svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor" aria-hidden="true" focusable="false"><circle cx="8" cy="4.1" r="1.15"/><rect x="7.15" y="6.4" width="1.7" height="6.2" rx="0.85"/></svg></button>
+                            </span>
                         </span>
                         <input class="mob-active-value" id="mobActiveInput" type="text" inputmode="numeric" enterkeyhint="done" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Active value" value="400M">
                     </div>
@@ -828,7 +837,7 @@
 
     <script>
         if ('serviceWorker' in navigator) {
-            const SERVICE_WORKER_VERSION = '2.2.2';
+            const SERVICE_WORKER_VERSION = '2.2.3';
             const isLocalhost =
                 location.hostname === 'localhost' ||
                 location.hostname === '127.0.0.1' ||
@@ -846,6 +855,6 @@
             }
         }
     </script>
-    <script src="dist/main.js?v=2.2.2"></script>
+    <script src="dist/main.js?v=2.2.3"></script>
 </body>
 </html>

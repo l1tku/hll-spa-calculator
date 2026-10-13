@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.2.3] - 2026-10-13
+
+### Added
+- **Max reach readout** next to Target Distance — shows how far you can shoot from your current terrain, and turns red when the distance is out of reach.
+- Tank Info Range now shows flat and max uphill reach, e.g. `~23–719m flat · 904m max uphill`.
+
 ## [2.2.2] - 2026-10-13
 
 ### Added

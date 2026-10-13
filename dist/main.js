@@ -4,7 +4,7 @@
 
 const HLL_VERSION = {
 
-    appVersion: 'v2.2.2',
+    appVersion: 'v2.2.3',
 
     gamePatch: 'HLL Update 21',
 
@@ -417,6 +417,8 @@ function handleTankSelection(value, selectSelected, selectItems, factionInput, i
 
     }
 
+
+    updateMaxRangeHints();
 
     saveState();
 
@@ -1535,21 +1537,28 @@ function updateMilRangeText() {
 
         const rangeMax = distances[distances.length - 1] || 0;
 
-        const physicalRangeOverrides = {
-            'US (Sherman M4A3 105)': '~23m - ~905m',
-            'DAK (Panzer III Ausf.N)': '~18m - ~757m',
-            'British (Bishop SP)': '~19m - ~2317m',
-            'British (Churchill AVRE)': '~17m - ~506m',
-            'Soviet Union (KV-2)': '~22m - ~906m'
-        };
+        // Tank Info range is derived from the same model as the "max reach at
+        // this terrain" hint, so the two numbers never disagree. Shows the
+        // flat range and the extra reach available from a full uphill slope.
+        const solveKeyForRangeText = Object.keys(tables).find(k => tables[k] === table);
 
-        if (sturmpanzerKey) {
+        let rangeDisplay = `~${rangeMin}m - ~${rangeMax}m`;
 
-            physicalRangeOverrides[sturmpanzerKey] = '~18m - ~756m';
+        if (solveKeyForRangeText && SPA_SOLVE[solveKeyForRangeText]) {
+
+            const minReach = spaForwardMeters(solveKeyForRangeText, SPA_SOLVE[solveKeyForRangeText].turretMil[0]);
+
+            const flatReach = maxRangeMetersAtTerrain(faction, 0, false, 0);
+
+            const slopeReach = maxRangeMetersAtTerrain(faction, 356, false, 0);
+
+            if (Number.isFinite(minReach) && flatReach !== null && slopeReach !== null) {
+
+                rangeDisplay = `~${Math.round(minReach)}–${Math.round(flatReach)}m flat · ${Math.round(slopeReach)}m max uphill`;
+
+            }
 
         }
-
-        const rangeDisplay = physicalRangeOverrides[faction] || `~${rangeMin}m - ~${rangeMax}m`;
 
 
         let mainGunText = stats.mainGun;
@@ -2070,6 +2079,96 @@ function updateDistanceReadout() {
 
 }
 
+// Max range (m) reachable on the current terrain elevation: the furthest shot
+// at full turret elevation. The red MIL tilts the shell's world-space launch
+// angle, so a positive (uphill) read extends the reach and a negative
+// (downhill) read shortens it. Grounded in the measured ballistics
+// (SPA_SOLVE rows + tail law) so it stays physical on steep slopes, unlike the
+// reference table's linear extrapolation (which runs away past ~900 m).
+function maxRangeMetersAtTerrain(faction, redNumber, heightDiffEnabled, heightDiff) {
+
+    const key = Object.keys(tables).find(k => tables[k] === tables[faction]) || (SPA_SOLVE[faction] ? faction : null);
+
+    if (!key || !SPA_SOLVE[key]) return null;
+
+    const worldMaxMil = SPA_SOLVE[key].turretMil[1] + (Number.isFinite(redNumber) ? redNumber : 0);
+
+    let meters = spaForwardMeters(key, worldMaxMil);
+
+    if (Number.isFinite(meters) && heightDiffEnabled && Number.isFinite(heightDiff) && heightDiff !== 0) {
+
+        const dh = spaHeightDeltaMeters(key, worldMaxMil, heightDiff);
+
+        if (Number.isFinite(dh)) meters += dh;
+
+    }
+
+    return Number.isFinite(meters) ? meters : null;
+
+}
+
+function updateMaxRangeHints() {
+
+    const hints = [document.getElementById('maxRangeHintFull'), document.getElementById('maxRangeHintLite'), document.getElementById('maxRangeHintMobile')].filter(Boolean);
+
+    if (hints.length === 0) return;
+
+    const factionEl = document.getElementById('faction');
+
+    const faction = factionEl ? factionEl.value : '';
+
+    if (!tables[faction]) {
+
+        hints.forEach(h => { h.textContent = ''; h.classList.remove('max-out'); });
+
+        return;
+
+    }
+
+    const heightToggle = document.getElementById('heightDiffToggle');
+
+    const heightEnabled = heightToggle ? heightToggle.checked : false;
+
+    const redInput = document.getElementById('redNumber');
+
+    const heightInput = document.getElementById('heightDiff');
+
+    const redNumber = redInput ? parseHeightDiff(redInput.value) : 0;
+
+    const heightDiff = heightInput ? parseHeightDiff(heightInput.value) : 0;
+
+    const maxMeters = maxRangeMetersAtTerrain(faction, redNumber, heightEnabled, heightDiff);
+
+    const distanceEl = document.getElementById('distance');
+
+    const distance = distanceEl ? parseHeightDiff(distanceEl.value) : NaN;
+
+    const distanceSet = Number.isFinite(distance) && distance > 0;
+
+    const outOfReach = distanceSet && maxMeters !== null && distance > maxMeters;
+
+    hints.forEach(h => {
+
+        if (maxMeters === null) {
+
+            h.textContent = '';
+
+            h.classList.remove('max-out');
+
+        } else {
+
+            h.textContent = '(' + Math.round(maxMeters) + 'm max)';
+
+            h.title = 'Furthest target reachable at the current terrain elevation (red MIL): ' + Math.round(maxMeters) + 'm';
+
+            h.classList.toggle('max-out', !!outOfReach);
+
+        }
+
+    });
+
+}
+
 
 // Height difference is shown signed with meters and coloured by sign: 0M, +5M, -3M
 
@@ -2288,6 +2387,7 @@ function adjustValue(fieldId, delta) {
 
     saveState();
 
+    updateMaxRangeHints();
 
     const distance = parseFloat(document.getElementById('distance').value);
 
@@ -3629,6 +3729,8 @@ function calculate() {
 
     try {
 
+        updateMaxRangeHints();
+
         const faction = document.getElementById('faction').value;
 
         const distance = parseFloat(document.getElementById('distance').value);
@@ -3824,6 +3926,18 @@ function calculate() {
     }
 
 
+    // Furthest target reachable on this terrain, from the same math as the
+    // calculation itself - used only to state the limit in the warning text.
+
+    let reachMax = null;
+
+    if (solveKeyForRange) {
+
+        reachMax = maxRangeMetersAtTerrain(faction, redNumber, heightDiffEnabled, heightDiff);
+
+    }
+
+
     const usePhysicsHeightCorrection = true; // measured solve covers the full span (low band + tail)
 
     let heightDiffMils = usePhysicsHeightCorrection
@@ -3852,7 +3966,9 @@ function calculate() {
 
         if (warningDiv) {
 
-            showWarning(warningDiv, `WARNING: Calculated elevation (${final} MIL) exceeds this turret's maximum elevation (${maxMil} MIL).`);
+            const reachText = (reachMax !== null && reachMax > 0) ? ` Max reach on this terrain: ${Math.round(reachMax)}m.` : '';
+
+            showWarning(warningDiv, `WARNING: Calculated elevation (${final} MIL) exceeds this turret's maximum elevation (${maxMil} MIL).${reachText}`);
 
         }
 
@@ -4877,6 +4993,8 @@ initializeElevationMIL();
 updateFactionImage();
 
 updateMilRangeText();
+
+updateMaxRangeHints();
 
 
 if (isAutoCalcEnabled()) {
@@ -5923,12 +6041,14 @@ function syncInputValue(sourceInput, targetIds) {
         input.addEventListener('input', function() {
             const sanitized = sanitizeTypedValue(this);
             syncInputValue(this, [id]);
+            updateMaxRangeHints();
             if (sanitized && isAutoCalcEnabled()) calculate();
         });
         input.addEventListener('change', function() {
             const clamped = clampTypedValue(this, id);
             if (clamped) {
                 syncInputValue(this, [id]);
+                updateMaxRangeHints();
                 if (isAutoCalcEnabled()) calculate();
             }
         });
@@ -8553,6 +8673,8 @@ function initMobileCalculator() {
 
     const heightToggle = document.getElementById('heightDiffToggle');
 
+    const mobMaxHint = document.getElementById('maxRangeHintMobile');
+
 
     if (!keypad || tabs.length === 0) return;
 
@@ -8690,6 +8812,14 @@ function initMobileCalculator() {
         const signKey = keypad.querySelector('[data-key="sign"]');
 
         if (signKey) signKey.disabled = (state.field === 'distance');
+
+        if (mobMaxHint) {
+
+            mobMaxHint.classList.toggle('hidden', state.field !== 'distance');
+
+            if (typeof updateMaxRangeHints === 'function') updateMaxRangeHints();
+
+        }
 
         if (helpBtn) {
 

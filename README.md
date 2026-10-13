@@ -1,5 +1,5 @@
 # HLL SPA Calculator
-**v2.2.2 - Updated for Hell Let Loose Update 21**
+**v2.2.3 - Updated for Hell Let Loose Update 21**
 
 A Precise web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let Loose.
 
@@ -9,6 +9,7 @@ A Precise web-based targeting calculator for Self-Propelled Artillery (SPA) in H
 - **Multi-Vehicle Support:** All six SPA vehicles.
 - **Auto-Calculation:** Toggle auto-calculation on or off.
 - **Height Calculation:** Toggle height correction on or off.
+- **Max Reach Readout:** See how far your gun reaches from your current terrain elevation.
 - **Mobile Calculator:** Phone layout with field tabs, a big editable value, and a custom keypad.
 - **Keypad View (Desktop):** The phone-style keypad on desktop in a narrower card.
 - **Field Manual:** Tank specs, screenshots, and historical notes.
@@ -60,6 +61,12 @@ The source code (HTML, CSS, JavaScript) of this project is licensed under the **
 ## Version History
 
 Only the last 5 releases are shown here — the full history lives in [CHANGELOG.md](CHANGELOG.md).
+
+### [2.2.3] - 2026-10-13
+
+#### Added
+- **Max reach readout** next to Target Distance (FULL / LITE / keypad) — shows how far you can shoot from your current terrain; red when the distance is out of reach.
+- Tank Info Range shows flat and max uphill reach, e.g. `~23–719m flat · 904m max uphill`.
 
 ### [2.2.2] - 2026-10-13
 
@@ -115,16 +122,3 @@ Only the last 5 releases are shown here — the full history lives in [CHANGELOG
 - Auto-calc with no distance entered fills in the tank's default.
 - Height capped at ±1000 m.
 - Mobile Distance tab renamed to "Distance".
-
-### [2.1.0] - 2026-10-11
-
-#### Added
-- Mobile calculator layout: tabs, custom keypad, haptics, color-coded values.
-
-#### Changed
-- Phones start zeroed with Tank Info collapsed; auto-calculate on; result refreshes on tab change.
-
-#### Fixed
-- Height/terrain ignored on mobile.
-- Backspace on fresh field, double-tap steps, and value caps.
-- Height stuck at close range; now falls back to a real ballistic solve when the model saturates.

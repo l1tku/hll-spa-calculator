@@ -3767,6 +3767,21 @@ body.keypad-view .armored-result-value {
     body.keypad-view #mobileCalculator .mob-active-label {
         font-size: 0.85rem;
     }
+    /* Push the active panel content down so the label/max text clears the
+       dark inset shadow at the top of the calculator card in keypad view. */
+    body.keypad-view #mobileCalculator .mob-active {
+        padding-top: 12px;
+    }
+    /* Move the (i) help icon up a bit so it aligns with the larger desktop label. */
+    body.keypad-view #mobileCalculator .mob-active-help {
+        transform: translateY(calc(-50% - 4px));
+    }
+    /* Desktop keypad: the max text was phone-tiny and hard to read/pixelated
+       in Chrome; keep the header height the same with a tight line-height. */
+    body.keypad-view #mobileCalculator .mob-max-hint {
+        font-size: 0.72rem;
+        line-height: 12px;
+    }
 }
 [data-mode="lite"] .container {
     max-width: 765px;
@@ -4873,6 +4888,8 @@ margin-bottom: 0;
     }
     .flex.items-start.justify-between.gap-4 {
 flex-direction: column;
+width: 100%;
+align-items: stretch;
     }
     .max-width-calc,
     div.max-width {
@@ -5988,14 +6005,21 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
     margin-bottom: 8px;
     background: #141414;
     border: 1px solid #333333;
-    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.8);
     position: relative;
 }
 .mob-active-head {
     position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: baseline;
+    width: 100%;
+}
+.mob-active-side {
+    position: relative;
+    justify-self: start;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
+    gap: 6px;
 }
 .mob-active-help {
     /* Absolute so the icon does not add height to the label row */
@@ -6378,6 +6402,102 @@ body:has(#tankInfoModal[data-open="true"]) .cat-paws {
     letter-spacing: 0.06em;
     line-height: 1.5;
     color: #7a7f88;
+}
+/* Max reach at the current terrain elevation - sits on the Target Distance label row */
+.max-range-hint {
+    flex-shrink: 1;
+    min-width: 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    line-height: 1.2;
+    color: #9ca3af;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: none;
+}
+.max-range-hint.max-out {
+    color: #f87171;
+}
+/* FULL: Target Distance centred; the max ratio sits right beside the label.
+   A leading spacer + auto label in a 1fr/auto/1fr grid keeps the label centred
+   in both the 1-column (height off) and 2-column (height on) states. */
+.distance-label-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+.distance-label-row label {
+    margin-bottom: 0;
+}
+.distance-label-row .max-range-hint {
+    justify-self: start;
+    margin-left: 6px;
+    min-width: 0;
+}
+/* Terrain Elevation: label centred, help (i) just to its right. */
+.terrain-label-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    width: 100%;
+    position: relative;
+    top: -5px;
+}
+.terrain-label-row label {
+    margin-bottom: 0;
+}
+.terrain-label-row .help-i,
+.height-diff-label-row .help-i {
+    justify-self: start;
+    position: relative;
+    top: 3px;
+}
+.height-diff-label-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+.height-diff-label-row label {
+    margin-bottom: 0;
+}
+/* The terrain and target/height panels must render at the same height.
+   #calculator-card is scaled 0.94, so 122.34px renders as 115px. */
+#elevationSection,
+#heightRedSection {
+    height: 122.34px;
+    box-sizing: border-box;
+}
+/* Keep the readout on the label's baseline and on ONE line so it never wraps
+   or drifts when the browser is zoomed (narrower CSS viewport). The 1px nudge
+   lines it up with the label text. */
+#distanceColumn label,
+[data-mode="lite"] .lite-field-label.distance-label {
+    white-space: nowrap;
+}
+[data-mode="lite"] .lite-field-label.distance-label {
+    flex-direction: column;
+    gap: 2px;
+    align-items: center;
+}
+[data-mode="lite"] .lite-field-label.distance-label .max-range-hint {
+    top: 0;
+}
+[data-mode="lite"] .max-range-hint,
+#maxRangeHintMobile {
+    position: relative;
+    top: -1px;
+}
+.mob-max-hint {
+    font-size: 0.62rem;
+    line-height: 8px;
+    margin-left: 6px;
 }
 @media (hover: hover) and (pointer: fine) {
     body.keypad-view .keypad-hint {
