@@ -10,8 +10,7 @@ A Precise web-based targeting calculator for Self-Propelled Artillery (SPA) in H
 - **Auto-Calculation**
 - **Height Calculation**
 - **Max Reach Readout:** See how far your gun reaches from your current terrain elevation.
-- **Mobile Calculator**
-- **Keypad View (Desktop)**
+- **Mobile & Desktop Keypad Layout**
 - **Field Manual:** Tank specs, in-game screenshots, and historical photos & notes.
 
 ## Installation & Local Usage
