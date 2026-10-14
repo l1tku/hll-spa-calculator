@@ -39,11 +39,6 @@ No installation required. Open [HLL SPA Calculator](https://l1tku.github.io/hll-
 - **DAK:** Panzer III Ausf.N
 - **Germany:** Sturmpanzer IV (Brummbar)
 
-## Credits
-
-- **Early SPA research:** u/Extension_Lake6664 — [Reddit post](https://www.reddit.com/r/HellLetLoose/comments/1tiqksn/hll_spa_true_max_range_2000m_shots_and_general/) · [GitHub](https://github.com/Balmontogustangodungagloboguntu/HLL-SPA-true-calculator)
-- **Current engine:** our own research + measurements.
-
 ## Disclaimer & Copyright
 
 This project is a community-made tool and is **not** affiliated with, endorsed by, or sponsored by Team17, Cover 6 Studios, or Black Matter.
