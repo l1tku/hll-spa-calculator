@@ -7,12 +7,12 @@ A Precise web-based targeting calculator for Self-Propelled Artillery (SPA) in H
 
 - **Precise Ballistics:** Built on the game's ballistics internals and validated by our own in-game measurements.
 - **Multi-Vehicle Support:** All six SPA vehicles.
-- **Auto-Calculation:** Toggle auto-calculation on or off.
-- **Height Calculation:** Toggle height correction on or off.
+- **Auto-Calculation**
+- **Height Calculation**
 - **Max Reach Readout:** See how far your gun reaches from your current terrain elevation.
-- **Mobile Calculator:** Phone layout with field tabs, a big editable value, and a custom keypad.
-- **Keypad View (Desktop):** The phone-style keypad on desktop in a narrower card.
-- **Field Manual:** Tank specs, in-game screenshots, and historical photos & notes (with image source attribution).
+- **Mobile Calculator**
+- **Keypad View (Desktop)**
+- **Field Manual:** Tank specs, in-game screenshots, and historical photos & notes.
 
 ## Installation & Local Usage
 
