@@ -1,5 +1,5 @@
 # HLL SPA Calculator
-**v2.2.3 - Updated for Hell Let Loose Update 21**
+**v2.2.4 - Updated for Hell Let Loose Update 21**
 
 A Precise web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let Loose.
 
@@ -12,7 +12,7 @@ A Precise web-based targeting calculator for Self-Propelled Artillery (SPA) in H
 - **Max Reach Readout:** See how far your gun reaches from your current terrain elevation.
 - **Mobile Calculator:** Phone layout with field tabs, a big editable value, and a custom keypad.
 - **Keypad View (Desktop):** The phone-style keypad on desktop in a narrower card.
-- **Field Manual:** Tank specs, screenshots, and historical notes.
+- **Field Manual:** Tank specs, in-game screenshots, and historical photos & notes (with image source attribution).
 
 ## Installation & Local Usage
 
@@ -52,6 +52,13 @@ This project is a community-made tool and is **not** affiliated with, endorsed b
 **Hell Let Loose** content and materials are trademarks and copyrights of their respective owners.
 * **Game Assets:** The vehicle images and specific game icons used in this tool are the property of the Hell Let Loose developers and publishers. They are used here for educational and informational purposes.
 
+## Historical Images Attribution
+
+Historical photographs used in the Field Manual history sections are sourced from:
+- **Wikimedia Commons** - Public domain and Creative Commons licensed images (originals from the U.S. National Archives, U.S. Army Signal Corps, U.S. War Department, Imperial War Museums, and others)
+
+All historical images are used for educational and historical documentation purposes. Specific image attributions are provided in the image captions within the application.
+
 ## License
 
 The source code (HTML, CSS, JavaScript) of this project is licensed under the **MIT License**.
@@ -61,6 +68,15 @@ The source code (HTML, CSS, JavaScript) of this project is licensed under the **
 ## Version History
 
 Only the last 5 releases are shown here — the full history lives in [CHANGELOG.md](CHANGELOG.md).
+
+### [2.2.4] - 2026-10-14
+
+#### Added
+- Historical photos in the Field Manual history sections.
+
+#### Changed
+- Image viewer: zoom and pan on mobile and desktop, with image captions.
+- Small Field Manual visual tweaks.
 
 ### [2.2.3] - 2026-10-13
 
@@ -109,16 +125,3 @@ Only the last 5 releases are shown here — the full history lives in [CHANGELOG
 - Keypad tank selection now fills in a sensible distance instead of leaving it at 0.
 - Keypad no longer shows stale values after edits in FULL / LITE.
 
-### [2.1.1] - 2026-10-11
-
-#### Fixed
-- Height correction now works for downhill and close-range targets.
-- Restored the "beyond max range" warning with clearer wording.
-- Switching tanks keeps a sensible distance.
-- Mobile warning popup, wider result box, themed Tank Information button, and active-tank highlight.
-- Field Manual fits the phone screen.
-
-#### Changed
-- Auto-calc with no distance entered fills in the tank's default.
-- Height capped at ±1000 m.
-- Mobile Distance tab renamed to "Distance".

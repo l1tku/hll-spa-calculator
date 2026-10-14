@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.2.4] - 2026-10-14
+
+### Added
+- Historical photos in the Field Manual history sections.
+
+### Changed
+- Image viewer: zoom and pan on mobile and desktop, with image captions.
+- Small Field Manual visual tweaks.
+
 ## [2.2.3] - 2026-10-13
 
 ### Added

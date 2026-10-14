@@ -35,7 +35,7 @@
          so prefetch them - preload would trigger the "preloaded but not used"
          console warning for those. -->
     <link rel="preload" as="image" href="images/tanks/BISHOP_248.webp" type="image/webp" fetchpriority="high">
-    <link rel="preload" as="image" href="images/UI/Icons/flags/BRITISH_30.webp" imagesrcset="images/UI/Icons/flags/BRITISH_30.webp 1x, images/UI/Icons/flags/BRITISH.webp 2x" type="image/webp" fetchpriority="low">
+    <link rel="prefetch" as="image" href="images/UI/Icons/flags/BRITISH_30.webp" imagesrcset="images/UI/Icons/flags/BRITISH_30.webp 1x, images/UI/Icons/flags/BRITISH.webp 2x" type="image/webp">
     <link rel="prefetch" as="image" href="images/tanks/AVRE_248.webp" type="image/webp">
     <link rel="prefetch" as="image" href="images/tanks/M4A3_248.webp" type="image/webp">
     <link rel="prefetch" as="image" href="images/tanks/KV2_248.webp" type="image/webp">
@@ -50,12 +50,12 @@
     <link rel="icon" type="image/png" sizes="192x192" href="https://l1tku.github.io/hll-spa-calculator/images/icon-192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="https://l1tku.github.io/hll-spa-calculator/images/icon-512.png">
     <link rel="shortcut icon" href="https://l1tku.github.io/hll-spa-calculator/images/favicon.png">
-    <link rel="manifest" href="manifest.json?v=2.2.3">
+    <link rel="manifest" href="manifest.json?v=2.2.4">
     <link rel="apple-touch-icon" href="images/icon-180.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="dist/styles.css?v=2.2.3">
+    <link rel="stylesheet" href="dist/styles.css?v=2.2.4">
     <style>
         @font-face {
             font-family: 'GothamSS';
@@ -684,7 +684,10 @@
                             <div class="field-manual-text field-manual-date">DATE: ██/██/1944</div>
                             <div class="field-manual-text field-manual-unit">UNIT: CLASSIFIED</div>
                         </div>
-                        <h3 id="tankInfoTitle" class="absolute m-0 text-[19px] whitespace-nowrap" style="top: 90px; left: 20px;">Tank Information</h3>
+                        <div class="field-manual-tank-select" id="tankInfoTankSelect" style="top: 90px; left: 20px;">
+                            <h3 id="tankInfoTitle" class="m-0 text-[19px] whitespace-nowrap field-manual-tank-name" role="button" tabindex="0" aria-haspopup="listbox" aria-expanded="false">Tank Information</h3><span class="field-manual-tank-caret" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+                            <div class="field-manual-tank-menu" id="tankInfoTankMenu" role="listbox" aria-label="Select tank"></div>
+                        </div>
                         <button class="info-modal-close" id="closeTankInfo" aria-label="Close tank information">
                             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg>
                         </button>
@@ -714,6 +717,7 @@
                     <img id="screenshotLightboxImgA" class="screenshot-lightbox-img" src="" alt="Screenshot">
                     <img id="screenshotLightboxImgB" class="screenshot-lightbox-img" src="" alt="Screenshot">
                 </div>
+                <div class="screenshot-lightbox-caption" id="screenshotLightboxCaption" aria-live="polite"></div>
             </div>
 
             <div class="text-xs text-gray-500 text-center mt-4 version-footer">
@@ -865,6 +869,6 @@
             }
         }
     </script>
-    <script src="dist/main.js?v=2.2.3"></script>
+    <script src="dist/main.js?v=2.2.4"></script>
 </body>
 </html>

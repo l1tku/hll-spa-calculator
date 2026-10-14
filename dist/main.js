@@ -4,7 +4,7 @@
 
 const HLL_VERSION = {
 
-    appVersion: 'v2.2.3',
+    appVersion: 'v2.2.4',
 
     gamePatch: 'HLL Update 21',
 
@@ -827,6 +827,24 @@ const tankInfo = {
 
         history: 'The M4 Sherman tank variant equipped with the 105mm howitzer (typically the M4 or M4A3 chassis) was developed to provide powerful close infantry support. It saw extensive use in both the European and Pacific Theaters. The 105mm howitzer was highly effective against fortifications, infantry positions, and used primarily for demolition and smoke delivery, making it valuable for breakthrough operations.',
 
+        historyImages: {
+
+            background: { src: 'images/history/sherman_m4a3_105/development.webp', caption: 'M4(105) development study - Development of Armored Vehicles Vol. 1 (U.S. Army, 1947, public domain).' },
+
+            range: { src: 'images/history/sherman_m4a3_105/howitzer.webp', caption: "105 mm Howitzer M2A1; the Sherman's M4 howitzer is the tank version of this gun (U.S. War Department, public domain)." },
+
+            production: { src: 'images/history/sherman_m4a3_105/production.webp', caption: "Chrysler's Detroit Arsenal Tank Plant, 1942 (public domain)." },
+
+            service: [
+
+                { src: 'images/history/sherman_m4a3_105/service_europe.webp', caption: 'M4A3 crew of the 191st Tank Battalion, Rambervillers, France, 13 October 1944 (U.S. Signal Corps, public domain).' },
+
+                { src: 'images/history/sherman_m4a3_105/service_pacific.webp', caption: 'M4 Sherman of the 710th Tank Battalion, Leyte, Philippines, 1945 (U.S. Army, public domain).' }
+
+            ]
+
+        },
+
         realLife: {
 
             range: '11,500 yards (~10,500m) for indirect fire with M67 HE projectile; 1,500 yards (~1,400m) effective direct fire.',
@@ -921,6 +939,22 @@ const tankInfo = {
 
         history: 'The KV-2 was a Soviet heavy tank armed with the massive 152mm M-10 howitzer (specifically the M-10T). It was designed as an assault tank to destroy fortifications and bunkers. It saw action during the Winter War against Finland and was famously used in the early stages of Operation Barbarossa, where its heavy armor proved almost impervious to early German anti-tank guns. Despite its powerful armament, its slow speed, long reload time, and mechanical issues made it highly problematic.',
 
+        historyImages: {
+
+            background: { src: 'images/history/kv2/background.webp', caption: 'First KV-2 prototype, February 1940 (Wikimedia Commons, CC0).' },
+
+            range: { src: 'images/history/kv2/range.webp', caption: 'Soviet 152 mm M-10 howitzer (1942); the KV-2 used the M-10T tank version (SA-kuva, public domain).' },
+
+            service: [
+
+                { src: 'images/history/kv2/service_raseiniai.webp', caption: 'Germans inspect a damaged KV-2 near Raseiniai, 1941 (public domain).' },
+
+                { src: 'images/history/kv2/service_german.webp', caption: 'German soldiers inspect a captured KV-2, 1941 (public domain).' }
+
+            ]
+
+        },
+
         realLife: {
 
             range: '12,400 meters (maximum indirect fire range with the M-10 howitzer); effective direct fire range for tank combat was less than 1,000 meters.',
@@ -1014,6 +1048,24 @@ const tankInfo = {
         },
 
         history: 'The Churchill AVRE (Armoured Vehicle Royal Engineers) was a specialized engineering vehicle designed to destroy fortifications. It was armed with a 290mm Petard mortar, capable of firing a 40-pound "Flying Dustbin" projectile (containing 28 pounds of high explosive). These vehicles were crucial during D-Day and subsequent operations, used to breach enemy defenses and clear obstacles.',
+
+        historyImages: {
+
+            background: { src: 'images/history/avre/background.webp', caption: 'A Churchill AVRE carrying a fascine, Italy (Imperial War Museums, public domain).' },
+
+            range: { src: 'images/history/avre/range.webp', caption: 'The 29 cm Petard spigot mortar on a Churchill AVRE, with a 40 lb bomb (right), April 1944 (Imperial War Museums, public domain).' },
+
+            production: { src: 'images/history/avre/production.webp', caption: 'Churchill tanks on a factory production line (Terence Cuneo, 1939-1946; Imperial War Museums, public domain).' },
+
+            service: [
+
+                { src: 'images/history/avre/service_dday.webp', caption: 'Churchill AVREs of 5th Assault Regiment, Royal Engineers, on D-Day, 6 June 1944 (Imperial War Museums, public domain).' },
+
+                { src: 'images/history/avre/service_caen.webp', caption: 'A Churchill AVRE on the road to Caen, 9 July 1944 (Imperial War Museums, public domain).' }
+
+            ]
+
+        },
 
         realLife: {
 
@@ -1111,6 +1163,22 @@ const tankInfo = {
 
         history: 'The Bishop was a British self-propelled artillery vehicle based on the Valentine tank chassis, armed with a 25-pounder field gun. It was used during World War II, primarily in North Africa. The vehicle was named after its boxy superstructure resembling a bishop\'s mitre. It had limited elevation and traverse, which severely affected its effectiveness as an artillery piece.',
 
+        historyImages: {
+
+            background: { src: 'images/history/bishop/background.webp', caption: 'A Bishop 25-pdr self-propelled gun in the Western Desert, September 1942 (Imperial War Museums, public domain).' },
+
+            range: { src: 'images/history/bishop/range.webp', caption: 'A Bishop of 142nd Field Regiment, Royal Artillery, firing in Italy, 1943 (Imperial War Museums, public domain).' },
+
+            service: [
+
+                { src: 'images/history/bishop/service_tunisia.webp', caption: 'Bishop 25-pdr self-propelled guns in action near Grenadier Hill, Tunisia, March 1943 (Imperial War Museums, public domain).' },
+
+                { src: 'images/history/bishop/service_italy.webp', caption: 'A Bishop 25-pdr self-propelled gun near Cava, Italy, 28 September 1943 (Imperial War Museums, public domain).' }
+
+            ]
+
+        },
+
         realLife: {
 
             range: '6,400 yards (~5,900m) due to limited 15° elevation (compared to 12,253m for the standard towed gun)',
@@ -1205,6 +1273,16 @@ const tankInfo = {
 
         history: 'The Sturmpanzer IV, unofficially known as the Brummbär (Grizzly Bear), was a German assault gun based on the Panzer IV chassis, armed with a 150mm StuH 43 L/12 howitzer. It was designed primarily for heavy infantry support, demolishing fortifications and buildings in urban and close-quarters combat. First deployed at the **Battle of Kursk** in mid-1943, it saw use on both the Eastern and Western Fronts.',
 
+        historyImages: {
+
+            background: { src: 'images/history/brummbar/background.webp', caption: 'A Sturmpanzer IV "Brummbär" passing a column of prisoners on the Italian front (public domain).' },
+
+            production: { src: 'images/history/brummbar/production.webp', caption: 'Panzer IVs under construction at Nibelungenwerk, where the Sturmpanzer IV was built (public domain).' },
+
+            service: { src: 'images/history/brummbar/service_anzio.webp', caption: 'Rear view of a Sturmpanzer IV at a German front-line service point near Anzio, Italy (public domain).' }
+
+        },
+
         realLife: {
 
             range: '4,600 meters (maximum indirect fire range); effective direct fire range was around 1,000 meters.',
@@ -1298,6 +1376,22 @@ const tankInfo = {
         },
 
         history: 'The Panzer III Ausf. N was a German medium tank variant armed with the short-barreled 7.5 cm KwK 37 L/24 gun. It was designed specifically for close infantry support with high-explosive (HE) rounds, as the chassis was no longer competitive in anti-tank roles. It saw service primarily on the Eastern Front, but also with the Afrika Korps and in Italy.',
+
+        historyImages: {
+
+            background: { src: 'images/history/panzer_iii/background.webp', caption: 'A Panzer III of 21st Panzer Division in the North African desert (public domain).' },
+
+            range: { src: 'images/history/panzer_iii/range.webp', caption: 'A Panzer III Ausf. N captured on the Kursk salient, showing the short 7.5 cm gun (public domain).' },
+
+            service: [
+
+                { src: 'images/history/panzer_iii/service_tunisia.webp', caption: 'German Panzer IIIs in Tunisia, 1942 (public domain).' },
+
+                { src: 'images/history/panzer_iii/service_alamain.webp', caption: 'A Panzer III destroyed at the Second Battle of El Alamein, October 1942 (public domain).' }
+
+            ]
+
+        },
 
         realLife: {
 
@@ -6195,6 +6289,10 @@ let tankInfoTitle;
 
 let tankInfoContent;
 
+let fieldManualRestoreTab = null;
+
+let fieldManualViewFaction = null;
+
 
 const tankScreenshotMap = {
 
@@ -6407,6 +6505,352 @@ let screenshotNavRequestId = 0;
 
 let screenshotActiveSlot = 0;
 
+const SCREENSHOT_MIN_SCALE = 1;
+
+const SCREENSHOT_MAX_SCALE = 4;
+
+let screenshotZoomScale = 1;
+
+let screenshotZoomX = 0;
+
+let screenshotZoomY = 0;
+
+let screenshotGestureActive = false;
+
+let screenshotSuppressClick = false;
+
+let screenshotPinchStartDist = 1;
+
+let screenshotPinchStartScale = 1;
+
+let screenshotPinchStartMid = { x: 0, y: 0 };
+
+let screenshotPinchStartTranslate = { x: 0, y: 0 };
+
+let screenshotPanStart = null;
+
+let screenshotTapStart = null;
+
+let screenshotLastTap = null;
+
+let currentScreenshotCaptions = [];
+
+let screenshotMousePanStart = null;
+
+function getScreenshotLightboxActive() {
+
+    const lightbox = document.getElementById('screenshotLightbox');
+
+    return !!(lightbox && lightbox.classList.contains('active'));
+
+}
+
+function getActiveScreenshotImg() {
+
+    const { imgA, imgB } = getScreenshotLightboxElements();
+
+    return screenshotActiveSlot === 0 ? imgA : imgB;
+
+}
+
+function applyScreenshotZoom() {
+
+    const { lightbox, imgA, imgB } = getScreenshotLightboxElements();
+
+    const active = screenshotActiveSlot === 0 ? imgA : imgB;
+
+    const inactive = screenshotActiveSlot === 0 ? imgB : imgA;
+
+    if (inactive) inactive.style.transform = '';
+
+    if (active) {
+
+        active.style.transform = `translate(${screenshotZoomX}px, ${screenshotZoomY}px) scale(${screenshotZoomScale})`;
+
+    }
+
+    if (lightbox) {
+
+        lightbox.classList.toggle('is-zoomed', screenshotZoomScale > 1.01);
+
+    }
+
+}
+
+function resetScreenshotZoom() {
+
+    screenshotZoomScale = 1;
+
+    screenshotZoomX = 0;
+
+    screenshotZoomY = 0;
+
+    screenshotPanStart = null;
+
+    applyScreenshotZoom();
+
+}
+
+function updateScreenshotCaption(index) {
+
+    const captionEl = document.getElementById('screenshotLightboxCaption');
+
+    if (!captionEl) return;
+
+    const text = currentScreenshotCaptions[index] || '';
+
+    captionEl.textContent = text;
+
+    captionEl.classList.toggle('visible', !!text);
+
+}
+
+function clampScreenshotZoom() {
+
+    const active = getActiveScreenshotImg();
+
+    if (!active) return;
+
+    const maxX = Math.max(0, (active.clientWidth * (screenshotZoomScale - 1)) / 2);
+
+    const maxY = Math.max(0, (active.clientHeight * (screenshotZoomScale - 1)) / 2);
+
+    screenshotZoomX = Math.min(maxX, Math.max(-maxX, screenshotZoomX));
+
+    screenshotZoomY = Math.min(maxY, Math.max(-maxY, screenshotZoomY));
+
+}
+
+function getScreenshotStageCenter() {
+
+    const stage = document.getElementById('screenshotLightboxStage');
+
+    if (!stage) {
+
+        return { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+
+    }
+
+    const rect = stage.getBoundingClientRect();
+
+    return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+
+}
+
+function getTouchDistance(a, b) {
+
+    return Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+
+}
+
+function getTouchMidpoint(a, b) {
+
+    return { x: (a.clientX + b.clientX) / 2, y: (a.clientY + b.clientY) / 2 };
+
+}
+
+function toggleScreenshotZoomAt(clientX, clientY) {
+
+    if (screenshotZoomScale > 1.01) {
+
+        resetScreenshotZoom();
+
+        return;
+
+    }
+
+    const target = 2.5;
+
+    const center = getScreenshotStageCenter();
+
+    screenshotZoomScale = target;
+
+    screenshotZoomX = (clientX - center.x) * (1 - target);
+
+    screenshotZoomY = (clientY - center.y) * (1 - target);
+
+    clampScreenshotZoom();
+
+    applyScreenshotZoom();
+
+}
+
+function onScreenshotTouchStart(e) {
+
+    if (!getScreenshotLightboxActive()) return;
+
+    if (e.touches.length === 2) {
+
+        e.preventDefault();
+
+        screenshotGestureActive = true;
+
+        screenshotSuppressClick = true;
+
+        screenshotTapStart = null;
+
+        screenshotPanStart = null;
+
+        screenshotPinchStartDist = getTouchDistance(e.touches[0], e.touches[1]) || 1;
+
+        screenshotPinchStartScale = screenshotZoomScale;
+
+        screenshotPinchStartMid = getTouchMidpoint(e.touches[0], e.touches[1]);
+
+        screenshotPinchStartTranslate = { x: screenshotZoomX, y: screenshotZoomY };
+
+    } else if (e.touches.length === 1) {
+
+        const target = e.target;
+
+        const onControl = target && target.closest && (
+
+            target.closest('.nav-zone-left') ||
+
+            target.closest('.nav-zone-right') ||
+
+            target.closest('.screenshot-lightbox-close')
+
+        );
+
+        screenshotTapStart = onControl ? null : { x: e.touches[0].clientX, y: e.touches[0].clientY };
+
+        if (screenshotZoomScale > 1.01) {
+
+            screenshotPanStart = { x: e.touches[0].clientX, y: e.touches[0].clientY, tx: screenshotZoomX, ty: screenshotZoomY };
+
+        }
+
+    }
+
+}
+
+function onScreenshotTouchMove(e) {
+
+    if (!getScreenshotLightboxActive()) return;
+
+    if (e.touches.length === 2) {
+
+        e.preventDefault();
+
+        screenshotSuppressClick = true;
+
+        screenshotTapStart = null;
+
+        const dist = getTouchDistance(e.touches[0], e.touches[1]);
+
+        const mid = getTouchMidpoint(e.touches[0], e.touches[1]);
+
+        const center = getScreenshotStageCenter();
+
+        let scale = screenshotPinchStartScale * (dist / screenshotPinchStartDist);
+
+        scale = Math.min(SCREENSHOT_MAX_SCALE, Math.max(SCREENSHOT_MIN_SCALE, scale));
+
+        const ratio = scale / screenshotPinchStartScale;
+
+        screenshotZoomScale = scale;
+
+        screenshotZoomX = mid.x - center.x - ratio * (screenshotPinchStartMid.x - center.x - screenshotPinchStartTranslate.x);
+
+        screenshotZoomY = mid.y - center.y - ratio * (screenshotPinchStartMid.y - center.y - screenshotPinchStartTranslate.y);
+
+        clampScreenshotZoom();
+
+        applyScreenshotZoom();
+
+    } else if (e.touches.length === 1 && screenshotPanStart && screenshotZoomScale > 1.01) {
+
+        const dx = e.touches[0].clientX - screenshotPanStart.x;
+
+        const dy = e.touches[0].clientY - screenshotPanStart.y;
+
+        if (Math.hypot(dx, dy) > 8) {
+
+            screenshotTapStart = null;
+
+        }
+
+        e.preventDefault();
+
+        screenshotSuppressClick = true;
+
+        screenshotZoomX = screenshotPanStart.tx + dx;
+
+        screenshotZoomY = screenshotPanStart.ty + dy;
+
+        clampScreenshotZoom();
+
+        applyScreenshotZoom();
+
+    }
+
+}
+
+function onScreenshotTouchEnd(e) {
+
+    if (!getScreenshotLightboxActive()) return;
+
+    if (e.touches.length >= 2) return;
+
+    if (e.touches.length === 1) {
+
+        screenshotPanStart = screenshotZoomScale > 1.01
+
+            ? { x: e.touches[0].clientX, y: e.touches[0].clientY, tx: screenshotZoomX, ty: screenshotZoomY }
+
+            : null;
+
+        return;
+
+    }
+
+    screenshotPanStart = null;
+
+    if (screenshotZoomScale <= 1.01) {
+
+        resetScreenshotZoom();
+
+    } else {
+
+        clampScreenshotZoom();
+
+        applyScreenshotZoom();
+
+    }
+
+    if (screenshotTapStart && !screenshotGestureActive) {
+
+        const now = Date.now();
+
+        if (screenshotLastTap && now - screenshotLastTap.time < 300 &&
+
+            Math.hypot(screenshotTapStart.x - screenshotLastTap.x, screenshotTapStart.y - screenshotLastTap.y) < 40) {
+
+            toggleScreenshotZoomAt(screenshotTapStart.x, screenshotTapStart.y);
+
+            screenshotLastTap = null;
+
+        } else {
+
+            screenshotLastTap = { time: now, x: screenshotTapStart.x, y: screenshotTapStart.y };
+
+        }
+
+    }
+
+    screenshotTapStart = null;
+
+    screenshotGestureActive = false;
+
+    if (screenshotSuppressClick) {
+
+        setTimeout(function() { screenshotSuppressClick = false; }, 350);
+
+    }
+
+}
+
 
 function getScreenshotLightboxElements() {
 
@@ -6567,6 +7011,10 @@ async function showScreenshotAtIndex(index) {
 
     screenshotActiveSlot = incomingSlot;
 
+    resetScreenshotZoom();
+
+    updateScreenshotCaption(index);
+
 
     const nextIndex = (index + 1) % currentScreenshotGallery.length;
 
@@ -6579,37 +7027,106 @@ async function showScreenshotAtIndex(index) {
 }
 
 
-window.openScreenshotLightbox = function(src) {
+function onScreenshotWheel(e) {
 
+    if (!getScreenshotLightboxActive()) return;
+
+    e.preventDefault();
+
+    let delta = e.deltaY;
+
+    if (e.deltaMode === 1) delta *= 16;
+
+    else if (e.deltaMode === 2) delta *= 100;
+
+    const center = getScreenshotStageCenter();
+
+    const oldScale = screenshotZoomScale;
+
+    let scale = oldScale * Math.exp(-delta * 0.0015);
+
+    scale = Math.min(SCREENSHOT_MAX_SCALE, Math.max(SCREENSHOT_MIN_SCALE, scale));
+
+    if (Math.abs(scale - oldScale) < 0.0001) return;
+
+    const ratio = scale / oldScale;
+
+    screenshotZoomScale = scale;
+
+    screenshotZoomX = e.clientX - center.x - ratio * (e.clientX - center.x - screenshotZoomX);
+
+    screenshotZoomY = e.clientY - center.y - ratio * (e.clientY - center.y - screenshotZoomY);
+
+    clampScreenshotZoom();
+
+    applyScreenshotZoom();
+
+}
+
+
+function onScreenshotMouseDown(e) {
+
+    if (!getScreenshotLightboxActive()) return;
+
+    if (screenshotZoomScale <= 1.01) return;
+
+    if (e.button !== 0) return;
+
+    const target = e.target;
+
+    if (!target || !target.classList || !target.classList.contains('screenshot-lightbox-img')) return;
+
+    e.preventDefault();
+
+    screenshotMousePanStart = { x: e.clientX, y: e.clientY, tx: screenshotZoomX, ty: screenshotZoomY };
+
+    window.addEventListener('mousemove', onScreenshotMouseMove);
+
+    window.addEventListener('mouseup', onScreenshotMouseUp);
+
+}
+
+
+function onScreenshotMouseMove(e) {
+
+    if (!screenshotMousePanStart) return;
+
+    screenshotZoomX = screenshotMousePanStart.tx + (e.clientX - screenshotMousePanStart.x);
+
+    screenshotZoomY = screenshotMousePanStart.ty + (e.clientY - screenshotMousePanStart.y);
+
+    clampScreenshotZoom();
+
+    applyScreenshotZoom();
+
+}
+
+
+function onScreenshotMouseUp() {
+
+    screenshotMousePanStart = null;
+
+    window.removeEventListener('mousemove', onScreenshotMouseMove);
+
+    window.removeEventListener('mouseup', onScreenshotMouseUp);
+
+}
+
+
+function openLightboxWithGallery(gallery, index, captions, plainColors) {
     const { lightbox, imgA, imgB } = getScreenshotLightboxElements();
 
     if (!lightbox || !imgA || !imgB) return;
 
+    if (!gallery || gallery.length === 0) return;
 
-    currentScreenshotGallery = buildScreenshotGalleryFromDOM();
+    lightbox.classList.toggle('no-filter', !!plainColors);
 
-    if (!currentScreenshotGallery || currentScreenshotGallery.length === 0) return;
+    currentScreenshotGallery = gallery.slice();
 
+    currentScreenshotCaptions = Array.isArray(captions) ? captions.slice() : [];
 
-    const screenshotItems = document.querySelectorAll('.screenshot-item');
-
-    const clickedItem = Array.from(screenshotItems).find(item =>
-
-        item.getAttribute('data-src') === src
-
-    );
-
-
-    if (clickedItem) {
-
-        currentScreenshotIndex = Array.from(screenshotItems).indexOf(clickedItem);
-
-    } else {
-
-        currentScreenshotIndex = 0;
-
-    }
-
+    currentScreenshotIndex = Math.min(Math.max(0, index | 0), gallery.length - 1);
 
     imgA.classList.remove('is-visible');
 
@@ -6621,12 +7138,43 @@ window.openScreenshotLightbox = function(src) {
 
     screenshotActiveSlot = 0;
 
-    screenshotNavRequestId++;
+    resetScreenshotZoom();
 
+    screenshotNavRequestId++;
 
     lightbox.classList.add('active');
 
     showScreenshotAtIndex(currentScreenshotIndex);
+
+}
+
+
+window.openImageLightbox = function(urls, index, captions) {
+
+    if (!Array.isArray(urls) || urls.length === 0) return;
+
+    openLightboxWithGallery(urls, index, captions, true);
+
+};
+
+
+window.openScreenshotLightbox = function(src) {
+
+    const gallery = buildScreenshotGalleryFromDOM();
+
+    if (!gallery || gallery.length === 0) return;
+
+    const screenshotItems = Array.from(document.querySelectorAll('.screenshot-item'));
+
+    const clickedItem = screenshotItems.find(item =>
+
+        item.getAttribute('data-src') === src
+
+    );
+
+    const index = clickedItem ? screenshotItems.indexOf(clickedItem) : 0;
+
+    openLightboxWithGallery(gallery, index);
 
 };
 
@@ -6663,7 +7211,15 @@ window.closeScreenshotLightbox = function() {
 
         lightbox.classList.remove('active');
 
+        lightbox.classList.remove('no-filter');
+
     }
+
+    resetScreenshotZoom();
+
+    const captionEl = document.getElementById('screenshotLightboxCaption');
+
+    if (captionEl) captionEl.classList.remove('visible');
 
 
     screenshotNavRequestId++;
@@ -6702,11 +7258,136 @@ document.addEventListener('keydown', function(e) {
 });
 
 
-function showTankInfo() {
+function renderHistoryFigures(images) {
 
-    const faction = document.getElementById('faction').value;
+    const list = Array.isArray(images) ? images : (images ? [images] : []);
+
+    const items = list.filter(img => img && img.src);
+
+    if (items.length === 0) return '';
+
+    return items.map(img => {
+
+        const alt = (img.caption || 'Historical photograph').replace(/"/g, '&quot;');
+
+        return `<figure class="history-figure"><img src="${img.src}" alt="${alt}" loading="lazy" decoding="async">${img.caption ? `<figcaption>${img.caption}</figcaption>` : ''}</figure>`;
+
+    }).join('');
+
+}
+
+
+function buildFieldManualTankMenu() {
+
+    const menu = document.getElementById('tankInfoTankMenu');
+
+    if (!menu) return;
+
+    const factionInput = document.getElementById('faction');
+
+    const current = fieldManualViewFaction || (factionInput ? factionInput.value : '');
+
+    menu.innerHTML = tankData.map(tank => `
+
+        <div class="tank-option${tank.value === current ? ' active' : ''}" data-value="${tank.value}" role="option" aria-selected="${tank.value === current ? 'true' : 'false'}">
+
+            ${flagImgTag(tank.flag, tank.flagAlt, 'lazy')}
+
+            <span>${tank.shortName}</span>
+
+        </div>
+
+    `).join('');
+
+    menu.querySelectorAll('.tank-option').forEach(option => {
+
+        option.addEventListener('click', function(e) {
+
+            e.stopPropagation();
+
+            selectFieldManualTank(this.getAttribute('data-value'));
+
+        });
+
+    });
+
+}
+
+
+function closeFieldManualTankMenu() {
+
+    const menu = document.getElementById('tankInfoTankMenu');
+
+    const title = document.getElementById('tankInfoTitle');
+
+    const wrap = document.getElementById('tankInfoTankSelect');
+
+    if (menu) menu.classList.remove('open');
+
+    if (wrap) wrap.classList.remove('open');
+
+    if (title) title.setAttribute('aria-expanded', 'false');
+
+}
+
+
+function toggleFieldManualTankMenu(e) {
+
+    if (e) {
+
+        e.preventDefault();
+
+        e.stopPropagation();
+
+    }
+
+    const menu = document.getElementById('tankInfoTankMenu');
+
+    const title = document.getElementById('tankInfoTitle');
+
+    if (!menu) return;
+
+    const willOpen = !menu.classList.contains('open');
+
+    buildFieldManualTankMenu();
+
+    menu.classList.toggle('open', willOpen);
+
+    const wrap = document.getElementById('tankInfoTankSelect');
+
+    if (wrap) wrap.classList.toggle('open', willOpen);
+
+    if (title) title.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+
+}
+
+
+function selectFieldManualTank(value) {
+
+    closeFieldManualTankMenu();
+
+    if (!tankInfo[value]) return;
+
+    if (fieldManualViewFaction === value) return;
+
+    const activeTabBtn = document.querySelector('.info-modal-tabs .info-modal-tab.active');
+
+    fieldManualRestoreTab = activeTabBtn ? activeTabBtn.getAttribute('data-tab') : 'stats';
+
+    // View only: render this tank's manual WITHOUT changing the active/playing tank.
+
+    showTankInfo(value);
+
+}
+
+
+function showTankInfo(factionOverride) {
+
+    const faction = factionOverride || document.getElementById('faction').value;
 
     const info = tankInfo[faction];
+
+    fieldManualViewFaction = faction;
 
 
     if (info) {
@@ -6785,6 +7466,25 @@ function showTankInfo() {
             if (info.stats.hullGun && !info.stats.hullGun.includes('NO')) {
 
                 imagePaths.add('images/UI/Icons/vehicles/T_HUD_Status_Ammo_invert_28.webp');
+
+            }
+
+
+            if (info.historyImages) {
+
+                ['background', 'range', 'production', 'service'].forEach(key => {
+
+                    const value = info.historyImages[key];
+
+                    const list = Array.isArray(value) ? value : (value ? [value] : []);
+
+                    list.forEach(img => {
+
+                        if (img && img.src) imagePaths.add(img.src);
+
+                    });
+
+                });
 
             }
 
@@ -7263,6 +7963,8 @@ function formatPitchAngle(value) {
 
                     <h4>Background</h4>
 
+                    ${renderHistoryFigures(info.historyImages && info.historyImages.background)}
+
                     <p>${info.history}</p>
 
                 </div>
@@ -7270,6 +7972,8 @@ function formatPitchAngle(value) {
                 <div class="info-modal-section">
 
                     <h4>Range</h4>
+
+                    ${renderHistoryFigures(info.historyImages && info.historyImages.range)}
 
                     <p>${info.realLife.range}</p>
 
@@ -7279,6 +7983,8 @@ function formatPitchAngle(value) {
 
                     <h4>Production</h4>
 
+                    ${renderHistoryFigures(info.historyImages && info.historyImages.production)}
+
                     <p>${info.realLife.production}</p>
 
                 </div>
@@ -7286,6 +7992,8 @@ function formatPitchAngle(value) {
                 <div class="info-modal-section">
 
                     <h4>Service</h4>
+
+                    ${renderHistoryFigures(info.historyImages && info.historyImages.service)}
 
                     <p>${info.realLife.service}</p>
 
@@ -7356,6 +8064,10 @@ function formatPitchAngle(value) {
             }
 
 
+            const targetTab = fieldManualRestoreTab || 'stats';
+
+            fieldManualRestoreTab = null;
+
             const tabContainer = document.querySelector('.info-modal-tabs');
 
             if (tabContainer) {
@@ -7364,11 +8076,11 @@ function formatPitchAngle(value) {
                 tabContainer.querySelectorAll('.info-modal-tab').forEach(btn => btn.classList.remove('active'));
 
 
-                const statsTab = tabContainer.querySelector('[data-tab="stats"]');
+                const activeTab = tabContainer.querySelector('[data-tab="' + targetTab + '"]');
 
-                if (statsTab) {
+                if (activeTab) {
 
-                    statsTab.classList.add('active');
+                    activeTab.classList.add('active');
 
                 }
 
@@ -7381,11 +8093,11 @@ function formatPitchAngle(value) {
 
                 modalContent.querySelectorAll('.info-tab-content').forEach(content => content.classList.remove('active'));
 
-                const statsTabContent = modalContent.querySelector('#tab-stats');
+                const activeTabContent = modalContent.querySelector('#tab-' + targetTab);
 
-                if (statsTabContent) {
+                if (activeTabContent) {
 
-                    statsTabContent.classList.add('active');
+                    activeTabContent.classList.add('active');
 
                 }
 
@@ -7405,6 +8117,35 @@ function formatPitchAngle(value) {
                     const webpSrc = this.getAttribute('data-src-webp');
 
                     openScreenshotLightbox(webpSrc || src);
+
+                });
+
+            });
+
+
+            const historyFigureImgs = tankInfoContent.querySelectorAll('#tab-history .history-figure img');
+
+            historyFigureImgs.forEach(img => {
+
+                img.addEventListener('click', function(e) {
+
+                    e.stopPropagation();
+
+                    const all = Array.from(tankInfoContent.querySelectorAll('#tab-history .history-figure img'));
+
+                    const urls = all.map(i => i.getAttribute('src')).filter(Boolean);
+
+                    const captions = all.map(i => {
+
+                        const fig = i.closest('.history-figure');
+
+                        const cap = fig ? fig.querySelector('figcaption') : null;
+
+                        return cap ? cap.textContent.trim() : '';
+
+                    });
+
+                    openImageLightbox(urls, all.indexOf(img), captions);
 
                 });
 
@@ -7520,6 +8261,34 @@ document.addEventListener('keydown', function(e) {
     }
 
 
+    const screenshotLightboxEl = document.getElementById('screenshotLightbox');
+
+    if (screenshotLightboxEl && screenshotLightboxEl.classList.contains('active')) {
+
+        // Let the screenshot viewer handle Escape itself (it is on top of the modal)
+
+        return;
+
+    }
+
+
+    const tankMenuEl = document.getElementById('tankInfoTankMenu');
+
+    if (tankMenuEl && tankMenuEl.classList.contains('open')) {
+
+        // Close the Field Manual tank switcher first, not the whole modal
+
+        closeFieldManualTankMenu();
+
+        e.preventDefault();
+
+        e.stopImmediatePropagation();
+
+        return;
+
+    }
+
+
     if (tankInfoModal) {
 
         const isOpenByStyle = tankInfoModal.style.display === 'block';
@@ -7574,6 +8343,53 @@ function wireUpEventListeners() {
     tankInfoTitle = document.getElementById('tankInfoTitle');
 
     tankInfoContent = document.getElementById('tankInfoContent');
+
+
+    if (tankInfoTitle) {
+
+        tankInfoTitle.addEventListener('keydown', function(e) {
+
+            if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+
+                toggleFieldManualTankMenu(e);
+
+            } else if (e.key === 'Escape') {
+
+                closeFieldManualTankMenu();
+
+            }
+
+        });
+
+    }
+
+    const tankSelectEl = document.getElementById('tankInfoTankSelect');
+
+    if (tankSelectEl) {
+
+        // whole title row (name + caret) is the click target, not just the text
+
+        tankSelectEl.addEventListener('click', toggleFieldManualTankMenu);
+
+    }
+
+    document.addEventListener('click', function(e) {
+
+        const menu = document.getElementById('tankInfoTankMenu');
+
+        if (!menu || !menu.classList.contains('open')) return;
+
+        if (e.target && e.target.closest && e.target.closest('#tankInfoTankSelect')) return;
+
+        closeFieldManualTankMenu();
+
+    });
+
+    document.addEventListener('keydown', function(e) {
+
+        if (e.key === 'Escape') closeFieldManualTankMenu();
+
+    });
 
 
     const moreProjectsBtn = document.getElementById('moreProjectsBtn');
@@ -8204,6 +9020,8 @@ function wireUpEventListeners() {
 
                 e.stopPropagation();
 
+                if (screenshotSuppressClick) return;
+
                 navigateScreenshot(-1);
 
             });
@@ -8218,6 +9036,8 @@ function wireUpEventListeners() {
                 e.preventDefault();
 
                 e.stopPropagation();
+
+                if (screenshotSuppressClick) return;
 
                 navigateScreenshot(1);
 
@@ -8243,6 +9063,18 @@ function wireUpEventListeners() {
 
         lightbox.addEventListener('click', function(e) {
 
+            // Ignore synthetic clicks fired right after a pinch/pan gesture
+
+            if (screenshotSuppressClick) {
+
+                e.preventDefault();
+
+                e.stopPropagation();
+
+                return;
+
+            }
+
             // Only close if clicking the background itself, not the image
 
             if (e.target === lightbox || e.target.id === 'screenshotLightboxStage') {
@@ -8252,6 +9084,21 @@ function wireUpEventListeners() {
             }
 
         });
+
+
+        // Pinch-to-zoom (and pan while zoomed) inside the screenshot viewer
+
+        lightbox.addEventListener('touchstart', onScreenshotTouchStart, { passive: false });
+
+        lightbox.addEventListener('touchmove', onScreenshotTouchMove, { passive: false });
+
+        lightbox.addEventListener('touchend', onScreenshotTouchEnd, { passive: true });
+
+        lightbox.addEventListener('touchcancel', onScreenshotTouchEnd, { passive: true });
+
+        lightbox.addEventListener('wheel', onScreenshotWheel, { passive: false });
+
+        lightbox.addEventListener('mousedown', onScreenshotMouseDown);
 
     }
 

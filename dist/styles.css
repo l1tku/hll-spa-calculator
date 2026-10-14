@@ -2364,6 +2364,23 @@ inset 0 0 100px rgba(139, 105, 20, 0.1);
     display: flex;
     flex-direction: column;
 }
+/* Field Manual: keep A4-page proportions on desktop regardless of viewport
+   height (otherwise it looks blocky on 1080p and correct only on taller displays) */
+@media screen and (min-width: 769px) {
+    #tankInfoModal[data-open="true"] {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+    #tankInfoModal .info-modal-content {
+        width: auto;
+        min-width: 600px;
+        height: min(90vh, 1200px);
+        max-height: 90vh;
+        aspect-ratio: 210 / 297;
+        margin: 0;
+    }
+}
 .info-modal-content::before {
     content: 'CLASSIFIED';
     position: absolute;
@@ -2483,6 +2500,117 @@ repeating-linear-gradient(0deg, transparent, transparent 25px, rgba(139, 105, 20
     text-align: right;
     font-size: 9px;
     color: #000000;
+}
+/* Field Manual - tank switcher dropdown (header title) */
+#tankInfoModal .info-modal-header {
+    /* header + dropdown must paint above the tab bar and body (both z-index: 2) */
+    z-index: 3;
+}
+.field-manual-tank-select {
+    position: absolute;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    z-index: 6;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+.field-manual-tank-name {
+    cursor: pointer;
+}
+.field-manual-tank-select:focus-visible .field-manual-tank-name {
+    color: #8b6914;
+}
+.field-manual-tank-select:focus-visible {
+    outline: none;
+}
+@media (hover: hover) and (pointer: fine) {
+    .field-manual-tank-select:hover .field-manual-tank-name,
+    .field-manual-tank-select:hover .field-manual-tank-caret {
+        color: #8b6914;
+    }
+}
+.field-manual-tank-caret {
+    display: inline-flex;
+    align-items: center;
+    color: #2a2a2a;
+    line-height: 1;
+    align-self: center;
+}
+.field-manual-tank-caret svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+@media screen and (min-width: 769px) {
+    .field-manual-tank-caret {
+        margin-left: -6px;
+        transform: translateY(-3px);
+    }
+}
+/* Mobile: the tank name can wrap to two rows, so let the arrow flow inline
+   right after the name instead of being pushed to the far right */
+@media screen and (max-width: 768px) {
+    .field-manual-tank-select {
+        display: block;
+        max-width: calc(100% - 40px);
+    }
+    .field-manual-tank-name {
+        display: inline;
+        white-space: normal;
+    }
+    /* word-joiner (zero width) keeps the arrow glued to the last word so it
+       never wraps onto a line of its own */
+    .field-manual-tank-name::after {
+        content: '\2060';
+    }
+    .field-manual-tank-caret {
+        margin-left: 1px;
+        vertical-align: middle;
+        transform: translateY(-3px);
+    }
+}
+.field-manual-tank-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    min-width: min(280px, 80vw);
+    background: #f5f0e8;
+    border: 2px solid #8b6914;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+    z-index: 30;
+    display: none;
+    max-height: 300px;
+    overflow-y: auto;
+}
+.field-manual-tank-menu.open {
+    display: block;
+}
+.field-manual-tank-menu .tank-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    font-family: 'SpecialElite', monospace;
+    font-size: 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #2a2a2a;
+    cursor: pointer;
+    border-bottom: 1px dotted #d0c8b8;
+}
+.field-manual-tank-menu .tank-option:last-child {
+    border-bottom: none;
+}
+.field-manual-tank-menu .tank-option:hover {
+    background: rgba(139, 105, 20, 0.12);
+}
+.field-manual-tank-menu .tank-option.active {
+    background: rgba(139, 105, 20, 0.22);
+    font-weight: bold;
 }
 .field-manual-reference {
     top: 70px;
@@ -2610,6 +2738,40 @@ repeating-linear-gradient(0deg, transparent, transparent 25px, rgba(139, 105, 20
     margin: 0;
     font-size: 13px;
     font-family: 'Courier New', monospace;
+}
+.history-figure {
+    margin: 0 0 14px;
+}
+.history-figure:last-child {
+    margin-bottom: 0;
+}
+.history-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid #d0c8b8;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    cursor: zoom-in;
+}
+.history-figure figcaption {
+    margin-top: 6px;
+    font-size: 11px;
+    line-height: 1.4;
+    color: #6b6250;
+    font-style: italic;
+    font-family: 'Courier New', monospace;
+}
+/* Desktop: cap the plate height so it reads as a supporting figure, not a hero image */
+@media screen and (min-width: 769px) {
+    .history-figure img {
+        width: auto;
+        max-width: 100%;
+        max-height: 300px;
+        margin: 0 auto;
+    }
+    .history-figure figcaption {
+        text-align: center;
+    }
 }
 .info-modal-section ul {
     color: #2a2a2a;
@@ -2783,10 +2945,11 @@ repeating-linear-gradient(0deg, transparent, transparent 25px, rgba(139, 105, 20
     overflow-x: visible;
 }
 .spec-row:first-child .spec-value {
-    white-space: nowrap;
+    white-space: normal;
     word-break: normal;
     overflow-x: visible;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 0;
     min-width: 0;
@@ -3202,7 +3365,7 @@ inset 0 1px 1px rgba(255, 255, 255, 0.1);
     );
 }
 .spec-row.weapon-row .spec-value {
-    white-space: nowrap;
+    white-space: normal;
     word-break: normal;
     overflow-x: visible;
 }
@@ -3328,8 +3491,12 @@ inset 0 0 25px rgba(139, 105, 20, 0.08),
 }
 .screenshot-lightbox.active {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+.screenshot-lightbox.active .screenshot-lightbox-stage {
+    margin: 0;
 }
 .screenshot-lightbox picture {
     display: flex;
@@ -3360,13 +3527,10 @@ inset 0 0 25px rgba(139, 105, 20, 0.08),
 }
 .screenshot-lightbox img {
     max-width: 100%;
-    max-height: 90vh;
+    max-height: 84vh;
     width: auto;
     height: auto;
     object-fit: contain;
-    border: 3px solid #8b6914;
-    border-top: 4px solid #8b6914;
-    border-bottom: 4px solid #8b6914;
     border-radius: 0;
     box-shadow: 
 0 20px 50px rgba(0, 0, 0, 0.9),
@@ -3390,17 +3554,6 @@ inset 0 0 30px rgba(139, 105, 20, 0.1);
 .screenshot-lightbox picture.switching {
     display: none !important;
 }
-.screenshot-lightbox img::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    border: 1px solid rgba(139, 105, 20, 0.3);
-    pointer-events: none;
-    z-index: 1;
-}
 .screenshot-lightbox img::after {
     content: '';
     position: absolute;
@@ -3413,6 +3566,16 @@ inset 0 0 30px rgba(139, 105, 20, 0.1);
     z-index: 2;
     mix-blend-mode: overlay;
     opacity: 0.6;
+}
+/* History photos and other real images: no screenshot grayscale/grain or gold frame */
+.screenshot-lightbox.no-filter img {
+    filter: none;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+.screenshot-lightbox.no-filter img::before,
+.screenshot-lightbox.no-filter img::after {
+    display: none;
 }
 .screenshot-lightbox-close {
     position: absolute;
@@ -3436,6 +3599,21 @@ inset 0 0 30px rgba(139, 105, 20, 0.1);
     width: 20px;
     height: 20px;
     stroke-width: 2.5;
+}
+.screenshot-lightbox-caption {
+    display: none;
+    margin-top: 10px;
+    max-width: 80%;
+    color: #d1d5db;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.4;
+    text-align: center;
+    z-index: 2005;
+    pointer-events: none;
+}
+.screenshot-lightbox-caption.visible {
+    display: block;
 }
 .screenshot-lightbox-close:hover {
     background-color: rgba(185, 28, 28, 0.8);
@@ -3464,10 +3642,6 @@ inset 0 0 30px rgba(139, 105, 20, 0.1);
 .nav-zone-right {
     right: 0;
 }
-.nav-zone-left:hover,
-.nav-zone-right:hover {
-    background-color: rgba(255, 255, 255, 0.03);
-}
 .nav-arrow {
     color: rgba(255, 255, 255, 0.75);
     font-size: 48px;
@@ -3479,6 +3653,50 @@ inset 0 0 30px rgba(139, 105, 20, 0.1);
 .nav-zone-right:hover .nav-arrow {
     color: rgba(255, 255, 255, 0.9);
     transform: scale(1.2);
+}
+/* Keep touch gestures for pinch-zoom instead of browser panning inside the viewer */
+.screenshot-lightbox.active {
+    touch-action: none;
+}
+/* Touch devices: avoid sticky :hover effects on the nav arrows */
+@media (hover: none) {
+    .nav-zone-left:hover .nav-arrow,
+    .nav-zone-right:hover .nav-arrow {
+        color: rgba(255, 255, 255, 0.75);
+        transform: none;
+    }
+}
+/* Mobile: smaller arrows and narrower tap zones so they do not cover the image */
+@media screen and (max-width: 768px) {
+    .nav-arrow {
+        font-size: 26px;
+        text-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+    }
+    .nav-zone-left,
+    .nav-zone-right {
+        width: 20%;
+    }
+}
+/* Hide the navigation arrows while the image is zoomed so they do not sit on top of it */
+.screenshot-lightbox .nav-zone-left,
+.screenshot-lightbox .nav-zone-right {
+    transition: background-color 0.2s, opacity 0.2s;
+}
+.screenshot-lightbox.is-zoomed .nav-zone-left,
+.screenshot-lightbox.is-zoomed .nav-zone-right {
+    opacity: 0;
+    pointer-events: none;
+}
+/* Hide the caption while zoomed so it doesn't sit over the magnified image */
+.screenshot-lightbox.is-zoomed .screenshot-lightbox-caption {
+    opacity: 0;
+    visibility: hidden;
+}
+.screenshot-lightbox.is-zoomed .screenshot-lightbox-img {
+    cursor: grab;
+}
+.screenshot-lightbox.is-zoomed .screenshot-lightbox-img:active {
+    cursor: grabbing;
 }
 /* ============================================
    VIEW TOGGLE COMPONENT -  Full/Lite Switch
