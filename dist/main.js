@@ -947,8 +947,6 @@ const tankInfo = {
 
             service: [
 
-                { src: 'images/history/kv2/service_raseiniai.webp', caption: 'Germans inspect a damaged KV-2 near Raseiniai, 1941.' },
-
                 { src: 'images/history/kv2/service_german.webp', caption: 'German soldiers inspect a captured KV-2, 1941.' }
 
             ]
