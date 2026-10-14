@@ -9531,7 +9531,7 @@ function initMobileCalculator() {
     // Help text shown by the value-box "?" button. Distance has none, so the
     // button hides for that field.
     const HELP_TEXT = {
-        redNumber: 'Terrain elevation is the tilt of the ground under your tank - shown as the red MIL in your HUD.\n\nTilt past ~356 → GUN LOCKED (game says "unstable gradient"). Uphill, downhill, sideways — all count. Sideways tilt locks the gun too, even when the red MIL looks low.\n\nCan\'t shoot? Move to flatter ground.\n\nTip: Keep the hull pointing straight at the target: if the tank leans sideways the shot plane tilts and the shell lands off to one side.\n\ntank downhill  = negative\ntank uphill    = positive',
+        redNumber: 'Terrain elevation is the tilt of the ground under your tank - shown as the red MIL in-game.\n\nToo much tilt (~356+) and you can\'t fire — you\'ll see the text "UNSTABLE GRADIENT" in-game. Uphill, downhill, sideways — all count. Sideways tilt stops you firing too, even when the red MIL looks low.\n\nCan\'t shoot? Move to flatter ground, you goof.\n\nTip: Keep the hull level when firing. If one track is higher than the other the whole gun tilts sideways and the shell lands off to the side.\n\ntank downhill   =   negative\ntank uphill   =   positive',
         heightDiff: 'The height difference is how much higher or lower the target is than your gun, in meters.\n\n+  target above you\n-  target below you\n\nOvershooting? The target is lower - go negative. Undershooting? It\'s higher - go positive.\n\nLeave it at 0 if you\'re roughly level with the target.'
     };
 
