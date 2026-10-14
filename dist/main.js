@@ -829,17 +829,17 @@ const tankInfo = {
 
         historyImages: {
 
-            background: { src: 'images/history/sherman_m4a3_105/development.webp', caption: 'M4(105) development study - Development of Armored Vehicles Vol. 1 (U.S. Army, 1947, public domain).' },
+            background: { src: 'images/history/sherman_m4a3_105/development.webp', caption: 'M4(105) development study - Development of Armored Vehicles Vol. 1 (U.S. Army, 1947).' },
 
-            range: { src: 'images/history/sherman_m4a3_105/howitzer.webp', caption: "105 mm Howitzer M2A1; the Sherman's M4 howitzer is the tank version of this gun (U.S. War Department, public domain)." },
+            range: { src: 'images/history/sherman_m4a3_105/howitzer.webp', caption: "105 mm Howitzer M2A1; the Sherman's M4 howitzer is the tank version of this gun (U.S. War Department)." },
 
-            production: { src: 'images/history/sherman_m4a3_105/production.webp', caption: "Chrysler's Detroit Arsenal Tank Plant, 1942 (public domain)." },
+            production: { src: 'images/history/sherman_m4a3_105/production.webp', caption: "Chrysler's Detroit Arsenal Tank Plant, 1942." },
 
             service: [
 
-                { src: 'images/history/sherman_m4a3_105/service_europe.webp', caption: 'M4A3 crew of the 191st Tank Battalion, Rambervillers, France, 13 October 1944 (U.S. Signal Corps, public domain).' },
+                { src: 'images/history/sherman_m4a3_105/service_europe.webp', caption: 'M4A3 crew of the 191st Tank Battalion, Rambervillers, France, 13 October 1944 (U.S. Signal Corps).' },
 
-                { src: 'images/history/sherman_m4a3_105/service_pacific.webp', caption: 'M4 Sherman of the 710th Tank Battalion, Leyte, Philippines, 1945 (U.S. Army, public domain).' }
+                { src: 'images/history/sherman_m4a3_105/service_pacific.webp', caption: 'M4 Sherman of the 710th Tank Battalion, Leyte, Philippines, 1945 (U.S. Army).' }
 
             ]
 
@@ -941,15 +941,15 @@ const tankInfo = {
 
         historyImages: {
 
-            background: { src: 'images/history/kv2/background.webp', caption: 'First KV-2 prototype, February 1940 (Wikimedia Commons, CC0).' },
+            background: { src: 'images/history/kv2/background.webp', caption: 'First KV-2 prototype, February 1940.' },
 
-            range: { src: 'images/history/kv2/range.webp', caption: 'Soviet 152 mm M-10 howitzer (1942); the KV-2 used the M-10T tank version (SA-kuva, public domain).' },
+            range: { src: 'images/history/kv2/range.webp', caption: 'Finnish soldiers operating a captured Soviet 152 mm M-10 howitzer (1942); the KV-2 used the M-10T tank version (SA-kuva).' },
 
             service: [
 
-                { src: 'images/history/kv2/service_raseiniai.webp', caption: 'Germans inspect a damaged KV-2 near Raseiniai, 1941 (public domain).' },
+                { src: 'images/history/kv2/service_raseiniai.webp', caption: 'Germans inspect a damaged KV-2 near Raseiniai, 1941.' },
 
-                { src: 'images/history/kv2/service_german.webp', caption: 'German soldiers inspect a captured KV-2, 1941 (public domain).' }
+                { src: 'images/history/kv2/service_german.webp', caption: 'German soldiers inspect a captured KV-2, 1941.' }
 
             ]
 
@@ -1051,17 +1051,17 @@ const tankInfo = {
 
         historyImages: {
 
-            background: { src: 'images/history/avre/background.webp', caption: 'A Churchill AVRE carrying a fascine, Italy (Imperial War Museums, public domain).' },
+            background: { src: 'images/history/avre/background.webp', caption: 'A Churchill AVRE carrying a fascine, Italy (Imperial War Museums).' },
 
-            range: { src: 'images/history/avre/range.webp', caption: 'The 29 cm Petard spigot mortar on a Churchill AVRE, with a 40 lb bomb (right), April 1944 (Imperial War Museums, public domain).' },
+            range: { src: 'images/history/avre/range.webp', caption: 'The 29 cm Petard spigot mortar on a Churchill AVRE, with a 40 lb bomb (right), April 1944 (Imperial War Museums).' },
 
-            production: { src: 'images/history/avre/production.webp', caption: 'Churchill tanks on a factory production line (Terence Cuneo, 1939-1946; Imperial War Museums, public domain).' },
+            production: { src: 'images/history/avre/production.webp', caption: 'Churchill tanks on a factory production line (Terence Cuneo, 1939-1946; Imperial War Museums).' },
 
             service: [
 
-                { src: 'images/history/avre/service_dday.webp', caption: 'Churchill AVREs of 5th Assault Regiment, Royal Engineers, on D-Day, 6 June 1944 (Imperial War Museums, public domain).' },
+                { src: 'images/history/avre/service_dday.webp', caption: 'Churchill AVREs of 5th Assault Regiment, Royal Engineers, on D-Day, 6 June 1944 (Imperial War Museums).' },
 
-                { src: 'images/history/avre/service_caen.webp', caption: 'A Churchill AVRE on the road to Caen, 9 July 1944 (Imperial War Museums, public domain).' }
+                { src: 'images/history/avre/service_caen.webp', caption: 'A Churchill AVRE on the road to Caen, 9 July 1944 (Imperial War Museums).' }
 
             ]
 
@@ -1165,15 +1165,15 @@ const tankInfo = {
 
         historyImages: {
 
-            background: { src: 'images/history/bishop/background.webp', caption: 'A Bishop 25-pdr self-propelled gun in the Western Desert, September 1942 (Imperial War Museums, public domain).' },
+            background: { src: 'images/history/bishop/background.webp', caption: 'A Bishop 25-pdr self-propelled gun in the Western Desert, September 1942 (Imperial War Museums).' },
 
-            range: { src: 'images/history/bishop/range.webp', caption: 'A Bishop of 142nd Field Regiment, Royal Artillery, firing in Italy, 1943 (Imperial War Museums, public domain).' },
+            range: { src: 'images/history/bishop/range.webp', caption: 'A Bishop of 142nd Field Regiment, Royal Artillery, firing in Italy, 1943 (Imperial War Museums).' },
 
             service: [
 
-                { src: 'images/history/bishop/service_tunisia.webp', caption: 'Bishop 25-pdr self-propelled guns in action near Grenadier Hill, Tunisia, March 1943 (Imperial War Museums, public domain).' },
+                { src: 'images/history/bishop/service_tunisia.webp', caption: 'Bishop 25-pdr self-propelled guns in action near Grenadier Hill, Tunisia, March 1943 (Imperial War Museums).' },
 
-                { src: 'images/history/bishop/service_italy.webp', caption: 'A Bishop 25-pdr self-propelled gun near Cava, Italy, 28 September 1943 (Imperial War Museums, public domain).' }
+                { src: 'images/history/bishop/service_italy.webp', caption: 'A Bishop 25-pdr self-propelled gun near Cava, Italy, 28 September 1943 (Imperial War Museums).' }
 
             ]
 
@@ -1275,11 +1275,11 @@ const tankInfo = {
 
         historyImages: {
 
-            background: { src: 'images/history/brummbar/background.webp', caption: 'A Sturmpanzer IV "Brummbär" passing a column of prisoners on the Italian front (public domain).' },
+            background: { src: 'images/history/brummbar/background.webp', caption: 'A Sturmpanzer IV "Brummbär" passing a column of prisoners on the Italian front.' },
 
-            production: { src: 'images/history/brummbar/production.webp', caption: 'Panzer IVs under construction at Nibelungenwerk, where the Sturmpanzer IV was built (public domain).' },
+            production: { src: 'images/history/brummbar/production.webp', caption: 'Panzer IVs under construction at Nibelungenwerk, where the Sturmpanzer IV was built.' },
 
-            service: { src: 'images/history/brummbar/service_anzio.webp', caption: 'Rear view of a Sturmpanzer IV at a German front-line service point near Anzio, Italy (public domain).' }
+            service: { src: 'images/history/brummbar/service_anzio.webp', caption: 'Rear view of a Sturmpanzer IV at a German front-line service point near Anzio, Italy.' }
 
         },
 
@@ -1379,15 +1379,15 @@ const tankInfo = {
 
         historyImages: {
 
-            background: { src: 'images/history/panzer_iii/background.webp', caption: 'A Panzer III of 21st Panzer Division in the North African desert (public domain).' },
+            background: { src: 'images/history/panzer_iii/background.webp', caption: 'A Panzer III of 21st Panzer Division in the North African desert.' },
 
-            range: { src: 'images/history/panzer_iii/range.webp', caption: 'A Panzer III Ausf. N captured on the Kursk salient, showing the short 7.5 cm gun (public domain).' },
+            range: { src: 'images/history/panzer_iii/range.webp', caption: 'A Panzer III Ausf. N captured on the Kursk salient, showing the short 7.5 cm gun.' },
 
             service: [
 
-                { src: 'images/history/panzer_iii/service_tunisia.webp', caption: 'German Panzer IIIs in Tunisia, 1942 (public domain).' },
+                { src: 'images/history/panzer_iii/service_tunisia.webp', caption: 'German Panzer IIIs in Tunisia, 1942.' },
 
-                { src: 'images/history/panzer_iii/service_alamain.webp', caption: 'A Panzer III destroyed at the Second Battle of El Alamein, October 1942 (public domain).' }
+                { src: 'images/history/panzer_iii/service_alamain.webp', caption: 'A Panzer III destroyed at the Second Battle of El Alamein, October 1942.' }
 
             ]
 
