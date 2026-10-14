@@ -2434,6 +2434,23 @@ repeating-linear-gradient(0deg, transparent, transparent 25px, rgba(139, 105, 20
     pointer-events: none;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
+/* Nudge the CLASSIFIED bar label up on desktop (Firefox needs a touch more) */
+@media screen and (min-width: 769px) {
+    #tankInfoModal .info-modal-header::before {
+        padding-top: 5px;
+    }
+    @supports (-moz-appearance: none) {
+        #tankInfoModal .info-modal-header::before {
+            padding-top: 4px;
+        }
+    }
+}
+/* Mobile CLASSIFIED bar label */
+@media screen and (max-width: 768px) {
+    #tankInfoModal .info-modal-header::before {
+        padding-top: 6px;
+    }
+}
 .info-modal-header::after {
     content: 'DOC-1944-███';
     position: absolute;
@@ -5469,7 +5486,7 @@ right: 10px;
 top: 34px !important;
     }
     .field-manual-subtitle {
-top: 70px !important;
+top: 63px !important;
 font-size: 10px !important;
     }
     #tankInfoTitle {
