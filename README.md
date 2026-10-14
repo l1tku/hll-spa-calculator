@@ -39,6 +39,11 @@ No installation required. Open [HLL SPA Calculator](https://l1tku.github.io/hll-
 - **DAK:** Panzer III Ausf.N
 - **Germany:** Sturmpanzer IV (Brummbar)
 
+## Credits
+
+- **Early SPA research:** u/Extension_Lake6664
+- **Core engine:** our own research + measurements.
+  
 ## Disclaimer & Copyright
 
 This project is a community-made tool and is **not** affiliated with, endorsed by, or sponsored by Team17, Cover 6 Studios, or Black Matter.
