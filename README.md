@@ -41,7 +41,7 @@ No installation required. Open [HLL SPA Calculator](https://l1tku.github.io/hll-
 
 ## Credits
 
-- **Early SPA research:** u/Extension_Lake6664
+- **True SPA Range research:** u/Extension_Lake6664
 - **Core engine:** our own research + measurements.
   
 ## Disclaimer & Copyright
