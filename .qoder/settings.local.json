@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git ls-files images/og_image.png; git log --oneline -1 -- images/og_image.png; file images/og_image.png 2>/dev/null || python -c \"from PIL import Image; im=Image.open\\('images/og_image.png'\\); print\\(im.size\\)\" 2>/dev/null || echo \"size check skipped\")",
+      "Bash(curl -sI \"https://l1tku.github.io/hll-spa-calculator/images/og_image.png\" | head -6)",
+      "Bash(python -c \"\nfrom PIL import Image\nfor f in ['images/favicon_arty.webp','images/favicon.png','images/icon-192.png','images/icon-512.png','images/og_image.png']:\n    im=Image.open\\(f\\); print\\(f, im.size\\)\n\" 2>/dev/null || for f in images/favicon_arty.webp images/favicon.png images/icon-192.png images/icon-512.png; do file \"$f\"; done)",
+      "Bash(python:*)",
+      "Bash(git rm -q images/favicon_arty.webp images/favicon_garrison.webp && git add images/project_arty.webp images/project_garrison.webp index.html && git status --short)",
+      "WebFetch(*)",
+      "WebFetch(*)",
+      "Bash(git add index.html images/og_image.png && git status --short)",
+      "Bash(git add service-worker.js index.html dist/main.js && git diff --cached --stat && grep -rn \"2\\\\.2\\\\.4\" index.html service-worker.js dist/main.js || echo \"OK: no 2.2.4 left in functional files\")",
+      "Bash(git add service-worker.js index.html dist/main.js && grep -rn \"2\\\\.2\\\\.5\" index.html service-worker.js dist/main.js || echo \"OK: all 2.2.4-2\")",
+      "Bash(git log --oneline -5 && git diff --cached --stat | tail -3)"
+    ]
+  }
+}
