@@ -957,7 +957,7 @@ const tankInfo = {
 
             range: '12,400 meters (maximum indirect fire range with the M-10 howitzer); effective direct fire range for tank combat was less than 1,000 meters.',
 
-            production: 'Produced from 1940-1941 (not 1939), with approximately 334 units built at the Kirov Plant (LKZ) in Leningrad.',
+            production: 'Produced from 1940-1941, with approximately 334 units built at the Kirov Plant (LKZ) in Leningrad.',
 
             service: 'Used by the Red Army in the early Eastern Front (1940-1941). Most were lost due to mechanical failure and fuel shortage rather than enemy fire.',
 
@@ -1049,17 +1049,17 @@ const tankInfo = {
 
         historyImages: {
 
-            background: { src: 'images/history/avre/background.webp', caption: 'A Churchill AVRE carrying a fascine, Italy (Imperial War Museums).' },
+            background: { src: 'images/history/avre/background.webp', caption: 'A Churchill AVRE carrying a fascine, Italy.' },
 
-            range: { src: 'images/history/avre/range.webp', caption: 'The 29 cm Petard spigot mortar on a Churchill AVRE, with a 40 lb bomb (right), April 1944 (Imperial War Museums).' },
+            range: { src: 'images/history/avre/range.webp', caption: 'The 29 cm Petard spigot mortar on a Churchill AVRE, with a 40 lb bomb (right), April 1944.' },
 
-            production: { src: 'images/history/avre/production.webp', caption: 'Churchill tanks on a factory production line (Terence Cuneo, 1939-1946; Imperial War Museums).' },
+            production: { src: 'images/history/avre/production.webp', caption: 'Churchill tanks on a factory production line (Terence Cuneo, 1939-1946).' },
 
             service: [
 
-                { src: 'images/history/avre/service_dday.webp', caption: 'Churchill AVREs of 5th Assault Regiment, Royal Engineers, on D-Day, 6 June 1944 (Imperial War Museums).' },
+                { src: 'images/history/avre/service_dday.webp', caption: 'Churchill AVREs of 5th Assault Regiment, Royal Engineers, on D-Day, 6 June 1944.' },
 
-                { src: 'images/history/avre/service_caen.webp', caption: 'A Churchill AVRE on the road to Caen, 9 July 1944 (Imperial War Museums).' }
+                { src: 'images/history/avre/service_caen.webp', caption: 'A Churchill AVRE on the road to Caen, 9 July 1944.' }
 
             ]
 
