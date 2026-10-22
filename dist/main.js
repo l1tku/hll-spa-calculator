@@ -1329,7 +1329,7 @@ const tankInfo = {
 
             coaxial: 'MG34 7.92mm - 200 rounds × 6 magazines',
 
-            topSpeed: '26 km/h', // Note: not confirmed, but likely around 26 km/h
+            topSpeed: '27 km/h',
 
             yawRate: '9°/s',
 

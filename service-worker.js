@@ -1,5 +1,5 @@
-const CACHE_NAME = 'hll-spa-calc-2.2.4-2';
-const CACHE_VERSION = '2.2.4-2';
+const CACHE_NAME = 'hll-spa-calc-2.2.4-3';
+const CACHE_VERSION = '2.2.4-3';
 
 const urlsToCache = [
   './',
@@ -31,8 +31,10 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request)
       .then((response) => {
-        const isAppFile = event.request.url.match(/\.(html|js|css|json)(\?.*)?$/);
-        const isImage = event.request.url.match(/\.(webp|png|jpg|jpeg|gif|svg|ico)(\?.*)?$/);
+        const url = new URL(event.request.url);
+        const isAppFile = url.origin === self.location.origin &&
+          (url.pathname.match(/\.(html|js|css|json)$/i) || url.pathname.endsWith('/'));
+        const isImage = url.pathname.match(/\.(webp|png|jpg|jpeg|gif|svg|ico)$/i);
         
         if (isAppFile || isImage) {
           return fetch(event.request, { cache: 'no-cache' })
