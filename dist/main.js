@@ -4,7 +4,7 @@
 
 const HLL_VERSION = {
 
-    appVersion: 'v2.2.4-5',
+    appVersion: 'v2.2.5',
 
     gamePatch: 'HLL Update 21',
 
@@ -21,6 +21,66 @@ function flagImgTag(flagSrc, alt, loading) {
     const small = src.replace(/([^/]+)\.webp$/, '$1_30.webp');
 
     return '<img src="' + small + '" srcset="' + small + ' 1x, ' + src + ' 2x" alt="' + alt + '" class="flag-icon" loading="' + loading + '" decoding="async">';
+
+}
+
+
+// ============================================
+// HELP POPUP IMAGES
+// ============================================
+// The popup screenshots used to be requested only when the popup opened, so the
+// modal appeared first and the image popped in a moment later. Warm them up in
+// the background and give the <img> its natural size so the space is reserved.
+
+const HELP_POPUP_IMAGES = {
+
+    redNumber: { src: 'images/UI/help/red_mil_ingame.webp', width: 500, height: 384, alt: 'In-game HUD showing the red terrain elevation MIL' },
+
+    heightDiff: { src: 'images/UI/help/height_difference.webp', width: 800, height: 417, alt: 'Height difference between you and the target' }
+
+};
+
+const helpPopupImageCache = {};
+
+function preloadHelpPopupImage(field) {
+
+    const entry = HELP_POPUP_IMAGES[field];
+
+    if (!entry) return null;
+
+    let cached = helpPopupImageCache[field];
+
+    if (!cached) {
+
+        cached = new Image();
+
+        cached.decoding = 'async';
+
+        cached.src = entry.src;
+
+        helpPopupImageCache[field] = cached;
+
+    }
+
+    return cached;
+
+}
+
+function warmHelpPopupImages() {
+
+    if (navigator.connection && navigator.connection.saveData) return;
+
+    Object.keys(HELP_POPUP_IMAGES).forEach(preloadHelpPopupImage);
+
+}
+
+if ('requestIdleCallback' in window) {
+
+    requestIdleCallback(warmHelpPopupImages, { timeout: 3000 });
+
+} else {
+
+    window.addEventListener('load', warmHelpPopupImages);
 
 }
 
@@ -9529,7 +9589,7 @@ function initMobileCalculator() {
     // Help text shown by the value-box "?" button. Distance has none, so the
     // button hides for that field.
     const HELP_TEXT = {
-        redNumber: 'Terrain elevation is the tilt of your tank - shown as the red MIL in-game.\n\nToo much tilt (~356+) and you can\'t fire — you\'ll see the text "UNSTABLE GRADIENT" in-game. Uphill, downhill, sideways — all count. Sideways tilt stops you firing too, even when the red MIL looks low.\n\nCan\'t shoot? Move to flatter ground, you goof.\n\nTip: Keep the hull level when firing. If one track is higher than the other the whole gun tilts sideways and the shell lands off to the side.',
+        redNumber: 'Terrain elevation is the tilt of your tank - shown as the red MIL in-game.\n\nToo much tilt (~356+) and you can\'t fire — you\'ll see the text "UNSTABLE GRADIENT" in-game. Too much sideways tilt gives you the same warning, even when the red MIL looks low.\n\nCan\'t shoot? Move to flatter ground, you goof.\n\nTip: Keep the hull level when firing. If one track is higher than the other the whole gun tilts sideways and the shell lands off to the side.',
         heightDiff: 'The height difference is how much higher or lower the target is than your gun, in meters.\n\n+  target above you\n-  target below you\n\nOvershooting? The target is lower - go negative. Undershooting? It\'s higher - go positive.\n\nLeave it at 0 if you\'re roughly level with the target.'
     };
 
@@ -10181,6 +10241,12 @@ function initMobileCalculator() {
 
         });
 
+        helpBtn.addEventListener('pointerdown', function () {
+
+            preloadHelpPopupImage(state.field);
+
+        }, { passive: true });
+
     }
 
 
@@ -10202,6 +10268,13 @@ function initMobileCalculator() {
             showHelpPopup(field, HELP_TEXT[field]);
 
         });
+
+        // Start the image request on press, before the popup is built.
+        btn.addEventListener('pointerdown', function () {
+
+            preloadHelpPopupImage(btn.getAttribute('data-help-field'));
+
+        }, { passive: true });
 
     });
 
@@ -10271,17 +10344,11 @@ function initMobileCalculator() {
 
         body.className = 'mob-help-body';
 
-        const helpImgs = {
-
-            redNumber: { src: 'images/UI/help/red_mil_ingame.webp', alt: 'In-game HUD showing the red terrain elevation MIL' },
-
-            heightDiff: { src: 'images/UI/help/height_difference.webp', alt: 'Height difference between you and the target' }
-
-        };
-
-        const helpImg = helpImgs[field];
+        const helpImg = HELP_POPUP_IMAGES[field];
 
         if (helpImg) {
+
+            preloadHelpPopupImage(field);
 
             const img = document.createElement('img');
 
@@ -10289,7 +10356,15 @@ function initMobileCalculator() {
 
             img.alt = helpImg.alt;
 
-            img.loading = 'lazy';
+            // Reserve the box before the bitmap arrives so the popup does not
+            // grow/jump when the image decorates.
+            img.width = helpImg.width;
+
+            img.height = helpImg.height;
+
+            img.decoding = 'async';
+
+            img.setAttribute('fetchpriority', 'high');
 
             img.className = 'mob-help-img';
 

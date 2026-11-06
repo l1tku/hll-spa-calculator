@@ -1,5 +1,5 @@
-const CACHE_NAME = 'hll-spa-calc-2.2.4-5';
-const CACHE_VERSION = '2.2.4-5';
+const CACHE_NAME = 'hll-spa-calc-2.2.5';
+const CACHE_VERSION = '2.2.5';
 
 const urlsToCache = [
   './',
@@ -9,6 +9,8 @@ const urlsToCache = [
   './dist/main.js',
   './fonts/Gotham-Medium.otf',
   './images/background/background.webp',
+  './images/UI/help/red_mil_ingame.webp',
+  './images/UI/help/height_difference.webp',
   './images/favicon.png',
   './images/icon-180.png',
   './images/icon-192.png',
@@ -28,15 +30,38 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  const url = new URL(event.request.url);
+  const isSameOrigin = url.origin === self.location.origin;
+  const isImage = isSameOrigin && /\.(webp|png|jpg|jpeg|gif|svg|ico)$/i.test(url.pathname);
+  const isAppFile = isSameOrigin &&
+    (url.pathname.match(/\.(html|js|css|json)$/i) || url.pathname.endsWith('/'));
+
+  // Images: cache-first. They never change without a cache version bump, and
+  // going to the network first made popup images visibly pop in. A background
+  // refresh still picks up replaced files after the HTTP cache expires.
+  if (isImage) {
+    event.respondWith(
+      caches.match(event.request).then((cached) => {
+        const network = fetch(event.request)
+          .then((fetchResponse) => {
+            if (fetchResponse && fetchResponse.ok) {
+              const copy = fetchResponse.clone();
+              caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+            }
+            return fetchResponse;
+          })
+          .catch(() => cached || new Response('Offline', { status: 503 }));
+
+        return cached || network;
+      })
+    );
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request)
       .then((response) => {
-        const url = new URL(event.request.url);
-        const isAppFile = url.origin === self.location.origin &&
-          (url.pathname.match(/\.(html|js|css|json)$/i) || url.pathname.endsWith('/'));
-        const isImage = url.pathname.match(/\.(webp|png|jpg|jpeg|gif|svg|ico)$/i);
-        
-        if (isAppFile || isImage) {
+        if (isAppFile) {
           return fetch(event.request, { cache: 'no-cache' })
             .then((fetchResponse) => {
               caches.open(CACHE_NAME).then((cache) => {

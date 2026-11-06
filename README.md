@@ -1,5 +1,5 @@
 # HLL SPA Calculator
-**v2.2.4 - Updated for Hell Let Loose Update 21**
+**v2.2.5 - Updated for Hell Let Loose Update 21**
 
 A Precise web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let Loose.
 
@@ -68,6 +68,14 @@ The source code (HTML, CSS, JavaScript) of this project is licensed under the **
 
 Only the last 5 releases are shown here — the full history lives in [CHANGELOG.md](CHANGELOG.md).
 
+### [2.2.5] - 2026-11-06
+
+#### Changed
+- Terrain Elevation help text.
+
+#### Fixed
+- Help popup images loading late.
+
 ### [2.2.4] - 2026-10-14
 
 #### Added
@@ -109,18 +117,4 @@ Only the last 5 releases are shown here — the full history lives in [CHANGELOG
 #### Fixed
 - Help popup text now renders under the screenshot.
 
-### [2.2.0] - 2026-10-12
-
-#### Added
-- **KEYPAD view on desktop** — the phone-style keypad, now on PC too.
-- Hover/press feedback on keypad keys and the Terrain/Distance/Height tabs.
-
-#### Changed
-- Switching between FULL / LITE / KEYPAD preserves entered values.
-- "More HLL Tools" sits above the Ko-fi button on phones.
-- Tank ranges no longer show `(FLAT)`.
-
-#### Fixed
-- Keypad tank selection now fills in a sensible distance instead of leaving it at 0.
-- Keypad no longer shows stale values after edits in FULL / LITE.
 

@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.2.5] - 2026-11-06
+
+### Changed
+- Terrain Elevation help text.
+
+### Fixed
+- Help popup images loading late.
+
 ## [2.2.4] - 2026-10-14
 
 ### Added
