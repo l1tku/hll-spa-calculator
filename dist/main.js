@@ -28,9 +28,6 @@ function flagImgTag(flagSrc, alt, loading) {
 // ============================================
 // HELP POPUP IMAGES
 // ============================================
-// The popup screenshots used to be requested only when the popup opened, so the
-// modal appeared first and the image popped in a moment later. Warm them up in
-// the background and give the <img> its natural size so the space is reserved.
 
 const HELP_POPUP_IMAGES = {
 
@@ -10269,7 +10266,6 @@ function initMobileCalculator() {
 
         });
 
-        // Start the image request on press, before the popup is built.
         btn.addEventListener('pointerdown', function () {
 
             preloadHelpPopupImage(btn.getAttribute('data-help-field'));
@@ -10356,8 +10352,6 @@ function initMobileCalculator() {
 
             img.alt = helpImg.alt;
 
-            // Reserve the box before the bitmap arrives so the popup does not
-            // grow/jump when the image decorates.
             img.width = helpImg.width;
 
             img.height = helpImg.height;

@@ -36,9 +36,6 @@ self.addEventListener('fetch', (event) => {
   const isAppFile = isSameOrigin &&
     (url.pathname.match(/\.(html|js|css|json)$/i) || url.pathname.endsWith('/'));
 
-  // Images: cache-first. They never change without a cache version bump, and
-  // going to the network first made popup images visibly pop in. A background
-  // refresh still picks up replaced files after the HTTP cache expires.
   if (isImage) {
     event.respondWith(
       caches.match(event.request).then((cached) => {
