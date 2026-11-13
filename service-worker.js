@@ -1,5 +1,5 @@
-const CACHE_NAME = 'hll-spa-calc-2.2.5';
-const CACHE_VERSION = '2.2.5';
+const CACHE_NAME = 'hll-spa-calc-2.2.5-1';
+const CACHE_VERSION = '2.2.5-1';
 
 const urlsToCache = [
   './',
