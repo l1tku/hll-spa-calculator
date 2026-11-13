@@ -1,5 +1,5 @@
 # HLL SPA Calculator
-**v2.2.5 - Updated for Hell Let Loose Update 21**
+**v2.2.6 - Updated for Hell Let Loose Update 21**
 
 A Precise web-based targeting calculator for Self-Propelled Artillery (SPA) in Hell Let Loose.
 
@@ -68,6 +68,18 @@ The source code (HTML, CSS, JavaScript) of this project is licensed under the **
 
 Only the last 5 releases are shown here — the full history lives in [CHANGELOG.md](CHANGELOG.md).
 
+### [2.2.6] - 2026-11-13
+
+#### Added
+- Website link in the HLL Tools modal.
+
+#### Changed
+- Dark Reader lock and dark color scheme.
+- Updated project labels.
+
+#### Fixed
+- White flash on load.
+
 ### [2.2.5] - 2026-11-06
 
 #### Changed
@@ -101,20 +113,5 @@ Only the last 5 releases are shown here — the full history lives in [CHANGELOG
 - Flags are high-res on phones, small `_30` on desktop.
 - Field Manual subtitles are smaller on mobile.
 
-### [2.2.1] - 2026-10-12
-
-#### Added
-- Desktop keypad accepts real keyboard input (numbers, Tab/Enter, Backspace/C, sign key).
-- Shift = ±5, Ctrl = ±25 quick-step modifiers.
-- Keypad hint line and "Keyboard controls" popup.
-- Terrain/Height help popups with in-game screenshots (replaced browser alerts).
-- FULL mode now has the same `(i)` help buttons as the keypad.
-
-#### Changed
-- Rewrote Terrain/Height help texts.
-- Evened out keypad card spacing.
-
-#### Fixed
-- Help popup text now renders under the screenshot.
 
 

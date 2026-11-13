@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.2.6] - 2026-11-13
+
+### Added
+- Website link in the HLL Tools modal.
+
+### Changed
+- Dark Reader lock and dark color scheme.
+- Updated project labels.
+
+### Fixed
+- White flash on load.
+
 ## [2.2.5] - 2026-11-06
 
 ### Changed
