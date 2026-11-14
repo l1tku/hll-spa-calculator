@@ -9974,8 +9974,6 @@ function initMobileCalculator() {
 
             }
 
-            if (handledKey) showKeyboardTip();
-
             return;
 
         }
@@ -10075,8 +10073,6 @@ function initMobileCalculator() {
 
         }
 
-        if (handledKey) showKeyboardTip();
-
     });
 
 
@@ -10162,58 +10158,6 @@ function initMobileCalculator() {
             });
 
         });
-
-    }
-
-
-    // One-time tip: keyboard works on the keypad (shown on first key use).
-    let keyboardTipDone = false;
-
-    function showKeyboardTip() {
-
-        if (keyboardTipDone) return;
-
-        keyboardTipDone = true;
-
-        try {
-
-            if (sessionStorage.getItem('keypadKeyTip')) return;
-
-        } catch (e) {}
-
-        let tip = document.getElementById('keypadKeyToast');
-
-        if (!tip) {
-
-            tip = document.createElement('div');
-
-            tip.id = 'keypadKeyToast';
-
-            tip.className = 'quickstep-toast';
-
-            tip.textContent = 'TIP: You can type numbers on the keypad - Tab/Enter next, +/-, . or sign key (' + getSignKeyLabelText() + '), C clear, Del reset all';
-
-            tip.addEventListener('click', function () { tip.remove(); });
-
-            document.body.appendChild(tip);
-
-        }
-
-        requestAnimationFrame(function () { tip.classList.add('show'); });
-
-        setTimeout(function () {
-
-            tip.classList.remove('show');
-
-            setTimeout(function () { if (tip.parentNode) tip.remove(); }, 300);
-
-        }, 6000);
-
-        try {
-
-            sessionStorage.setItem('keypadKeyTip', '1');
-
-        } catch (e) {}
 
     }
 
